@@ -61,18 +61,18 @@ for event in chain:
     elIdx_loose     = []
 
     for mu in range(nMuon):
-        if muPt[mu]>20 and muEta[mu]<2.4 and muTight[mu]==1 and muMiniIso_all[mu] < 0.12:
+        if muPt[mu]>20 and abs(muEta[mu])<2.4 and muTight[mu]==1 and muMiniIso_all[mu] < 0.12:
             nGoodLep += 1
             muIdx_tight.append(mu)
-        elif muPt[mu]>20 and muEta[mu]<2.4 and muLoose[mu]==1 and muMiniIso_all[mu] > 0.12 and muMiniIso_all[mu] < 0.15:
+        elif muPt[mu]>20 and abs(muEta[mu])<2.4 and muLoose[mu]==1 and muMiniIso_all[mu] > 0.12 and muMiniIso_all[mu] < 0.15:
             nFakeableLep += 1
             muIdx_loose.append(mu)
         else: continue
     for el in range(nElectron):
-        if elPt[el]>25 and elEta[el]<2.4 and elMiniIso_all[el] < 0.15: #and elTight==1:
+        if elPt[el]>25 and abs(elEta[el])<2.4 and elMiniIso_all[el] < 0.15: #and elTight==1:
             nGoodLep+= 1
             elIdx_tight.append(el)
-        elif elPt[el]>25 and elEta[el]<2.4 and elMiniIso_all[el] > 0.15 and elMiniIso_all[el] < 0.18:# and elLoose==1:
+        elif elPt[el]>25 and abs(elEta[el])<2.4 and elMiniIso_all[el] > 0.15 and elMiniIso_all[el] < 0.18:# and elLoose==1:
             nFakeableLep += 1
             elIdx_loose.append(el)
         else: continue
