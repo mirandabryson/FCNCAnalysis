@@ -12,6 +12,8 @@
 #include <TH1F.h>
 #include <TCanvas.h>
 #include <TPad.h>
+#include <TList.h>
+//#include <sampleClasses.h>
 
 
 using namespace std;
@@ -75,14 +77,39 @@ bool isGoodJet(float pt, float eta){
     return isGood;
 }
 
-void saveFig(TH1F hist, string hist_name, string outdir){
+void saveFig(vector<TH1F> v_hist, string hist_name, string outdir){
+    vector< TH1F > v_hist_new;
+    int max_idx = 0;
+    int max_val = 0;
+    for (uint i = 0; i < v_hist.size(); i++){
+        if(v_hist[i]>max_val){
+            max_val = v_hist[i];
+            max_idx = i;
+        }
+    }
+
+    v_hist_new.push_back(v_hist[max_idx]);
+    for(uint j = 0; j < max_idx; j++){
+        v_hist_new.push_back(v_hist[j]);
+    }
+    for(uint k = v_hist.size(); k > max_idx; k--){
+        v_hist_new.push_back(v_hist[k]);
+    }
+
+
     auto can = new TCanvas( "c", "c", 800, 800 );
 
     TPad *pad1 = new TPad( "pad1", "pad1", 0, 0.3, 1, 1.0 );
     pad1->Draw();
 
     pad1->cd();
-    hist.Draw();
+    for(uint h = 0; h < v_hist_new.size(); h++){
+        if (h==0){
+            v_hist_new[h].Draw();
+        }else{
+            v_hist_new[h].Draw("same");
+        }
+    }
 
     string filename = outdir.append(hist_name);
     string filename_pdf = filename.append(".pdf");
@@ -92,25 +119,8 @@ void saveFig(TH1F hist, string hist_name, string outdir){
     can->SaveAs(filename_png.c_str());
 }
 
-void event_looper()
-{
-    TChain *DY = new TChain("Events");
-    TChain *GluGlu = new TChain("Events");
-    TChain *Top = new TChain("Events");
-    TChain *W = new TChain("Events");
-    TChain *Z = new TChain("Events");
-    TChain *tHX = new TChain("Events");
-    TChain *other = new TChain("Events");
-    
-    vector<string> years = {"2016", "2017", "2018"};
-    vector<TChain> backgrounds = {  DY,
-                                    GluGlu,
-                                    Top,
-                                    W,
-                                    Z,
-                                    tHX,
-                                    other
-                                };
+void event_looper(){
+
     vector< vector< string > > samples = {  {   "DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
                                                 "DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
                                                 "DYJetsToLL_M-50_Zpt-150toInf_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1"
@@ -215,256 +225,279 @@ void event_looper()
                                                 "tZq_ll_4f_ckm_NLO_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1"
                                             },
                                         };
-    string sample_directory = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/";
-    for(int ch = 0; ch < backgrounds.size(); ch++){
-        for(int samp = 0; samp < samples[ch].size(); samp++){
-            string sample_name = sample_directory+samples[ch][samp]+"output_*.root";
-            backgrounds[ch].Add(sample_name);
-        }
-    }
+
+    //Define vectors to hold all histos before plotting
+    vector< TH1F > v_nJet_trilep;
+    vector< TH1F > v_nJet_SSdilep;
+    vector< TH1F > v_nJet_OSdilep;
+    vector< TH1F > v_nJet_onelepFO;
+    vector< TH1F > v_nJet_dilepFO;
+
+    vector< TH1F > v_nBJet_trilep;
+    vector< TH1F > v_nBJet_SSdilep;
+    vector< TH1F > v_nBJet_OSdilep;
+    vector< TH1F > v_nBJet_onelepFO;
+    vector< TH1F > v_nBJet_dilepFO;
 
     //Load samples
-    //TChain chain("Events");
-    //chain.Add("/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1/output_*.root");
-    //chain.Add("/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1/output_*.root");
-    //chain.Add("/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/DYJetsToLL_M-50_Zpt-150toInf_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1/output_*.root");
-
-    cout << "Loaded Samples!" << endl;
-
-    int nEvents = chain.GetEntries();
-    cout << "found " << nEvents << " events" << endl;
-
-    //event variables
-    uint nMuon = 0;
-    uint nElectron = 0;
-    uint nJet = 0;
-    //vector<float> mu_pt;
-    //vector<float> *mu_eta = 0;
-    //vector<float> *mu_iso = 0;
-    //vector<bool> *mu_tightId = 0;
-
-    chain.SetBranchAddress("nMuon", &nMuon);
-    chain.SetBranchAddress("nElectron", &nElectron);
-    chain.SetBranchAddress("nJet", &nJet);
-    //chain.SetBranchAddress("Muon_pt", &mu_pt);
-    /*chain.SetBranchAddress("Muon_eta", &mu_eta);
-    chain.SetBranchAddress("Muon_miniPFRelIso_all", &mu_iso);
-    chain.SetBranchAddress("Muon_tightId",&mu_tightId);
-    */
-
-    //Define histograms
-    TH1F h_nJet_trilep("h_nJet_trilep",   "nJets", 7, -0.5, 6.5);
-    TH1F h_nJet_SSdilep("h_nJet_SSdilep",  "nJets", 7, -0.5, 6.5);
-    TH1F h_nJet_OSdilep("h_nJet_OSdilep",  "nJets", 7, -0.5, 6.5);
-    TH1F h_nJet_onelepFO("h_nJet_onelepFO", "nJets", 7, -0.5, 6.5);
-    TH1F h_nJet_dilepFO("h_nJet_dilepFO",  "nJets", 7, -0.5, 6.5);
-
-    TH1F h_nBJet_trilep("h_nBJet_trilep",   "nb-tagged Jets", 4, -0.5, 3.5);
-    TH1F h_nBJet_SSdilep("h_nBJet_SSdilep",  "nb-tagged Jets", 4, -0.5, 3.5);
-    TH1F h_nBJet_OSdilep("h_nBJet_OSdilep",  "nb-tagged Jets", 4, -0.5, 3.5);
-    TH1F h_nBJet_onelepFO("h_nBJet_onelepFO", "nb-tagged Jets", 4, -0.5, 3.5);
-    TH1F h_nBJet_dilepFO("h_nBJet_dilepFO",  "nb-tagged Jets", 4, -0.5, 3.5);
-
-    cout << "defined histograms!" << endl;
-
-    auto start = high_resolution_clock::now();
-
-    int nTriLep   = 0;
-    int nSSDiLep  = 0;
-    int nOSDiLep  = 0;
-    int nOneLepFO = 0;
-    int nFODiLep  = 0;
-
-    //Main for loop
-    for ( int counter = 0; counter < nEvents; counter++ ){
-    //for ( int counter = 0; counter < 100; counter++ ){
-        //cout << "counter " << counter << endl;
-        if ( counter%100000==0 ){
-            cout << "event " << counter << endl;
+    for(uint btype = 0; btype < samples.size(); btype++){
+    //for(uint btype = 0; btype < 2; btype++){ //for testing only!!!
+        TChain chain("Events");
+        //for (uint s = 0; s< samples[btype].size(); s++){
+        for (uint s = 0; s < 1; s++){ //for testing only!!!
+            string sample_name = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/"+samples[btype][s]+"/output_*.root";
+            chain.Add(sample_name.c_str());
         }
+        
+        cout << "Loaded Samples!" << endl;
 
-        Long64_t event = chain.GetEntry(counter);
-        int nGoodLep = 0;
-        int nFakeableLep = 0;
-        int nJets = 0;
-        int nBjets = 0;
+        int nEvents = chain.GetEntries();
+        cout << "found " << nEvents << " events" << endl;
 
-        vector<int> muCharge_tight;
-        vector<int> elCharge_tight;
-        vector<int> muCharge_loose;
-        vector<int> elCharge_loose;
+        //event variables
+        uint nMuon = 0;
+        uint nElectron = 0;
+        uint nJet = 0;
+        //vector<float> mu_pt;
+        //vector<float> *mu_eta = 0;
+        //vector<float> *mu_iso = 0;
+        //vector<bool> *mu_tightId = 0;
 
-        //cout << "nMuon: " << nMuon << endl;
-        //cout << "nElectron: " << nElectron << endl;
+        chain.SetBranchAddress("nMuon", &nMuon);
+        chain.SetBranchAddress("nElectron", &nElectron);
+        chain.SetBranchAddress("nJet", &nJet);
+        //chain.SetBranchAddress("Muon_pt", &mu_pt);
+        /*chain.SetBranchAddress("Muon_eta", &mu_eta);
+        chain.SetBranchAddress("Muon_miniPFRelIso_all", &mu_iso);
+        chain.SetBranchAddress("Muon_tightId",&mu_tightId);
+        */
 
-        //loop to count good jets and b-tagged jets
-        for ( uint jet = 0; jet < nJet; jet++ ){
-            float jet_pt = chain.GetLeaf("Jet_pt")->GetValue(jet);
-            float jet_eta = chain.GetLeaf("Jet_eta")->GetValue(jet);
-            float jet_phi = chain.GetLeaf("Jet_phi")->GetValue(jet);
-            float btag_score = chain.GetLeaf("Jet_btagDeepFlavB")->GetValue(jet);
+        //Define histograms
+        TH1F h_nJet_trilep("h_nJet_trilep",   "nJets", 7, -0.5, 6.5);
+        TH1F h_nJet_SSdilep("h_nJet_SSdilep",  "nJets", 7, -0.5, 6.5);
+        TH1F h_nJet_OSdilep("h_nJet_OSdilep",  "nJets", 7, -0.5, 6.5);
+        TH1F h_nJet_onelepFO("h_nJet_onelepFO", "nJets", 7, -0.5, 6.5);
+        TH1F h_nJet_dilepFO("h_nJet_dilepFO",  "nJets", 7, -0.5, 6.5);
 
-            if ( isGoodJet(jet_pt, jet_eta) ){
-                //next two for loops to clean jets
-                bool isGood = 1;
-                for (uint mu = 0; mu < nMuon; mu++ ){
+        TH1F h_nBJet_trilep("h_nBJet_trilep",   "nb-tagged Jets", 4, -0.5, 3.5);
+        TH1F h_nBJet_SSdilep("h_nBJet_SSdilep",  "nb-tagged Jets", 4, -0.5, 3.5);
+        TH1F h_nBJet_OSdilep("h_nBJet_OSdilep",  "nb-tagged Jets", 4, -0.5, 3.5);
+        TH1F h_nBJet_onelepFO("h_nBJet_onelepFO", "nb-tagged Jets", 4, -0.5, 3.5);
+        TH1F h_nBJet_dilepFO("h_nBJet_dilepFO",  "nb-tagged Jets", 4, -0.5, 3.5);
+
+        cout << "defined histograms!" << endl;
+
+        auto start = high_resolution_clock::now();
+
+        int nTriLep   = 0;
+        int nSSDiLep  = 0;
+        int nOSDiLep  = 0;
+        int nOneLepFO = 0;
+        int nFODiLep  = 0;
+
+        //Main for loop
+        for ( int counter = 0; counter < nEvents; counter++ ){
+        //for ( int counter = 0; counter < 100; counter++ ){
+            //cout << "counter " << counter << endl;
+            if ( counter%100000==0 ){
+                cout << "event " << counter << endl;
+            }
+
+            Long64_t event = chain.GetEntry(counter);
+            int nGoodLep = 0;
+            int nFakeableLep = 0;
+            int nJets = 0;
+            int nBjets = 0;
+
+            vector<int> muCharge_tight;
+            vector<int> elCharge_tight;
+            vector<int> muCharge_loose;
+            vector<int> elCharge_loose;
+
+            //cout << "nMuon: " << nMuon << endl;
+            //cout << "nElectron: " << nElectron << endl;
+
+            //loop to count good jets and b-tagged jets
+            for ( uint jet = 0; jet < nJet; jet++ ){
+                float jet_pt = chain.GetLeaf("Jet_pt")->GetValue(jet);
+                float jet_eta = chain.GetLeaf("Jet_eta")->GetValue(jet);
+                float jet_phi = chain.GetLeaf("Jet_phi")->GetValue(jet);
+                float btag_score = chain.GetLeaf("Jet_btagDeepFlavB")->GetValue(jet);
+
+                if ( isGoodJet(jet_pt, jet_eta) ){
+                    //next two for loops to clean jets
+                    bool isGood = 1;
+                    for (uint mu = 0; mu < nMuon; mu++ ){
+                        float mu_pt = chain.GetLeaf("Muon_pt")->GetValue(mu);
+                        float mu_eta = chain.GetLeaf("Muon_eta")->GetValue(mu);
+                        float mu_phi = chain.GetLeaf("Muon_phi")->GetValue(mu);
+                        float mu_charge = chain.GetLeaf("Muon_charge")->GetValue(mu);
+                        float mu_iso = chain.GetLeaf("Muon_miniPFRelIso_all")->GetValue(mu);
+                        float mu_tightId = chain.GetLeaf("Muon_tightId")->GetValue(mu);
+                        float mu_looseId = chain.GetLeaf("Muon_looseId")->GetValue(mu);
+
+                        if ( isTightLepton( 13, mu_pt, mu_eta, mu_iso, mu_tightId ) || isLooseLepton( 13, mu_pt, mu_eta, mu_iso, mu_looseId ) ){
+                            if ( deltaR( jet_eta, jet_phi, mu_eta, mu_phi ) < 0.4 ){
+                                isGood = 0;
+                            }else continue;
+                        }else continue;
+                    }
+                    for (uint el = 0; el < nElectron; el++ ){
+                        float el_pt = chain.GetLeaf("Electron_pt")->GetValue(el);
+                        float el_eta = chain.GetLeaf("Electron_eta")->GetValue(el);
+                        float el_phi = chain.GetLeaf("Electron_phi")->GetValue(el);
+                        float el_charge = chain.GetLeaf("Electron_charge")->GetValue(el);
+                        float el_iso = chain.GetLeaf("Electron_miniPFRelIso_all")->GetValue(el);
+
+                        if ( isTightLepton( 11, el_pt, el_eta, el_iso, 0 ) || isLooseLepton( 11, el_pt, el_eta, el_iso, 0 ) ){
+                            if ( deltaR( jet_eta, jet_phi, el_eta, el_phi ) < 0.4 ){
+                                isGood = 0;
+                            }else continue;
+                        }else continue;
+                    }
+
+                    if ( isGood == 1 ){
+                        nJets += 1;
+                        if ( btag_score > 0.2770 ){
+                            nBjets += 1;
+                        }else continue;
+                    }else continue;
+                }else continue;
+            }
+
+
+            if(nJets>1 && nBjets>=0){
+                //loop to count tight/loose muons
+                for( uint mu = 0; mu < nMuon; mu++ ){
+                    //cout << (*mu_pt)[mu] << endl;
                     float mu_pt = chain.GetLeaf("Muon_pt")->GetValue(mu);
                     float mu_eta = chain.GetLeaf("Muon_eta")->GetValue(mu);
-                    float mu_phi = chain.GetLeaf("Muon_phi")->GetValue(mu);
                     float mu_charge = chain.GetLeaf("Muon_charge")->GetValue(mu);
                     float mu_iso = chain.GetLeaf("Muon_miniPFRelIso_all")->GetValue(mu);
                     float mu_tightId = chain.GetLeaf("Muon_tightId")->GetValue(mu);
                     float mu_looseId = chain.GetLeaf("Muon_looseId")->GetValue(mu);
 
-                    if ( isTightLepton( 13, mu_pt, mu_eta, mu_iso, mu_tightId ) || isLooseLepton( 13, mu_pt, mu_eta, mu_iso, mu_looseId ) ){
-                        if ( deltaR( jet_eta, jet_phi, mu_eta, mu_phi ) < 0.4 ){
-                            isGood = 0;
-                        }else continue;
+                    if ( isTightLepton( 13, mu_pt, mu_eta, mu_iso, mu_tightId ) ){
+                        nGoodLep += 1;
+                        muCharge_tight.push_back(mu_charge);
+                    }else if ( isLooseLepton( 13, mu_pt, mu_eta, mu_iso, mu_looseId ) ){
+                        nFakeableLep += 1;
+                        muCharge_loose.push_back(mu_charge);
                     }else continue;
                 }
-                for (uint el = 0; el < nElectron; el++ ){
+                //loop to count tight/loose electrons
+                for( uint el = 0; el < nElectron; el++ ){
+                    //cout << (*el_pt)[el] << endl;
                     float el_pt = chain.GetLeaf("Electron_pt")->GetValue(el);
                     float el_eta = chain.GetLeaf("Electron_eta")->GetValue(el);
-                    float el_phi = chain.GetLeaf("Electron_phi")->GetValue(el);
                     float el_charge = chain.GetLeaf("Electron_charge")->GetValue(el);
                     float el_iso = chain.GetLeaf("Electron_miniPFRelIso_all")->GetValue(el);
+                    //float el_tightId = chain.GetLeaf("Electron_tightId")->GetValue(el);
+                    //float el_looseId = chain.GetLeaf("Electron_looseId")->GetValue(el);
 
-                    if ( isTightLepton( 11, el_pt, el_eta, el_iso, 0 ) || isLooseLepton( 11, el_pt, el_eta, el_iso, 0 ) ){
-                        if ( deltaR( jet_eta, jet_phi, el_eta, el_phi ) < 0.4 ){
-                            isGood = 0;
-                        }else continue;
+                    if ( isTightLepton( 13, el_pt, el_eta, el_iso, 0 ) ){
+                        nGoodLep += 1;
+                        elCharge_tight.push_back(el_charge);
+                    }else if ( isLooseLepton( 13, el_pt, el_eta, el_iso, 0 ) ){
+                        nFakeableLep += 1;
+                        elCharge_loose.push_back(el_charge);
                     }else continue;
                 }
-
-                if ( isGood == 1 ){
-                    nJets += 1;
-                    if ( btag_score > 0.2770 ){
-                        nBjets += 1;
-                    }else continue;
-                }else continue;
-            }else continue;
-        }
-
-
-        if(nJets>1 && nBjets>=0){
-            //loop to count tight/loose muons
-            for( uint mu = 0; mu < nMuon; mu++ ){
-                //cout << (*mu_pt)[mu] << endl;
-                float mu_pt = chain.GetLeaf("Muon_pt")->GetValue(mu);
-                float mu_eta = chain.GetLeaf("Muon_eta")->GetValue(mu);
-                float mu_charge = chain.GetLeaf("Muon_charge")->GetValue(mu);
-                float mu_iso = chain.GetLeaf("Muon_miniPFRelIso_all")->GetValue(mu);
-                float mu_tightId = chain.GetLeaf("Muon_tightId")->GetValue(mu);
-                float mu_looseId = chain.GetLeaf("Muon_looseId")->GetValue(mu);
-
-                if ( isTightLepton( 13, mu_pt, mu_eta, mu_iso, mu_tightId ) ){
-                    nGoodLep += 1;
-                    muCharge_tight.push_back(mu_charge);
-                }else if ( isLooseLepton( 13, mu_pt, mu_eta, mu_iso, mu_looseId ) ){
-                    nFakeableLep += 1;
-                    muCharge_loose.push_back(mu_charge);
-                }else continue;
             }
-            //loop to count tight/loose electrons
-            for( uint el = 0; el < nElectron; el++ ){
-                //cout << (*el_pt)[el] << endl;
-                float el_pt = chain.GetLeaf("Electron_pt")->GetValue(el);
-                float el_eta = chain.GetLeaf("Electron_eta")->GetValue(el);
-                float el_charge = chain.GetLeaf("Electron_charge")->GetValue(el);
-                float el_iso = chain.GetLeaf("Electron_miniPFRelIso_all")->GetValue(el);
-                //float el_tightId = chain.GetLeaf("Electron_tightId")->GetValue(el);
-                //float el_looseId = chain.GetLeaf("Electron_looseId")->GetValue(el);
-
-                if ( isTightLepton( 13, el_pt, el_eta, el_iso, 0 ) ){
-                    nGoodLep += 1;
-                    elCharge_tight.push_back(el_charge);
-                }else if ( isLooseLepton( 13, el_pt, el_eta, el_iso, 0 ) ){
-                    nFakeableLep += 1;
-                    elCharge_loose.push_back(el_charge);
-                }else continue;
+        
+            //organize into signature types
+            if ( nGoodLep == 3 ){
+                nTriLep += 1;
+                h_nJet_trilep.Fill(nJets);
+                h_nBJet_trilep.Fill(nBjets);
             }
-        }
-    
-        //organize into signature types
-        if ( nGoodLep == 3 ){
-            nTriLep += 1;
-            h_nJet_trilep.Fill(nJets);
-            h_nBJet_trilep.Fill(nBjets);
-        }
-        if ( nGoodLep == 2 ){
-            if (muCharge_tight.size() == 2){
-                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                    nSSDiLep += 1;
-                    h_nJet_SSdilep.Fill(nJets);
-                    h_nBJet_SSdilep.Fill(nBjets);
-                }else{ 
-                    nOSDiLep += 1;
-                    h_nJet_OSdilep.Fill(nJets);
-                    h_nBJet_OSdilep.Fill(nBjets);
+            if ( nGoodLep == 2 ){
+                if (muCharge_tight.size() == 2){
+                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                        nSSDiLep += 1;
+                        h_nJet_SSdilep.Fill(nJets);
+                        h_nBJet_SSdilep.Fill(nBjets);
+                    }else{ 
+                        nOSDiLep += 1;
+                        h_nJet_OSdilep.Fill(nJets);
+                        h_nBJet_OSdilep.Fill(nBjets);
+                    }
+                }else if (elCharge_tight.size() == 2) {
+                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                        nSSDiLep += 1;
+                        h_nJet_SSdilep.Fill(nJets);
+                        h_nBJet_SSdilep.Fill(nBjets);
+                    }else{
+                        nOSDiLep += 1;
+                        h_nJet_OSdilep.Fill(nJets);
+                        h_nBJet_OSdilep.Fill(nBjets);
+                    }
+                }else if (muCharge_tight.size() == 1) {
+                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                        nSSDiLep += 1;
+                        h_nJet_SSdilep.Fill(nJets);
+                        h_nBJet_SSdilep.Fill(nBjets);
+                    }else{
+                        nOSDiLep += 1;
+                        h_nJet_OSdilep.Fill(nJets);
+                        h_nBJet_OSdilep.Fill(nBjets);
+                    }
                 }
-            }else if (elCharge_tight.size() == 2) {
-                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                    nSSDiLep += 1;
-                    h_nJet_SSdilep.Fill(nJets);
-                    h_nBJet_SSdilep.Fill(nBjets);
-                }else{
-                    nOSDiLep += 1;
-                    h_nJet_OSdilep.Fill(nJets);
-                    h_nBJet_OSdilep.Fill(nBjets);
-                }
-            }else if (muCharge_tight.size() == 1) {
-                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                    nSSDiLep += 1;
-                    h_nJet_SSdilep.Fill(nJets);
-                    h_nBJet_SSdilep.Fill(nBjets);
-                }else{
-                    nOSDiLep += 1;
-                    h_nJet_OSdilep.Fill(nJets);
-                    h_nBJet_OSdilep.Fill(nBjets);
-                }
+            }//if nGoodLep == 2
+            if (nGoodLep == 1 and nFakeableLep == 1){
+                nOneLepFO += 1;
+                h_nJet_onelepFO.Fill(nJets);
+                h_nBJet_onelepFO.Fill(nBjets);
             }
-        }//if nGoodLep == 2
-        if (nGoodLep == 1 and nFakeableLep == 1){
-            nOneLepFO += 1;
-            h_nJet_onelepFO.Fill(nJets);
-            h_nBJet_onelepFO.Fill(nBjets);
-        }
-        if (nFakeableLep == 2){
-            nFODiLep += 1;
-            h_nJet_dilepFO.Fill(nJets);
-            h_nBJet_dilepFO.Fill(nBjets);
-        }
+            if (nFakeableLep == 2){
+                nFODiLep += 1;
+                h_nJet_dilepFO.Fill(nJets);
+                h_nBJet_dilepFO.Fill(nBjets);
+            }
 
-    }//event loop
+        }//event loop
 
-    auto stop = high_resolution_clock::now();
-    auto duration = duration_cast<minutes>(stop - start);
+        auto stop = high_resolution_clock::now();
+        auto duration = duration_cast<minutes>(stop - start);
 
-    cout << "TriLep: " << nTriLep << endl;
-    cout << "SS DiLep: " << nSSDiLep << endl;
-    cout << "OS DiLep: " << nOSDiLep << endl;
-    cout << "One Lep with FO: " << nOneLepFO << endl;
-    cout << "FO DiLep: " << nFODiLep << endl;
-    cout << "total filtered: " << (nTriLep+nSSDiLep+nOSDiLep) << endl;
+        cout << "TriLep: " << nTriLep << endl;
+        cout << "SS DiLep: " << nSSDiLep << endl;
+        cout << "OS DiLep: " << nOSDiLep << endl;
+        cout << "One Lep with FO: " << nOneLepFO << endl;
+        cout << "FO DiLep: " << nFODiLep << endl;
+        cout << "total filtered: " << (nTriLep+nSSDiLep+nOSDiLep) << endl;
 
-    cout << "processed " << nEvents << " events in " << duration.count() << " minutes!!" << endl;
+        cout << "processed " << nEvents << " events in " << duration.count() << " minutes!!" << endl;
+
+        v_nJet_trilep.push_back(h_nJet_trilep);
+        v_nJet_SSdilep.push_back(h_nJet_SSdilep);
+        v_nJet_OSdilep.push_back(h_nJet_OSdilep);
+        v_nJet_onelepFO.push_back(h_nJet_onelepFO);
+        v_nJet_dilepFO.push_back(h_nJet_dilepFO);
+
+        v_nBJet_trilep.push_back(h_nBJet_trilep);
+        v_nBJet_SSdilep.push_back(h_nBJet_SSdilep);
+        v_nBJet_OSdilep.push_back(h_nBJet_OSdilep);
+        v_nBJet_onelepFO.push_back(h_nBJet_onelepFO);
+        v_nBJet_dilepFO.push_back(h_nBJet_dilepFO);
+    }
 
     //write histograms
     string outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots/";
     //outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/plots/"
 
-    /*saveFig(h_nJet_trilep, "h_nJet_trilep", outdir);
-    saveFig(h_nJet_SSdilep, "h_nJet_SSdilep", outdir);
-    saveFig(h_nJet_OSdilep, "h_nJet_OSdilep", outdir);
-    saveFig(h_nJet_onelepFO, "h_nJet_onelepFO", outdir);
-    saveFig(h_nJet_dilepFO, "h_nJet_dilepFO", outdir);
+    saveFig(v_nJet_trilep, "h_nJet_trilep", outdir);
+    saveFig(v_nJet_SSdilep, "h_nJet_SSdilep", outdir);
+    saveFig(v_nJet_OSdilep, "h_nJet_OSdilep", outdir);
+    saveFig(v_nJet_onelepFO, "h_nJet_onelepFO", outdir);
+    saveFig(v_nJet_dilepFO, "h_nJet_dilepFO", outdir);
 
-    saveFig(h_nBJet_trilep, "h_nBJet_trilep", outdir);
-    saveFig(h_nBJet_SSdilep, "h_nBJet_SSdilep", outdir);
-    saveFig(h_nBJet_OSdilep, "h_nBJet_OSdilep", outdir);
-    saveFig(h_nBJet_onelepFO, "h_nBJet_onelepFO", outdir);
-    saveFig(h_nBJet_dilepFO, "h_nBJet_dilepFO", outdir);
-*/
+    saveFig(v_nBJet_trilep, "h_nBJet_trilep", outdir);
+    saveFig(v_nBJet_SSdilep, "h_nBJet_SSdilep", outdir);
+    saveFig(v_nBJet_OSdilep, "h_nBJet_OSdilep", outdir);
+    saveFig(v_nBJet_onelepFO, "h_nBJet_onelepFO", outdir);
+    saveFig(v_nBJet_dilepFO, "h_nBJet_dilepFO", outdir);
+
     cout << "saved histograms!" << endl;
 
 }
