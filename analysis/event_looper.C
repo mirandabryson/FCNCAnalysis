@@ -9,6 +9,9 @@
 #include <chrono>
 #include <TChain.h>
 #include <TLeaf.h>
+#include <TH1F.h>
+#include <TCanvas.h>
+#include <TPad.h>
 
 
 using namespace std;
@@ -64,26 +67,7 @@ bool isGoodJet(float pt, float eta){
   
     bool isGood = 0;
     
-    if ( pt > 25 && abs( eta ) < 2.4 ){
-    /*    for muon in range(event.nMuon):
-            if isTightLepton(event, 13, muon) or isLooseLepton(event, 13, muon):
-                #deltaR = deltaR( event.Jet_eta[idx], event.Jet_phi[idx], event.Muon_eta[muon], event.Muon_phi[muon] )
-                if deltaR( event.Jet_eta[idx], event.Jet_phi[idx], event.Muon_eta[muon], event.Muon_phi[muon] ) < 0.4:
-                    return False
-                #if deltaR < 0.4:
-                #    return False
-                else: continue
-            else: continue
-        for electron in range(event.nElectron):
-            if isTightLepton(event, 11, electron) or isLooseLepton(event, 11, electron):
-                #deltaR = deltaR( event.Jet_eta[idx], event.Jet_phi[idx], event.Electron_eta[electron], event.Electron_phi[electron] )
-                if deltaR( event.Jet_eta[idx], event.Jet_phi[idx], event.Electron_eta[electron], event.Electron_phi[electron] ) < 0.4:
-                    return False
-                #if deltaR < 0.4:
-                    #return False
-                else: continue
-            else: continue
-        */
+    if ( pt > 25 && abs( eta ) < 2.4 ){      
         isGood = 1;
     }else{
         isGood = 0;
@@ -91,12 +75,159 @@ bool isGoodJet(float pt, float eta){
     return isGood;
 }
 
+void saveFig(TH1F hist, string hist_name, string outdir){
+    auto can = new TCanvas( "c", "c", 800, 800 );
+
+    TPad *pad1 = new TPad( "pad1", "pad1", 0, 0.3, 1, 1.0 );
+    pad1->Draw();
+
+    pad1->cd();
+    hist.Draw();
+
+    string filename = outdir.append(hist_name);
+    string filename_pdf = filename.append(".pdf");
+    string filename_png = filename.append(".png");
+
+    can->SaveAs(filename_pdf.c_str());
+    can->SaveAs(filename_png.c_str());
+}
+
 void event_looper()
 {
+    /*TChain DY("Events");
+    TChain GluGlu("Events");
+    TChain Top("Events");
+    TChain W("Events");
+    TChain Z("Events");
+    TChain tHX("Events");
+    TChain other("Events");
+    
+    vector<string> years = {"2016", "2017", "2018"};
+    vector<TChain> backgrounds = {  DY,
+                                    GluGlu,
+                                    Top,
+                                    W,
+                                    Z,
+                                    tHX,
+                                    other
+                                };
+    vector< vector< string > > = {  {   "DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "DYJetsToLL_M-50_Zpt-150toInf_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1"
+                                    },
+                                    {   "GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "GluGluToContinToZZTo2e2mu_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "GluGluToContinToZZTo2e2tau_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "GluGluToContinToZZTo2mu2tau_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "GluGluToContinToZZTo4e_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "GluGluToContinToZZTo4mu_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "GluGluToContinToZZTo4tau_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1"
+                                    },
+                                    {   "ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_EXT_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_EXT_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "ST_tWll_5f_LO_TuneCP5_PSweights_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TGJets_leptonDecays_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TTGamma_Dilept_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "TTGamma_SingleLept_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "TTHH_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TTJets_SingleLeptFromT_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "TTJets_SingleLeptFromTbar_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1_NANOAODSIM_fcnc_v1",
+                                        "TTPlus1Jet_DiLept_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TTTJ_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TTTT_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1_NANOAODSIM_fcnc_v1",
+                                        "TTTW_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext3-v1_NANOAODSIM_fcnc_v1",
+                                        "TTWH_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TTWW_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1_NANOAODSIM_fcnc_v1",
+                                        "TTWZ_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TTZH_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TTZToLL_M-1to10_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "TTZZ_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "TT_DiLept_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1"
+                                    },
+                                    {   "WGToLNuG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "WWG_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "WWZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "WW_DoubleScattering_13TeV-pythia8_TuneCP5_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "WW_TuneCP5_13TeV-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "WZG_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "WZTo3LNu_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "WZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
+                                        "WpWpJJ_EWK-QCD_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1"
+                                    },
+                                    {   "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1_NANOAODSIM_fcnc_v1",
+                                        "ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1_NANOAODSIM_fcnc_v1",
+                                        "ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1"
+                                    },
+                                    {   "tHW_HToTT_0J_mH-350_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-375_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-400_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-425_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-450_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-475_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-500_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-525_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-550_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-575_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-600_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-625_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHW_HToTT_0J_mH-650_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-350_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-375_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-400_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-425_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-450_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-475_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-500_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-525_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-550_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-575_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-600_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-625_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tHq_HToTT_0J_mH-650_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttHToNonbb_M125_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-350_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-375_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-400_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-425_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-450_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-475_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-500_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-525_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-550_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-575_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-600_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-625_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "ttH_HToTT_1J_mH-650_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1"
+                                    },
+                                    {   "VHToNonbb_M125_13TeV_amcatnloFXFX_madspin_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
+                                        "tZq_ll_4f_ckm_NLO_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1"
+                                    },
+                                };
+    string sample_directory = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/"
+    for(int ch = 0; ch < backgrounds.size(); ch++){
+        for(int samp = 0; samp < backgrounds[ch].size(); samp++){
+            string sample_name = sample_directory+samples[ch][samp]+"output_*.root"
+            backgrounds[ch].Add(sample_name);
+        }
+    }*/
 
     //Load samples
     TChain chain("Events");
-    chain.Add("/home/users/ksalyer/SSValBabies/nano/ttbar_semileptonic_RunIISummer16NanoAODv7_0.root");
+    chain.Add("/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1/output_*.root");
+    chain.Add("/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1/output_*.root");
+    chain.Add("/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/DYJetsToLL_M-50_Zpt-150toInf_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1/output_*.root");
 
     cout << "Loaded Samples!" << endl;
 
@@ -120,8 +251,21 @@ void event_looper()
     chain.SetBranchAddress("Muon_miniPFRelIso_all", &mu_iso);
     chain.SetBranchAddress("Muon_tightId",&mu_tightId);
     */
+
     //Define histograms
-    //cout << "defined histograms!" << endl;
+    TH1F h_nJet_trilep("h_nJet_trilep",   "nJets", 7, -0.5, 6.5);
+    TH1F h_nJet_SSdilep("h_nJet_SSdilep",  "nJets", 7, -0.5, 6.5);
+    TH1F h_nJet_OSdilep("h_nJet_OSdilep",  "nJets", 7, -0.5, 6.5);
+    TH1F h_nJet_onelepFO("h_nJet_onelepFO", "nJets", 7, -0.5, 6.5);
+    TH1F h_nJet_dilepFO("h_nJet_dilepFO",  "nJets", 7, -0.5, 6.5);
+
+    TH1F h_nBJet_trilep("h_nBJet_trilep",   "nb-tagged Jets", 4, -0.5, 3.5);
+    TH1F h_nBJet_SSdilep("h_nBJet_SSdilep",  "nb-tagged Jets", 4, -0.5, 3.5);
+    TH1F h_nBJet_OSdilep("h_nBJet_OSdilep",  "nb-tagged Jets", 4, -0.5, 3.5);
+    TH1F h_nBJet_onelepFO("h_nBJet_onelepFO", "nb-tagged Jets", 4, -0.5, 3.5);
+    TH1F h_nBJet_dilepFO("h_nBJet_dilepFO",  "nb-tagged Jets", 4, -0.5, 3.5);
+
+    cout << "defined histograms!" << endl;
 
     auto start = high_resolution_clock::now();
 
@@ -135,7 +279,7 @@ void event_looper()
     for ( int counter = 0; counter < nEvents; counter++ ){
     //for ( int counter = 0; counter < 100; counter++ ){
         //cout << "counter " << counter << endl;
-        if ( counter%10000==0 ){
+        if ( counter%100000==0 ){
             cout << "event " << counter << endl;
         }
 
@@ -157,15 +301,50 @@ void event_looper()
         for ( uint jet = 0; jet < nJet; jet++ ){
             float jet_pt = chain.GetLeaf("Jet_pt")->GetValue(jet);
             float jet_eta = chain.GetLeaf("Jet_eta")->GetValue(jet);
+            float jet_phi = chain.GetLeaf("Jet_phi")->GetValue(jet);
             float btag_score = chain.GetLeaf("Jet_btagDeepFlavB")->GetValue(jet);
 
             if ( isGoodJet(jet_pt, jet_eta) ){
-                nJets += 1;
-                if ( btag_score > 0.2770 ){
-                    nBjets += 1;
+                //next two for loops to clean jets
+                bool isGood = 1;
+                for (uint mu = 0; mu < nMuon; mu++ ){
+                    float mu_pt = chain.GetLeaf("Muon_pt")->GetValue(mu);
+                    float mu_eta = chain.GetLeaf("Muon_eta")->GetValue(mu);
+                    float mu_phi = chain.GetLeaf("Muon_phi")->GetValue(mu);
+                    float mu_charge = chain.GetLeaf("Muon_charge")->GetValue(mu);
+                    float mu_iso = chain.GetLeaf("Muon_miniPFRelIso_all")->GetValue(mu);
+                    float mu_tightId = chain.GetLeaf("Muon_tightId")->GetValue(mu);
+                    float mu_looseId = chain.GetLeaf("Muon_looseId")->GetValue(mu);
+
+                    if ( isTightLepton( 13, mu_pt, mu_eta, mu_iso, mu_tightId ) || isLooseLepton( 13, mu_pt, mu_eta, mu_iso, mu_looseId ) ){
+                        if ( deltaR( jet_eta, jet_phi, mu_eta, mu_phi ) < 0.4 ){
+                            isGood = 0;
+                        }else continue;
+                    }else continue;
+                }
+                for (uint el = 0; el < nElectron; el++ ){
+                    float el_pt = chain.GetLeaf("Electron_pt")->GetValue(el);
+                    float el_eta = chain.GetLeaf("Electron_eta")->GetValue(el);
+                    float el_phi = chain.GetLeaf("Electron_phi")->GetValue(el);
+                    float el_charge = chain.GetLeaf("Electron_charge")->GetValue(el);
+                    float el_iso = chain.GetLeaf("Electron_miniPFRelIso_all")->GetValue(el);
+
+                    if ( isTightLepton( 11, el_pt, el_eta, el_iso, 0 ) || isLooseLepton( 11, el_pt, el_eta, el_iso, 0 ) ){
+                        if ( deltaR( jet_eta, jet_phi, el_eta, el_phi ) < 0.4 ){
+                            isGood = 0;
+                        }else continue;
+                    }else continue;
+                }
+
+                if ( isGood == 1 ){
+                    nJets += 1;
+                    if ( btag_score > 0.2770 ){
+                        nBjets += 1;
+                    }else continue;
                 }else continue;
             }else continue;
         }
+
 
         if(nJets>1 && nBjets>=0){
             //loop to count tight/loose muons
@@ -209,51 +388,51 @@ void event_looper()
         //organize into signature types
         if ( nGoodLep == 3 ){
             nTriLep += 1;
-            //h_nJet_trilep.Fill(nJets)
-            //h_nBJet_trilep.Fill(nBjets)
+            h_nJet_trilep.Fill(nJets);
+            h_nBJet_trilep.Fill(nBjets);
         }
         if ( nGoodLep == 2 ){
             if (muCharge_tight.size() == 2){
                 if (muCharge_tight[0]*muCharge_tight[1]>0){
                     nSSDiLep += 1;
-                    //h_nJet_SSdilep.Fill(nJets)
-                    //h_nBJet_SSdilep.Fill(nBjets)
+                    h_nJet_SSdilep.Fill(nJets);
+                    h_nBJet_SSdilep.Fill(nBjets);
                 }else{ 
                     nOSDiLep += 1;
-                    //h_nJet_OSdilep.Fill(nJets)
-                    //h_nBJet_OSdilep.Fill(nBjets)
+                    h_nJet_OSdilep.Fill(nJets);
+                    h_nBJet_OSdilep.Fill(nBjets);
                 }
             }else if (elCharge_tight.size() == 2) {
                 if (elCharge_tight[0]*elCharge_tight[1]>0){
                     nSSDiLep += 1;
-                    //h_nJet_SSdilep.Fill(nJets)
-                    //h_nBJet_SSdilep.Fill(nBjets)
+                    h_nJet_SSdilep.Fill(nJets);
+                    h_nBJet_SSdilep.Fill(nBjets);
                 }else{
                     nOSDiLep += 1;
-                    //h_nJet_OSdilep.Fill(nJets)
-                    //h_nBJet_OSdilep.Fill(nBjets)
+                    h_nJet_OSdilep.Fill(nJets);
+                    h_nBJet_OSdilep.Fill(nBjets);
                 }
             }else if (muCharge_tight.size() == 1) {
                 if (muCharge_tight[0]*elCharge_tight[0]>0){
                     nSSDiLep += 1;
-                    //h_nJet_SSdilep.Fill(nJets)
-                    //h_nBJet_SSdilep.Fill(nBjets)
+                    h_nJet_SSdilep.Fill(nJets);
+                    h_nBJet_SSdilep.Fill(nBjets);
                 }else{
                     nOSDiLep += 1;
-                    //h_nJet_OSdilep.Fill(nJets)
-                    //h_nBJet_OSdilep.Fill(nBjets)
+                    h_nJet_OSdilep.Fill(nJets);
+                    h_nBJet_OSdilep.Fill(nBjets);
                 }
             }
         }//if nGoodLep == 2
         if (nGoodLep == 1 and nFakeableLep == 1){
             nOneLepFO += 1;
-            //h_nJet_onelepFO.Fill(nJets)
-            //h_nBJet_onelepFO.Fill(nBjets)
+            h_nJet_onelepFO.Fill(nJets);
+            h_nBJet_onelepFO.Fill(nBjets);
         }
         if (nFakeableLep == 2){
             nFODiLep += 1;
-            //h_nJet_dilepFO.Fill(nJets)
-            //h_nBJet_dilepFO.Fill(nBjets)
+            h_nJet_dilepFO.Fill(nJets);
+            h_nBJet_dilepFO.Fill(nBjets);
         }
 
     }//event loop
@@ -270,5 +449,22 @@ void event_looper()
 
     cout << "processed " << nEvents << " events in " << duration.count() << " minutes!!" << endl;
 
+    //write histograms
+    string outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots/";
+    //outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/plots/"
+
+    /*saveFig(h_nJet_trilep, "h_nJet_trilep", outdir);
+    saveFig(h_nJet_SSdilep, "h_nJet_SSdilep", outdir);
+    saveFig(h_nJet_OSdilep, "h_nJet_OSdilep", outdir);
+    saveFig(h_nJet_onelepFO, "h_nJet_onelepFO", outdir);
+    saveFig(h_nJet_dilepFO, "h_nJet_dilepFO", outdir);
+
+    saveFig(h_nBJet_trilep, "h_nBJet_trilep", outdir);
+    saveFig(h_nBJet_SSdilep, "h_nBJet_SSdilep", outdir);
+    saveFig(h_nBJet_OSdilep, "h_nBJet_OSdilep", outdir);
+    saveFig(h_nBJet_onelepFO, "h_nBJet_onelepFO", outdir);
+    saveFig(h_nBJet_dilepFO, "h_nBJet_dilepFO", outdir);
+*/
+    cout << "saved histograms!" << endl;
 
 }
