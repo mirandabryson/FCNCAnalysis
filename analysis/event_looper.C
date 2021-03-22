@@ -12,278 +12,129 @@
 #include <TH1F.h>
 #include <TCanvas.h>
 #include <TPad.h>
-#include <TList.h>
+#include <THStack.h>
+#include <TLegend.h>
 //#include <sampleClasses.h>
+#include "./helpers/fcnc_functions.h"
+#include "./helpers/sampleLoader.h"
 
 
 using namespace std;
 using namespace std::chrono;
 
-//useful functions
-
-float deltaR( float obj1_eta, float obj1_phi, float obj2_eta, float obj2_phi ){
-    float deltaEta = obj1_eta - obj2_eta;
-    float deltaPhi = obj1_phi - obj2_phi;
-
-    float deltaR = sqrt( pow( deltaEta, 2 ) + pow( deltaPhi, 2 ) );
-    
-    return deltaR;
-}
-
-bool isTightLepton( float pdgid, float pt, float eta, float miniIso_all, bool tight_id ){
-
-    bool isTight = 0;
-    if ( abs( eta ) < 2.4 ){
-        if ( abs( pdgid ) == 11 && pt > 25 && miniIso_all < 0.12 ){
-            isTight = 1;
-        }else if( abs( pdgid ) ==13 && pt > 20 && tight_id == 1 and miniIso_all < 0.16 ){
-            isTight = 1;
-        }else {
-            isTight = 0;
-        }
-    }else {
-        isTight = 0;
-    }
-    return isTight;
-
-}
-
-bool isLooseLepton( float pdgid, float pt, float eta, float miniIso_all, bool loose_id ){
-    
-    bool isLoose = 0;
-    if ( abs( eta ) <2.4 ){
-        if ( pdgid==11 and pt>25 and miniIso_all > 0.12 and miniIso_all < 0.4 ){
-            isLoose = 1;
-        }else if ( pdgid==13 and pt>20 and loose_id == 1 and miniIso_all > 0.12 and miniIso_all < 0.4 ){
-            isLoose = 1;
-        }else {
-            isLoose = 0;
-        }
-    }else {
-        isLoose = 0;
-    }
-    return isLoose;
-}
-
-bool isGoodJet(float pt, float eta){
-  
-    bool isGood = 0;
-    
-    if ( pt > 25 && abs( eta ) < 2.4 ){      
-        isGood = 1;
-    }else{
-        isGood = 0;
-    }
-    return isGood;
-}
-
-void saveFig(vector<TH1F> v_hist, string hist_name, string outdir){
-    vector< TH1F > v_hist_new;
-    int max_idx = 0;
-    int max_val = 0;
-    for (uint i = 0; i < v_hist.size(); i++){
-        if(v_hist[i]>max_val){
-            max_val = v_hist[i];
-            max_idx = i;
-        }
-    }
-
-    v_hist_new.push_back(v_hist[max_idx]);
-    for(uint j = 0; j < max_idx; j++){
-        v_hist_new.push_back(v_hist[j]);
-    }
-    for(uint k = v_hist.size(); k > max_idx; k--){
-        v_hist_new.push_back(v_hist[k]);
-    }
-
-
-    auto can = new TCanvas( "c", "c", 800, 800 );
-
-    TPad *pad1 = new TPad( "pad1", "pad1", 0, 0.3, 1, 1.0 );
-    pad1->Draw();
-
-    pad1->cd();
-    for(uint h = 0; h < v_hist_new.size(); h++){
-        if (h==0){
-            v_hist_new[h].Draw();
-        }else{
-            v_hist_new[h].Draw("same");
-        }
-    }
-
-    string filename = outdir.append(hist_name);
-    string filename_pdf = filename.append(".pdf");
-    string filename_png = filename.append(".png");
-
-    can->SaveAs(filename_pdf.c_str());
-    can->SaveAs(filename_png.c_str());
-}
-
 void event_looper(){
+    //global variables
+    string year = "2018";
+    string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/";
+    vector< string > sample_names = {  "DY",
+                                       "GluGlu",
+                                       "Top",
+                                       "W",
+                                       "Z",
+                                       "tHX",
+                                       "other",
+                                    };
 
-    vector< vector< string > > samples = {  {   "DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "DYJetsToLL_M-50_Zpt-150toInf_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1"
-                                            },
-                                            {   "GluGluHToZZTo4L_M125_13TeV_powheg2_JHUGenV7011_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "GluGluToContinToZZTo2e2mu_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "GluGluToContinToZZTo2e2tau_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "GluGluToContinToZZTo2mu2tau_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "GluGluToContinToZZTo4e_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "GluGluToContinToZZTo4mu_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "GluGluToContinToZZTo4tau_13TeV_MCFM701_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1"
-                                            },
-                                            {   "ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_EXT_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_EXT_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "ST_tWll_5f_LO_TuneCP5_PSweights_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TGJets_leptonDecays_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TTGamma_Dilept_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "TTGamma_SingleLept_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "TTHH_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TTJets_SingleLeptFromT_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "TTJets_SingleLeptFromTbar_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "TTJets_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1_NANOAODSIM_fcnc_v1",
-                                                "TTPlus1Jet_DiLept_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TTTJ_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TTTT_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1_NANOAODSIM_fcnc_v1",
-                                                "TTTW_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "TTToSemiLeptonic_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext3-v1_NANOAODSIM_fcnc_v1",
-                                                "TTWH_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TTWW_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1_NANOAODSIM_fcnc_v1",
-                                                "TTWZ_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TTZH_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TTZToLLNuNu_M-10_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TTZToLL_M-1to10_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "TTZZ_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "TT_DiLept_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1"
-                                            },
-                                            {   "WGToLNuG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "WJetsToLNu_HT-100To200_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "WJetsToLNu_HT-200To400_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "WJetsToLNu_HT-400To600_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "WJetsToLNu_HT-600To800_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "WJetsToLNu_HT-800To1200_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "WJetsToLNu_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "WWG_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "WWW_4F_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "WWZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "WW_DoubleScattering_13TeV-pythia8_TuneCP5_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "WW_TuneCP5_13TeV-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "WZG_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "WZTo3LNu_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "WZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1",
-                                                "WpWpJJ_EWK-QCD_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1"
-                                            },
-                                            {   "ZGToLLG_01J_5f_TuneCP5_13TeV-amcatnloFXFX-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1_NANOAODSIM_fcnc_v1",
-                                                "ZZTo4L_TuneCP5_13TeV_powheg_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext2-v1_NANOAODSIM_fcnc_v1",
-                                                "ZZZ_TuneCP5_13TeV-amcatnlo-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1"
-                                            },
-                                            {   "tHW_HToTT_0J_mH-350_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-375_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-400_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-425_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-450_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-475_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-500_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-525_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-550_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-575_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-600_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-625_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHW_HToTT_0J_mH-650_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-350_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-375_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-400_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-425_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-450_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-475_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-500_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-525_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-550_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-575_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-600_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-625_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tHq_HToTT_0J_mH-650_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttHToNonbb_M125_TuneCP5_13TeV-powheg-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-350_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-375_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-400_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-425_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-450_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-475_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-500_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-525_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-550_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-575_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-600_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-625_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "ttH_HToTT_1J_mH-650_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1"
-                                            },
-                                            {   "VHToNonbb_M125_13TeV_amcatnloFXFX_madspin_pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_fcnc_v1",
-                                                "tZq_ll_4f_ckm_NLO_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1"
-                                            },
-                                        };
+    auto h_nJet_trilep_stacked = new THStack("h_nJet_trilep_stacked","nJet_trilep");
+    auto h_nJet_SSdilep_stacked = new THStack("h_nJet_SSdilep_stacked","nJet_SSdilep");
+    auto h_nJet_OSdilep_stacked = new THStack("h_nJet_OSdilep_stacked","nJet_OSdilep");
+    auto h_nJet_onelepFO_stacked = new THStack("h_nJet_onelepFO_stacked","nJet_onelepFO");
+    auto h_nJet_dilepFO_stacked = new THStack("h_nJet_dilepFO_stacked","nJet_dilepFO");
 
-    //Define vectors to hold all histos before plotting
-    vector< TH1F > v_nJet_trilep;
-    vector< TH1F > v_nJet_SSdilep;
-    vector< TH1F > v_nJet_OSdilep;
-    vector< TH1F > v_nJet_onelepFO;
-    vector< TH1F > v_nJet_dilepFO;
+    auto h_nBJet_trilep_stacked = new THStack("h_nBJet_trilep_stacked","nBJet_trilep");
+    auto h_nBJet_SSdilep_stacked = new THStack("h_nBJet_SSdilep_stacked","nBJet_SSdilep");
+    auto h_nBJet_OSdilep_stacked = new THStack("h_nBJet_OSdilep_stacked","nBJet_OSdilep");
+    auto h_nBJet_onelepFO_stacked = new THStack("h_nBJet_onelepFO_stacked","nBJet_onelepFO");
+    auto h_nBJet_dilepFO_stacked = new THStack("h_nBJet_dilepFO_stacked","nBJet_dilepFO");
 
-    vector< TH1F > v_nBJet_trilep;
-    vector< TH1F > v_nBJet_SSdilep;
-    vector< TH1F > v_nBJet_OSdilep;
-    vector< TH1F > v_nBJet_onelepFO;
-    vector< TH1F > v_nBJet_dilepFO;
+    auto h_MET_trilep_stacked = new THStack("h_MET_trilep_stacked","MET_trilep");
+    auto h_MET_SSdilep_stacked = new THStack("h_MET_SSdilep_stacked","MET_SSdilep");
+    auto h_MET_OSdilep_stacked = new THStack("h_MET_OSdilep_stacked","MET_OSdilep");
+    auto h_MET_onelepFO_stacked = new THStack("h_MET_onelepFO_stacked","MET_onelepFO");
+    auto h_MET_dilepFO_stacked = new THStack("h_MET_dilepFO_stacked","MET_dilepFO");
+
+    auto h_minMT_trilep_stacked = new THStack("h_minMT_trilep_stacked","minMT_trilep");
+    auto h_minMT_SSdilep_stacked = new THStack("h_minMT_SSdilep_stacked","minMT_SSdilep");
+    auto h_minMT_OSdilep_stacked = new THStack("h_minMT_OSdilep_stacked","minMT_OSdilep");
+    auto h_minMT_onelepFO_stacked = new THStack("h_minMT_onelepFO_stacked","minMT_onelepFO");
+    auto h_minMT_dilepFO_stacked = new THStack("h_minMT_dilepFO_stacked","minMT_dilepFO");
+
+    auto leg_nJet_trilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_nJet_SSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_nJet_OSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_nJet_onelepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_nJet_dilepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
+
+    auto leg_nBJet_trilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_nBJet_SSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_nBJet_OSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_nBJet_onelepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_nBJet_dilepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
+
+    auto leg_MET_trilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_MET_SSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_MET_OSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_MET_onelepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_MET_dilepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
+
+    auto leg_minMT_trilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_minMT_SSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_minMT_OSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_minMT_onelepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto leg_minMT_dilepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
 
     //Load samples
-    for(uint btype = 0; btype < samples.size(); btype++){
-    //for(uint btype = 0; btype < 2; btype++){ //for testing only!!!
+    for(uint btype = 0; btype < sample_names.size(); btype++){
+    //for(uint btype = 0; btype < 4; btype++){ //for testing only!!!
         TChain chain("Events");
-        //for (uint s = 0; s< samples[btype].size(); s++){
-        for (uint s = 0; s < 1; s++){ //for testing only!!!
-            string sample_name = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/"+samples[btype][s]+"/output_*.root";
-            chain.Add(sample_name.c_str());
+        vector<string> samples = loadSamples ( year, sample_names[btype] );
+        for ( uint s = 0; s < samples.size(); s++ ){
+            string name = inputDir+samples[s]+"/output_*.root";
+            chain.Add(name.c_str());
         }
-        
         cout << "Loaded Samples!" << endl;
 
         int nEvents = chain.GetEntries();
-        cout << "found " << nEvents << " events" << endl;
+        cout << "found " << nEvents << " " << sample_names[btype] << " events" << endl;
 
         //event variables
         uint nMuon = 0;
         uint nElectron = 0;
         uint nJet = 0;
-        //vector<float> mu_pt;
-        //vector<float> *mu_eta = 0;
-        //vector<float> *mu_iso = 0;
-        //vector<bool> *mu_tightId = 0;
+        float MET = 0;
+        float MET_phi = 0;
 
         chain.SetBranchAddress("nMuon", &nMuon);
         chain.SetBranchAddress("nElectron", &nElectron);
         chain.SetBranchAddress("nJet", &nJet);
-        //chain.SetBranchAddress("Muon_pt", &mu_pt);
-        /*chain.SetBranchAddress("Muon_eta", &mu_eta);
-        chain.SetBranchAddress("Muon_miniPFRelIso_all", &mu_iso);
-        chain.SetBranchAddress("Muon_tightId",&mu_tightId);
-        */
+        chain.SetBranchAddress("MET_pt", &MET);
+        chain.SetBranchAddress("MET_phi", &MET_phi);
+
 
         //Define histograms
-        TH1F h_nJet_trilep("h_nJet_trilep",   "nJets", 7, -0.5, 6.5);
-        TH1F h_nJet_SSdilep("h_nJet_SSdilep",  "nJets", 7, -0.5, 6.5);
-        TH1F h_nJet_OSdilep("h_nJet_OSdilep",  "nJets", 7, -0.5, 6.5);
-        TH1F h_nJet_onelepFO("h_nJet_onelepFO", "nJets", 7, -0.5, 6.5);
-        TH1F h_nJet_dilepFO("h_nJet_dilepFO",  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_trilep = new TH1F("h_nJet_trilep"+sample_names[btype],   "nJets", 7, -0.5, 6.5);
+        auto h_nJet_SSdilep = new TH1F("h_nJet_SSdilep"+sample_names[btype],  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_OSdilep = new TH1F("h_nJet_OSdilep"+sample_names[btype],  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_onelepFO = new TH1F("h_nJet_onelepFO"+sample_names[btype], "nJets", 7, -0.5, 6.5);
+        auto h_nJet_dilepFO = new TH1F("h_nJet_dilepFO"+sample_names[btype],  "nJets", 7, -0.5, 6.5);
 
-        TH1F h_nBJet_trilep("h_nBJet_trilep",   "nb-tagged Jets", 4, -0.5, 3.5);
-        TH1F h_nBJet_SSdilep("h_nBJet_SSdilep",  "nb-tagged Jets", 4, -0.5, 3.5);
-        TH1F h_nBJet_OSdilep("h_nBJet_OSdilep",  "nb-tagged Jets", 4, -0.5, 3.5);
-        TH1F h_nBJet_onelepFO("h_nBJet_onelepFO", "nb-tagged Jets", 4, -0.5, 3.5);
-        TH1F h_nBJet_dilepFO("h_nBJet_dilepFO",  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_trilep = new TH1F("h_nBJet_trilep"+sample_names[btype],   "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_SSdilep = new TH1F("h_nBJet_SSdilep"+sample_names[btype],  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_OSdilep = new TH1F("h_nBJet_OSdilep"+sample_names[btype],  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_onelepFO = new TH1F("h_nBJet_onelepFO"+sample_names[btype], "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_dilepFO = new TH1F("h_nBJet_dilepFO"+sample_names[btype],  "nb-tagged Jets", 4, -0.5, 3.5);
+
+        auto h_MET_trilep = new TH1F("h_MET_trilep"+sample_names[btype],   "MET", 5, 0, 500);
+        auto h_MET_SSdilep = new TH1F("h_MET_SSdilep"+sample_names[btype],  "MET", 5, 0, 500);
+        auto h_MET_OSdilep = new TH1F("h_MET_OSdilep"+sample_names[btype],  "MET", 5, 0, 500);
+        auto h_MET_onelepFO = new TH1F("h_MET_onelepFO"+sample_names[btype], "MET", 5, 0, 500);
+        auto h_MET_dilepFO = new TH1F("h_MET_dilepFO"+sample_names[btype],  "MET", 5, 0, 500);
+
+        auto h_minMT_trilep = new TH1F("h_minMT_trilep"+sample_names[btype],   "minMT", 5, 0, 500);
+        auto h_minMT_SSdilep = new TH1F("h_minMT_SSdilep"+sample_names[btype],  "minMT", 5, 0, 500);
+        auto h_minMT_OSdilep = new TH1F("h_minMT_OSdilep"+sample_names[btype],  "minMT", 5, 0, 500);
+        auto h_minMT_onelepFO = new TH1F("h_minMT_onelepFO"+sample_names[btype], "minMT", 5, 0, 500);
+        auto h_minMT_dilepFO = new TH1F("h_minMT_dilepFO"+sample_names[btype],  "minMT", 5, 0, 500);
 
         cout << "defined histograms!" << endl;
 
@@ -296,8 +147,8 @@ void event_looper(){
         int nFODiLep  = 0;
 
         //Main for loop
-        for ( int counter = 0; counter < nEvents; counter++ ){
-        //for ( int counter = 0; counter < 100; counter++ ){
+        //for ( int counter = 0; counter < nEvents; counter++ ){
+        for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
             //cout << "counter " << counter << endl;
             if ( counter%100000==0 ){
                 cout << "event " << counter << endl;
@@ -308,14 +159,13 @@ void event_looper(){
             int nFakeableLep = 0;
             int nJets = 0;
             int nBjets = 0;
+            float minMT_tight = 10000;
+            float minMT_loose = 10000;
 
             vector<int> muCharge_tight;
             vector<int> elCharge_tight;
             vector<int> muCharge_loose;
             vector<int> elCharge_loose;
-
-            //cout << "nMuon: " << nMuon << endl;
-            //cout << "nElectron: " << nElectron << endl;
 
             //loop to count good jets and b-tagged jets
             for ( uint jet = 0; jet < nJet; jet++ ){
@@ -372,6 +222,7 @@ void event_looper(){
                     //cout << (*mu_pt)[mu] << endl;
                     float mu_pt = chain.GetLeaf("Muon_pt")->GetValue(mu);
                     float mu_eta = chain.GetLeaf("Muon_eta")->GetValue(mu);
+                    float mu_phi = chain.GetLeaf("Muon_phi")->GetValue(mu);
                     float mu_charge = chain.GetLeaf("Muon_charge")->GetValue(mu);
                     float mu_iso = chain.GetLeaf("Muon_miniPFRelIso_all")->GetValue(mu);
                     float mu_tightId = chain.GetLeaf("Muon_tightId")->GetValue(mu);
@@ -380,9 +231,15 @@ void event_looper(){
                     if ( isTightLepton( 13, mu_pt, mu_eta, mu_iso, mu_tightId ) ){
                         nGoodLep += 1;
                         muCharge_tight.push_back(mu_charge);
+                        if ( mt( MET, MET_phi, mu_pt, mu_phi ) < minMT_tight ){
+                            minMT_tight = mt( MET, MET_phi, mu_pt, mu_phi );
+                        }
                     }else if ( isLooseLepton( 13, mu_pt, mu_eta, mu_iso, mu_looseId ) ){
                         nFakeableLep += 1;
                         muCharge_loose.push_back(mu_charge);
+                        if ( mt( MET, MET_phi, mu_pt, mu_phi ) < minMT_loose ){
+                            minMT_loose = mt( MET, MET_phi, mu_pt, mu_phi );
+                        }
                     }else continue;
                 }
                 //loop to count tight/loose electrons
@@ -390,17 +247,22 @@ void event_looper(){
                     //cout << (*el_pt)[el] << endl;
                     float el_pt = chain.GetLeaf("Electron_pt")->GetValue(el);
                     float el_eta = chain.GetLeaf("Electron_eta")->GetValue(el);
+                    float el_phi = chain.GetLeaf("Electron_phi")->GetValue(el);
                     float el_charge = chain.GetLeaf("Electron_charge")->GetValue(el);
                     float el_iso = chain.GetLeaf("Electron_miniPFRelIso_all")->GetValue(el);
-                    //float el_tightId = chain.GetLeaf("Electron_tightId")->GetValue(el);
-                    //float el_looseId = chain.GetLeaf("Electron_looseId")->GetValue(el);
 
                     if ( isTightLepton( 13, el_pt, el_eta, el_iso, 0 ) ){
                         nGoodLep += 1;
                         elCharge_tight.push_back(el_charge);
+                        if ( mt( MET, MET_phi, el_pt, el_phi ) < minMT_tight ){
+                            minMT_tight = mt( MET, MET_phi, el_pt, el_phi );
+                        }
                     }else if ( isLooseLepton( 13, el_pt, el_eta, el_iso, 0 ) ){
                         nFakeableLep += 1;
                         elCharge_loose.push_back(el_charge);
+                        if ( mt( MET, MET_phi, el_pt, el_phi ) < minMT_loose ){
+                            minMT_loose = mt( MET, MET_phi, el_pt, el_phi );
+                        }
                     }else continue;
                 }
             }
@@ -408,51 +270,73 @@ void event_looper(){
             //organize into signature types
             if ( nGoodLep == 3 ){
                 nTriLep += 1;
-                h_nJet_trilep.Fill(nJets);
-                h_nBJet_trilep.Fill(nBjets);
+                h_nJet_trilep->Fill(nJets);
+                h_nBJet_trilep->Fill(nBjets);
+                h_MET_trilep->Fill(MET);
+                h_minMT_trilep->Fill(minMT_tight);
             }
             if ( nGoodLep == 2 ){
                 if (muCharge_tight.size() == 2){
                     if (muCharge_tight[0]*muCharge_tight[1]>0){
                         nSSDiLep += 1;
-                        h_nJet_SSdilep.Fill(nJets);
-                        h_nBJet_SSdilep.Fill(nBjets);
+                        h_nJet_SSdilep->Fill(nJets);
+                        h_nBJet_SSdilep->Fill(nBjets);
+                        h_MET_SSdilep->Fill(MET);
+                        h_minMT_SSdilep->Fill(minMT_tight);
                     }else{ 
                         nOSDiLep += 1;
-                        h_nJet_OSdilep.Fill(nJets);
-                        h_nBJet_OSdilep.Fill(nBjets);
+                        h_nJet_OSdilep->Fill(nJets);
+                        h_nBJet_OSdilep->Fill(nBjets);
+                        h_MET_OSdilep->Fill(MET);
+                        h_minMT_OSdilep->Fill(minMT_tight);
                     }
                 }else if (elCharge_tight.size() == 2) {
                     if (elCharge_tight[0]*elCharge_tight[1]>0){
                         nSSDiLep += 1;
-                        h_nJet_SSdilep.Fill(nJets);
-                        h_nBJet_SSdilep.Fill(nBjets);
+                        h_nJet_SSdilep->Fill(nJets);
+                        h_nBJet_SSdilep->Fill(nBjets);
+                        h_MET_SSdilep->Fill(MET);
+                        h_minMT_SSdilep->Fill(minMT_tight);
                     }else{
                         nOSDiLep += 1;
-                        h_nJet_OSdilep.Fill(nJets);
-                        h_nBJet_OSdilep.Fill(nBjets);
+                        h_nJet_OSdilep->Fill(nJets);
+                        h_nBJet_OSdilep->Fill(nBjets);
+                        h_MET_OSdilep->Fill(MET);
+                        h_minMT_OSdilep->Fill(minMT_tight);
                     }
                 }else if (muCharge_tight.size() == 1) {
                     if (muCharge_tight[0]*elCharge_tight[0]>0){
                         nSSDiLep += 1;
-                        h_nJet_SSdilep.Fill(nJets);
-                        h_nBJet_SSdilep.Fill(nBjets);
+                        h_nJet_SSdilep->Fill(nJets);
+                        h_nBJet_SSdilep->Fill(nBjets);
+                        h_MET_SSdilep->Fill(MET);
+                        h_minMT_SSdilep->Fill(minMT_tight);
                     }else{
                         nOSDiLep += 1;
-                        h_nJet_OSdilep.Fill(nJets);
-                        h_nBJet_OSdilep.Fill(nBjets);
+                        h_nJet_OSdilep->Fill(nJets);
+                        h_nBJet_OSdilep->Fill(nBjets);
+                        h_MET_OSdilep->Fill(MET);
+                        h_minMT_OSdilep->Fill(minMT_tight);
                     }
                 }
             }//if nGoodLep == 2
             if (nGoodLep == 1 and nFakeableLep == 1){
                 nOneLepFO += 1;
-                h_nJet_onelepFO.Fill(nJets);
-                h_nBJet_onelepFO.Fill(nBjets);
+                h_nJet_onelepFO->Fill(nJets);
+                h_nBJet_onelepFO->Fill(nBjets);
+                h_MET_onelepFO->Fill(MET);
+                if (minMT_tight < minMT_loose){
+                    h_minMT_onelepFO->Fill(minMT_tight);
+                } else if (minMT_loose < minMT_tight){
+                    h_minMT_onelepFO->Fill(minMT_loose);
+                }
             }
             if (nFakeableLep == 2){
                 nFODiLep += 1;
-                h_nJet_dilepFO.Fill(nJets);
-                h_nBJet_dilepFO.Fill(nBjets);
+                h_nJet_dilepFO->Fill(nJets);
+                h_nBJet_dilepFO->Fill(nBjets);
+                h_MET_dilepFO->Fill(MET);
+                h_minMT_dilepFO->Fill(minMT_loose);
             }
 
         }//event loop
@@ -469,34 +353,82 @@ void event_looper(){
 
         cout << "processed " << nEvents << " events in " << duration.count() << " minutes!!" << endl;
 
-        v_nJet_trilep.push_back(h_nJet_trilep);
-        v_nJet_SSdilep.push_back(h_nJet_SSdilep);
-        v_nJet_OSdilep.push_back(h_nJet_OSdilep);
-        v_nJet_onelepFO.push_back(h_nJet_onelepFO);
-        v_nJet_dilepFO.push_back(h_nJet_dilepFO);
+        h_nJet_trilep_stacked->Add(h_nJet_trilep);
+        h_nJet_SSdilep_stacked->Add(h_nJet_SSdilep);
+        h_nJet_OSdilep_stacked->Add(h_nJet_OSdilep);
+        h_nJet_onelepFO_stacked->Add(h_nJet_onelepFO);
+        h_nJet_dilepFO_stacked->Add(h_nJet_dilepFO);
 
-        v_nBJet_trilep.push_back(h_nBJet_trilep);
-        v_nBJet_SSdilep.push_back(h_nBJet_SSdilep);
-        v_nBJet_OSdilep.push_back(h_nBJet_OSdilep);
-        v_nBJet_onelepFO.push_back(h_nBJet_onelepFO);
-        v_nBJet_dilepFO.push_back(h_nBJet_dilepFO);
+        h_nBJet_trilep_stacked->Add(h_nBJet_trilep);
+        h_nBJet_SSdilep_stacked->Add(h_nBJet_SSdilep);
+        h_nBJet_OSdilep_stacked->Add(h_nBJet_OSdilep);
+        h_nBJet_onelepFO_stacked->Add(h_nBJet_onelepFO);
+        h_nBJet_dilepFO_stacked->Add(h_nBJet_dilepFO);
+
+        h_MET_trilep_stacked->Add(h_MET_trilep);
+        h_MET_SSdilep_stacked->Add(h_MET_SSdilep);
+        h_MET_OSdilep_stacked->Add(h_MET_OSdilep);
+        h_MET_onelepFO_stacked->Add(h_MET_onelepFO);
+        h_MET_dilepFO_stacked->Add(h_MET_dilepFO);
+
+        h_minMT_trilep_stacked->Add(h_minMT_trilep);
+        h_minMT_SSdilep_stacked->Add(h_minMT_SSdilep);
+        h_minMT_OSdilep_stacked->Add(h_minMT_OSdilep);
+        h_minMT_onelepFO_stacked->Add(h_minMT_onelepFO);
+        h_minMT_dilepFO_stacked->Add(h_minMT_dilepFO);
+
+        leg_nJet_trilep->AddEntry(h_nJet_trilep,sample_names[btype].c_str(), "f");
+        leg_nJet_SSdilep->AddEntry(h_nJet_SSdilep,sample_names[btype].c_str(), "f");
+        leg_nJet_OSdilep->AddEntry(h_nJet_OSdilep,sample_names[btype].c_str(), "f");
+        leg_nJet_onelepFO->AddEntry(h_nJet_onelepFO,sample_names[btype].c_str(), "f");
+        leg_nJet_dilepFO->AddEntry(h_nJet_dilepFO,sample_names[btype].c_str(), "f");
+
+        leg_nBJet_trilep->AddEntry(h_nBJet_trilep,sample_names[btype].c_str(), "f");
+        leg_nBJet_SSdilep->AddEntry(h_nBJet_SSdilep,sample_names[btype].c_str(), "f");
+        leg_nBJet_OSdilep->AddEntry(h_nBJet_OSdilep,sample_names[btype].c_str(), "f");
+        leg_nBJet_onelepFO->AddEntry(h_nBJet_onelepFO,sample_names[btype].c_str(), "f");
+        leg_nBJet_dilepFO->AddEntry(h_nBJet_dilepFO,sample_names[btype].c_str(), "f");
+
+        leg_MET_trilep->AddEntry(h_MET_trilep,sample_names[btype].c_str(), "f");
+        leg_MET_SSdilep->AddEntry(h_MET_SSdilep,sample_names[btype].c_str(), "f");
+        leg_MET_OSdilep->AddEntry(h_MET_OSdilep,sample_names[btype].c_str(), "f");
+        leg_MET_onelepFO->AddEntry(h_MET_onelepFO,sample_names[btype].c_str(), "f");
+        leg_MET_dilepFO->AddEntry(h_MET_dilepFO,sample_names[btype].c_str(), "f");
+
+        leg_minMT_trilep->AddEntry(h_minMT_trilep,sample_names[btype].c_str(), "f");
+        leg_minMT_SSdilep->AddEntry(h_minMT_SSdilep,sample_names[btype].c_str(), "f");
+        leg_minMT_OSdilep->AddEntry(h_minMT_OSdilep,sample_names[btype].c_str(), "f");
+        leg_minMT_onelepFO->AddEntry(h_minMT_onelepFO,sample_names[btype].c_str(), "f");
+        leg_minMT_dilepFO->AddEntry(h_minMT_dilepFO,sample_names[btype].c_str(), "f");
     }
 
     //write histograms
-    string outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots/";
-    //outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/plots/"
+    //string outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots/";
+    string outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots_testing/"; //for testing only!!
+    
+    saveFig(h_nJet_trilep_stacked, leg_nJet_trilep, "h_nJet_trilep", outdir);
+    saveFig(h_nJet_SSdilep_stacked, leg_nJet_SSdilep, "h_nJet_SSdilep", outdir);
+    saveFig(h_nJet_OSdilep_stacked, leg_nJet_OSdilep, "h_nJet_OSdilep", outdir);
+    saveFig(h_nJet_onelepFO_stacked, leg_nJet_onelepFO, "h_nJet_onelepFO", outdir);
+    saveFig(h_nJet_dilepFO_stacked, leg_nJet_dilepFO, "h_nJet_dilepFO", outdir);
 
-    saveFig(v_nJet_trilep, "h_nJet_trilep", outdir);
-    saveFig(v_nJet_SSdilep, "h_nJet_SSdilep", outdir);
-    saveFig(v_nJet_OSdilep, "h_nJet_OSdilep", outdir);
-    saveFig(v_nJet_onelepFO, "h_nJet_onelepFO", outdir);
-    saveFig(v_nJet_dilepFO, "h_nJet_dilepFO", outdir);
+    saveFig(h_nBJet_trilep_stacked, leg_nBJet_trilep, "h_nBJet_trilep", outdir);
+    saveFig(h_nBJet_SSdilep_stacked, leg_nBJet_SSdilep, "h_nBJet_SSdilep", outdir);
+    saveFig(h_nBJet_OSdilep_stacked, leg_nBJet_OSdilep, "h_nBJet_OSdilep", outdir);
+    saveFig(h_nBJet_onelepFO_stacked, leg_nBJet_onelepFO, "h_nBJet_onelepFO", outdir);
+    saveFig(h_nBJet_dilepFO_stacked, leg_nBJet_dilepFO, "h_nBJet_dilepFO", outdir);
+    
+    saveFig(h_MET_trilep_stacked, leg_MET_trilep, "h_MET_trilep", outdir);
+    saveFig(h_MET_SSdilep_stacked, leg_MET_SSdilep, "h_MET_SSdilep", outdir);
+    saveFig(h_MET_OSdilep_stacked, leg_MET_OSdilep, "h_MET_OSdilep", outdir);
+    saveFig(h_MET_onelepFO_stacked, leg_MET_onelepFO, "h_MET_onelepFO", outdir);
+    saveFig(h_MET_dilepFO_stacked, leg_MET_dilepFO, "h_MET_dilepFO", outdir);
 
-    saveFig(v_nBJet_trilep, "h_nBJet_trilep", outdir);
-    saveFig(v_nBJet_SSdilep, "h_nBJet_SSdilep", outdir);
-    saveFig(v_nBJet_OSdilep, "h_nBJet_OSdilep", outdir);
-    saveFig(v_nBJet_onelepFO, "h_nBJet_onelepFO", outdir);
-    saveFig(v_nBJet_dilepFO, "h_nBJet_dilepFO", outdir);
+    saveFig(h_minMT_trilep_stacked, leg_minMT_trilep, "h_minMT_trilep", outdir);
+    saveFig(h_minMT_SSdilep_stacked, leg_minMT_SSdilep, "h_minMT_SSdilep", outdir);
+    saveFig(h_minMT_OSdilep_stacked, leg_minMT_OSdilep, "h_minMT_OSdilep", outdir);
+    saveFig(h_minMT_onelepFO_stacked, leg_minMT_onelepFO, "h_minMT_onelepFO", outdir);
+    saveFig(h_minMT_dilepFO_stacked, leg_minMT_dilepFO, "h_minMT_dilepFO", outdir);
 
     cout << "saved histograms!" << endl;
 
