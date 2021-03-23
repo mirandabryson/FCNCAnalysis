@@ -70,48 +70,105 @@ bool isGoodJet(float pt, float eta){
     return isGood;
 }
 
-/*void saveFig(vector<TH1F> v_hist, string hist_name, string outdir){
+bool electronID(string year, float eta, float pt, float mva, string idType){
+    bool isLoose = 0;
+    bool isTight = 0;
 
-    vector< TH1F > v_hist_new;
-    int max_idx = 0;
-    int max_val = 0;
-    for (uint i = 0; i < v_hist.size(); i++){
-        if(v_hist[i].GetMaximum()>max_val){
-            max_val = v_hist[i].GetMaximum();
-            max_idx = i;
-        }
-    }
+    float mva_cut = -999;
 
-    v_hist_new.push_back(v_hist[max_idx]);
-    for(int j = 0; j < max_idx; j++){
-        v_hist_new.push_back(v_hist[j]);
-    }
-    for(int k = v_hist.size(); k > max_idx; k--){
-        v_hist_new.push_back(v_hist[k]);
-    }
+    if ( year=="2018" ){
+        if ( abs( eta ) > 0 && abs( eta ) < 0.8 ){
+            if ( pt > 5 && pt < 10 ){
+                if ( idType == "loose" && mva > 0.053 ){
+                    isLoose = 1;
+                }else if ( idType == "tight" ){
+                    //there is no tight WP for this, so I will set this automatically to true
+                    isTight = 1;
+                }//tight or loose
+            }else if ( pt > 10 && pt < 25 ){
+                if ( idType == "loose" ){
+                    mva_cut = ( -0.106 + (0.062*(pt-25)) );
+                    if ( mva > mva_cut ){
+                        isLoose = 1;
+                    }//mva cut
+                }else if ( idType == "tight" ){
+                    mva_cut = ( 4.277 + (0.112*(pt-25)) );
+                    if (mva > mva_cut){
+                        isTight = 1;
+                    }//mva cut
+                }//tight or loose
+            }else if ( pt > 25 ){
+                if ( idType == "loose" && mva > -0.106 ){
+                    isLoose = 1;
+                }else if ( idType == "tight" && mva > 4.277 ){
+                    isTight = 1;
+                }//tight or loose
+            }//pt
 
+        }else if( abs( eta ) > 0.8 && abs( eta ) < 1.479 ){
+            if ( pt > 5 && pt < 10 ){
+                if ( idType == "loose" && mva > -0.434 ){
+                    isLoose = 1;
+                }else if ( idType == "tight" ){
+                    //there is no tight WP for this, so I will set this automatically to true
+                    isTight = 1;
+                }//tight or loose
+            }else if ( pt > 10 && pt < 25 ){
+                if ( idType == "loose" ){
+                    mva_cut = ( -0.769 + (0.038*(pt-25)) );
+                    if ( mva > mva_cut ){
+                        isLoose = 1;
+                    }//mva cut
+                }else if ( idType == "tight" ){
+                    mva_cut = ( 3.152 + (0.060*(pt-25)) );
+                    if (mva > mva_cut){
+                        isTight = 1;
+                    }//mva cut
+                }//tight or loose
+            }else if ( pt > 25 ){
+                if ( idType == "loose" && mva > -0.769 ){
+                    isLoose = 1;
+                }else if ( idType == "tight" && mva > 3.152 ){
+                    isTight = 1;
+                }//tight or loose
+            }//pt
 
-    auto can = new TCanvas( "c", "c", 800, 800 );
+        }else if( abs( eta ) > 1.279 && abs( eta ) < 2.5 ){
+            if ( pt > 5 && pt < 10 ){
+                if ( idType == "loose" && mva > -0.956 ){
+                    isLoose = 1;
+                }else if ( idType == "tight" ){
+                    //there is no tight WP for this, so I will set this automatically to true
+                    isTight = 1;
+                }//tight or loose
+            }else if ( pt > 10 && pt < 25 ){
+                if ( idType == "loose" ){
+                    mva_cut = ( -1.461 + (0.042*(pt-25)) );
+                    if ( mva > mva_cut ){
+                        isLoose = 1;
+                    }//mva cut
+                }else if ( idType == "tight" ){
+                    mva_cut = ( 2.359 + (0.087*(pt-25)) );
+                    if (mva > mva_cut){
+                        isTight = 1;
+                    }//mva cut
+                }//tight or loose
+            }else if ( pt > 25 ){
+                if ( idType == "loose" && mva > -1.461 ){
+                    isLoose = 1;
+                }else if ( idType == "tight" && mva > 2.359 ){
+                    isTight = 1;
+                }//tight or loose
+            }//pt
+        }//eta
+    }//year
 
-    TPad *pad1 = new TPad( "pad1", "pad1", 0, 0.3, 1, 1.0 );
-    pad1->Draw();
-
-    pad1->cd();
-    for(uint h = 0; h < v_hist_new.size(); h++){
-        if (h==0){
-            v_hist_new[h].Draw();
-        }else{
-            v_hist_new[h].Draw("same");
-        }
-    }
-
-    string filename = outdir.append(hist_name);
-    string filename_pdf = filename.append(".pdf");
-    string filename_png = filename.append(".png");
-
-    can->SaveAs(filename_pdf.c_str());
-    can->SaveAs(filename_png.c_str());
-}*/
+    if ( idType == "tight" ){
+        return isTight;
+    }else if ( idType == "loose" ){
+        return isLoose;
+    }else return 0;
+}
 
 void saveFig(THStack* &hists, TLegend* &leg, string hist_name, string outdir){
 
