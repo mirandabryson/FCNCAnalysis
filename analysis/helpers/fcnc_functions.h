@@ -70,13 +70,19 @@ bool isGoodJet(float pt, float eta){
     return isGood;
 }
 
-bool electronID(string year, float eta, float pt, float mva, string idType){
+bool electronID(int year, float eta, float pt, float mva_in, string idType){
     bool isLoose = 0;
     bool isTight = 0;
 
     float mva_cut = -999;
+    float mva = 0;
+    if ( year==2018 ){
+        mva = log((1+mva_in)/(1-mva_in))/2;
+    }else{
+        mva = mva_in;
+    }
 
-    if ( year=="2018" ){
+    if ( year==2018 ){
         if ( abs( eta ) > 0 && abs( eta ) < 0.8 ){
             if ( pt > 5 && pt < 10 ){
                 if ( idType == "loose" && mva > 0.053 ){
@@ -87,12 +93,12 @@ bool electronID(string year, float eta, float pt, float mva, string idType){
                 }//tight or loose
             }else if ( pt > 10 && pt < 25 ){
                 if ( idType == "loose" ){
-                    mva_cut = ( -0.106 + (0.062*(pt-25)) );
+                    mva_cut = ( -0.106 + (0.062*(pt-10)) );
                     if ( mva > mva_cut ){
                         isLoose = 1;
                     }//mva cut
                 }else if ( idType == "tight" ){
-                    mva_cut = ( 4.277 + (0.112*(pt-25)) );
+                    mva_cut = ( 4.277 + (0.112*(pt-10)) );
                     if (mva > mva_cut){
                         isTight = 1;
                     }//mva cut
@@ -115,12 +121,12 @@ bool electronID(string year, float eta, float pt, float mva, string idType){
                 }//tight or loose
             }else if ( pt > 10 && pt < 25 ){
                 if ( idType == "loose" ){
-                    mva_cut = ( -0.769 + (0.038*(pt-25)) );
+                    mva_cut = ( -0.769 + (0.038*(pt-10)) );
                     if ( mva > mva_cut ){
                         isLoose = 1;
                     }//mva cut
                 }else if ( idType == "tight" ){
-                    mva_cut = ( 3.152 + (0.060*(pt-25)) );
+                    mva_cut = ( 3.152 + (0.060*(pt-10)) );
                     if (mva > mva_cut){
                         isTight = 1;
                     }//mva cut
@@ -143,12 +149,12 @@ bool electronID(string year, float eta, float pt, float mva, string idType){
                 }//tight or loose
             }else if ( pt > 10 && pt < 25 ){
                 if ( idType == "loose" ){
-                    mva_cut = ( -1.461 + (0.042*(pt-25)) );
+                    mva_cut = ( -1.461 + (0.042*(pt-10)) );
                     if ( mva > mva_cut ){
                         isLoose = 1;
                     }//mva cut
                 }else if ( idType == "tight" ){
-                    mva_cut = ( 2.359 + (0.087*(pt-25)) );
+                    mva_cut = ( 2.359 + (0.087*(pt-10)) );
                     if (mva > mva_cut){
                         isTight = 1;
                     }//mva cut

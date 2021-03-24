@@ -1,7 +1,7 @@
-std::vector<string> loadSamples ( string year, string type ){
+std::vector<string> loadSamples ( int year, string type ){
     
     vector<string> samples;
-    if ( year == "2018" ){
+    if ( year == 2018 ){
         
         if ( type == "DY" ){
             samples.push_back("DYJetsToLL_M-10to50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM_fcnc_v1");

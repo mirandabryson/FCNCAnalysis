@@ -17,6 +17,7 @@
 //#include <sampleClasses.h>
 #include "./helpers/fcnc_functions.h"
 #include "./helpers/sampleLoader.h"
+#include "./helpers/objectClasses.h"
 
 
 using namespace std;
@@ -24,7 +25,7 @@ using namespace std::chrono;
 
 void event_looper(){
     //global variables
-    string year = "2018";
+    int year = 2018;
     string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/";
     vector< string > sample_names = {  "DY",
                                        "GluGlu",
@@ -86,15 +87,15 @@ void event_looper(){
     //Load samples
     //for(uint btype = 0; btype < sample_names.size(); btype++){
     for(uint btype = 0; btype < 2; btype++){ //for testing only!!!
-        TChain chain("Events");
+        TChain* chain = new TChain("Events");
         vector<string> samples = loadSamples ( year, sample_names[btype] );
         for ( uint s = 0; s < samples.size(); s++ ){
             string name = inputDir+samples[s]+"/output_*.root";
-            chain.Add(name.c_str());
+            chain->Add(name.c_str());
         }
         cout << "Loaded Samples!" << endl;
 
-        int nEvents = chain.GetEntries();
+        int nEvents = chain->GetEntries();
         cout << "found " << nEvents << " " << sample_names[btype] << " events" << endl;
 
         //event variables
@@ -104,11 +105,11 @@ void event_looper(){
         float MET = 0;
         float MET_phi = 0;
 
-        chain.SetBranchAddress("nMuon", &nMuon);
-        chain.SetBranchAddress("nElectron", &nElectron);
-        chain.SetBranchAddress("nJet", &nJet);
-        chain.SetBranchAddress("MET_pt", &MET);
-        chain.SetBranchAddress("MET_phi", &MET_phi);
+        chain->SetBranchAddress("nMuon", &nMuon);
+        chain->SetBranchAddress("nElectron", &nElectron);
+        chain->SetBranchAddress("nJet", &nJet);
+        chain->SetBranchAddress("MET_pt", &MET);
+        chain->SetBranchAddress("MET_phi", &MET_phi);
 
 
         //Define histograms
@@ -154,78 +155,83 @@ void event_looper(){
             if ( counter%100000==0 ){
                 cout << "event " << counter << endl;
             }
+
+            //variables to hold information
+            int nGoodLep = 0;
+            int nFakeableLep = 0;
+            int nJets = 0;
+            int nBjets = 0;
+            float minMT_tight = 10000;
+            float minMT_loose = 10000;
+
+            vector<int> muCharge_tight;
+            vector<int> elCharge_tight;
+            vector<int> muCharge_loose;
+            vector<int> elCharge_loose;
             
-            Long64_t event = chain.GetEntry(counter);
+            //Get individual event
+            Long64_t event = chain->GetEntry(counter);
 
-            //cout << nMuon << endl;
-            //cout << nElectron << endl;
-            //cout << nJet << endl;
-            bool hasLepsAndJets = 1;
-            if (nMuon+nElectron < 2){
-                continue;
-                //cout << "there are no leptons here" << endl;
-                //hasLepsAndJets = 0;
+            //Define physics objects
+            Muon mu(chain, nMuon, year);
+            Electron el(chain, nElectron, year);
+
+            //loop to count tight/loose muons
+            for( uint iMu = 0; iMu < nMuon; iMu++ ){
+                if ( isTightLepton( 13, mu.pt[iMu], mu.eta[iMu], mu.iso[iMu], mu.tightId[iMu] ) ){
+                    nGoodLep += 1;
+                    muCharge_tight.push_back(mu.charge[iMu]);
+                    if ( mt( MET, MET_phi, mu.pt[iMu], mu.phi[iMu] ) < minMT_tight ){
+                        minMT_tight = mt( MET, MET_phi, mu.pt[iMu], mu.phi[iMu] );
+                    }
+                }else if ( isLooseLepton( 13, mu.pt[iMu], mu.eta[iMu], mu.iso[iMu], mu.looseId[iMu] ) ){
+                    nFakeableLep += 1;
+                    muCharge_loose.push_back(mu.charge[iMu]);
+                    if ( mt( MET, MET_phi, mu.pt[iMu], mu.phi[iMu] ) < minMT_loose ){
+                        minMT_loose = mt( MET, MET_phi, mu.pt[iMu], mu.phi[iMu] );
+                    }
+                }else continue;
             }
-            if (nJet < 2){
-                continue;
-                //cout << "there are no jets here" << endl;
-                //hasLepsAndJets = 0;
+            //loop to count tight/loose electrons
+            for( uint iEl = 0; iEl < nElectron; iEl++ ){
+                if ( isTightLepton( 11, el.pt[iEl], el.eta[iEl], el.iso[iEl], 0 ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "tight" ) ){
+                    nGoodLep += 1;
+                    elCharge_tight.push_back(el.charge[iEl]);
+                    if ( mt( MET, MET_phi, el.pt[iEl], el.phi[iEl] ) < minMT_tight ){
+                        minMT_tight = mt( MET, MET_phi, el.pt[iEl], el.phi[iEl] );
+                    }
+                }else if ( isLooseLepton( 11, el.pt[iEl], el.eta[iEl], el.iso[iEl], 0 ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ){
+                    nFakeableLep += 1;
+                    elCharge_loose.push_back(el.charge[iEl]);
+                    if ( mt( MET, MET_phi, el.pt[iEl], el.phi[iEl] ) < minMT_loose ){
+                        minMT_loose = mt( MET, MET_phi, el.pt[iEl], el.phi[iEl] );
+                    }
+                }else continue;
             }
 
-            //cout << hasLepsAndJets << endl;
-            if (hasLepsAndJets == 1){
-                int nGoodLep = 0;
-                int nFakeableLep = 0;
-                int nJets = 0;
-                int nBjets = 0;
-                float minMT_tight = 10000;
-                float minMT_loose = 10000;
-
-                vector<int> muCharge_tight;
-                vector<int> elCharge_tight;
-                vector<int> muCharge_loose;
-                vector<int> elCharge_loose;
-
+            if ( !((nFakeableLep==0 && nGoodLep>1) || (nFakeableLep>0 && nGoodLep<2)) ){
+                continue;
+            }else{
                 //loop to count good jets and b-tagged jets
                 for ( uint jet = 0; jet < nJet; jet++ ){
-                    float jet_pt = chain.GetLeaf("Jet_pt")->GetValue(jet);
-                    float jet_eta = chain.GetLeaf("Jet_eta")->GetValue(jet);
-                    float jet_phi = chain.GetLeaf("Jet_phi")->GetValue(jet);
-                    float btag_score = chain.GetLeaf("Jet_btagDeepFlavB")->GetValue(jet);
+                    float jet_pt = chain->GetLeaf("Jet_pt")->GetValue(jet);
+                    float jet_eta = chain->GetLeaf("Jet_eta")->GetValue(jet);
+                    float jet_phi = chain->GetLeaf("Jet_phi")->GetValue(jet);
+                    float btag_score = chain->GetLeaf("Jet_btagDeepFlavB")->GetValue(jet);
 
                     if ( isGoodJet(jet_pt, jet_eta) ){
                         //next two for loops to clean jets
                         bool isGood = 1;
-                        for (uint mu = 0; mu < nMuon; mu++ ){
-                            float mu_pt = chain.GetLeaf("Muon_pt")->GetValue(mu);
-                            float mu_eta = chain.GetLeaf("Muon_eta")->GetValue(mu);
-                            float mu_phi = chain.GetLeaf("Muon_phi")->GetValue(mu);
-                            float mu_charge = chain.GetLeaf("Muon_charge")->GetValue(mu);
-                            float mu_iso = chain.GetLeaf("Muon_miniPFRelIso_all")->GetValue(mu);
-                            float mu_tightId = chain.GetLeaf("Muon_tightId")->GetValue(mu);
-                            float mu_looseId = chain.GetLeaf("Muon_looseId")->GetValue(mu);
-
-                            if ( isTightLepton( 13, mu_pt, mu_eta, mu_iso, mu_tightId ) || isLooseLepton( 13, mu_pt, mu_eta, mu_iso, mu_looseId ) ){
-                                if ( deltaR( jet_eta, jet_phi, mu_eta, mu_phi ) < 0.4 ){
+                        for (uint iMu = 0; iMu < nMuon; iMu++ ){
+                            if ( isTightLepton( 13, mu.pt[iMu], mu.eta[iMu], mu.iso[iMu], mu.tightId[iMu] ) || isLooseLepton( 13, mu.pt[iMu], mu.eta[iMu], mu.iso[iMu], mu.looseId[iMu] ) ){
+                                if ( deltaR( jet_eta, jet_phi, mu.eta[iMu], mu.phi[iMu] ) < 0.4 ){
                                     isGood = 0;
                                 }else continue;
                             }else continue;
                         }
-                        for (uint el = 0; el < nElectron; el++ ){
-                            float el_pt = chain.GetLeaf("Electron_pt")->GetValue(el);
-                            float el_eta = chain.GetLeaf("Electron_eta")->GetValue(el);
-                            float el_phi = chain.GetLeaf("Electron_phi")->GetValue(el);
-                            float el_charge = chain.GetLeaf("Electron_charge")->GetValue(el);
-                            float el_iso = chain.GetLeaf("Electron_miniPFRelIso_all")->GetValue(el);
-                            float el_mva;
-                            if ( year == "2016" ){
-                                el_mva = chain.GetLeaf("Electron_mvaSpring16GP")->GetValue(el);
-                            }else{
-                                el_mva = chain.GetLeaf("Electron_mvaFall17V1noIso")->GetValue(el);
-                            }
-
-                            if ( ( isTightLepton( 11, el_pt, el_eta, el_iso, 0 ) && electronID( year, el_eta, el_pt, el_mva, "tight" ) ) || ( isLooseLepton( 11, el_pt, el_eta, el_iso, 0 ) && electronID( year, el_eta, el_pt, el_mva, "loose" ) ) ){
-                                if ( deltaR( jet_eta, jet_phi, el_eta, el_phi ) < 0.4 ){
+                        for (uint iEl = 0; iEl < nElectron; iEl++ ){
+                            if ( ( isTightLepton( 11, el.pt[iEl], el.eta[iEl], el.iso[iEl], 0 ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "tight" ) ) || ( isLooseLepton( 11, el.pt[iEl], el.eta[iEl], el.iso[iEl], 0 ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ) ){
+                                if ( deltaR( jet_eta, jet_phi, el.eta[iEl], el.phi[iEl] ) < 0.4 ){
                                     isGood = 0;
                                 }else continue;
                             }else continue;
@@ -240,64 +246,11 @@ void event_looper(){
                     }else continue;
                 }
 
+            }
 
-                if(nJets>1 && nBjets>=0){
-                    //loop to count tight/loose muons
-                    for( uint mu = 0; mu < nMuon; mu++ ){
-                        //cout << (*mu_pt)[mu] << endl;
-                        float mu_pt = chain.GetLeaf("Muon_pt")->GetValue(mu);
-                        float mu_eta = chain.GetLeaf("Muon_eta")->GetValue(mu);
-                        float mu_phi = chain.GetLeaf("Muon_phi")->GetValue(mu);
-                        float mu_charge = chain.GetLeaf("Muon_charge")->GetValue(mu);
-                        float mu_iso = chain.GetLeaf("Muon_miniPFRelIso_all")->GetValue(mu);
-                        float mu_tightId = chain.GetLeaf("Muon_tightId")->GetValue(mu);
-                        float mu_looseId = chain.GetLeaf("Muon_looseId")->GetValue(mu);
+            if ( nJets>1 && nBjets>=0 ){
 
-                        if ( isTightLepton( 13, mu_pt, mu_eta, mu_iso, mu_tightId ) ){
-                            nGoodLep += 1;
-                            muCharge_tight.push_back(mu_charge);
-                            if ( mt( MET, MET_phi, mu_pt, mu_phi ) < minMT_tight ){
-                                minMT_tight = mt( MET, MET_phi, mu_pt, mu_phi );
-                            }
-                        }else if ( isLooseLepton( 13, mu_pt, mu_eta, mu_iso, mu_looseId ) ){
-                            nFakeableLep += 1;
-                            muCharge_loose.push_back(mu_charge);
-                            if ( mt( MET, MET_phi, mu_pt, mu_phi ) < minMT_loose ){
-                                minMT_loose = mt( MET, MET_phi, mu_pt, mu_phi );
-                            }
-                        }else continue;
-                    }
-                    //loop to count tight/loose electrons
-                    for( uint el = 0; el < nElectron; el++ ){
-                        //cout << (*el_pt)[el] << endl;
-                        float el_pt = chain.GetLeaf("Electron_pt")->GetValue(el);
-                        float el_eta = chain.GetLeaf("Electron_eta")->GetValue(el);
-                        float el_phi = chain.GetLeaf("Electron_phi")->GetValue(el);
-                        float el_charge = chain.GetLeaf("Electron_charge")->GetValue(el);
-                        float el_iso = chain.GetLeaf("Electron_miniPFRelIso_all")->GetValue(el);
-                        float el_mva;
-                        if ( year == "2016" ){
-                            el_mva = chain.GetLeaf("Electron_mvaSpring16GP")->GetValue(el);
-                        }else{
-                            el_mva = chain.GetLeaf("Electron_mvaFall17V1noIso")->GetValue(el);
-                        }
 
-                        if ( isTightLepton( 11, el_pt, el_eta, el_iso, 0 ) && electronID( year, el_eta, el_pt, el_mva, "tight" ) ){
-                            nGoodLep += 1;
-                            elCharge_tight.push_back(el_charge);
-                            if ( mt( MET, MET_phi, el_pt, el_phi ) < minMT_tight ){
-                                minMT_tight = mt( MET, MET_phi, el_pt, el_phi );
-                            }
-                        }else if ( isLooseLepton( 11, el_pt, el_eta, el_iso, 0 ) && electronID( year, el_eta, el_pt, el_mva, "loose" ) ){
-                            nFakeableLep += 1;
-                            elCharge_loose.push_back(el_charge);
-                            if ( mt( MET, MET_phi, el_pt, el_phi ) < minMT_loose ){
-                                minMT_loose = mt( MET, MET_phi, el_pt, el_phi );
-                            }
-                        }else continue;
-                    }
-                }
-            
                 //organize into signature types
                 if ( nGoodLep == 3 ){
                     nTriLep += 1;
@@ -369,7 +322,10 @@ void event_looper(){
                     h_MET_dilepFO->Fill(MET);
                     h_minMT_dilepFO->Fill(minMT_loose);
                 }
+
+
             }
+
         }//event loop
 
         auto stop = high_resolution_clock::now();
@@ -380,7 +336,7 @@ void event_looper(){
         cout << "OS DiLep: " << nOSDiLep << endl;
         cout << "One Lep with FO: " << nOneLepFO << endl;
         cout << "FO DiLep: " << nFODiLep << endl;
-        cout << "total filtered: " << (nTriLep+nSSDiLep+nOSDiLep) << endl;
+        //cout << "total filtered: " << (nTriLep+nSSDiLep+nOSDiLep) << endl;
 
         cout << "processed " << nEvents << " events in " << duration.count() << " seconds!!" << endl;
 
