@@ -89,3 +89,40 @@ class Muon: public Lepton {//class muon inherits from class lepton
 
         }//end constructor
 };
+
+
+
+
+class Jet {//class muon inherits from class lepton
+    private:
+        vector<float> jet_pt;
+        vector<float> jet_eta;
+        vector<float> jet_phi;
+        vector<float> jet_btag_score;
+
+    public:
+        vector<float> pt;
+        vector<float> eta;
+        vector<float> phi;
+        vector<float> btag_score;
+
+        //constructor automatically gets and fills the necessary kinematic variables
+        Jet(TChain* &chain, int nJets, int year) {
+
+            for ( int j = 0; j < nJets; j++ ){
+                jet_pt.push_back( chain->GetLeaf("Jet_pt")->GetValue(j) );
+                jet_eta.push_back( chain->GetLeaf("Jet_eta")->GetValue(j) );
+                jet_phi.push_back( chain->GetLeaf("Jet_phi")->GetValue(j) );
+                jet_btag_score.push_back( chain->GetLeaf("Jet_btagDeepFlavB")->GetValue(j) );
+
+            }
+
+            pt = jet_pt;
+            eta = jet_eta;
+            phi = jet_phi;
+            btag_score = jet_btag_score;
+
+
+        }//end constructor
+};
+

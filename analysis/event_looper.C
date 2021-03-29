@@ -14,6 +14,7 @@
 #include <TPad.h>
 #include <THStack.h>
 #include <TLegend.h>
+#include <TFile.h>
 //#include <sampleClasses.h>
 #include "./helpers/fcnc_functions.h"
 #include "./helpers/sampleLoader.h"
@@ -27,66 +28,18 @@ void event_looper(){
     //global variables
     int year = 2018;
     string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/";
-    vector< string > sample_names = {  "DY",
-                                       "GluGlu",
-                                       "Top",
-                                       "W",
-                                       "Z",
-                                       "tHX",
-                                       "other",
+    vector< string > sample_names = {   "fakes",
+                                        "flips",
+                                        "rareSM",
+                                        "GluGlu",
+                                        "signal"
                                     };
 
-    auto h_nJet_trilep_stacked = new THStack("h_nJet_trilep_stacked","nJet_trilep");
-    auto h_nJet_SSdilep_stacked = new THStack("h_nJet_SSdilep_stacked","nJet_SSdilep");
-    auto h_nJet_OSdilep_stacked = new THStack("h_nJet_OSdilep_stacked","nJet_OSdilep");
-    auto h_nJet_onelepFO_stacked = new THStack("h_nJet_onelepFO_stacked","nJet_onelepFO");
-    auto h_nJet_dilepFO_stacked = new THStack("h_nJet_dilepFO_stacked","nJet_dilepFO");
-
-    auto h_nBJet_trilep_stacked = new THStack("h_nBJet_trilep_stacked","nBJet_trilep");
-    auto h_nBJet_SSdilep_stacked = new THStack("h_nBJet_SSdilep_stacked","nBJet_SSdilep");
-    auto h_nBJet_OSdilep_stacked = new THStack("h_nBJet_OSdilep_stacked","nBJet_OSdilep");
-    auto h_nBJet_onelepFO_stacked = new THStack("h_nBJet_onelepFO_stacked","nBJet_onelepFO");
-    auto h_nBJet_dilepFO_stacked = new THStack("h_nBJet_dilepFO_stacked","nBJet_dilepFO");
-
-    auto h_MET_trilep_stacked = new THStack("h_MET_trilep_stacked","MET_trilep");
-    auto h_MET_SSdilep_stacked = new THStack("h_MET_SSdilep_stacked","MET_SSdilep");
-    auto h_MET_OSdilep_stacked = new THStack("h_MET_OSdilep_stacked","MET_OSdilep");
-    auto h_MET_onelepFO_stacked = new THStack("h_MET_onelepFO_stacked","MET_onelepFO");
-    auto h_MET_dilepFO_stacked = new THStack("h_MET_dilepFO_stacked","MET_dilepFO");
-
-    auto h_minMT_trilep_stacked = new THStack("h_minMT_trilep_stacked","minMT_trilep");
-    auto h_minMT_SSdilep_stacked = new THStack("h_minMT_SSdilep_stacked","minMT_SSdilep");
-    auto h_minMT_OSdilep_stacked = new THStack("h_minMT_OSdilep_stacked","minMT_OSdilep");
-    auto h_minMT_onelepFO_stacked = new THStack("h_minMT_onelepFO_stacked","minMT_onelepFO");
-    auto h_minMT_dilepFO_stacked = new THStack("h_minMT_dilepFO_stacked","minMT_dilepFO");
-
-    auto leg_nJet_trilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_nJet_SSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_nJet_OSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_nJet_onelepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_nJet_dilepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
-
-    auto leg_nBJet_trilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_nBJet_SSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_nBJet_OSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_nBJet_onelepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_nBJet_dilepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
-
-    auto leg_MET_trilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_MET_SSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_MET_OSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_MET_onelepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_MET_dilepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
-
-    auto leg_minMT_trilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_minMT_SSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_minMT_OSdilep = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_minMT_onelepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
-    auto leg_minMT_dilepFO = new TLegend(0.7, 0.7, 0.89, 0.89);
+    auto outFile = new TFile("plots/outputHistos.root", "recreate");
 
     //Load samples
-    //for(uint btype = 0; btype < sample_names.size(); btype++){
-    for(uint btype = 0; btype < 2; btype++){ //for testing only!!!
+    for(uint btype = 0; btype < sample_names.size(); btype++){
+    //for(uint btype = 0; btype < 2; btype++){ //for testing only!!!
         TChain* chain = new TChain("Events");
         vector<string> samples = loadSamples ( year, sample_names[btype] );
         for ( uint s = 0; s < samples.size(); s++ ){
@@ -113,29 +66,29 @@ void event_looper(){
 
 
         //Define histograms
-        auto h_nJet_trilep = new TH1F(("h_nJet_trilep"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
-        auto h_nJet_SSdilep = new TH1F(("h_nJet_SSdilep"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
-        auto h_nJet_OSdilep = new TH1F(("h_nJet_OSdilep"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
-        auto h_nJet_onelepFO = new TH1F(("h_nJet_onelepFO"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
-        auto h_nJet_dilepFO = new TH1F(("h_nJet_dilepFO"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_trilep = new TH1F(("h_nJet_trilep_"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
+        auto h_nJet_SSdilep = new TH1F(("h_nJet_SSdilep_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_OSdilep = new TH1F(("h_nJet_OSdilep_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_onelepFO = new TH1F(("h_nJet_onelepFO_"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
+        auto h_nJet_dilepFO = new TH1F(("h_nJet_dilepFO_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
 
-        auto h_nBJet_trilep = new TH1F(("h_nBJet_trilep"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
-        auto h_nBJet_SSdilep = new TH1F(("h_nBJet_SSdilep"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
-        auto h_nBJet_OSdilep = new TH1F(("h_nBJet_OSdilep"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
-        auto h_nBJet_onelepFO = new TH1F(("h_nBJet_onelepFO"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
-        auto h_nBJet_dilepFO = new TH1F(("h_nBJet_dilepFO"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_trilep = new TH1F(("h_nBJet_trilep_"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_SSdilep = new TH1F(("h_nBJet_SSdilep_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_OSdilep = new TH1F(("h_nBJet_OSdilep_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_onelepFO = new TH1F(("h_nBJet_onelepFO_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_dilepFO = new TH1F(("h_nBJet_dilepFO_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
 
-        auto h_MET_trilep = new TH1F(("h_MET_trilep"+sample_names[btype]).c_str(),   "MET", 5, 0, 500);
-        auto h_MET_SSdilep = new TH1F(("h_MET_SSdilep"+sample_names[btype]).c_str(),  "MET", 5, 0, 500);
-        auto h_MET_OSdilep = new TH1F(("h_MET_OSdilep"+sample_names[btype]).c_str(),  "MET", 5, 0, 500);
-        auto h_MET_onelepFO = new TH1F(("h_MET_onelepFO"+sample_names[btype]).c_str(), "MET", 5, 0, 500);
-        auto h_MET_dilepFO = new TH1F(("h_MET_dilepFO"+sample_names[btype]).c_str(),  "MET", 5, 0, 500);
+        auto h_MET_trilep = new TH1F(("h_MET_trilep_"+sample_names[btype]).c_str(),   "MET", 5, 0, 500);
+        auto h_MET_SSdilep = new TH1F(("h_MET_SSdilep_"+sample_names[btype]).c_str(),  "MET", 5, 0, 500);
+        auto h_MET_OSdilep = new TH1F(("h_MET_OSdilep_"+sample_names[btype]).c_str(),  "MET", 5, 0, 500);
+        auto h_MET_onelepFO = new TH1F(("h_MET_onelepFO_"+sample_names[btype]).c_str(), "MET", 5, 0, 500);
+        auto h_MET_dilepFO = new TH1F(("h_MET_dilepFO_"+sample_names[btype]).c_str(),  "MET", 5, 0, 500);
 
-        auto h_minMT_trilep = new TH1F(("h_minMT_trilep"+sample_names[btype]).c_str(),   "minMT", 5, 0, 500);
-        auto h_minMT_SSdilep = new TH1F(("h_minMT_SSdilep"+sample_names[btype]).c_str(),  "minMT", 5, 0, 500);
-        auto h_minMT_OSdilep = new TH1F(("h_minMT_OSdilep"+sample_names[btype]).c_str(),  "minMT", 5, 0, 500);
-        auto h_minMT_onelepFO = new TH1F(("h_minMT_onelepFO"+sample_names[btype]).c_str(), "minMT", 5, 0, 500);
-        auto h_minMT_dilepFO = new TH1F(("h_minMT_dilepFO"+sample_names[btype]).c_str(),  "minMT", 5, 0, 500);
+        auto h_minMT_trilep = new TH1F(("h_minMT_trilep_"+sample_names[btype]).c_str(),   "minMT", 5, 0, 500);
+        auto h_minMT_SSdilep = new TH1F(("h_minMT_SSdilep_"+sample_names[btype]).c_str(),  "minMT", 5, 0, 500);
+        auto h_minMT_OSdilep = new TH1F(("h_minMT_OSdilep_"+sample_names[btype]).c_str(),  "minMT", 5, 0, 500);
+        auto h_minMT_onelepFO = new TH1F(("h_minMT_onelepFO_"+sample_names[btype]).c_str(), "minMT", 5, 0, 500);
+        auto h_minMT_dilepFO = new TH1F(("h_minMT_dilepFO_"+sample_names[btype]).c_str(),  "minMT", 5, 0, 500);
 
         cout << "defined histograms!" << endl;
 
@@ -149,7 +102,7 @@ void event_looper(){
 
         //Main for loop
         //for ( int counter = 0; counter < nEvents; counter++ ){
-        for ( int counter = 0; counter < 1000000; counter++ ){ //for testing only!!
+        for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
             //cout << "counter " << counter << endl;
             if ( counter%100000==0 ){
@@ -175,6 +128,7 @@ void event_looper(){
             //Define physics objects
             Muon mu(chain, nMuon, year);
             Electron el(chain, nElectron, year);
+            Jet jet(chain, nJet, year);
 
             //loop to count tight/loose muons
             for( uint iMu = 0; iMu < nMuon; iMu++ ){
@@ -213,25 +167,20 @@ void event_looper(){
                 continue;
             }else{
                 //loop to count good jets and b-tagged jets
-                for ( uint jet = 0; jet < nJet; jet++ ){
-                    float jet_pt = chain->GetLeaf("Jet_pt")->GetValue(jet);
-                    float jet_eta = chain->GetLeaf("Jet_eta")->GetValue(jet);
-                    float jet_phi = chain->GetLeaf("Jet_phi")->GetValue(jet);
-                    float btag_score = chain->GetLeaf("Jet_btagDeepFlavB")->GetValue(jet);
-
-                    if ( isGoodJet(jet_pt, jet_eta) ){
+                for ( uint iJet = 0; iJet < nJet; iJet++ ){
+                    if ( isGoodJet(jet.pt[iJet], jet.eta[iJet]) ){
                         //next two for loops to clean jets
                         bool isGood = 1;
                         for (uint iMu = 0; iMu < nMuon; iMu++ ){
                             if ( isTightLepton( 13, mu.pt[iMu], mu.eta[iMu], mu.iso[iMu], mu.tightId[iMu] ) || isLooseLepton( 13, mu.pt[iMu], mu.eta[iMu], mu.iso[iMu], mu.looseId[iMu] ) ){
-                                if ( deltaR( jet_eta, jet_phi, mu.eta[iMu], mu.phi[iMu] ) < 0.4 ){
+                                if ( deltaR( jet.eta[iJet], jet.phi[iJet], mu.eta[iMu], mu.phi[iMu] ) < 0.4 ){
                                     isGood = 0;
                                 }else continue;
                             }else continue;
                         }
                         for (uint iEl = 0; iEl < nElectron; iEl++ ){
                             if ( ( isTightLepton( 11, el.pt[iEl], el.eta[iEl], el.iso[iEl], 0 ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "tight" ) ) || ( isLooseLepton( 11, el.pt[iEl], el.eta[iEl], el.iso[iEl], 0 ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ) ){
-                                if ( deltaR( jet_eta, jet_phi, el.eta[iEl], el.phi[iEl] ) < 0.4 ){
+                                if ( deltaR( jet.eta[iJet], jet.phi[iJet], el.eta[iEl], el.phi[iEl] ) < 0.4 ){
                                     isGood = 0;
                                 }else continue;
                             }else continue;
@@ -239,7 +188,7 @@ void event_looper(){
 
                         if ( isGood == 1 ){
                             nJets += 1;
-                            if ( btag_score > 0.2770 ){
+                            if ( jet.btag_score[iJet] > 0.2770 ){
                                 nBjets += 1;
                             }else continue;
                         }else continue;
@@ -340,53 +289,31 @@ void event_looper(){
 
         cout << "processed " << nEvents << " events in " << duration.count() << " seconds!!" << endl;
 
-        h_nJet_trilep_stacked->Add(h_nJet_trilep);
-        h_nJet_SSdilep_stacked->Add(h_nJet_SSdilep);
-        h_nJet_OSdilep_stacked->Add(h_nJet_OSdilep);
-        h_nJet_onelepFO_stacked->Add(h_nJet_onelepFO);
-        h_nJet_dilepFO_stacked->Add(h_nJet_dilepFO);
 
-        h_nBJet_trilep_stacked->Add(h_nBJet_trilep);
-        h_nBJet_SSdilep_stacked->Add(h_nBJet_SSdilep);
-        h_nBJet_OSdilep_stacked->Add(h_nBJet_OSdilep);
-        h_nBJet_onelepFO_stacked->Add(h_nBJet_onelepFO);
-        h_nBJet_dilepFO_stacked->Add(h_nBJet_dilepFO);
+        h_nJet_trilep->Write();
+        h_nJet_SSdilep->Write();
+        h_nJet_OSdilep->Write();
+        h_nJet_onelepFO->Write();
+        h_nJet_dilepFO->Write();
 
-        h_MET_trilep_stacked->Add(h_MET_trilep);
-        h_MET_SSdilep_stacked->Add(h_MET_SSdilep);
-        h_MET_OSdilep_stacked->Add(h_MET_OSdilep);
-        h_MET_onelepFO_stacked->Add(h_MET_onelepFO);
-        h_MET_dilepFO_stacked->Add(h_MET_dilepFO);
+        h_nBJet_trilep->Write();
+        h_nBJet_SSdilep->Write();
+        h_nBJet_OSdilep->Write();
+        h_nBJet_onelepFO->Write();
+        h_nBJet_dilepFO->Write();
 
-        h_minMT_trilep_stacked->Add(h_minMT_trilep);
-        h_minMT_SSdilep_stacked->Add(h_minMT_SSdilep);
-        h_minMT_OSdilep_stacked->Add(h_minMT_OSdilep);
-        h_minMT_onelepFO_stacked->Add(h_minMT_onelepFO);
-        h_minMT_dilepFO_stacked->Add(h_minMT_dilepFO);
+        h_MET_trilep->Write();
+        h_MET_SSdilep->Write();
+        h_MET_OSdilep->Write();
+        h_MET_onelepFO->Write();
+        h_MET_dilepFO->Write();
 
-        leg_nJet_trilep->AddEntry(h_nJet_trilep,sample_names[btype].c_str(), "f");
-        leg_nJet_SSdilep->AddEntry(h_nJet_SSdilep,sample_names[btype].c_str(), "f");
-        leg_nJet_OSdilep->AddEntry(h_nJet_OSdilep,sample_names[btype].c_str(), "f");
-        leg_nJet_onelepFO->AddEntry(h_nJet_onelepFO,sample_names[btype].c_str(), "f");
-        leg_nJet_dilepFO->AddEntry(h_nJet_dilepFO,sample_names[btype].c_str(), "f");
+        h_minMT_trilep->Write();
+        h_minMT_SSdilep->Write();
+        h_minMT_OSdilep->Write();
+        h_minMT_onelepFO->Write();
+        h_minMT_dilepFO->Write();
 
-        leg_nBJet_trilep->AddEntry(h_nBJet_trilep,sample_names[btype].c_str(), "f");
-        leg_nBJet_SSdilep->AddEntry(h_nBJet_SSdilep,sample_names[btype].c_str(), "f");
-        leg_nBJet_OSdilep->AddEntry(h_nBJet_OSdilep,sample_names[btype].c_str(), "f");
-        leg_nBJet_onelepFO->AddEntry(h_nBJet_onelepFO,sample_names[btype].c_str(), "f");
-        leg_nBJet_dilepFO->AddEntry(h_nBJet_dilepFO,sample_names[btype].c_str(), "f");
-
-        leg_MET_trilep->AddEntry(h_MET_trilep,sample_names[btype].c_str(), "f");
-        leg_MET_SSdilep->AddEntry(h_MET_SSdilep,sample_names[btype].c_str(), "f");
-        leg_MET_OSdilep->AddEntry(h_MET_OSdilep,sample_names[btype].c_str(), "f");
-        leg_MET_onelepFO->AddEntry(h_MET_onelepFO,sample_names[btype].c_str(), "f");
-        leg_MET_dilepFO->AddEntry(h_MET_dilepFO,sample_names[btype].c_str(), "f");
-
-        leg_minMT_trilep->AddEntry(h_minMT_trilep,sample_names[btype].c_str(), "f");
-        leg_minMT_SSdilep->AddEntry(h_minMT_SSdilep,sample_names[btype].c_str(), "f");
-        leg_minMT_OSdilep->AddEntry(h_minMT_OSdilep,sample_names[btype].c_str(), "f");
-        leg_minMT_onelepFO->AddEntry(h_minMT_onelepFO,sample_names[btype].c_str(), "f");
-        leg_minMT_dilepFO->AddEntry(h_minMT_dilepFO,sample_names[btype].c_str(), "f");
     }
 
     //write histograms
@@ -418,5 +345,7 @@ void event_looper(){
     saveFig(h_minMT_dilepFO_stacked, leg_minMT_dilepFO, "h_minMT_dilepFO", outdir);
 */
     cout << "saved histograms!" << endl;
+
+    outFile->Close();
 
 }
