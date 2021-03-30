@@ -29,7 +29,7 @@ bool isTightLepton( float pdgid, float pt, float eta, float miniIso_all, bool ti
     if ( abs( eta ) < 2.4 ){
         if ( abs( pdgid ) == 11 && pt > 25 && miniIso_all < 0.12 ){
             isTight = 1;
-        }else if( abs( pdgid ) ==13 && pt > 20 && tight_id == 1 and miniIso_all < 0.16 ){
+        }else if( abs( pdgid ) ==13 && pt > 20 && miniIso_all < 0.16 ){
             isTight = 1;
         }else {
             isTight = 0;
@@ -45,9 +45,9 @@ bool isLooseLepton( float pdgid, float pt, float eta, float miniIso_all, bool lo
     
     bool isLoose = 0;
     if ( abs( eta ) <2.4 ){
-        if ( pdgid==11 and pt>25 and miniIso_all > 0.12 and miniIso_all < 0.4 ){
+        if ( pdgid==11 && pt>25 && miniIso_all > 0.12 && miniIso_all < 0.4 ){
             isLoose = 1;
-        }else if ( pdgid==13 and pt>20 and loose_id == 1 and miniIso_all > 0.12 and miniIso_all < 0.4 ){
+        }else if ( pdgid==13 && pt>20 && miniIso_all > 0.16 && miniIso_all < 0.4 ){
             isLoose = 1;
         }else {
             isLoose = 0;

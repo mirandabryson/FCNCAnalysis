@@ -27,7 +27,7 @@ using namespace std::chrono;
 void event_looper(){
     //global variables
     int year = 2018;
-    string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v1/2018/";
+    string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v2/2018/";
     vector< string > sample_names = {   "fakes",
                                         "flips",
                                         "rareSM",
@@ -78,17 +78,17 @@ void event_looper(){
         auto h_nBJet_onelepFO = new TH1F(("h_nBJet_onelepFO_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
         auto h_nBJet_dilepFO = new TH1F(("h_nBJet_dilepFO_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
 
-        auto h_MET_trilep = new TH1F(("h_MET_trilep_"+sample_names[btype]).c_str(),   "MET", 5, 0, 500);
-        auto h_MET_SSdilep = new TH1F(("h_MET_SSdilep_"+sample_names[btype]).c_str(),  "MET", 5, 0, 500);
-        auto h_MET_OSdilep = new TH1F(("h_MET_OSdilep_"+sample_names[btype]).c_str(),  "MET", 5, 0, 500);
-        auto h_MET_onelepFO = new TH1F(("h_MET_onelepFO_"+sample_names[btype]).c_str(), "MET", 5, 0, 500);
-        auto h_MET_dilepFO = new TH1F(("h_MET_dilepFO_"+sample_names[btype]).c_str(),  "MET", 5, 0, 500);
+        auto h_MET_trilep = new TH1F(("h_MET_trilep_"+sample_names[btype]).c_str(),   "MET", 50, 0, 500);
+        auto h_MET_SSdilep = new TH1F(("h_MET_SSdilep_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_OSdilep = new TH1F(("h_MET_OSdilep_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_onelepFO = new TH1F(("h_MET_onelepFO_"+sample_names[btype]).c_str(), "MET", 50, 0, 500);
+        auto h_MET_dilepFO = new TH1F(("h_MET_dilepFO_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
 
-        auto h_minMT_trilep = new TH1F(("h_minMT_trilep_"+sample_names[btype]).c_str(),   "minMT", 5, 0, 500);
-        auto h_minMT_SSdilep = new TH1F(("h_minMT_SSdilep_"+sample_names[btype]).c_str(),  "minMT", 5, 0, 500);
-        auto h_minMT_OSdilep = new TH1F(("h_minMT_OSdilep_"+sample_names[btype]).c_str(),  "minMT", 5, 0, 500);
-        auto h_minMT_onelepFO = new TH1F(("h_minMT_onelepFO_"+sample_names[btype]).c_str(), "minMT", 5, 0, 500);
-        auto h_minMT_dilepFO = new TH1F(("h_minMT_dilepFO_"+sample_names[btype]).c_str(),  "minMT", 5, 0, 500);
+        auto h_minMT_trilep = new TH1F(("h_minMT_trilep_"+sample_names[btype]).c_str(),   "minMT", 50, 0, 500);
+        auto h_minMT_SSdilep = new TH1F(("h_minMT_SSdilep_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_OSdilep = new TH1F(("h_minMT_OSdilep_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_onelepFO = new TH1F(("h_minMT_onelepFO_"+sample_names[btype]).c_str(), "minMT", 50, 0, 500);
+        auto h_minMT_dilepFO = new TH1F(("h_minMT_dilepFO_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
 
         cout << "defined histograms!" << endl;
 
@@ -101,8 +101,8 @@ void event_looper(){
         int nFODiLep  = 0;
 
         //Main for loop
-        //for ( int counter = 0; counter < nEvents; counter++ ){
-        for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
+        for ( int counter = 0; counter < nEvents; counter++ ){
+        //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
             //cout << "counter " << counter << endl;
             if ( counter%100000==0 ){
@@ -317,35 +317,6 @@ void event_looper(){
     }
 
     //write histograms
-    //string outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots/";
-    string outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots_testing/"; //for testing only!!
-    
-    /*saveFig(h_nJet_trilep_stacked, leg_nJet_trilep, "h_nJet_trilep", outdir);
-    saveFig(h_nJet_SSdilep_stacked, leg_nJet_SSdilep, "h_nJet_SSdilep", outdir);
-    saveFig(h_nJet_OSdilep_stacked, leg_nJet_OSdilep, "h_nJet_OSdilep", outdir);
-    saveFig(h_nJet_onelepFO_stacked, leg_nJet_onelepFO, "h_nJet_onelepFO", outdir);
-    saveFig(h_nJet_dilepFO_stacked, leg_nJet_dilepFO, "h_nJet_dilepFO", outdir);
-
-    saveFig(h_nBJet_trilep_stacked, leg_nBJet_trilep, "h_nBJet_trilep", outdir);
-    saveFig(h_nBJet_SSdilep_stacked, leg_nBJet_SSdilep, "h_nBJet_SSdilep", outdir);
-    saveFig(h_nBJet_OSdilep_stacked, leg_nBJet_OSdilep, "h_nBJet_OSdilep", outdir);
-    saveFig(h_nBJet_onelepFO_stacked, leg_nBJet_onelepFO, "h_nBJet_onelepFO", outdir);
-    saveFig(h_nBJet_dilepFO_stacked, leg_nBJet_dilepFO, "h_nBJet_dilepFO", outdir);
-    
-    saveFig(h_MET_trilep_stacked, leg_MET_trilep, "h_MET_trilep", outdir);
-    saveFig(h_MET_SSdilep_stacked, leg_MET_SSdilep, "h_MET_SSdilep", outdir);
-    saveFig(h_MET_OSdilep_stacked, leg_MET_OSdilep, "h_MET_OSdilep", outdir);
-    saveFig(h_MET_onelepFO_stacked, leg_MET_onelepFO, "h_MET_onelepFO", outdir);
-    saveFig(h_MET_dilepFO_stacked, leg_MET_dilepFO, "h_MET_dilepFO", outdir);
-
-    saveFig(h_minMT_trilep_stacked, leg_minMT_trilep, "h_minMT_trilep", outdir);
-    saveFig(h_minMT_SSdilep_stacked, leg_minMT_SSdilep, "h_minMT_SSdilep", outdir);
-    saveFig(h_minMT_OSdilep_stacked, leg_minMT_OSdilep, "h_minMT_OSdilep", outdir);
-    saveFig(h_minMT_onelepFO_stacked, leg_minMT_onelepFO, "h_minMT_onelepFO", outdir);
-    saveFig(h_minMT_dilepFO_stacked, leg_minMT_dilepFO, "h_minMT_dilepFO", outdir);
-*/
-    cout << "saved histograms!" << endl;
-
     outFile->Close();
 
 }
