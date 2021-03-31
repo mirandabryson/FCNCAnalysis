@@ -8,6 +8,7 @@
 #include <cstdlib>
 #include <chrono>
 #include <TChain.h>
+#include <TChainElement.h>
 #include <TLeaf.h>
 #include <TH1F.h>
 #include <TCanvas.h>
@@ -19,6 +20,7 @@
 #include "./helpers/fcnc_functions.h"
 #include "./helpers/sampleLoader.h"
 #include "./helpers/objectClasses.h"
+#include "./helpers/weights.h"
 
 
 using namespace std;
@@ -27,11 +29,19 @@ using namespace std::chrono;
 void event_looper(){
     //global variables
     int year = 2018;
-    string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v2/2018/";
-    vector< string > sample_names = {   "fakes",
+    string babyVersion = "fcnc_v2/";
+    string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/"+babyVersion;
+    /*vector< string > sample_names = {   "fakes",
                                         "flips",
                                         "rareSM",
                                         "GluGlu",
+                                        "signal"
+                                    };*/
+    vector< string > sample_names = {   "ttjets",
+                                        "multiboson",
+                                        "ttX",
+                                        "DY",
+                                        "rareSM",
                                         "signal"
                                     };
 
@@ -57,12 +67,14 @@ void event_looper(){
         uint nJet = 0;
         float MET = 0;
         float MET_phi = 0;
+        float genWeight = 0;
 
         chain->SetBranchAddress("nMuon", &nMuon);
         chain->SetBranchAddress("nElectron", &nElectron);
         chain->SetBranchAddress("nJet", &nJet);
         chain->SetBranchAddress("MET_pt", &MET);
         chain->SetBranchAddress("MET_phi", &MET_phi);
+        chain->SetBranchAddress("Generator_weight", &genWeight);
 
 
         //Define histograms
@@ -104,6 +116,7 @@ void event_looper(){
         for ( int counter = 0; counter < nEvents; counter++ ){
         //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
+        //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
             //cout << "counter " << counter << endl;
             if ( counter%100000==0 ){
                 cout << "event " << counter << endl;
@@ -124,6 +137,17 @@ void event_looper(){
             
             //Get individual event
             Long64_t event = chain->GetEntry(counter);
+
+            //Find the exact sample name
+            TFile* sFile(chain->GetFile());
+            string sName = sFile->GetName();
+            /*if ( counter%1000==0 ){
+                cout << sName << endl;
+            }*/
+            //get event weight based on sample!
+            double weight = getEventWeight( sName, inputDir, babyVersion );
+            weight = weight*genWeight;
+            //cout << weight << endl;
 
             //Define physics objects
             Muon mu(chain, nMuon, year);
@@ -203,72 +227,72 @@ void event_looper(){
                 //organize into signature types
                 if ( nGoodLep == 3 ){
                     nTriLep += 1;
-                    h_nJet_trilep->Fill(nJets);
-                    h_nBJet_trilep->Fill(nBjets);
-                    h_MET_trilep->Fill(MET);
-                    h_minMT_trilep->Fill(minMT_tight);
+                    h_nJet_trilep->Fill(nJets, weight);
+                    h_nBJet_trilep->Fill(nBjets, weight);
+                    h_MET_trilep->Fill(MET, weight);
+                    h_minMT_trilep->Fill(minMT_tight, weight);
                 }
                 if ( nGoodLep == 2 ){
                     if (muCharge_tight.size() == 2){
                         if (muCharge_tight[0]*muCharge_tight[1]>0){
                             nSSDiLep += 1;
-                            h_nJet_SSdilep->Fill(nJets);
-                            h_nBJet_SSdilep->Fill(nBjets);
-                            h_MET_SSdilep->Fill(MET);
-                            h_minMT_SSdilep->Fill(minMT_tight);
+                            h_nJet_SSdilep->Fill(nJets, weight);
+                            h_nBJet_SSdilep->Fill(nBjets, weight);
+                            h_MET_SSdilep->Fill(MET, weight);
+                            h_minMT_SSdilep->Fill(minMT_tight, weight);
                         }else{ 
                             nOSDiLep += 1;
-                            h_nJet_OSdilep->Fill(nJets);
-                            h_nBJet_OSdilep->Fill(nBjets);
-                            h_MET_OSdilep->Fill(MET);
-                            h_minMT_OSdilep->Fill(minMT_tight);
+                            h_nJet_OSdilep->Fill(nJets, weight);
+                            h_nBJet_OSdilep->Fill(nBjets, weight);
+                            h_MET_OSdilep->Fill(MET, weight);
+                            h_minMT_OSdilep->Fill(minMT_tight, weight);
                         }
                     }else if (elCharge_tight.size() == 2) {
                         if (elCharge_tight[0]*elCharge_tight[1]>0){
                             nSSDiLep += 1;
-                            h_nJet_SSdilep->Fill(nJets);
-                            h_nBJet_SSdilep->Fill(nBjets);
-                            h_MET_SSdilep->Fill(MET);
-                            h_minMT_SSdilep->Fill(minMT_tight);
+                            h_nJet_SSdilep->Fill(nJets, weight);
+                            h_nBJet_SSdilep->Fill(nBjets, weight);
+                            h_MET_SSdilep->Fill(MET, weight);
+                            h_minMT_SSdilep->Fill(minMT_tight, weight);
                         }else{
                             nOSDiLep += 1;
-                            h_nJet_OSdilep->Fill(nJets);
-                            h_nBJet_OSdilep->Fill(nBjets);
-                            h_MET_OSdilep->Fill(MET);
-                            h_minMT_OSdilep->Fill(minMT_tight);
+                            h_nJet_OSdilep->Fill(nJets, weight);
+                            h_nBJet_OSdilep->Fill(nBjets, weight);
+                            h_MET_OSdilep->Fill(MET, weight);
+                            h_minMT_OSdilep->Fill(minMT_tight, weight);
                         }
                     }else if (muCharge_tight.size() == 1) {
                         if (muCharge_tight[0]*elCharge_tight[0]>0){
                             nSSDiLep += 1;
-                            h_nJet_SSdilep->Fill(nJets);
-                            h_nBJet_SSdilep->Fill(nBjets);
-                            h_MET_SSdilep->Fill(MET);
-                            h_minMT_SSdilep->Fill(minMT_tight);
+                            h_nJet_SSdilep->Fill(nJets, weight);
+                            h_nBJet_SSdilep->Fill(nBjets, weight);
+                            h_MET_SSdilep->Fill(MET, weight);
+                            h_minMT_SSdilep->Fill(minMT_tight, weight);
                         }else{
                             nOSDiLep += 1;
-                            h_nJet_OSdilep->Fill(nJets);
-                            h_nBJet_OSdilep->Fill(nBjets);
-                            h_MET_OSdilep->Fill(MET);
-                            h_minMT_OSdilep->Fill(minMT_tight);
+                            h_nJet_OSdilep->Fill(nJets, weight);
+                            h_nBJet_OSdilep->Fill(nBjets, weight);
+                            h_MET_OSdilep->Fill(MET, weight);
+                            h_minMT_OSdilep->Fill(minMT_tight, weight);
                         }
                     }
                 }//if nGoodLep == 2
                 if (nGoodLep == 1 and nFakeableLep == 1){
                     nOneLepFO += 1;
-                    h_nJet_onelepFO->Fill(nJets);
-                    h_nBJet_onelepFO->Fill(nBjets);
-                    h_MET_onelepFO->Fill(MET);
+                    h_nJet_onelepFO->Fill(nJets, weight);
+                    h_nBJet_onelepFO->Fill(nBjets, weight);
+                    h_MET_onelepFO->Fill(MET, weight);
                     if (minMT_tight < minMT_loose){
-                        h_minMT_onelepFO->Fill(minMT_tight);
+                        h_minMT_onelepFO->Fill(minMT_tight, weight);
                     } else if (minMT_loose < minMT_tight){
                         h_minMT_onelepFO->Fill(minMT_loose);
                     }
                 }
                 if (nFakeableLep == 2){
                     nFODiLep += 1;
-                    h_nJet_dilepFO->Fill(nJets);
-                    h_nBJet_dilepFO->Fill(nBjets);
-                    h_MET_dilepFO->Fill(MET);
+                    h_nJet_dilepFO->Fill(nJets, weight);
+                    h_nBJet_dilepFO->Fill(nBjets, weight);
+                    h_MET_dilepFO->Fill(MET, weight);
                     h_minMT_dilepFO->Fill(minMT_loose);
                 }
 

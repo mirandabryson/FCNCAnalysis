@@ -24,6 +24,7 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
 
     counter = 0
     for h, c, l in zip(hist, histColors, legendNames):
+        h.SetLineColor(c)
         h.SetFillColor(c)
         h_stack.Add(h)
         legend.AddEntry(h, l)
@@ -33,10 +34,11 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
         if counter == 0:
             h.Draw()
         else:
-            h.Draw("same")"""
-        counter += 1
+            h.Draw("same")
+        legend.AddEntry(h, l)
+        counter += 1"""
     
-    h_stack.Draw()
+    h_stack.Draw("hist")
     legend.Draw()
 
 
@@ -44,7 +46,7 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
     can.SaveAs(outdir+hist_name+".png")
 
 # main loop
-processTypes = ["fakes",
+'''processTypes = ["fakes",
                 "flips",
                 "rareSM",
                 "GluGlu",
@@ -55,6 +57,20 @@ processColors = [ROOT.kRed,
                  ROOT.kOrange+7,
                  ROOT.kPink+7,
                  ROOT.kGreen+2
+                ]'''
+processTypes = ["signal",
+                "rareSM",
+                "DY",
+                "ttX",
+                "multiboson",
+                "ttjets"
+                ]
+processColors = [ROOT.kGreen+2,
+                 ROOT.kPink+7,
+                 ROOT.kOrange+7,
+                 ROOT.kViolet-5,
+                 ROOT.kBlue,
+                 ROOT.kRed
                 ]
 
 nJet_trilep = []
