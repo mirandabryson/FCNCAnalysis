@@ -29,6 +29,7 @@ using namespace std::chrono;
 void event_looper(){
     //global variables
     int year = 2018;
+    double lumi = 137;
     string babyVersion = "fcnc_v2/";
     string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/"+babyVersion;
     /*vector< string > sample_names = {   "fakes",
@@ -39,10 +40,12 @@ void event_looper(){
                                     };*/
     vector< string > sample_names = {   "ttjets",
                                         "multiboson",
+                                        "wjets",
                                         "ttX",
                                         "DY",
                                         "rareSM",
-                                        "signal"
+                                        "signal_hut",
+                                        "signal_hct"
                                     };
 
     auto outFile = new TFile("plots/outputHistos.root", "recreate");
@@ -146,8 +149,12 @@ void event_looper(){
             }*/
             //get event weight based on sample!
             double weight = getEventWeight( sName, inputDir, babyVersion );
-            weight = weight*genWeight;
-            //cout << weight << endl;
+            /*cout << weight << endl;
+            cout << genWeight << endl;
+            cout << lumi << endl;*/
+            weight = (weight*genWeight*lumi)/(abs(genWeight));
+            /*cout << weight << endl;
+            cout << "***************" << endl;*/
 
             //Define physics objects
             Muon mu(chain, nMuon, year);

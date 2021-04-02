@@ -7,6 +7,10 @@ import sys
 # Load histograms
 filename = sys.argv[-1]
 inFile = ROOT.TFile.Open(filename)
+#backgroundFile = sys.argv[-2]
+#signalFile = sys.argv[-1]
+#bFile = ROOT.TFile.Open(backgroundFile)
+#sFile = ROOT.TFile.Open(signalFile)
 print("loaded files")
 
 # useful functions   
@@ -20,25 +24,76 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
     pad1.SetLogy()
 
     h_stack = ROOT.THStack( "h_stack", hist_name )
+    h_signal_hut = ROOT.TH1F()
+    h_signal_hct = ROOT.TH1F()
     legend = ROOT.TLegend( 0.7, 0.7, 0.89, 0.89 )
 
     counter = 0
+    signalYMin = 0
+    signalYMax = 0
+    backgrYMin = 0
+    backgrYMax = 0
+
+    signalXMin = 0
+    signalXMax = 0
+    backgrXMin = 0
+    backgrXMax = 0
+
     for h, c, l in zip(hist, histColors, legendNames):
-        h.SetLineColor(c)
-        h.SetFillColor(c)
-        h_stack.Add(h)
-        legend.AddEntry(h, l)
+        if l == "signal_hut":
+            h.SetLineColor(c)
+            h_signal_hut = h.Clone()
+            #h_signal_hut.Scale(0.30954)
+            h_signal_hut.SetStats(0)
+            h_signal_hut.SetLineWidth(2)
+            legend.AddEntry(h_signal_hut, l)
+            signalYMax = h_signal_hut.GetMaximum()
+            signalYMin = h_signal_hut.GetMinimum()
+            signalXMax = h_signal_hut.GetXaxis().GetXmax()
+            signalXMin = h_signal_hut.GetXaxis().GetXmin()
+            #print(signalYMax,signalYMin,signalXMax,signalXMin)
+        
+        elif l == "signal_hct":
+            h.SetLineColor(c)
+            h_signal_hct = h.Clone()
+            #h_signal_hct.Scale(0.30954)
+            h_signal_hct.SetStats(0)
+            h_signal_hct.SetLineWidth(2)
+            legend.AddEntry(h_signal_hct, l)
+
+        else:
+            h.SetLineColor(ROOT.kBlack)
+            h.SetFillColor(c)
+            h_stack.Add(h)
+            legend.AddEntry(h, l)
         
         """h.SetLineColor(c)
         h.SetLineWidth(2)
         if counter == 0:
-            h.Draw()
+            h.DrawNormalized()
         else:
-            h.Draw("same")
+            h.DrawNormalized("same")
         legend.AddEntry(h, l)
         counter += 1"""
     
-    h_stack.Draw("hist")
+    backgrYMax = h_stack.GetMaximum()
+    #print(backgrYMax)
+    if backgrYMax>signalYMax:
+        h_stack.Draw("hist")
+        h_signal_hut.Draw("hist same")
+        h_signal_hct.Draw("hist same")
+    else:
+        h_signal_hut.Draw("hist")
+        #h_signal_hct.Draw("hist")
+        h_stack.Draw("hist same")
+        h_signal_hut.Draw("hist same")
+        h_signal_hct.Draw("hist same")
+        
+    #pad1.GetRangeAxis()
+    #print(pad1.GetRangeAxis())
+
+    #h_stack.Draw("hist")
+    #h_signal.Draw("hist same")
     legend.Draw()
 
 
@@ -58,7 +113,8 @@ processColors = [ROOT.kRed,
                  ROOT.kPink+7,
                  ROOT.kGreen+2
                 ]'''
-processTypes = ["signal",
+processTypes = ["signal_hut",
+                "signal_hct",
                 "rareSM",
                 "DY",
                 "ttX",
@@ -66,6 +122,7 @@ processTypes = ["signal",
                 "ttjets"
                 ]
 processColors = [ROOT.kGreen+2,
+                 ROOT.kGreen+3,
                  ROOT.kPink+7,
                  ROOT.kOrange+7,
                  ROOT.kViolet-5,
@@ -123,7 +180,6 @@ for p in processTypes:
     h_minMT_onelepFO = ROOT.TH1D("h_minMT_onelepFO", "minMT", 50, 0, 500)
     h_minMT_dilepFO  = ROOT.TH1D("h_minMT_dilepFO",  "minMT", 50, 0, 500)
 
-
     h_nJet_trilep   = inFile.Get("h_nJet_trilep"+"_"+p)
     h_nJet_SSdilep  = inFile.Get("h_nJet_SSdilep"+"_"+p)
     h_nJet_OSdilep  = inFile.Get("h_nJet_OSdilep"+"_"+p)
@@ -147,6 +203,7 @@ for p in processTypes:
     h_minMT_OSdilep  = inFile.Get("h_minMT_OSdilep"+"_"+p)
     h_minMT_onelepFO = inFile.Get("h_minMT_onelepFO"+"_"+p)
     h_minMT_dilepFO  = inFile.Get("h_minMT_dilepFO"+"_"+p)
+
 
 
     nJet_trilep.append(h_nJet_trilep)
