@@ -1,3 +1,4 @@
+
 import ROOT
 import time
 import numpy as np
@@ -116,6 +117,7 @@ processColors = [ROOT.kRed,
 processTypes = ["signal_hut",
                 "signal_hct",
                 "rareSM",
+                "wjets",
                 "DY",
                 "ttX",
                 "multiboson",
@@ -124,10 +126,11 @@ processTypes = ["signal_hut",
 processColors = [ROOT.kGreen+2,
                  ROOT.kGreen+3,
                  ROOT.kPink+7,
+                 ROOT.kTeal-5,
                  ROOT.kOrange+7,
                  ROOT.kViolet-5,
-                 ROOT.kBlue,
-                 ROOT.kRed
+                 ROOT.kRed,
+                 ROOT.kBlue
                 ]
 
 nJet_trilep = []

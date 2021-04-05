@@ -32,13 +32,13 @@ void event_looper(){
     double lumi = 137;
     string babyVersion = "fcnc_v2/";
     string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/"+babyVersion;
-    /*vector< string > sample_names = {   "fakes",
+    vector< string > sample_names = {   "fakes",
                                         "flips",
-                                        "rareSM",
-                                        "GluGlu",
-                                        "signal"
-                                    };*/
-    vector< string > sample_names = {   "ttjets",
+                                        "other",
+                                        "signal_hut",
+                                        "signal_hct"
+                                    };
+    /*vector< string > sample_names = {   "ttjets",
                                         "multiboson",
                                         "wjets",
                                         "ttX",
@@ -46,7 +46,7 @@ void event_looper(){
                                         "rareSM",
                                         "signal_hut",
                                         "signal_hct"
-                                    };
+                                    };*/
 
     auto outFile = new TFile("plots/outputHistos.root", "recreate");
 
@@ -79,34 +79,256 @@ void event_looper(){
         chain->SetBranchAddress("MET_phi", &MET_phi);
         chain->SetBranchAddress("Generator_weight", &genWeight);
 
+        //vectors to loop through
+        vector<string> variables = {"nJet",
+                                    "nBJet",
+                                    "MET",
+                                    "minMT"};
 
-        //Define histograms
-        auto h_nJet_trilep = new TH1F(("h_nJet_trilep_"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
-        auto h_nJet_SSdilep = new TH1F(("h_nJet_SSdilep_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
-        auto h_nJet_OSdilep = new TH1F(("h_nJet_OSdilep_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
-        auto h_nJet_onelepFO = new TH1F(("h_nJet_onelepFO_"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
-        auto h_nJet_dilepFO = new TH1F(("h_nJet_dilepFO_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        vector<string> numLepSel = {"trilep",
+                                    "SSdilep",
+                                    "OSdilep",
+                                    "onelepFO",
+                                    "dilepFO"};
+                                    
+        vector<string> numJetSel = {"2j",
+                                    "3j",
+                                    "ge4j"};
+                                    
+        vector<string> numBSel   = {"0b",
+                                    "1b",
+                                    "ge2b"};
+        
+        //vectors to hold variable info
+        
+        /*//Define histograms
+        //2 jets, 0 b
+        auto h_nJet_trilep_2j_0b = new TH1F(("h_nJet_trilep_2j_0b_"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
+        auto h_nJet_SSdilep_2j_0b = new TH1F(("h_nJet_SSdilep_2j_0b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_OSdilep_2j_0b = new TH1F(("h_nJet_OSdilep_2j_0b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_onelepFO_2j_0b = new TH1F(("h_nJet_onelepFO_2j_0b_"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
+        auto h_nJet_dilepFO_2j_0b = new TH1F(("h_nJet_dilepFO_2j_0b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
 
-        auto h_nBJet_trilep = new TH1F(("h_nBJet_trilep_"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
-        auto h_nBJet_SSdilep = new TH1F(("h_nBJet_SSdilep_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
-        auto h_nBJet_OSdilep = new TH1F(("h_nBJet_OSdilep_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
-        auto h_nBJet_onelepFO = new TH1F(("h_nBJet_onelepFO_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
-        auto h_nBJet_dilepFO = new TH1F(("h_nBJet_dilepFO_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_trilep_2j_0b = new TH1F(("h_nBJet_trilep_2j_0b_"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_SSdilep_2j_0b = new TH1F(("h_nBJet_SSdilep_2j_0b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_OSdilep_2j_0b = new TH1F(("h_nBJet_OSdilep_2j_0b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_onelepFO_2j_0b = new TH1F(("h_nBJet_onelepFO_2j_0b_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_dilepFO_2j_0b = new TH1F(("h_nBJet_dilepFO_2j_0b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
 
-        auto h_MET_trilep = new TH1F(("h_MET_trilep_"+sample_names[btype]).c_str(),   "MET", 50, 0, 500);
-        auto h_MET_SSdilep = new TH1F(("h_MET_SSdilep_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
-        auto h_MET_OSdilep = new TH1F(("h_MET_OSdilep_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
-        auto h_MET_onelepFO = new TH1F(("h_MET_onelepFO_"+sample_names[btype]).c_str(), "MET", 50, 0, 500);
-        auto h_MET_dilepFO = new TH1F(("h_MET_dilepFO_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_trilep_2j_0b = new TH1F(("h_MET_trilep_2j_0b_"+sample_names[btype]).c_str(),   "MET", 50, 0, 500);
+        auto h_MET_SSdilep_2j_0b = new TH1F(("h_MET_SSdilep_2j_0b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_OSdilep_2j_0b = new TH1F(("h_MET_OSdilep_2j_0b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_onelepFO_2j_0b = new TH1F(("h_MET_onelepFO_2j_0b_"+sample_names[btype]).c_str(), "MET", 50, 0, 500);
+        auto h_MET_dilepFO_2j_0b = new TH1F(("h_MET_dilepFO_2j_0b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
 
-        auto h_minMT_trilep = new TH1F(("h_minMT_trilep_"+sample_names[btype]).c_str(),   "minMT", 50, 0, 500);
-        auto h_minMT_SSdilep = new TH1F(("h_minMT_SSdilep_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
-        auto h_minMT_OSdilep = new TH1F(("h_minMT_OSdilep_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
-        auto h_minMT_onelepFO = new TH1F(("h_minMT_onelepFO_"+sample_names[btype]).c_str(), "minMT", 50, 0, 500);
-        auto h_minMT_dilepFO = new TH1F(("h_minMT_dilepFO_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_trilep_2j_0b = new TH1F(("h_minMT_trilep_2j_0b_"+sample_names[btype]).c_str(),   "minMT", 50, 0, 500);
+        auto h_minMT_SSdilep_2j_0b = new TH1F(("h_minMT_SSdilep_2j_0b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_OSdilep_2j_0b = new TH1F(("h_minMT_OSdilep_2j_0b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_onelepFO_2j_0b = new TH1F(("h_minMT_onelepFO_2j_0b_"+sample_names[btype]).c_str(), "minMT", 50, 0, 500);
+        auto h_minMT_dilepFO_2j_0b = new TH1F(("h_minMT_dilepFO_2j_0b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+
+        //2 jets, 1 b
+        auto h_nJet_trilep_2j_1b = new TH1F(("h_nJet_trilep_2j_1b_"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
+        auto h_nJet_SSdilep_2j_1b = new TH1F(("h_nJet_SSdilep_2j_1b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_OSdilep_2j_1b = new TH1F(("h_nJet_OSdilep_2j_1b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_onelepFO_2j_1b = new TH1F(("h_nJet_onelepFO_2j_1b_"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
+        auto h_nJet_dilepFO_2j_1b = new TH1F(("h_nJet_dilepFO_2j_1b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+
+        auto h_nBJet_trilep_2j_1b = new TH1F(("h_nBJet_trilep_2j_1b_"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_SSdilep_2j_1b = new TH1F(("h_nBJet_SSdilep_2j_1b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_OSdilep_2j_1b = new TH1F(("h_nBJet_OSdilep_2j_1b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_onelepFO_2j_1b = new TH1F(("h_nBJet_onelepFO_2j_1b_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_dilepFO_2j_1b = new TH1F(("h_nBJet_dilepFO_2j_1b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+
+        auto h_MET_trilep_2j_1b = new TH1F(("h_MET_trilep_2j_1b_"+sample_names[btype]).c_str(),   "MET", 50, 0, 500);
+        auto h_MET_SSdilep_2j_1b = new TH1F(("h_MET_SSdilep_2j_1b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_OSdilep_2j_1b = new TH1F(("h_MET_OSdilep_2j_1b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_onelepFO_2j_1b = new TH1F(("h_MET_onelepFO_2j_1b_"+sample_names[btype]).c_str(), "MET", 50, 0, 500);
+        auto h_MET_dilepFO_2j_1b = new TH1F(("h_MET_dilepFO_2j_1b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+
+        auto h_minMT_trilep_2j_1b = new TH1F(("h_minMT_trilep_2j_1b_"+sample_names[btype]).c_str(),   "minMT", 50, 0, 500);
+        auto h_minMT_SSdilep_2j_1b = new TH1F(("h_minMT_SSdilep_2j_1b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_OSdilep_2j_1b = new TH1F(("h_minMT_OSdilep_2j_1b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_onelepFO_2j_1b = new TH1F(("h_minMT_onelepFO_2j_1b_"+sample_names[btype]).c_str(), "minMT", 50, 0, 500);
+        auto h_minMT_dilepFO_2j_1b = new TH1F(("h_minMT_dilepFO_2j_1b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+
+        //2 jets, 2+ b
+        auto h_nJet_trilep_2j_ge2b = new TH1F(("h_nJet_trilep_2j_ge2b_"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
+        auto h_nJet_SSdilep_2j_ge2b = new TH1F(("h_nJet_SSdilep_2j_ge2b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_OSdilep_2j_ge2b = new TH1F(("h_nJet_OSdilep_2j_ge2b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_onelepFO_2j_ge2b = new TH1F(("h_nJet_onelepFO_2j_ge2b_"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
+        auto h_nJet_dilepFO_2j_ge2b = new TH1F(("h_nJet_dilepFO_2j_ge2b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+
+        auto h_nBJet_trilep_2j_ge2b = new TH1F(("h_nBJet_trilep_2j_ge2b_"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_SSdilep_2j_ge2b = new TH1F(("h_nBJet_SSdilep_2j_ge2b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_OSdilep_2j_ge2b = new TH1F(("h_nBJet_OSdilep_2j_ge2b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_onelepFO_2j_ge2b = new TH1F(("h_nBJet_onelepFO_2j_ge2b_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_dilepFO_2j_ge2b = new TH1F(("h_nBJet_dilepFO_2j_ge2b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+
+        auto h_MET_trilep_2j_ge2b = new TH1F(("h_MET_trilep_2j_ge2b_"+sample_names[btype]).c_str(),   "MET", 50, 0, 500);
+        auto h_MET_SSdilep_2j_ge2b = new TH1F(("h_MET_SSdilep_2j_ge2b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_OSdilep_2j_ge2b = new TH1F(("h_MET_OSdilep_2j_ge2b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_onelepFO_2j_ge2b = new TH1F(("h_MET_onelepFO_2j_ge2b_"+sample_names[btype]).c_str(), "MET", 50, 0, 500);
+        auto h_MET_dilepFO_2j_ge2b = new TH1F(("h_MET_dilepFO_2j_ge2b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+
+        auto h_minMT_trilep_2j_ge2b = new TH1F(("h_minMT_trilep_2j_ge2b_"+sample_names[btype]).c_str(),   "minMT", 50, 0, 500);
+        auto h_minMT_SSdilep_2j_ge2b = new TH1F(("h_minMT_SSdilep_2j_ge2b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_OSdilep_2j_ge2b = new TH1F(("h_minMT_OSdilep_2j_ge2b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_onelepFO_2j_ge2b = new TH1F(("h_minMT_onelepFO_2j_ge2b_"+sample_names[btype]).c_str(), "minMT", 50, 0, 500);
+        auto h_minMT_dilepFO_2j_ge2b = new TH1F(("h_minMT_dilepFO_2j_ge2b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+
+        //3 jets, 0b
+        auto h_nJet_trilep_3j_0b = new TH1F(("h_nJet_trilep_3j_0b_"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
+        auto h_nJet_SSdilep_3j_0b = new TH1F(("h_nJet_SSdilep_3j_0b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_OSdilep_3j_0b = new TH1F(("h_nJet_OSdilep_3j_0b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_onelepFO_3j_0b = new TH1F(("h_nJet_onelepFO_3j_0b_"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
+        auto h_nJet_dilepFO_3j_0b = new TH1F(("h_nJet_dilepFO_3j_0b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+
+        auto h_nBJet_trilep_3j_0b = new TH1F(("h_nBJet_trilep_3j_0b_"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_SSdilep_3j_0b = new TH1F(("h_nBJet_SSdilep_3j_0b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_OSdilep_3j_0b = new TH1F(("h_nBJet_OSdilep_3j_0b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_onelepFO_3j_0b = new TH1F(("h_nBJet_onelepFO_3j_0b_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_dilepFO_3j_0b = new TH1F(("h_nBJet_dilepFO_3j_0b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+
+        auto h_MET_trilep_3j_0b = new TH1F(("h_MET_trilep_3j_0b_"+sample_names[btype]).c_str(),   "MET", 50, 0, 500);
+        auto h_MET_SSdilep_3j_0b = new TH1F(("h_MET_SSdilep_3j_0b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_OSdilep_3j_0b = new TH1F(("h_MET_OSdilep_3j_0b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_onelepFO_3j_0b = new TH1F(("h_MET_onelepFO_3j_0b_"+sample_names[btype]).c_str(), "MET", 50, 0, 500);
+        auto h_MET_dilepFO_3j_0b = new TH1F(("h_MET_dilepFO_3j_0b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+
+        auto h_minMT_trilep_3j_0b = new TH1F(("h_minMT_trilep_3j_0b_"+sample_names[btype]).c_str(),   "minMT", 50, 0, 500);
+        auto h_minMT_SSdilep_3j_0b = new TH1F(("h_minMT_SSdilep_3j_0b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_OSdilep_3j_0b = new TH1F(("h_minMT_OSdilep_3j_0b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_onelepFO_3j_0b = new TH1F(("h_minMT_onelepFO_3j_0b_"+sample_names[btype]).c_str(), "minMT", 50, 0, 500);
+        auto h_minMT_dilepFO_3j_0b = new TH1F(("h_minMT_dilepFO_3j_0b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+
+        //3 jets, 1b
+        auto h_nJet_trilep_3j_1b = new TH1F(("h_nJet_trilep_3j_1b_"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
+        auto h_nJet_SSdilep_3j_1b = new TH1F(("h_nJet_SSdilep_3j_1b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_OSdilep_3j_1b = new TH1F(("h_nJet_OSdilep_3j_1b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_onelepFO_3j_1b = new TH1F(("h_nJet_onelepFO_3j_1b_"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
+        auto h_nJet_dilepFO_3j_1b = new TH1F(("h_nJet_dilepFO_3j_1b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+
+        auto h_nBJet_trilep_3j_1b = new TH1F(("h_nBJet_trilep_3j_1b_"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_SSdilep_3j_1b = new TH1F(("h_nBJet_SSdilep_3j_1b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_OSdilep_3j_1b = new TH1F(("h_nBJet_OSdilep_3j_1b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_onelepFO_3j_1b = new TH1F(("h_nBJet_onelepFO_3j_1b_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_dilepFO_3j_1b = new TH1F(("h_nBJet_dilepFO_3j_1b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+
+        auto h_MET_trilep_3j_1b = new TH1F(("h_MET_trilep_3j_1b_"+sample_names[btype]).c_str(),   "MET", 50, 0, 500);
+        auto h_MET_SSdilep_3j_1b = new TH1F(("h_MET_SSdilep_3j_1b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_OSdilep_3j_1b = new TH1F(("h_MET_OSdilep_3j_1b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_onelepFO_3j_1b = new TH1F(("h_MET_onelepFO_3j_1b_"+sample_names[btype]).c_str(), "MET", 50, 0, 500);
+        auto h_MET_dilepFO_3j_1b = new TH1F(("h_MET_dilepFO_3j_1b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+
+        auto h_minMT_trilep_3j_1b = new TH1F(("h_minMT_trilep_3j_1b_"+sample_names[btype]).c_str(),   "minMT", 50, 0, 500);
+        auto h_minMT_SSdilep_3j_1b = new TH1F(("h_minMT_SSdilep_3j_1b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_OSdilep_3j_1b = new TH1F(("h_minMT_OSdilep_3j_1b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_onelepFO_3j_1b = new TH1F(("h_minMT_onelepFO_3j_1b_"+sample_names[btype]).c_str(), "minMT", 50, 0, 500);
+        auto h_minMT_dilepFO_3j_1b = new TH1F(("h_minMT_dilepFO_3j_1b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+
+        //3 jets, 2+ b
+        auto h_nJet_trilep_3j_ge2b = new TH1F(("h_nJet_trilep_3j_ge2b_"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
+        auto h_nJet_SSdilep_3j_ge2b = new TH1F(("h_nJet_SSdilep_3j_ge2b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_OSdilep_3j_ge2b = new TH1F(("h_nJet_OSdilep_3j_ge2b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_onelepFO_3j_ge2b = new TH1F(("h_nJet_onelepFO_3j_ge2b_"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
+        auto h_nJet_dilepFO_3j_ge2b = new TH1F(("h_nJet_dilepFO_3j_ge2b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+
+        auto h_nBJet_trilep_3j_ge2b = new TH1F(("h_nBJet_trilep_3j_ge2b_"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_SSdilep_3j_ge2b = new TH1F(("h_nBJet_SSdilep_3j_ge2b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_OSdilep_3j_ge2b = new TH1F(("h_nBJet_OSdilep_3j_ge2b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_onelepFO_3j_ge2b = new TH1F(("h_nBJet_onelepFO_3j_ge2b_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_dilepFO_3j_ge2b = new TH1F(("h_nBJet_dilepFO_3j_ge2b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+
+        auto h_MET_trilep_3j_ge2b = new TH1F(("h_MET_trilep_3j_ge2b_"+sample_names[btype]).c_str(),   "MET", 50, 0, 500);
+        auto h_MET_SSdilep_3j_ge2b = new TH1F(("h_MET_SSdilep_3j_ge2b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_OSdilep_3j_ge2b = new TH1F(("h_MET_OSdilep_3j_ge2b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_onelepFO_3j_ge2b = new TH1F(("h_MET_onelepFO_3j_ge2b_"+sample_names[btype]).c_str(), "MET", 50, 0, 500);
+        auto h_MET_dilepFO_3j_ge2b = new TH1F(("h_MET_dilepFO_3j_ge2b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+
+        auto h_minMT_trilep_3j_ge2b = new TH1F(("h_minMT_trilep_3j_ge2b_"+sample_names[btype]).c_str(),   "minMT", 50, 0, 500);
+        auto h_minMT_SSdilep_3j_ge2b = new TH1F(("h_minMT_SSdilep_3j_ge2b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_OSdilep_3j_ge2b = new TH1F(("h_minMT_OSdilep_3j_ge2b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_onelepFO_3j_ge2b = new TH1F(("h_minMT_onelepFO_3j_ge2b_"+sample_names[btype]).c_str(), "minMT", 50, 0, 500);
+        auto h_minMT_dilepFO_3j_ge2b = new TH1F(("h_minMT_dilepFO_3j_ge2b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+
+        //4+ jets, 0b
+        auto h_nJet_trilep_ge4j_0b = new TH1F(("h_nJet_trilep_ge4j_0b_"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
+        auto h_nJet_SSdilep_ge4j_0b = new TH1F(("h_nJet_SSdilep_ge4j_0b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_OSdilep_ge4j_0b = new TH1F(("h_nJet_OSdilep_ge4j_0b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_onelepFO_ge4j_0b = new TH1F(("h_nJet_onelepFO_ge4j_0b_"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
+        auto h_nJet_dilepFO_ge4j_0b = new TH1F(("h_nJet_dilepFO_ge4j_0b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+
+        auto h_nBJet_trilep_ge4j_0b = new TH1F(("h_nBJet_trilep_ge4j_0b_"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_SSdilep_ge4j_0b = new TH1F(("h_nBJet_SSdilep_ge4j_0b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_OSdilep_ge4j_0b = new TH1F(("h_nBJet_OSdilep_ge4j_0b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_onelepFO_ge4j_0b = new TH1F(("h_nBJet_onelepFO_ge4j_0b_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_dilepFO_ge4j_0b = new TH1F(("h_nBJet_dilepFO_ge4j_0b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+
+        auto h_MET_trilep_ge4j_0b = new TH1F(("h_MET_trilep_ge4j_0b_"+sample_names[btype]).c_str(),   "MET", 50, 0, 500);
+        auto h_MET_SSdilep_ge4j_0b = new TH1F(("h_MET_SSdilep_ge4j_0b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_OSdilep_ge4j_0b = new TH1F(("h_MET_OSdilep_ge4j_0b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_onelepFO_ge4j_0b = new TH1F(("h_MET_onelepFO_ge4j_0b_"+sample_names[btype]).c_str(), "MET", 50, 0, 500);
+        auto h_MET_dilepFO_ge4j_0b = new TH1F(("h_MET_dilepFO_ge4j_0b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+
+        auto h_minMT_trilep_ge4j_0b = new TH1F(("h_minMT_trilep_ge4j_0b_"+sample_names[btype]).c_str(),   "minMT", 50, 0, 500);
+        auto h_minMT_SSdilep_ge4j_0b = new TH1F(("h_minMT_SSdilep_ge4j_0b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_OSdilep_ge4j_0b = new TH1F(("h_minMT_OSdilep_ge4j_0b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_onelepFO_ge4j_0b = new TH1F(("h_minMT_onelepFO_ge4j_0b_"+sample_names[btype]).c_str(), "minMT", 50, 0, 500);
+        auto h_minMT_dilepFO_ge4j_0b = new TH1F(("h_minMT_dilepFO_ge4j_0b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+
+        //4+ jets, 1b
+        auto h_nJet_trilep_ge4j_1b = new TH1F(("h_nJet_trilep_ge4j_1b_"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
+        auto h_nJet_SSdilep_ge4j_1b = new TH1F(("h_nJet_SSdilep_ge4j_1b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_OSdilep_ge4j_1b = new TH1F(("h_nJet_OSdilep_ge4j_1b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_onelepFO_ge4j_1b = new TH1F(("h_nJet_onelepFO_ge4j_1b_"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
+        auto h_nJet_dilepFO_ge4j_1b = new TH1F(("h_nJet_dilepFO_ge4j_1b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+
+        auto h_nBJet_trilep_ge4j_1b = new TH1F(("h_nBJet_trilep_ge4j_1b_"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_SSdilep_ge4j_1b = new TH1F(("h_nBJet_SSdilep_ge4j_1b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_OSdilep_ge4j_1b = new TH1F(("h_nBJet_OSdilep_ge4j_1b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_onelepFO_ge4j_1b = new TH1F(("h_nBJet_onelepFO_ge4j_1b_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_dilepFO_ge4j_1b = new TH1F(("h_nBJet_dilepFO_ge4j_1b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+
+        auto h_MET_trilep_ge4j_1b = new TH1F(("h_MET_trilep_ge4j_1b_"+sample_names[btype]).c_str(),   "MET", 50, 0, 500);
+        auto h_MET_SSdilep_ge4j_1b = new TH1F(("h_MET_SSdilep_ge4j_1b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_OSdilep_ge4j_1b = new TH1F(("h_MET_OSdilep_ge4j_1b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_onelepFO_ge4j_1b = new TH1F(("h_MET_onelepFO_ge4j_1b_"+sample_names[btype]).c_str(), "MET", 50, 0, 500);
+        auto h_MET_dilepFO_ge4j_1b = new TH1F(("h_MET_dilepFO_ge4j_1b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+
+        auto h_minMT_trilep_ge4j_1b = new TH1F(("h_minMT_trilep_ge4j_1b_"+sample_names[btype]).c_str(),   "minMT", 50, 0, 500);
+        auto h_minMT_SSdilep_ge4j_1b = new TH1F(("h_minMT_SSdilep_ge4j_1b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_OSdilep_ge4j_1b = new TH1F(("h_minMT_OSdilep_ge4j_1b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_onelepFO_ge4j_1b = new TH1F(("h_minMT_onelepFO_ge4j_1b_"+sample_names[btype]).c_str(), "minMT", 50, 0, 500);
+        auto h_minMT_dilepFO_ge4j_1b = new TH1F(("h_minMT_dilepFO_ge4j_1b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+
+        //4+ jets, 2+ b
+        auto h_nJet_trilep_ge4j_ge2b = new TH1F(("h_nJet_trilep_ge4j_ge2b_"+sample_names[btype]).c_str(),   "nJets", 7, -0.5, 6.5);
+        auto h_nJet_SSdilep_ge4j_ge2b = new TH1F(("h_nJet_SSdilep_ge4j_ge2b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_OSdilep_ge4j_ge2b = new TH1F(("h_nJet_OSdilep_ge4j_ge2b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+        auto h_nJet_onelepFO_ge4j_ge2b = new TH1F(("h_nJet_onelepFO_ge4j_ge2b_"+sample_names[btype]).c_str(), "nJets", 7, -0.5, 6.5);
+        auto h_nJet_dilepFO_ge4j_ge2b = new TH1F(("h_nJet_dilepFO_ge4j_ge2b_"+sample_names[btype]).c_str(),  "nJets", 7, -0.5, 6.5);
+
+        auto h_nBJet_trilep_ge4j_ge2b = new TH1F(("h_nBJet_trilep_ge4j_ge2b_"+sample_names[btype]).c_str(),   "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_SSdilep_ge4j_ge2b = new TH1F(("h_nBJet_SSdilep_ge4j_ge2b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_OSdilep_ge4j_ge2b = new TH1F(("h_nBJet_OSdilep_ge4j_ge2b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_onelepFO_ge4j_ge2b = new TH1F(("h_nBJet_onelepFO_ge4j_ge2b_"+sample_names[btype]).c_str(), "nb-tagged Jets", 4, -0.5, 3.5);
+        auto h_nBJet_dilepFO_ge4j_ge2b = new TH1F(("h_nBJet_dilepFO_ge4j_ge2b_"+sample_names[btype]).c_str(),  "nb-tagged Jets", 4, -0.5, 3.5);
+
+        auto h_MET_trilep_ge4j_ge2b = new TH1F(("h_MET_trilep_ge4j_ge2b_"+sample_names[btype]).c_str(),   "MET", 50, 0, 500);
+        auto h_MET_SSdilep_ge4j_ge2b = new TH1F(("h_MET_SSdilep_ge4j_ge2b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_OSdilep_ge4j_ge2b = new TH1F(("h_MET_OSdilep_ge4j_ge2b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+        auto h_MET_onelepFO_ge4j_ge2b = new TH1F(("h_MET_onelepFO_ge4j_ge2b_"+sample_names[btype]).c_str(), "MET", 50, 0, 500);
+        auto h_MET_dilepFO_ge4j_ge2b = new TH1F(("h_MET_dilepFO_ge4j_ge2b_"+sample_names[btype]).c_str(),  "MET", 50, 0, 500);
+
+        auto h_minMT_trilep_ge4j_ge2b = new TH1F(("h_minMT_trilep_ge4j_ge2b_"+sample_names[btype]).c_str(),   "minMT", 50, 0, 500);
+        auto h_minMT_SSdilep_ge4j_ge2b = new TH1F(("h_minMT_SSdilep_ge4j_ge2b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_OSdilep_ge4j_ge2b = new TH1F(("h_minMT_OSdilep_ge4j_ge2b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
+        auto h_minMT_onelepFO_ge4j_ge2b = new TH1F(("h_minMT_onelepFO_ge4j_ge2b_"+sample_names[btype]).c_str(), "minMT", 50, 0, 500);
+        auto h_minMT_dilepFO_ge4j_ge2b = new TH1F(("h_minMT_dilepFO_ge4j_ge2b_"+sample_names[btype]).c_str(),  "minMT", 50, 0, 500);
 
         cout << "defined histograms!" << endl;
-
+*/
         auto start = high_resolution_clock::now();
 
         int nTriLep   = 0;
@@ -116,10 +338,10 @@ void event_looper(){
         int nFODiLep  = 0;
 
         //Main for loop
-        for ( int counter = 0; counter < nEvents; counter++ ){
+        //for ( int counter = 0; counter < nEvents; counter++ ){
         //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
-        //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
+        for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
             //cout << "counter " << counter << endl;
             if ( counter%100000==0 ){
                 cout << "event " << counter << endl;
@@ -163,13 +385,19 @@ void event_looper(){
 
             //loop to count tight/loose muons
             for( uint iMu = 0; iMu < nMuon; iMu++ ){
-                if ( isTightLepton( 13, mu.pt[iMu], mu.eta[iMu], mu.iso[iMu], mu.tightId[iMu] ) ){
+
+                //check if meets basic object requirements
+                bool mu_isGood = isGoodMuon( mu.dxy[iMu], mu.dz[iMu], mu.sip3d[iMu], mu.tightCharge[iMu], mu.mediumId[iMu], mu.chargeQuality[iMu] );
+                int mu_isoType = isoType( year, mu.pdgid[iMu], mu.miniIso[iMu], mu.jetRelIso[iMu], mu.jetPtRelv2[iMu] );
+
+                //check for tight or loose
+                if ( isTightLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType ) ){
                     nGoodLep += 1;
                     muCharge_tight.push_back(mu.charge[iMu]);
                     if ( mt( MET, MET_phi, mu.pt[iMu], mu.phi[iMu] ) < minMT_tight ){
                         minMT_tight = mt( MET, MET_phi, mu.pt[iMu], mu.phi[iMu] );
                     }
-                }else if ( isLooseLepton( 13, mu.pt[iMu], mu.eta[iMu], mu.iso[iMu], mu.looseId[iMu] ) ){
+                }else if ( isLooseLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType ) ){
                     nFakeableLep += 1;
                     muCharge_loose.push_back(mu.charge[iMu]);
                     if ( mt( MET, MET_phi, mu.pt[iMu], mu.phi[iMu] ) < minMT_loose ){
@@ -179,13 +407,19 @@ void event_looper(){
             }
             //loop to count tight/loose electrons
             for( uint iEl = 0; iEl < nElectron; iEl++ ){
-                if ( isTightLepton( 11, el.pt[iEl], el.eta[iEl], el.iso[iEl], 0 ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "tight" ) ){
+
+                //check if meets basic object requirements
+                bool el_isGood = isGoodElectron( el.dxy[iEl], el.dz[iEl], el.sip3d[iEl], el.tightCharge[iEl], el.lostHits[iEl], el.convVeto[iEl] );
+                int el_isoType = isoType( year, el.pdgid[iEl], el.miniIso[iEl], el.jetRelIso[iEl], el.jetPtRelv2[iEl] );
+
+                //check for tight or loose
+                if ( isTightLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "tight" ) ){
                     nGoodLep += 1;
                     elCharge_tight.push_back(el.charge[iEl]);
                     if ( mt( MET, MET_phi, el.pt[iEl], el.phi[iEl] ) < minMT_tight ){
                         minMT_tight = mt( MET, MET_phi, el.pt[iEl], el.phi[iEl] );
                     }
-                }else if ( isLooseLepton( 11, el.pt[iEl], el.eta[iEl], el.iso[iEl], 0 ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ){
+                }else if ( isLooseLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ){
                     nFakeableLep += 1;
                     elCharge_loose.push_back(el.charge[iEl]);
                     if ( mt( MET, MET_phi, el.pt[iEl], el.phi[iEl] ) < minMT_loose ){
@@ -203,14 +437,18 @@ void event_looper(){
                         //next two for loops to clean jets
                         bool isGood = 1;
                         for (uint iMu = 0; iMu < nMuon; iMu++ ){
-                            if ( isTightLepton( 13, mu.pt[iMu], mu.eta[iMu], mu.iso[iMu], mu.tightId[iMu] ) || isLooseLepton( 13, mu.pt[iMu], mu.eta[iMu], mu.iso[iMu], mu.looseId[iMu] ) ){
+                            bool mu_isGood = isGoodMuon( mu.dxy[iMu], mu.dz[iMu], mu.sip3d[iMu], mu.tightCharge[iMu], mu.mediumId[iMu], mu.chargeQuality[iMu] );
+                            int mu_isoType = isoType( year, mu.pdgid[iMu], mu.miniIso[iMu], mu.jetRelIso[iMu], mu.jetPtRelv2[iMu] );
+                            if ( isTightLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType ) || isLooseLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType ) ){
                                 if ( deltaR( jet.eta[iJet], jet.phi[iJet], mu.eta[iMu], mu.phi[iMu] ) < 0.4 ){
                                     isGood = 0;
                                 }else continue;
                             }else continue;
                         }
                         for (uint iEl = 0; iEl < nElectron; iEl++ ){
-                            if ( ( isTightLepton( 11, el.pt[iEl], el.eta[iEl], el.iso[iEl], 0 ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "tight" ) ) || ( isLooseLepton( 11, el.pt[iEl], el.eta[iEl], el.iso[iEl], 0 ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ) ){
+                            bool el_isGood = isGoodElectron( el.dxy[iEl], el.dz[iEl], el.sip3d[iEl], el.tightCharge[iEl], el.lostHits[iEl], el.convVeto[iEl] );
+                            int el_isoType = isoType( year, el.pdgid[iEl], el.miniIso[iEl], el.jetRelIso[iEl], el.jetPtRelv2[iEl] );
+                            if ( ( isTightLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "tight" ) ) || ( isLooseLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ) ){
                                 if ( deltaR( jet.eta[iJet], jet.phi[iJet], el.eta[iEl], el.phi[iEl] ) < 0.4 ){
                                     isGood = 0;
                                 }else continue;
@@ -228,84 +466,653 @@ void event_looper(){
 
             }
 
-            if ( nJets>1 && nBjets>=0 ){
-
-
-                //organize into signature types
-                if ( nGoodLep == 3 ){
-                    nTriLep += 1;
-                    h_nJet_trilep->Fill(nJets, weight);
-                    h_nBJet_trilep->Fill(nBjets, weight);
-                    h_MET_trilep->Fill(MET, weight);
-                    h_minMT_trilep->Fill(minMT_tight, weight);
-                }
-                if ( nGoodLep == 2 ){
-                    if (muCharge_tight.size() == 2){
-                        if (muCharge_tight[0]*muCharge_tight[1]>0){
-                            nSSDiLep += 1;
-                            h_nJet_SSdilep->Fill(nJets, weight);
-                            h_nBJet_SSdilep->Fill(nBjets, weight);
-                            h_MET_SSdilep->Fill(MET, weight);
-                            h_minMT_SSdilep->Fill(minMT_tight, weight);
-                        }else{ 
-                            nOSDiLep += 1;
-                            h_nJet_OSdilep->Fill(nJets, weight);
-                            h_nBJet_OSdilep->Fill(nBjets, weight);
-                            h_MET_OSdilep->Fill(MET, weight);
-                            h_minMT_OSdilep->Fill(minMT_tight, weight);
+            //organize into signature types
+            if( nJets==2 ){
+                if (nBjets == 0){
+                    if ( nGoodLep >= 3 ){
+                        nTriLep += 1;
+                        h_nJet_trilep_2j_0b->Fill(nJets, weight);
+                        h_nBJet_trilep_2j_0b->Fill(nBjets, weight);
+                        h_MET_trilep_2j_0b->Fill(MET, weight);
+                        h_minMT_trilep_2j_0b->Fill(minMT_tight, weight);
+                    }//3lep
+                    if ( nGoodLep == 2 ){
+                        if (muCharge_tight.size() == 2){
+                            if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_2j_0b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_2j_0b->Fill(nBjets, weight);
+                                h_MET_SSdilep_2j_0b->Fill(MET, weight);
+                                h_minMT_SSdilep_2j_0b->Fill(minMT_tight, weight);
+                            }else{ 
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_2j_0b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_2j_0b->Fill(nBjets, weight);
+                                h_MET_OSdilep_2j_0b->Fill(MET, weight);
+                                h_minMT_OSdilep_2j_0b->Fill(minMT_tight, weight);
+                            }
+                        }else if (elCharge_tight.size() == 2) {
+                            if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_2j_0b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_2j_0b->Fill(nBjets, weight);
+                                h_MET_SSdilep_2j_0b->Fill(MET, weight);
+                                h_minMT_SSdilep_2j_0b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_2j_0b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_2j_0b->Fill(nBjets, weight);
+                                h_MET_OSdilep_2j_0b->Fill(MET, weight);
+                                h_minMT_OSdilep_2j_0b->Fill(minMT_tight, weight);
+                            }
+                        }else if (muCharge_tight.size() == 1) {
+                            if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_2j_0b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_2j_0b->Fill(nBjets, weight);
+                                h_MET_SSdilep_2j_0b->Fill(MET, weight);
+                                h_minMT_SSdilep_2j_0b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_2j_0b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_2j_0b->Fill(nBjets, weight);
+                                h_MET_OSdilep_2j_0b->Fill(MET, weight);
+                                h_minMT_OSdilep_2j_0b->Fill(minMT_tight, weight);
+                            }
                         }
-                    }else if (elCharge_tight.size() == 2) {
-                        if (elCharge_tight[0]*elCharge_tight[1]>0){
-                            nSSDiLep += 1;
-                            h_nJet_SSdilep->Fill(nJets, weight);
-                            h_nBJet_SSdilep->Fill(nBjets, weight);
-                            h_MET_SSdilep->Fill(MET, weight);
-                            h_minMT_SSdilep->Fill(minMT_tight, weight);
-                        }else{
-                            nOSDiLep += 1;
-                            h_nJet_OSdilep->Fill(nJets, weight);
-                            h_nBJet_OSdilep->Fill(nBjets, weight);
-                            h_MET_OSdilep->Fill(MET, weight);
-                            h_minMT_OSdilep->Fill(minMT_tight, weight);
+                    }//if nGoodLep == 2
+                    if (nGoodLep == 1 and nFakeableLep == 1){
+                        nOneLepFO += 1;
+                        h_nJet_onelepFO_2j_0b->Fill(nJets, weight);
+                        h_nBJet_onelepFO_2j_0b->Fill(nBjets, weight);
+                        h_MET_onelepFO_2j_0b->Fill(MET, weight);
+                        if (minMT_tight < minMT_loose){
+                            h_minMT_onelepFO_2j_0b->Fill(minMT_tight, weight);
+                        } else if (minMT_loose < minMT_tight){
+                            h_minMT_onelepFO_2j_0b->Fill(minMT_loose);
                         }
-                    }else if (muCharge_tight.size() == 1) {
-                        if (muCharge_tight[0]*elCharge_tight[0]>0){
-                            nSSDiLep += 1;
-                            h_nJet_SSdilep->Fill(nJets, weight);
-                            h_nBJet_SSdilep->Fill(nBjets, weight);
-                            h_MET_SSdilep->Fill(MET, weight);
-                            h_minMT_SSdilep->Fill(minMT_tight, weight);
-                        }else{
-                            nOSDiLep += 1;
-                            h_nJet_OSdilep->Fill(nJets, weight);
-                            h_nBJet_OSdilep->Fill(nBjets, weight);
-                            h_MET_OSdilep->Fill(MET, weight);
-                            h_minMT_OSdilep->Fill(minMT_tight, weight);
+                    }//1lep+1FO
+                    if (nFakeableLep == 2){
+                        nFODiLep += 1;
+                        h_nJet_dilepFO_2j_0b->Fill(nJets, weight);
+                        h_nBJet_dilepFO_2j_0b->Fill(nBjets, weight);
+                        h_MET_dilepFO_2j_0b->Fill(MET, weight);
+                        h_minMT_dilepFO_2j_0b->Fill(minMT_loose);
+                    }//2FO
+                }/*0b*/else if(nBjets == 1){
+                    if ( nGoodLep >= 3 ){
+                        nTriLep += 1;
+                        h_nJet_trilep_2j_1b->Fill(nJets, weight);
+                        h_nBJet_trilep_2j_1b->Fill(nBjets, weight);
+                        h_MET_trilep_2j_1b->Fill(MET, weight);
+                        h_minMT_trilep_2j_1b->Fill(minMT_tight, weight);
+                    }//3lep
+                    if ( nGoodLep == 2 ){
+                        if (muCharge_tight.size() == 2){
+                            if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_2j_1b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_2j_1b->Fill(nBjets, weight);
+                                h_MET_SSdilep_2j_1b->Fill(MET, weight);
+                                h_minMT_SSdilep_2j_1b->Fill(minMT_tight, weight);
+                            }else{ 
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_2j_1b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_2j_1b->Fill(nBjets, weight);
+                                h_MET_OSdilep_2j_1b->Fill(MET, weight);
+                                h_minMT_OSdilep_2j_1b->Fill(minMT_tight, weight);
+                            }
+                        }else if (elCharge_tight.size() == 2) {
+                            if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_2j_1b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_2j_1b->Fill(nBjets, weight);
+                                h_MET_SSdilep_2j_1b->Fill(MET, weight);
+                                h_minMT_SSdilep_2j_1b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_2j_1b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_2j_1b->Fill(nBjets, weight);
+                                h_MET_OSdilep_2j_1b->Fill(MET, weight);
+                                h_minMT_OSdilep_2j_1b->Fill(minMT_tight, weight);
+                            }
+                        }else if (muCharge_tight.size() == 1) {
+                            if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_2j_1b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_2j_1b->Fill(nBjets, weight);
+                                h_MET_SSdilep_2j_1b->Fill(MET, weight);
+                                h_minMT_SSdilep_2j_1b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_2j_1b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_2j_1b->Fill(nBjets, weight);
+                                h_MET_OSdilep_2j_1b->Fill(MET, weight);
+                                h_minMT_OSdilep_2j_1b->Fill(minMT_tight, weight);
+                            }
                         }
-                    }
-                }//if nGoodLep == 2
-                if (nGoodLep == 1 and nFakeableLep == 1){
-                    nOneLepFO += 1;
-                    h_nJet_onelepFO->Fill(nJets, weight);
-                    h_nBJet_onelepFO->Fill(nBjets, weight);
-                    h_MET_onelepFO->Fill(MET, weight);
-                    if (minMT_tight < minMT_loose){
-                        h_minMT_onelepFO->Fill(minMT_tight, weight);
-                    } else if (minMT_loose < minMT_tight){
-                        h_minMT_onelepFO->Fill(minMT_loose);
-                    }
-                }
-                if (nFakeableLep == 2){
-                    nFODiLep += 1;
-                    h_nJet_dilepFO->Fill(nJets, weight);
-                    h_nBJet_dilepFO->Fill(nBjets, weight);
-                    h_MET_dilepFO->Fill(MET, weight);
-                    h_minMT_dilepFO->Fill(minMT_loose);
-                }
-
-
-            }
-
+                    }//if nGoodLep == 2
+                    if (nGoodLep == 1 and nFakeableLep == 1){
+                        nOneLepFO += 1;
+                        h_nJet_onelepFO_2j_1b->Fill(nJets, weight);
+                        h_nBJet_onelepFO_2j_1b->Fill(nBjets, weight);
+                        h_MET_onelepFO_2j_1b->Fill(MET, weight);
+                        if (minMT_tight < minMT_loose){
+                            h_minMT_onelepFO_2j_1b->Fill(minMT_tight, weight);
+                        } else if (minMT_loose < minMT_tight){
+                            h_minMT_onelepFO_2j_1b->Fill(minMT_loose);
+                        }
+                    }//1lep+1FO
+                    if (nFakeableLep == 2){
+                        nFODiLep += 1;
+                        h_nJet_dilepFO_2j_1b->Fill(nJets, weight);
+                        h_nBJet_dilepFO_2j_1b->Fill(nBjets, weight);
+                        h_MET_dilepFO_2j_1b->Fill(MET, weight);
+                        h_minMT_dilepFO_2j_1b->Fill(minMT_loose);
+                    }//2FO
+                }/*1b*/else if(nBjets >= 2){
+                    if ( nGoodLep >= 3 ){
+                        nTriLep += 1;
+                        h_nJet_trilep_2j_ge2b->Fill(nJets, weight);
+                        h_nBJet_trilep_2j_ge2b->Fill(nBjets, weight);
+                        h_MET_trilep_2j_ge2b->Fill(MET, weight);
+                        h_minMT_trilep_2j_ge2b->Fill(minMT_tight, weight);
+                    }//3lep
+                    if ( nGoodLep == 2 ){
+                        if (muCharge_tight.size() == 2){
+                            if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_2j_ge2b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_2j_ge2b->Fill(nBjets, weight);
+                                h_MET_SSdilep_2j_ge2b->Fill(MET, weight);
+                                h_minMT_SSdilep_2j_ge2b->Fill(minMT_tight, weight);
+                            }else{ 
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_2j_ge2b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_2j_ge2b->Fill(nBjets, weight);
+                                h_MET_OSdilep_2j_ge2b->Fill(MET, weight);
+                                h_minMT_OSdilep_2j_ge2b->Fill(minMT_tight, weight);
+                            }
+                        }else if (elCharge_tight.size() == 2) {
+                            if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_2j_ge2b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_2j_ge2b->Fill(nBjets, weight);
+                                h_MET_SSdilep_2j_ge2b->Fill(MET, weight);
+                                h_minMT_SSdilep_2j_ge2b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_2j_ge2b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_2j_ge2b->Fill(nBjets, weight);
+                                h_MET_OSdilep_2j_ge2b->Fill(MET, weight);
+                                h_minMT_OSdilep_2j_ge2b->Fill(minMT_tight, weight);
+                            }
+                        }else if (muCharge_tight.size() == 1) {
+                            if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_2j_ge2b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_2j_ge2b->Fill(nBjets, weight);
+                                h_MET_SSdilep_2j_ge2b->Fill(MET, weight);
+                                h_minMT_SSdilep_2j_ge2b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_2j_ge2b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_2j_ge2b->Fill(nBjets, weight);
+                                h_MET_OSdilep_2j_ge2b->Fill(MET, weight);
+                                h_minMT_OSdilep_2j_ge2b->Fill(minMT_tight, weight);
+                            }
+                        }
+                    }//if nGoodLep == 2
+                    if (nGoodLep == 1 and nFakeableLep == 1){
+                        nOneLepFO += 1;
+                        h_nJet_onelepFO_2j_ge2b->Fill(nJets, weight);
+                        h_nBJet_onelepFO_2j_ge2b->Fill(nBjets, weight);
+                        h_MET_onelepFO_2j_ge2b->Fill(MET, weight);
+                        if (minMT_tight < minMT_loose){
+                            h_minMT_onelepFO_2j_ge2b->Fill(minMT_tight, weight);
+                        } else if (minMT_loose < minMT_tight){
+                            h_minMT_onelepFO_2j_ge2b->Fill(minMT_loose);
+                        }
+                    }//1lep+1FO
+                    if (nFakeableLep == 2){
+                        nFODiLep += 1;
+                        h_nJet_dilepFO_2j_ge2b->Fill(nJets, weight);
+                        h_nBJet_dilepFO_2j_ge2b->Fill(nBjets, weight);
+                        h_MET_dilepFO_2j_ge2b->Fill(MET, weight);
+                        h_minMT_dilepFO_2j_ge2b->Fill(minMT_loose);
+                    }//2FO
+                }/*>=2b*/
+            }/*2jet*/else if( nJets==3 ){
+                if (nBjets == 0){
+                    if ( nGoodLep >= 3 ){
+                        nTriLep += 1;
+                        h_nJet_trilep_3j_0b->Fill(nJets, weight);
+                        h_nBJet_trilep_3j_0b->Fill(nBjets, weight);
+                        h_MET_trilep_3j_0b->Fill(MET, weight);
+                        h_minMT_trilep_3j_0b->Fill(minMT_tight, weight);
+                    }//3lep
+                    if ( nGoodLep == 2 ){
+                        if (muCharge_tight.size() == 2){
+                            if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_3j_0b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_3j_0b->Fill(nBjets, weight);
+                                h_MET_SSdilep_3j_0b->Fill(MET, weight);
+                                h_minMT_SSdilep_3j_0b->Fill(minMT_tight, weight);
+                            }else{ 
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_3j_0b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_3j_0b->Fill(nBjets, weight);
+                                h_MET_OSdilep_3j_0b->Fill(MET, weight);
+                                h_minMT_OSdilep_3j_0b->Fill(minMT_tight, weight);
+                            }
+                        }else if (elCharge_tight.size() == 2) {
+                            if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_3j_0b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_3j_0b->Fill(nBjets, weight);
+                                h_MET_SSdilep_3j_0b->Fill(MET, weight);
+                                h_minMT_SSdilep_3j_0b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_3j_0b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_3j_0b->Fill(nBjets, weight);
+                                h_MET_OSdilep_3j_0b->Fill(MET, weight);
+                                h_minMT_OSdilep_3j_0b->Fill(minMT_tight, weight);
+                            }
+                        }else if (muCharge_tight.size() == 1) {
+                            if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_3j_0b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_3j_0b->Fill(nBjets, weight);
+                                h_MET_SSdilep_3j_0b->Fill(MET, weight);
+                                h_minMT_SSdilep_3j_0b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_3j_0b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_3j_0b->Fill(nBjets, weight);
+                                h_MET_OSdilep_3j_0b->Fill(MET, weight);
+                                h_minMT_OSdilep_3j_0b->Fill(minMT_tight, weight);
+                            }
+                        }
+                    }//if nGoodLep == 2
+                    if (nGoodLep == 1 and nFakeableLep == 1){
+                        nOneLepFO += 1;
+                        h_nJet_onelepFO_3j_0b->Fill(nJets, weight);
+                        h_nBJet_onelepFO_3j_0b->Fill(nBjets, weight);
+                        h_MET_onelepFO_3j_0b->Fill(MET, weight);
+                        if (minMT_tight < minMT_loose){
+                            h_minMT_onelepFO_3j_0b->Fill(minMT_tight, weight);
+                        } else if (minMT_loose < minMT_tight){
+                            h_minMT_onelepFO_3j_0b->Fill(minMT_loose);
+                        }
+                    }//1lep+1FO
+                    if (nFakeableLep == 2){
+                        nFODiLep += 1;
+                        h_nJet_dilepFO_3j_0b->Fill(nJets, weight);
+                        h_nBJet_dilepFO_3j_0b->Fill(nBjets, weight);
+                        h_MET_dilepFO_3j_0b->Fill(MET, weight);
+                        h_minMT_dilepFO_3j_0b->Fill(minMT_loose);
+                    }//2FO
+                }/*0b*/else if(nBjets == 1){
+                    if ( nGoodLep >= 3 ){
+                        nTriLep += 1;
+                        h_nJet_trilep_3j_1b->Fill(nJets, weight);
+                        h_nBJet_trilep_3j_1b->Fill(nBjets, weight);
+                        h_MET_trilep_3j_1b->Fill(MET, weight);
+                        h_minMT_trilep_3j_1b->Fill(minMT_tight, weight);
+                    }//3lep
+                    if ( nGoodLep == 2 ){
+                        if (muCharge_tight.size() == 2){
+                            if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_3j_1b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_3j_1b->Fill(nBjets, weight);
+                                h_MET_SSdilep_3j_1b->Fill(MET, weight);
+                                h_minMT_SSdilep_3j_1b->Fill(minMT_tight, weight);
+                            }else{ 
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_3j_1b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_3j_1b->Fill(nBjets, weight);
+                                h_MET_OSdilep_3j_1b->Fill(MET, weight);
+                                h_minMT_OSdilep_3j_1b->Fill(minMT_tight, weight);
+                            }
+                        }else if (elCharge_tight.size() == 2) {
+                            if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_3j_1b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_3j_1b->Fill(nBjets, weight);
+                                h_MET_SSdilep_3j_1b->Fill(MET, weight);
+                                h_minMT_SSdilep_3j_1b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_3j_1b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_3j_1b->Fill(nBjets, weight);
+                                h_MET_OSdilep_3j_1b->Fill(MET, weight);
+                                h_minMT_OSdilep_3j_1b->Fill(minMT_tight, weight);
+                            }
+                        }else if (muCharge_tight.size() == 1) {
+                            if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_3j_1b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_3j_1b->Fill(nBjets, weight);
+                                h_MET_SSdilep_3j_1b->Fill(MET, weight);
+                                h_minMT_SSdilep_3j_1b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_3j_1b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_3j_1b->Fill(nBjets, weight);
+                                h_MET_OSdilep_3j_1b->Fill(MET, weight);
+                                h_minMT_OSdilep_3j_1b->Fill(minMT_tight, weight);
+                            }
+                        }
+                    }//if nGoodLep == 2
+                    if (nGoodLep == 1 and nFakeableLep == 1){
+                        nOneLepFO += 1;
+                        h_nJet_onelepFO_3j_1b->Fill(nJets, weight);
+                        h_nBJet_onelepFO_3j_1b->Fill(nBjets, weight);
+                        h_MET_onelepFO_3j_1b->Fill(MET, weight);
+                        if (minMT_tight < minMT_loose){
+                            h_minMT_onelepFO_3j_1b->Fill(minMT_tight, weight);
+                        } else if (minMT_loose < minMT_tight){
+                            h_minMT_onelepFO_3j_1b->Fill(minMT_loose);
+                        }
+                    }//1lep+1FO
+                    if (nFakeableLep == 2){
+                        nFODiLep += 1;
+                        h_nJet_dilepFO_3j_1b->Fill(nJets, weight);
+                        h_nBJet_dilepFO_3j_1b->Fill(nBjets, weight);
+                        h_MET_dilepFO_3j_1b->Fill(MET, weight);
+                        h_minMT_dilepFO_3j_1b->Fill(minMT_loose);
+                    }//2FO
+                }/*1b*/else if(nBjets >= 2){
+                    if ( nGoodLep >= 3 ){
+                        nTriLep += 1;
+                        h_nJet_trilep_3j_ge2b->Fill(nJets, weight);
+                        h_nBJet_trilep_3j_ge2b->Fill(nBjets, weight);
+                        h_MET_trilep_3j_ge2b->Fill(MET, weight);
+                        h_minMT_trilep_3j_ge2b->Fill(minMT_tight, weight);
+                    }//3lep
+                    if ( nGoodLep == 2 ){
+                        if (muCharge_tight.size() == 2){
+                            if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_3j_ge2b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_3j_ge2b->Fill(nBjets, weight);
+                                h_MET_SSdilep_3j_ge2b->Fill(MET, weight);
+                                h_minMT_SSdilep_3j_ge2b->Fill(minMT_tight, weight);
+                            }else{ 
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_3j_ge2b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_3j_ge2b->Fill(nBjets, weight);
+                                h_MET_OSdilep_3j_ge2b->Fill(MET, weight);
+                                h_minMT_OSdilep_3j_ge2b->Fill(minMT_tight, weight);
+                            }
+                        }else if (elCharge_tight.size() == 2) {
+                            if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_3j_ge2b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_3j_ge2b->Fill(nBjets, weight);
+                                h_MET_SSdilep_3j_ge2b->Fill(MET, weight);
+                                h_minMT_SSdilep_3j_ge2b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_3j_ge2b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_3j_ge2b->Fill(nBjets, weight);
+                                h_MET_OSdilep_3j_ge2b->Fill(MET, weight);
+                                h_minMT_OSdilep_3j_ge2b->Fill(minMT_tight, weight);
+                            }
+                        }else if (muCharge_tight.size() == 1) {
+                            if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_3j_ge2b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_3j_ge2b->Fill(nBjets, weight);
+                                h_MET_SSdilep_3j_ge2b->Fill(MET, weight);
+                                h_minMT_SSdilep_3j_ge2b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_3j_ge2b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_3j_ge2b->Fill(nBjets, weight);
+                                h_MET_OSdilep_3j_ge2b->Fill(MET, weight);
+                                h_minMT_OSdilep_3j_ge2b->Fill(minMT_tight, weight);
+                            }
+                        }
+                    }//if nGoodLep == 2
+                    if (nGoodLep == 1 and nFakeableLep == 1){
+                        nOneLepFO += 1;
+                        h_nJet_onelepFO_3j_ge2b->Fill(nJets, weight);
+                        h_nBJet_onelepFO_3j_ge2b->Fill(nBjets, weight);
+                        h_MET_onelepFO_3j_ge2b->Fill(MET, weight);
+                        if (minMT_tight < minMT_loose){
+                            h_minMT_onelepFO_3j_ge2b->Fill(minMT_tight, weight);
+                        } else if (minMT_loose < minMT_tight){
+                            h_minMT_onelepFO_3j_ge2b->Fill(minMT_loose);
+                        }
+                    }//1lep+1FO
+                    if (nFakeableLep == 2){
+                        nFODiLep += 1;
+                        h_nJet_dilepFO_3j_ge2b->Fill(nJets, weight);
+                        h_nBJet_dilepFO_3j_ge2b->Fill(nBjets, weight);
+                        h_MET_dilepFO_3j_ge2b->Fill(MET, weight);
+                        h_minMT_dilepFO_3j_ge2b->Fill(minMT_loose);
+                    }//2FO
+                }/*>=2b*/
+            }/*3jet*/else if( nJets >= 4 ){
+                if (nBjets == 0){
+                    if ( nGoodLep >= 3 ){
+                        nTriLep += 1;
+                        h_nJet_trilep_ge4j_0b->Fill(nJets, weight);
+                        h_nBJet_trilep_ge4j_0b->Fill(nBjets, weight);
+                        h_MET_trilep_ge4j_0b->Fill(MET, weight);
+                        h_minMT_trilep_ge4j_0b->Fill(minMT_tight, weight);
+                    }//3lep
+                    if ( nGoodLep == 2 ){
+                        if (muCharge_tight.size() == 2){
+                            if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_ge4j_0b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_ge4j_0b->Fill(nBjets, weight);
+                                h_MET_SSdilep_ge4j_0b->Fill(MET, weight);
+                                h_minMT_SSdilep_ge4j_0b->Fill(minMT_tight, weight);
+                            }else{ 
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_ge4j_0b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_ge4j_0b->Fill(nBjets, weight);
+                                h_MET_OSdilep_ge4j_0b->Fill(MET, weight);
+                                h_minMT_OSdilep_ge4j_0b->Fill(minMT_tight, weight);
+                            }
+                        }else if (elCharge_tight.size() == 2) {
+                            if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_ge4j_0b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_ge4j_0b->Fill(nBjets, weight);
+                                h_MET_SSdilep_ge4j_0b->Fill(MET, weight);
+                                h_minMT_SSdilep_ge4j_0b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_ge4j_0b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_ge4j_0b->Fill(nBjets, weight);
+                                h_MET_OSdilep_ge4j_0b->Fill(MET, weight);
+                                h_minMT_OSdilep_ge4j_0b->Fill(minMT_tight, weight);
+                            }
+                        }else if (muCharge_tight.size() == 1) {
+                            if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_ge4j_0b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_ge4j_0b->Fill(nBjets, weight);
+                                h_MET_SSdilep_ge4j_0b->Fill(MET, weight);
+                                h_minMT_SSdilep_ge4j_0b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_ge4j_0b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_ge4j_0b->Fill(nBjets, weight);
+                                h_MET_OSdilep_ge4j_0b->Fill(MET, weight);
+                                h_minMT_OSdilep_ge4j_0b->Fill(minMT_tight, weight);
+                            }
+                        }
+                    }//if nGoodLep == 2
+                    if (nGoodLep == 1 and nFakeableLep == 1){
+                        nOneLepFO += 1;
+                        h_nJet_onelepFO_ge4j_0b->Fill(nJets, weight);
+                        h_nBJet_onelepFO_ge4j_0b->Fill(nBjets, weight);
+                        h_MET_onelepFO_ge4j_0b->Fill(MET, weight);
+                        if (minMT_tight < minMT_loose){
+                            h_minMT_onelepFO_ge4j_0b->Fill(minMT_tight, weight);
+                        } else if (minMT_loose < minMT_tight){
+                            h_minMT_onelepFO_ge4j_0b->Fill(minMT_loose);
+                        }
+                    }//1lep+1FO
+                    if (nFakeableLep == 2){
+                        nFODiLep += 1;
+                        h_nJet_dilepFO_ge4j_0b->Fill(nJets, weight);
+                        h_nBJet_dilepFO_ge4j_0b->Fill(nBjets, weight);
+                        h_MET_dilepFO_ge4j_0b->Fill(MET, weight);
+                        h_minMT_dilepFO_ge4j_0b->Fill(minMT_loose);
+                    }//2FO
+                }/*0b*/else if(nBjets == 1){
+                    if ( nGoodLep >= 3 ){
+                        nTriLep += 1;
+                        h_nJet_trilep_ge4j_1b->Fill(nJets, weight);
+                        h_nBJet_trilep_ge4j_1b->Fill(nBjets, weight);
+                        h_MET_trilep_ge4j_1b->Fill(MET, weight);
+                        h_minMT_trilep_ge4j_1b->Fill(minMT_tight, weight);
+                    }//3lep
+                    if ( nGoodLep == 2 ){
+                        if (muCharge_tight.size() == 2){
+                            if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_ge4j_1b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_ge4j_1b->Fill(nBjets, weight);
+                                h_MET_SSdilep_ge4j_1b->Fill(MET, weight);
+                                h_minMT_SSdilep_ge4j_1b->Fill(minMT_tight, weight);
+                            }else{ 
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_ge4j_1b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_ge4j_1b->Fill(nBjets, weight);
+                                h_MET_OSdilep_ge4j_1b->Fill(MET, weight);
+                                h_minMT_OSdilep_ge4j_1b->Fill(minMT_tight, weight);
+                            }
+                        }else if (elCharge_tight.size() == 2) {
+                            if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_ge4j_1b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_ge4j_1b->Fill(nBjets, weight);
+                                h_MET_SSdilep_ge4j_1b->Fill(MET, weight);
+                                h_minMT_SSdilep_ge4j_1b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_ge4j_1b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_ge4j_1b->Fill(nBjets, weight);
+                                h_MET_OSdilep_ge4j_1b->Fill(MET, weight);
+                                h_minMT_OSdilep_ge4j_1b->Fill(minMT_tight, weight);
+                            }
+                        }else if (muCharge_tight.size() == 1) {
+                            if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_ge4j_1b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_ge4j_1b->Fill(nBjets, weight);
+                                h_MET_SSdilep_ge4j_1b->Fill(MET, weight);
+                                h_minMT_SSdilep_ge4j_1b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_ge4j_1b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_ge4j_1b->Fill(nBjets, weight);
+                                h_MET_OSdilep_ge4j_1b->Fill(MET, weight);
+                                h_minMT_OSdilep_ge4j_1b->Fill(minMT_tight, weight);
+                            }
+                        }
+                    }//if nGoodLep == 2
+                    if (nGoodLep == 1 and nFakeableLep == 1){
+                        nOneLepFO += 1;
+                        h_nJet_onelepFO_ge4j_1b->Fill(nJets, weight);
+                        h_nBJet_onelepFO_ge4j_1b->Fill(nBjets, weight);
+                        h_MET_onelepFO_ge4j_1b->Fill(MET, weight);
+                        if (minMT_tight < minMT_loose){
+                            h_minMT_onelepFO_ge4j_1b->Fill(minMT_tight, weight);
+                        } else if (minMT_loose < minMT_tight){
+                            h_minMT_onelepFO_ge4j_1b->Fill(minMT_loose);
+                        }
+                    }//1lep+1FO
+                    if (nFakeableLep == 2){
+                        nFODiLep += 1;
+                        h_nJet_dilepFO_ge4j_1b->Fill(nJets, weight);
+                        h_nBJet_dilepFO_ge4j_1b->Fill(nBjets, weight);
+                        h_MET_dilepFO_ge4j_1b->Fill(MET, weight);
+                        h_minMT_dilepFO_ge4j_1b->Fill(minMT_loose);
+                    }//2FO
+                }/*1b*/else if(nBjets >= 2){
+                    if ( nGoodLep >= 3 ){
+                        nTriLep += 1;
+                        h_nJet_trilep_ge4j_ge2b->Fill(nJets, weight);
+                        h_nBJet_trilep_ge4j_ge2b->Fill(nBjets, weight);
+                        h_MET_trilep_ge4j_ge2b->Fill(MET, weight);
+                        h_minMT_trilep_ge4j_ge2b->Fill(minMT_tight, weight);
+                    }//3lep
+                    if ( nGoodLep == 2 ){
+                        if (muCharge_tight.size() == 2){
+                            if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_ge4j_ge2b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_ge4j_ge2b->Fill(nBjets, weight);
+                                h_MET_SSdilep_ge4j_ge2b->Fill(MET, weight);
+                                h_minMT_SSdilep_ge4j_ge2b->Fill(minMT_tight, weight);
+                            }else{ 
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_ge4j_ge2b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_ge4j_ge2b->Fill(nBjets, weight);
+                                h_MET_OSdilep_ge4j_ge2b->Fill(MET, weight);
+                                h_minMT_OSdilep_ge4j_ge2b->Fill(minMT_tight, weight);
+                            }
+                        }else if (elCharge_tight.size() == 2) {
+                            if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_ge4j_ge2b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_ge4j_ge2b->Fill(nBjets, weight);
+                                h_MET_SSdilep_ge4j_ge2b->Fill(MET, weight);
+                                h_minMT_SSdilep_ge4j_ge2b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_ge4j_ge2b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_ge4j_ge2b->Fill(nBjets, weight);
+                                h_MET_OSdilep_ge4j_ge2b->Fill(MET, weight);
+                                h_minMT_OSdilep_ge4j_ge2b->Fill(minMT_tight, weight);
+                            }
+                        }else if (muCharge_tight.size() == 1) {
+                            if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                nSSDiLep += 1;
+                                h_nJet_SSdilep_ge4j_ge2b->Fill(nJets, weight);
+                                h_nBJet_SSdilep_ge4j_ge2b->Fill(nBjets, weight);
+                                h_MET_SSdilep_ge4j_ge2b->Fill(MET, weight);
+                                h_minMT_SSdilep_ge4j_ge2b->Fill(minMT_tight, weight);
+                            }else{
+                                nOSDiLep += 1;
+                                h_nJet_OSdilep_ge4j_ge2b->Fill(nJets, weight);
+                                h_nBJet_OSdilep_ge4j_ge2b->Fill(nBjets, weight);
+                                h_MET_OSdilep_ge4j_ge2b->Fill(MET, weight);
+                                h_minMT_OSdilep_ge4j_ge2b->Fill(minMT_tight, weight);
+                            }
+                        }
+                    }//if nGoodLep == 2
+                    if (nGoodLep == 1 and nFakeableLep == 1){
+                        nOneLepFO += 1;
+                        h_nJet_onelepFO_ge4j_ge2b->Fill(nJets, weight);
+                        h_nBJet_onelepFO_ge4j_ge2b->Fill(nBjets, weight);
+                        h_MET_onelepFO_ge4j_ge2b->Fill(MET, weight);
+                        if (minMT_tight < minMT_loose){
+                            h_minMT_onelepFO_ge4j_ge2b->Fill(minMT_tight, weight);
+                        } else if (minMT_loose < minMT_tight){
+                            h_minMT_onelepFO_ge4j_ge2b->Fill(minMT_loose);
+                        }
+                    }//1lep+1FO
+                    if (nFakeableLep == 2){
+                        nFODiLep += 1;
+                        h_nJet_dilepFO_ge4j_ge2b->Fill(nJets, weight);
+                        h_nBJet_dilepFO_ge4j_ge2b->Fill(nBjets, weight);
+                        h_MET_dilepFO_ge4j_ge2b->Fill(MET, weight);
+                        h_minMT_dilepFO_ge4j_ge2b->Fill(minMT_loose);
+                    }//2FO
+                }/*>=2b*/
+            }/*>=4jet*/
         }//event loop
 
         auto stop = high_resolution_clock::now();
@@ -321,29 +1128,237 @@ void event_looper(){
         cout << "processed " << nEvents << " events in " << duration.count() << " seconds!!" << endl;
 
 
-        h_nJet_trilep->Write();
-        h_nJet_SSdilep->Write();
-        h_nJet_OSdilep->Write();
-        h_nJet_onelepFO->Write();
-        h_nJet_dilepFO->Write();
+        /*h_nJet_trilep_2j_0b->Write();
+        h_nJet_SSdilep_2j_0b->Write();
+        h_nJet_OSdilep_2j_0b->Write();
+        h_nJet_onelepFO_2j_0b->Write();
+        h_nJet_dilepFO_2j_0b->Write();
 
-        h_nBJet_trilep->Write();
-        h_nBJet_SSdilep->Write();
-        h_nBJet_OSdilep->Write();
-        h_nBJet_onelepFO->Write();
-        h_nBJet_dilepFO->Write();
+        h_nBJet_trilep_2j_0b->Write();
+        h_nBJet_SSdilep_2j_0b->Write();
+        h_nBJet_OSdilep_2j_0b->Write();
+        h_nBJet_onelepFO_2j_0b->Write();
+        h_nBJet_dilepFO_2j_0b->Write();
 
-        h_MET_trilep->Write();
-        h_MET_SSdilep->Write();
-        h_MET_OSdilep->Write();
-        h_MET_onelepFO->Write();
-        h_MET_dilepFO->Write();
+        h_MET_trilep_2j_0b->Write();
+        h_MET_SSdilep_2j_0b->Write();
+        h_MET_OSdilep_2j_0b->Write();
+        h_MET_onelepFO_2j_0b->Write();
+        h_MET_dilepFO_2j_0b->Write();
 
-        h_minMT_trilep->Write();
-        h_minMT_SSdilep->Write();
-        h_minMT_OSdilep->Write();
-        h_minMT_onelepFO->Write();
-        h_minMT_dilepFO->Write();
+        h_minMT_trilep_2j_0b->Write();
+        h_minMT_SSdilep_2j_0b->Write();
+        h_minMT_OSdilep_2j_0b->Write();
+        h_minMT_onelepFO_2j_0b->Write();
+        h_minMT_dilepFO_2j_0b->Write();
+        
+
+
+        h_nJet_trilep_2j_1b->Write();
+        h_nJet_SSdilep_2j_1b->Write();
+        h_nJet_OSdilep_2j_1b->Write();
+        h_nJet_onelepFO_2j_1b->Write();
+        h_nJet_dilepFO_2j_1b->Write();
+
+        h_nBJet_trilep_2j_1b->Write();
+        h_nBJet_SSdilep_2j_1b->Write();
+        h_nBJet_OSdilep_2j_1b->Write();
+        h_nBJet_onelepFO_2j_1b->Write();
+        h_nBJet_dilepFO_2j_1b->Write();
+
+        h_MET_trilep_2j_1b->Write();
+        h_MET_SSdilep_2j_1b->Write();
+        h_MET_OSdilep_2j_1b->Write();
+        h_MET_onelepFO_2j_1b->Write();
+        h_MET_dilepFO_2j_1b->Write();
+
+        h_minMT_trilep_2j_1b->Write();
+        h_minMT_SSdilep_2j_1b->Write();
+        h_minMT_OSdilep_2j_1b->Write();
+        h_minMT_onelepFO_2j_1b->Write();
+        h_minMT_dilepFO_2j_1b->Write();
+        
+
+
+        h_nJet_trilep_2j_ge2b->Write();
+        h_nJet_SSdilep_2j_ge2b->Write();
+        h_nJet_OSdilep_2j_ge2b->Write();
+        h_nJet_onelepFO_2j_ge2b->Write();
+        h_nJet_dilepFO_2j_ge2b->Write();
+
+        h_nBJet_trilep_2j_ge2b->Write();
+        h_nBJet_SSdilep_2j_ge2b->Write();
+        h_nBJet_OSdilep_2j_ge2b->Write();
+        h_nBJet_onelepFO_2j_ge2b->Write();
+        h_nBJet_dilepFO_2j_ge2b->Write();
+
+        h_MET_trilep_2j_ge2b->Write();
+        h_MET_SSdilep_2j_ge2b->Write();
+        h_MET_OSdilep_2j_ge2b->Write();
+        h_MET_onelepFO_2j_ge2b->Write();
+        h_MET_dilepFO_2j_ge2b->Write();
+
+        h_minMT_trilep_2j_ge2b->Write();
+        h_minMT_SSdilep_2j_ge2b->Write();
+        h_minMT_OSdilep_2j_ge2b->Write();
+        h_minMT_onelepFO_2j_ge2b->Write();
+        h_minMT_dilepFO_2j_ge2b->Write();
+        
+
+        
+        h_nJet_trilep_3j_0b->Write();
+        h_nJet_SSdilep_3j_0b->Write();
+        h_nJet_OSdilep_3j_0b->Write();
+        h_nJet_onelepFO_3j_0b->Write();
+        h_nJet_dilepFO_3j_0b->Write();
+
+        h_nBJet_trilep_3j_0b->Write();
+        h_nBJet_SSdilep_3j_0b->Write();
+        h_nBJet_OSdilep_3j_0b->Write();
+        h_nBJet_onelepFO_3j_0b->Write();
+        h_nBJet_dilepFO_3j_0b->Write();
+
+        h_MET_trilep_3j_0b->Write();
+        h_MET_SSdilep_3j_0b->Write();
+        h_MET_OSdilep_3j_0b->Write();
+        h_MET_onelepFO_3j_0b->Write();
+        h_MET_dilepFO_3j_0b->Write();
+
+        h_minMT_trilep_3j_0b->Write();
+        h_minMT_SSdilep_3j_0b->Write();
+        h_minMT_OSdilep_3j_0b->Write();
+        h_minMT_onelepFO_3j_0b->Write();
+        h_minMT_dilepFO_3j_0b->Write();
+        
+
+
+        h_nJet_trilep_3j_1b->Write();
+        h_nJet_SSdilep_3j_1b->Write();
+        h_nJet_OSdilep_3j_1b->Write();
+        h_nJet_onelepFO_3j_1b->Write();
+        h_nJet_dilepFO_3j_1b->Write();
+
+        h_nBJet_trilep_3j_1b->Write();
+        h_nBJet_SSdilep_3j_1b->Write();
+        h_nBJet_OSdilep_3j_1b->Write();
+        h_nBJet_onelepFO_3j_1b->Write();
+        h_nBJet_dilepFO_3j_1b->Write();
+
+        h_MET_trilep_3j_1b->Write();
+        h_MET_SSdilep_3j_1b->Write();
+        h_MET_OSdilep_3j_1b->Write();
+        h_MET_onelepFO_3j_1b->Write();
+        h_MET_dilepFO_3j_1b->Write();
+
+        h_minMT_trilep_3j_1b->Write();
+        h_minMT_SSdilep_3j_1b->Write();
+        h_minMT_OSdilep_3j_1b->Write();
+        h_minMT_onelepFO_3j_1b->Write();
+        h_minMT_dilepFO_3j_1b->Write();
+        
+
+
+        h_nJet_trilep_3j_ge2b->Write();
+        h_nJet_SSdilep_3j_ge2b->Write();
+        h_nJet_OSdilep_3j_ge2b->Write();
+        h_nJet_onelepFO_3j_ge2b->Write();
+        h_nJet_dilepFO_3j_ge2b->Write();
+
+        h_nBJet_trilep_3j_ge2b->Write();
+        h_nBJet_SSdilep_3j_ge2b->Write();
+        h_nBJet_OSdilep_3j_ge2b->Write();
+        h_nBJet_onelepFO_3j_ge2b->Write();
+        h_nBJet_dilepFO_3j_ge2b->Write();
+
+        h_MET_trilep_3j_ge2b->Write();
+        h_MET_SSdilep_3j_ge2b->Write();
+        h_MET_OSdilep_3j_ge2b->Write();
+        h_MET_onelepFO_3j_ge2b->Write();
+        h_MET_dilepFO_3j_ge2b->Write();
+
+        h_minMT_trilep_3j_ge2b->Write();
+        h_minMT_SSdilep_3j_ge2b->Write();
+        h_minMT_OSdilep_3j_ge2b->Write();
+        h_minMT_onelepFO_3j_ge2b->Write();
+        h_minMT_dilepFO_3j_ge2b->Write();
+        
+        
+        
+        h_nJet_trilep_ge4j_0b->Write();
+        h_nJet_SSdilep_ge4j_0b->Write();
+        h_nJet_OSdilep_ge4j_0b->Write();
+        h_nJet_onelepFO_ge4j_0b->Write();
+        h_nJet_dilepFO_ge4j_0b->Write();
+
+        h_nBJet_trilep_ge4j_0b->Write();
+        h_nBJet_SSdilep_ge4j_0b->Write();
+        h_nBJet_OSdilep_ge4j_0b->Write();
+        h_nBJet_onelepFO_ge4j_0b->Write();
+        h_nBJet_dilepFO_ge4j_0b->Write();
+
+        h_MET_trilep_ge4j_0b->Write();
+        h_MET_SSdilep_ge4j_0b->Write();
+        h_MET_OSdilep_ge4j_0b->Write();
+        h_MET_onelepFO_ge4j_0b->Write();
+        h_MET_dilepFO_ge4j_0b->Write();
+
+        h_minMT_trilep_ge4j_0b->Write();
+        h_minMT_SSdilep_ge4j_0b->Write();
+        h_minMT_OSdilep_ge4j_0b->Write();
+        h_minMT_onelepFO_ge4j_0b->Write();
+        h_minMT_dilepFO_ge4j_0b->Write();
+        
+
+
+        h_nJet_trilep_ge4j_1b->Write();
+        h_nJet_SSdilep_ge4j_1b->Write();
+        h_nJet_OSdilep_ge4j_1b->Write();
+        h_nJet_onelepFO_ge4j_1b->Write();
+        h_nJet_dilepFO_ge4j_1b->Write();
+
+        h_nBJet_trilep_ge4j_1b->Write();
+        h_nBJet_SSdilep_ge4j_1b->Write();
+        h_nBJet_OSdilep_ge4j_1b->Write();
+        h_nBJet_onelepFO_ge4j_1b->Write();
+        h_nBJet_dilepFO_ge4j_1b->Write();
+
+        h_MET_trilep_ge4j_1b->Write();
+        h_MET_SSdilep_ge4j_1b->Write();
+        h_MET_OSdilep_ge4j_1b->Write();
+        h_MET_onelepFO_ge4j_1b->Write();
+        h_MET_dilepFO_ge4j_1b->Write();
+
+        h_minMT_trilep_ge4j_1b->Write();
+        h_minMT_SSdilep_ge4j_1b->Write();
+        h_minMT_OSdilep_ge4j_1b->Write();
+        h_minMT_onelepFO_ge4j_1b->Write();
+        h_minMT_dilepFO_ge4j_1b->Write();
+        
+
+
+        h_nJet_trilep_ge4j_ge2b->Write();
+        h_nJet_SSdilep_ge4j_ge2b->Write();
+        h_nJet_OSdilep_ge4j_ge2b->Write();
+        h_nJet_onelepFO_ge4j_ge2b->Write();
+        h_nJet_dilepFO_ge4j_ge2b->Write();
+
+        h_nBJet_trilep_ge4j_ge2b->Write();
+        h_nBJet_SSdilep_ge4j_ge2b->Write();
+        h_nBJet_OSdilep_ge4j_ge2b->Write();
+        h_nBJet_onelepFO_ge4j_ge2b->Write();
+        h_nBJet_dilepFO_ge4j_ge2b->Write();
+
+        h_MET_trilep_ge4j_ge2b->Write();
+        h_MET_SSdilep_ge4j_ge2b->Write();
+        h_MET_OSdilep_ge4j_ge2b->Write();
+        h_MET_onelepFO_ge4j_ge2b->Write();
+        h_MET_dilepFO_ge4j_ge2b->Write();
+
+        h_minMT_trilep_ge4j_ge2b->Write();
+        h_minMT_SSdilep_ge4j_ge2b->Write();
+        h_minMT_OSdilep_ge4j_ge2b->Write();
+        h_minMT_onelepFO_ge4j_ge2b->Write();
+        h_minMT_dilepFO_ge4j_ge2b->Write();*/
 
     }
 

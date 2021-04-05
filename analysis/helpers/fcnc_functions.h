@@ -23,13 +23,90 @@ float mt( float obj1_pt, float obj1_phi, float obj2_pt, float obj2_phi ){
     return mt;
 }
 
-bool isTightLepton( float pdgid, float pt, float eta, float miniIso_all, bool tight_id ){
+bool passesIso(float mini_iso, float mini_iso_cut, float jet_iso, float pt_ratio_cut, float pt_rel, float pt_rel_cut){
+    float pt_ratio = 1/(jet_iso + 1);
+
+    bool pass_miniIso = mini_iso < mini_iso_cut;
+    bool pass_pt_ratio = pt_ratio > pt_ratio_cut;
+    bool pass_pt_rel = pt_rel > pt_rel_cut;
+
+    return ( pass_miniIso && (pass_pt_ratio || pass_pt_rel) );
+}
+
+int isoType(int year, int pdgid, float miniIso, float jetIso, float ptRel){
+
+    int isoType = 0; //1 for fakable, 2 for tight, else 0
+
+    //for muons
+    if(abs(pdgid) == 13){
+        if (year == 2018 || year == 2017){
+            if (passesIso(miniIso, 0.11, jetIso, 0.74, ptRel, 6.8)){
+                isoType = 2;
+            }else if (miniIso < 0.4){
+                isoType = 1;
+            }
+        }else if(year == 2016){
+            if(passesIso(miniIso, 0.16, jetIso, 0.76, ptRel, 7.2)){
+                isoType = 2;
+            }else if(miniIso < 0.4){
+                isoType = 1;
+            }
+        }//year
+    }else if (abs(pdgid)==11){
+        if(year == 2018 or year == 2017){
+            if (passesIso(miniIso, 0.07, jetIso, 0.78, ptRel, 8.0)){
+                isoType = 2;
+            }else if (miniIso <= 0.4){
+                isoType = 1;
+            }
+        }else if(year == 2016){
+            if (passesIso(miniIso, 0.12, jetIso, 0.80, ptRel, 7.2)){
+                isoType = 2;
+            }else if (miniIso <= 0.4){
+                isoType = 1;
+            }
+        }//year
+    }//lepton flavor check
+    return isoType;
+}
+
+bool isGoodElectron( float dxy, float dz, float sip3d, float tightCharge, int lostHits, bool convVeto ){
+
+    bool isGood = 0;
+
+    if ( abs(dxy)<0.05 && abs(dz)<0.01 && abs(sip3d)<4 && tightCharge ==2 ){
+        if ( lostHits==0 && convVeto==1 ){
+            isGood=1;
+        }
+        else isGood = 0;
+    }else isGood = 0;
+
+    return isGood;
+
+}
+
+bool isGoodMuon( float dxy, float dz, float sip3d, float tightCharge, bool mediumID, float chargeQuality ){
+
+    bool isGood = 0;
+
+    if ( abs(dxy)<0.05 && abs(dz)<0.01 && abs(sip3d)<4 && tightCharge ==2 ){
+        if ( mediumID == 1 && chargeQuality < 0.2 ){
+            isGood = 1;
+        }
+        else isGood = 0;
+    }else isGood = 0;
+
+    return isGood;
+
+}
+
+bool isTightLepton( float pdgid, float pt, float eta, bool isGood, int isoType ){
 
     bool isTight = 0;
-    if ( abs( eta ) < 2.4 ){
-        if ( abs( pdgid ) == 11 && pt > 25 && miniIso_all < 0.12 ){
+    if ( abs( eta ) < 2.4 && isGood == 1 && isoType == 2 ){
+        if ( abs( pdgid ) == 11 && pt > 25 ){
             isTight = 1;
-        }else if( abs( pdgid ) ==13 && pt > 20 && miniIso_all < 0.16 ){
+        }else if( abs( pdgid ) == 13 && pt > 20 ){
             isTight = 1;
         }else {
             isTight = 0;
@@ -41,13 +118,13 @@ bool isTightLepton( float pdgid, float pt, float eta, float miniIso_all, bool ti
 
 }
 
-bool isLooseLepton( float pdgid, float pt, float eta, float miniIso_all, bool loose_id ){
+bool isLooseLepton( float pdgid, float pt, float eta, bool isGood, int isoType ){
     
     bool isLoose = 0;
-    if ( abs( eta ) <2.4 ){
-        if ( pdgid==11 && pt>25 && miniIso_all > 0.12 && miniIso_all < 0.4 ){
+    if ( abs( eta ) <2.4 && isGood == 1 && isoType == 1 ){
+        if ( pdgid==11 && pt>25 ){
             isLoose = 1;
-        }else if ( pdgid==13 && pt>20 && miniIso_all > 0.16 && miniIso_all < 0.4 ){
+        }else if ( pdgid==13 && pt>20 ){
             isLoose = 1;
         }else {
             isLoose = 0;
