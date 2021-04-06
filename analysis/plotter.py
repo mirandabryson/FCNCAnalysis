@@ -1,4 +1,3 @@
-
 import ROOT
 import time
 import numpy as np
@@ -40,7 +39,10 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
     backgrXMin = 0
     backgrXMax = 0
 
+    print("did all this stuff")
+
     for h, c, l in zip(hist, histColors, legendNames):
+        print("entered this loop")
         if l == "signal_hut":
             h.SetLineColor(c)
             h_signal_hut = h.Clone()
@@ -53,6 +55,7 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
             signalXMax = h_signal_hut.GetXaxis().GetXmax()
             signalXMin = h_signal_hut.GetXaxis().GetXmin()
             #print(signalYMax,signalYMin,signalXMax,signalXMin)
+            print("did hut signal stuff")
         
         elif l == "signal_hct":
             h.SetLineColor(c)
@@ -61,12 +64,19 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
             h_signal_hct.SetStats(0)
             h_signal_hct.SetLineWidth(2)
             legend.AddEntry(h_signal_hct, l)
+            print("did hct signal stuff")
 
         else:
-            h.SetLineColor(ROOT.kBlack)
-            h.SetFillColor(c)
+            print("im here")
+            #h.SetLineColor(c)
+            #print("i set line color")
+            #h.SetFillColor(c)
+            #print("i set fill color")
             h_stack.Add(h)
+            print("i add to stack")
             legend.AddEntry(h, l)
+            print("did background stuff")
+
         
         """h.SetLineColor(c)
         h.SetLineWidth(2)
@@ -83,18 +93,15 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
         h_stack.Draw("hist")
         h_signal_hut.Draw("hist same")
         h_signal_hct.Draw("hist same")
+        print("backgrounds bigger")
     else:
         h_signal_hut.Draw("hist")
         #h_signal_hct.Draw("hist")
         h_stack.Draw("hist same")
         h_signal_hut.Draw("hist same")
         h_signal_hct.Draw("hist same")
-        
-    #pad1.GetRangeAxis()
-    #print(pad1.GetRangeAxis())
+        print("signals bigger")
 
-    #h_stack.Draw("hist")
-    #h_signal.Draw("hist same")
     legend.Draw()
 
 
@@ -102,19 +109,23 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
     can.SaveAs(outdir+hist_name+".png")
 
 # main loop
-'''processTypes = ["fakes",
+#outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots/"
+outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/plots/"
+
+processTypes = ["other",
+                "fakes",
                 "flips",
-                "rareSM",
-                "GluGlu",
-                "signal"
+                "signal_hut",
+                "signal_hct"
                 ]
+
 processColors = [ROOT.kRed,
                  ROOT.kBlue,
                  ROOT.kOrange+7,
                  ROOT.kPink+7,
                  ROOT.kGreen+2
-                ]'''
-processTypes = ["signal_hut",
+                ]
+"""processTypes = ["signal_hut",
                 "signal_hct",
                 "rareSM",
                 "wjets",
@@ -131,137 +142,60 @@ processColors = [ROOT.kGreen+2,
                  ROOT.kViolet-5,
                  ROOT.kRed,
                  ROOT.kBlue
-                ]
+                ]"""
 
-nJet_trilep = []
-nJet_SSdilep = []
-nJet_OSdilep = []
-nJet_onelepFO = []
-nJet_dilepFO = []
+leptonSelections = ["trilep",
+                    "SS_SF_dilep",
+                    "SS_OF_dilep",
+                    "OS_SF_dilep",
+                    "OS_OF_dilep",
+                    "onelepFO",
+                    "dilepFO"
+                   ]
 
-nBJet_trilep = []
-nBJet_SSdilep = []
-nBJet_OSdilep = []
-nBJet_onelepFO = []
-nBJet_dilepFO = []
+jetSelections = ["2j",
+                 "3j",
+                 "ge4j"
+                 ]
 
-MET_trilep = []
-MET_SSdilep = []
-MET_OSdilep = []
-MET_onelepFO = []
-MET_dilepFO = []
+bJetSelections = ["0b",
+                  "1b",
+                  "ge2b"
+                  ]
 
-minMT_trilep = []
-minMT_SSdilep = []
-minMT_OSdilep = []
-minMT_onelepFO = []
-minMT_dilepFO = []
+plottedVariables = [["nJet", 7, -0.5, 6.5],
+                    ["nBJet", 4, -0.5, 3.5], 
+                    ["nGoodLeps", 6, -0.5, 5.5],
+                    ["leadLepPt", 50, 0, 500],
+                    ["leadLepEta", 20, -5, 5],
+                    ["leadLepMass", 50, 0, 500],
+                    ["leadLepMiniIso", 50, 0, 5],
+                    ["leadLepPtRel", 50, 0, 10],
+                    ["leadLepPtRatio", 50, 0, 5],
+                    ["leadJetPt", 50, 0, 500],
+                    ["leadBPt", 50, 0, 500],
+                    ["leadBMass", 50, 0, 500],
+                    ["jetHT", 100, 0, 1000],
+                    ["MET", 50, 0, 500],
+                    ["minMT", 50, 0, 500],
+                    ["MT_b_MET", 50, 0, 500]
+                   ]
 
-for p in processTypes:
-
-    h_nJet_trilep   = ROOT.TH1F("h_nJet_trilep", "nJet", 7, -0.5, 6.5)
-    h_nJet_SSdilep  = ROOT.TH1D("h_nJet_SSdilep",  "nJets", 7, -0.5, 6.5)
-    h_nJet_OSdilep  = ROOT.TH1D("h_nJet_OSdilep",  "nJets", 7, -0.5, 6.5)
-    h_nJet_onelepFO = ROOT.TH1D("h_nJet_onelepFO", "nJets", 7, -0.5, 6.5)
-    h_nJet_dilepFO  = ROOT.TH1D("h_nJet_dilepFO",  "nJets", 7, -0.5, 6.5)
-    
-    h_nBJet_trilep   = ROOT.TH1D("h_nBJet_trilep",   "nb-tagged Jets", 4, -0.5, 3.5)
-    h_nBJet_SSdilep  = ROOT.TH1D("h_nBJet_SSdilep",  "nb-tagged Jets", 4, -0.5, 3.5)
-    h_nBJet_OSdilep  = ROOT.TH1D("h_nBJet_OSdilep",  "nb-tagged Jets", 4, -0.5, 3.5)
-    h_nBJet_onelepFO = ROOT.TH1D("h_nBJet_onelepFO", "nb-tagged Jets", 4, -0.5, 3.5)
-    h_nBJet_dilepFO  = ROOT.TH1D("h_nBJet_dilepFO",  "nb-tagged Jets", 4, -0.5, 3.5)
-    
-    h_MET_trilep   = ROOT.TH1D("h_MET_trilep",   "MET", 50, 0, 500)
-    h_MET_SSdilep  = ROOT.TH1D("h_MET_SSdilep",  "MET", 50, 0, 500)
-    h_MET_OSdilep  = ROOT.TH1D("h_MET_OSdilep",  "MET", 50, 0, 500)
-    h_MET_onelepFO = ROOT.TH1D("h_MET_onelepFO", "MET", 50, 0, 500)
-    h_MET_dilepFO  = ROOT.TH1D("h_MET_dilepFO",  "MET", 50, 0, 500)
-    
-    h_minMT_trilep   = ROOT.TH1D("h_minMT_trilep",   "minMT", 50, 0, 500)
-    h_minMT_SSdilep  = ROOT.TH1D("h_minMT_SSdilep",  "minMT", 50, 0, 500)
-    h_minMT_OSdilep  = ROOT.TH1D("h_minMT_OSdilep",  "minMT", 50, 0, 500)
-    h_minMT_onelepFO = ROOT.TH1D("h_minMT_onelepFO", "minMT", 50, 0, 500)
-    h_minMT_dilepFO  = ROOT.TH1D("h_minMT_dilepFO",  "minMT", 50, 0, 500)
-
-    h_nJet_trilep   = inFile.Get("h_nJet_trilep"+"_"+p)
-    h_nJet_SSdilep  = inFile.Get("h_nJet_SSdilep"+"_"+p)
-    h_nJet_OSdilep  = inFile.Get("h_nJet_OSdilep"+"_"+p)
-    h_nJet_onelepFO = inFile.Get("h_nJet_onelepFO"+"_"+p)
-    h_nJet_dilepFO  = inFile.Get("h_nJet_dilepFO"+"_"+p)
-    
-    h_nBJet_trilep   = inFile.Get("h_nBJet_trilep"+"_"+p)
-    h_nBJet_SSdilep  = inFile.Get("h_nBJet_SSdilep"+"_"+p)
-    h_nBJet_OSdilep  = inFile.Get("h_nBJet_OSdilep"+"_"+p)
-    h_nBJet_onelepFO = inFile.Get("h_nBJet_onelepFO"+"_"+p)
-    h_nBJet_dilepFO  = inFile.Get("h_nBJet_dilepFO"+"_"+p)
-    
-    h_MET_trilep   = inFile.Get("h_MET_trilep"+"_"+p)
-    h_MET_SSdilep  = inFile.Get("h_MET_SSdilep"+"_"+p)
-    h_MET_OSdilep  = inFile.Get("h_MET_OSdilep"+"_"+p)
-    h_MET_onelepFO = inFile.Get("h_MET_onelepFO"+"_"+p)
-    h_MET_dilepFO  = inFile.Get("h_MET_dilepFO"+"_"+p)
-    
-    h_minMT_trilep   = inFile.Get("h_minMT_trilep"+"_"+p)
-    h_minMT_SSdilep  = inFile.Get("h_minMT_SSdilep"+"_"+p)
-    h_minMT_OSdilep  = inFile.Get("h_minMT_OSdilep"+"_"+p)
-    h_minMT_onelepFO = inFile.Get("h_minMT_onelepFO"+"_"+p)
-    h_minMT_dilepFO  = inFile.Get("h_minMT_dilepFO"+"_"+p)
-
-
-
-    nJet_trilep.append(h_nJet_trilep)
-    nJet_SSdilep.append(h_nJet_SSdilep)
-    nJet_OSdilep.append(h_nJet_OSdilep)
-    nJet_onelepFO.append(h_nJet_onelepFO)
-    nJet_dilepFO.append(h_nJet_dilepFO)
-
-    nBJet_trilep.append(h_nBJet_trilep)
-    nBJet_SSdilep.append(h_nBJet_SSdilep)
-    nBJet_OSdilep.append(h_nBJet_OSdilep)
-    nBJet_onelepFO.append(h_nBJet_onelepFO)
-    nBJet_dilepFO.append(h_nBJet_dilepFO)
-
-    MET_trilep.append(h_MET_trilep)
-    MET_SSdilep.append(h_MET_SSdilep)
-    MET_OSdilep.append(h_MET_OSdilep)
-    MET_onelepFO.append(h_MET_onelepFO)
-    MET_dilepFO.append(h_MET_dilepFO)
-
-    minMT_trilep.append(h_minMT_trilep)
-    minMT_SSdilep.append(h_minMT_SSdilep)
-    minMT_OSdilep.append(h_minMT_OSdilep)
-    minMT_onelepFO.append(h_minMT_onelepFO)
-    minMT_dilepFO.append(h_minMT_dilepFO)
-
-print("defined histograms")
-
-
-#write histograms
-outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots/"
-#outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/plots/"
-
-saveFig(nJet_trilep, processColors, processTypes, "h_nJet_trilep", outdir)
-saveFig(nJet_SSdilep, processColors, processTypes, "h_nJet_SSdilep", outdir)
-saveFig(nJet_OSdilep, processColors, processTypes, "h_nJet_OSdilep", outdir)
-saveFig(nJet_onelepFO, processColors, processTypes, "h_nJet_onelepFO", outdir)
-saveFig(nJet_dilepFO, processColors, processTypes, "h_nJet_dilepFO", outdir)
-
-saveFig(nBJet_trilep, processColors, processTypes, "h_nBJet_trilep", outdir)
-saveFig(nBJet_SSdilep, processColors, processTypes, "h_nBJet_SSdilep", outdir)
-saveFig(nBJet_OSdilep, processColors, processTypes, "h_nBJet_OSdilep", outdir)
-saveFig(nBJet_onelepFO, processColors, processTypes, "h_nBJet_onelepFO", outdir)
-saveFig(nBJet_dilepFO, processColors, processTypes, "h_nBJet_dilepFO", outdir)
-
-saveFig(MET_trilep, processColors, processTypes, "h_MET_trilep", outdir)
-saveFig(MET_SSdilep, processColors, processTypes, "h_MET_SSdilep", outdir)
-saveFig(MET_OSdilep, processColors, processTypes, "h_MET_OSdilep", outdir)
-saveFig(MET_onelepFO, processColors, processTypes, "h_MET_onelepFO", outdir)
-saveFig(MET_dilepFO, processColors, processTypes, "h_MET_dilepFO", outdir)
-
-saveFig(minMT_trilep, processColors, processTypes, "h_minMT_trilep", outdir)
-saveFig(minMT_SSdilep, processColors, processTypes, "h_minMT_SSdilep", outdir)
-saveFig(minMT_OSdilep, processColors, processTypes, "h_minMT_OSdilep", outdir)
-saveFig(minMT_onelepFO, processColors, processTypes, "h_minMT_onelepFO", outdir)
-saveFig(minMT_dilepFO, processColors, processTypes, "h_minMT_dilepFO", outdir)
-
-print("saved histograms")
+for var in plottedVariables:
+    v = var[0]
+    nbins = var[1]
+    xmin = var[2]
+    xmax = var[3]
+    for l in leptonSelections:
+        for j in jetSelections:
+            for b in bJetSelections:
+                histosToPlot = []
+                for p in processTypes:
+                    histoName = "h_"+v+"_"+l+"_"+j+"_"+b+"_"+p
+                    print(histoName)
+                    hist = ROOT.TH1F(histoName, v, nbins, xmin, xmax)
+                    hist = inFile.Get(histoName)
+                    histosToPlot.append(hist)
+                print(len(histosToPlot))
+                saveFig(histosToPlot, processColors, processTypes, v, outdir)
+                print('saved those histos')

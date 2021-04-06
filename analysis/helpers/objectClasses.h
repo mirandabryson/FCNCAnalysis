@@ -5,6 +5,7 @@ class Lepton {
         vector<float> pt;
         vector<float> eta;
         vector<float> phi;
+        vector<float> mass;
         vector<float> charge;
         vector<float> miniIso;
         vector<float> jetRelIso;
@@ -24,6 +25,7 @@ class Electron: public Lepton {//class electron inherits from class lepton
         vector<float> el_pt;
         vector<float> el_eta;
         vector<float> el_phi;
+        vector<float> el_mass;
         vector<float> el_charge;
         vector<float> el_miniIso;
         vector<float> el_jetRelIso;
@@ -48,6 +50,7 @@ class Electron: public Lepton {//class electron inherits from class lepton
                 el_pt.push_back( chain->GetLeaf("Electron_pt")->GetValue(el) );
                 el_eta.push_back( chain->GetLeaf("Electron_eta")->GetValue(el) );
                 el_phi.push_back( chain->GetLeaf("Electron_phi")->GetValue(el) );
+                el_mass.push_back( chain->GetLeaf("Electron_mass")->GetValue(el) );
                 el_charge.push_back( chain->GetLeaf("Electron_charge")->GetValue(el) );
                 el_miniIso.push_back( chain->GetLeaf("Electron_miniPFRelIso_all")->GetValue(el) );
                 el_jetRelIso.push_back( chain->GetLeaf("Electron_jetRelIso")->GetValue(el) );
@@ -70,6 +73,7 @@ class Electron: public Lepton {//class electron inherits from class lepton
             pt = el_pt;
             eta = el_eta;
             phi = el_phi;
+            mass = el_mass;
             charge = el_charge;
             miniIso = el_miniIso;
             jetRelIso = el_jetRelIso;
@@ -94,6 +98,7 @@ class Muon: public Lepton {//class muon inherits from class lepton
         vector<float> mu_pt;
         vector<float> mu_eta;
         vector<float> mu_phi;
+        vector<float> mu_mass;
         vector<float> mu_charge;
         vector<float> mu_miniIso;
         vector<float> mu_jetRelIso;
@@ -120,6 +125,7 @@ class Muon: public Lepton {//class muon inherits from class lepton
                 mu_pt.push_back( chain->GetLeaf("Muon_pt")->GetValue(mu) );
                 mu_eta.push_back( chain->GetLeaf("Muon_eta")->GetValue(mu) );
                 mu_phi.push_back( chain->GetLeaf("Muon_phi")->GetValue(mu) );
+                mu_mass.push_back( chain->GetLeaf("Muon_mass")->GetValue(mu) );
                 mu_charge.push_back( chain->GetLeaf("Muon_charge")->GetValue(mu) );
                 mu_miniIso.push_back( chain->GetLeaf("Muon_miniPFRelIso_all")->GetValue(mu) );
                 mu_jetRelIso.push_back( chain->GetLeaf("Muon_jetRelIso")->GetValue(mu) );
@@ -138,6 +144,7 @@ class Muon: public Lepton {//class muon inherits from class lepton
             pt = mu_pt;
             eta = mu_eta;
             phi = mu_phi;
+            mass = mu_mass;
             charge = mu_charge;
             miniIso = mu_miniIso;
             jetRelIso = mu_jetRelIso;
@@ -162,12 +169,14 @@ class Jet {
         vector<float> jet_pt;
         vector<float> jet_eta;
         vector<float> jet_phi;
+        vector<float> jet_mass;
         vector<float> jet_btag_score;
 
     public:
         vector<float> pt;
         vector<float> eta;
         vector<float> phi;
+        vector<float> mass;
         vector<float> btag_score;
 
         //constructor automatically gets and fills the necessary kinematic variables
@@ -177,6 +186,7 @@ class Jet {
                 jet_pt.push_back( chain->GetLeaf("Jet_pt")->GetValue(j) );
                 jet_eta.push_back( chain->GetLeaf("Jet_eta")->GetValue(j) );
                 jet_phi.push_back( chain->GetLeaf("Jet_phi")->GetValue(j) );
+                jet_mass.push_back( chain->GetLeaf("Jet_mass")->GetValue(j) );
                 jet_btag_score.push_back( chain->GetLeaf("Jet_btagDeepFlavB")->GetValue(j) );
 
             }
@@ -184,6 +194,7 @@ class Jet {
             pt = jet_pt;
             eta = jet_eta;
             phi = jet_phi;
+            mass = jet_mass;
             btag_score = jet_btag_score;
 
 

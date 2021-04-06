@@ -177,13 +177,17 @@ void event_looper(){
             int nBjets = 0;
             float minMT_tight = 10000;
             float minMT_loose = 10000;
+            float MT_leadb_MET = 10000;
             float leadLep_pt = 0;
             float leadLep_eta = 0;
+            float leadLep_mass = 0;
             float leadLep_miniIso = 0;
             float leadLep_ptRel = 0;
             float leadLep_ptRatio = 0;
             float leadJet_pt = 0;
             float leadB_pt = 0;
+            float leadB_mass = 0;
+            float jetHT = 0; 
 
             vector<int> muCharge_tight;
             vector<int> elCharge_tight;
@@ -230,6 +234,7 @@ void event_looper(){
                     if( mu.pt[iMu]>leadLep_pt ){
                         leadLep_pt = mu.pt[iMu];
                         leadLep_eta = mu.eta[iMu];
+                        leadLep_mass = mu.mass[iMu];
                         leadLep_miniIso = mu.miniIso[iMu];
                         leadLep_ptRel = mu.jetPtRelv2[iMu];
                         leadLep_ptRatio = 1/(mu.jetRelIso[iMu] + 1);
@@ -259,6 +264,7 @@ void event_looper(){
                     if( el.pt[iEl]>leadLep_pt ){
                         leadLep_pt = el.pt[iEl];
                         leadLep_eta = el.eta[iEl];
+                        leadLep_mass = el.mass[iEl];
                         leadLep_miniIso = el.miniIso[iEl];
                         leadLep_ptRel = el.jetPtRelv2[iEl];
                         leadLep_ptRatio = 1/(el.jetRelIso[iEl] + 1);
@@ -305,11 +311,14 @@ void event_looper(){
                                 nBjets += 1;
                                 if(jet.pt[iJet]>leadB_pt){
                                     leadB_pt = jet.pt[iJet];
+                                    leadB_mass = jet.mass[iJet];
+                                    MT_leadb_MET = mt( MET, MET_phi, jet.pt[iJet], jet.phi[iJet] );
                                 }
                             }else continue;
                             if (jet.pt[iJet]>leadJet_pt){
                                 leadJet_pt=jet.pt[iJet];
                             }
+                            jetHT = jetHT + jet.pt[iJet];
                         }else continue;
                     }else continue;
                 }
@@ -324,11 +333,14 @@ void event_looper(){
             variablesForFilling.push_back(nGoodLep);
             variablesForFilling.push_back(leadLep_pt);
             variablesForFilling.push_back(leadLep_eta);
+            variablesForFilling.push_back(leadLep_mass);
             variablesForFilling.push_back(leadLep_miniIso);
             variablesForFilling.push_back(leadLep_ptRel);
             variablesForFilling.push_back(leadLep_ptRatio);
             variablesForFilling.push_back(leadJet_pt);
             variablesForFilling.push_back(leadB_pt);
+            variablesForFilling.push_back(leadB_mass);
+            variablesForFilling.push_back(jetHT);
             variablesForFilling.push_back(MET);
             if (nGoodLep >= 2){
                 variablesForFilling.push_back(minMT_tight);
@@ -343,6 +355,7 @@ void event_looper(){
             if (nFakeableLep==2){
                 variablesForFilling.push_back(minMT_loose);
             }
+            variablesForFilling.push_back(MT_leadb_MET);
 
 
             if (nJets==2){
