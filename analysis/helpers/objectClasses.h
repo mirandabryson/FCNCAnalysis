@@ -14,6 +14,8 @@ class Lepton {
         vector<float> dz;
         vector<float> sip3d;
         vector<int> tightCharge;
+        vector<int> genPartFlav;
+        vector<int> genPartIdx;
 };
 
 
@@ -37,6 +39,8 @@ class Electron: public Lepton {//class electron inherits from class lepton
         vector<int> el_lostHits;
         vector<bool> el_convVeto;
         vector<int> el_tightCharge;
+        vector<int> el_genPartFlav;
+        vector<int> el_genPartIdx;
     public:
         vector<float> mva;
         vector<int> lostHits;
@@ -61,6 +65,8 @@ class Electron: public Lepton {//class electron inherits from class lepton
                 el_lostHits.push_back( chain->GetLeaf("Electron_lostHits")->GetValue(el) );
                 el_convVeto.push_back( chain->GetLeaf("Electron_convVeto")->GetValue(el) );
                 el_tightCharge.push_back( chain->GetLeaf("Electron_tightCharge")->GetValue(el) );
+                el_genPartFlav.push_back( chain->GetLeaf("Electron_genPartFlav")->GetValue(el) );
+                el_genPartIdx.push_back( chain->GetLeaf("Electron_genPartIdx")->GetValue(el) );
 
                 if (year == 2016){
                     el_mva.push_back( chain->GetLeaf("Electron_mvaSpring16GP")->GetValue(el) );
@@ -85,6 +91,8 @@ class Electron: public Lepton {//class electron inherits from class lepton
             lostHits = el_lostHits;
             convVeto = el_convVeto;
             tightCharge = el_tightCharge;
+            genPartFlav = el_genPartFlav;
+            genPartIdx = el_genPartIdx;
 
         }//end constructor
 };
@@ -111,6 +119,8 @@ class Muon: public Lepton {//class muon inherits from class lepton
         vector<int> mu_mediumId;
         vector<int> mu_looseId;
         vector<int> mu_tightCharge;
+        vector<int> mu_genPartFlav;
+        vector<int> mu_genPartIdx;
     public:
         vector<float> chargeQuality;
         vector<int> tightId;
@@ -137,6 +147,8 @@ class Muon: public Lepton {//class muon inherits from class lepton
                 mu_mediumId.push_back( chain->GetLeaf("Muon_mediumId")->GetValue(mu) );
                 mu_looseId.push_back( chain->GetLeaf("Muon_looseId")->GetValue(mu) );
                 mu_tightCharge.push_back( chain->GetLeaf("Muon_tightCharge")->GetValue(mu) );
+                mu_genPartFlav.push_back( chain->GetLeaf("Muon_genPartFlav")->GetValue(mu) );
+                mu_genPartIdx.push_back( chain->GetLeaf("Muon_genPartIdx")->GetValue(mu) );
                 mu_chargeQuality.push_back( (chain->GetLeaf("Muon_ptErr")->GetValue(mu))/(chain->GetLeaf("Muon_pt")->GetValue(mu)) );
             }
 
@@ -156,6 +168,8 @@ class Muon: public Lepton {//class muon inherits from class lepton
             mediumId = mu_mediumId;
             looseId = mu_looseId;
             tightCharge = mu_tightCharge;
+            genPartFlav = mu_genPartFlav;
+            genPartIdx = mu_genPartIdx;
             chargeQuality = mu_chargeQuality;
 
         }//end constructor
@@ -196,6 +210,50 @@ class Jet {
             phi = jet_phi;
             mass = jet_mass;
             btag_score = jet_btag_score;
+
+
+        }//end constructor
+};
+
+
+
+
+class GenPart {
+    private:
+        vector<float> genPart_pt;
+        vector<float> genPart_eta;
+        vector<float> genPart_phi;
+        vector<float> genPart_mass;
+        vector<float> genPart_pdgid;
+        vector<int> genPart_genPartIdxMother;
+
+    public:
+        vector<float> pt;
+        vector<float> eta;
+        vector<float> phi;
+        vector<float> mass;
+        vector<float> pdgid;
+        vector<int> motherIdx;
+
+        //constructor automatically gets and fills the necessary kinematic variables
+        GenPart(TChain* &chain, int nGenParts, int year) {
+
+            for ( int g = 0; g < nGenParts; g++ ){
+                genPart_pt.push_back( chain->GetLeaf("GenPart_pt")->GetValue(g) );
+                genPart_eta.push_back( chain->GetLeaf("GenPart_eta")->GetValue(g) );
+                genPart_phi.push_back( chain->GetLeaf("GenPart_phi")->GetValue(g) );
+                genPart_mass.push_back( chain->GetLeaf("GenPart_mass")->GetValue(g) );
+                genPart_pdgid.push_back( chain->GetLeaf("GenPart_pdgId")->GetValue(g) );
+                genPart_genPartIdxMother.push_back( chain->GetLeaf("GenPart_genPartIdxMother")->GetValue(g) );
+
+            }
+
+            pt = genPart_pt;
+            eta = genPart_eta;
+            phi = genPart_phi;
+            mass = genPart_mass;
+            pdgid = genPart_pdgid;
+            motherIdx = genPart_genPartIdxMother;
 
 
         }//end constructor

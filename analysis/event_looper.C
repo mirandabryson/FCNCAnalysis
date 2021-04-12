@@ -31,10 +31,12 @@ void event_looper(){
     //global variables
     int year = 2018;
     double lumi = 137;
-    string babyVersion = "fcnc_v2/";
-    string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/"+babyVersion;
+    string babyVersion = "fcnc_v3";
+    string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/"+babyVersion+"/";
     vector< string > sample_names = {   "fakes",
                                         "flips",
+                                        "extraFlips",
+                                        "extraFakes",
                                         "other",
                                         "signal_hut",
                                         "signal_hct"
@@ -49,14 +51,14 @@ void event_looper(){
                                         "signal_hct"
                                     };*/
 
-    auto outFile = new TFile("plots/outputHistos.root", "recreate");
-    //auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    //auto outFile = new TFile("plots/outputHistos.root", "recreate");
+    auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
 
     //Load samples
     for(uint btype = 0; btype < sample_names.size(); btype++){
     //for(uint btype = 0; btype < 2; btype++){ //for testing only!!!
         TChain* chain = new TChain("Events");
-        vector<string> samples = loadSamples ( year, sample_names[btype] );
+        vector<string> samples = loadSamples ( year, sample_names[btype],babyVersion );
         for ( uint s = 0; s < samples.size(); s++ ){
             string name = inputDir+samples[s]+"/output_*.root";
             chain->Add(name.c_str());
@@ -70,6 +72,7 @@ void event_looper(){
         uint nMuon = 0;
         uint nElectron = 0;
         uint nJet = 0;
+        uint nGenPart = 0;
         float MET = 0;
         float MET_phi = 0;
         float genWeight = 0;
@@ -77,6 +80,7 @@ void event_looper(){
         chain->SetBranchAddress("nMuon", &nMuon);
         chain->SetBranchAddress("nElectron", &nElectron);
         chain->SetBranchAddress("nJet", &nJet);
+        chain->SetBranchAddress("nGenPart", &nGenPart);
         chain->SetBranchAddress("MET_pt", &MET);
         chain->SetBranchAddress("MET_phi", &MET_phi);
         chain->SetBranchAddress("Generator_weight", &genWeight);
@@ -161,10 +165,10 @@ void event_looper(){
         int nFODiLep  = 0;
 
         //Main for loop
-        for ( int counter = 0; counter < nEvents; counter++ ){
+        //for ( int counter = 0; counter < nEvents; counter++ ){
         //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
-        //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
+        for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
             //cout << "counter " << counter << endl;
             if ( counter%100000==0 ){
                 cout << "event " << counter << endl;
@@ -197,6 +201,39 @@ void event_looper(){
             //Get individual event
             Long64_t event = chain->GetEntry(counter);
 
+            //check if event is fake or flip
+
+
+
+
+            /*if(samples_names[btype]=="extraFlips" || samples_names[btype]=="extraFakes"){
+                GenPart genParts(chain, nGenPart, year);
+                int nGenLepsFromW = 0;
+                for (int i = 0; i < nGenPart; i++){
+                    if ( abs(genParts.pdgid[i]) == 11 || abs(genParts.pdgid[i]) == 13 ){
+                        int motherIndex = genParts.motherIdx[i];
+                        if( abs(genParts.pdgid[motherIndex])==24 ){
+                            nGenLepsFromW++;
+                        }
+                    }
+                }
+
+                bool isFake = 0;
+                bool isFlip = 0;
+                if (nGenLepsFromW == 1){
+                    isFake = 1;
+                }else if (nGenLepsFromW > 1){
+                    isFlip = 1;
+                }
+            }
+
+            if (sample_names[btype]=="extraFlips" && isFlip==0){
+                break;
+            }
+            if (sample_names[btype]=="extraFakes" && isFake==0){
+                break;
+            }*/
+
             //Find the exact sample name
             TFile* sFile(chain->GetFile());
             string sName = sFile->GetName();
@@ -216,6 +253,43 @@ void event_looper(){
             Muon mu(chain, nMuon, year);
             Electron el(chain, nElectron, year);
             Jet jet(chain, nJet, year);
+            GenPart genParts(chain, nGenPart, year);
+
+            //loop to check for flip or fake in combined samples
+            bool isFlip = 0;
+            bool isFake = 0;
+            for( uint iMu = 0; iMu < nMuon; iMu++ ){
+                cout << mu.pdgid[iMu] << endl;
+                cout << mu.pdgid[iMu]*-1 << endl;
+                cout << mu.genPartIdx[iMu] << endl;
+                cout << genParts.pdgid[mu.genPartIdx[iMu]] << endl;
+                if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
+                    isFlip = 1;
+                    cout << "found flip" << endl;
+                }
+                if( mu.genPartFlav[iMu] != 1 || mu.genPartFlav[iMu] != 15 ){
+                    isFake = 1;
+                    cout << "found fake" << endl;
+                }
+            }
+            for( uint iEl = 0; iEl < nElectron; iEl++ ){
+                if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
+                    isFlip = 1;
+                    cout << "found flip" << endl;
+                }
+                if( el.genPartFlav[iEl] != 1 || el.genPartFlav[iEl] != 15 ){
+                    isFake = 1;
+                    cout << "found fake" << endl;
+                }
+            }
+            if( sample_names[btype]=="extraFlips" && isFlip == 0 ){
+                cout << "not flip" << endl;
+                continue;
+            }
+            if( sample_names[btype]=="extraFakes" && isFake == 0 ){
+                cout << "not fake" << endl;
+                continue;
+            }
 
             //loop to count tight/loose muons
             for( uint iMu = 0; iMu < nMuon; iMu++ ){
@@ -307,6 +381,10 @@ void event_looper(){
 
                         if ( isGood == 1 ){
                             nJets += 1;
+                            if (jet.pt[iJet]>leadJet_pt){
+                                leadJet_pt=jet.pt[iJet];
+                            }
+                            jetHT = jetHT + jet.pt[iJet];
                             if ( jet.btag_score[iJet] > 0.2770 ){
                                 nBjets += 1;
                                 if(jet.pt[iJet]>leadB_pt){
@@ -315,10 +393,6 @@ void event_looper(){
                                     MT_leadb_MET = mt( MET, MET_phi, jet.pt[iJet], jet.phi[iJet] );
                                 }
                             }else continue;
-                            if (jet.pt[iJet]>leadJet_pt){
-                                leadJet_pt=jet.pt[iJet];
-                            }
-                            jetHT = jetHT + jet.pt[iJet];
                         }else continue;
                     }else continue;
                 }

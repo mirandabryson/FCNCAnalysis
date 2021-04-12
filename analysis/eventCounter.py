@@ -1,7 +1,7 @@
 import glob
 import tqdm
 
-VERSION = "fcnc_v2"
+VERSION = "fcnc_v3"
 BABY_DIR = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}".format(VERSION)
 N_EVENTS_DIR = "./n_events"
 

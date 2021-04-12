@@ -3,10 +3,8 @@ import time
 import numpy as np
 import sys
 
-
 # Load histograms
 filename = sys.argv[-1]
-inFile = ROOT.TFile.Open(filename)
 #backgroundFile = sys.argv[-2]
 #signalFile = sys.argv[-1]
 #bFile = ROOT.TFile.Open(backgroundFile)
@@ -29,53 +27,32 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
     legend = ROOT.TLegend( 0.7, 0.7, 0.89, 0.89 )
 
     counter = 0
-    signalYMin = 0
-    signalYMax = 0
-    backgrYMin = 0
-    backgrYMax = 0
-
-    signalXMin = 0
-    signalXMax = 0
-    backgrXMin = 0
-    backgrXMax = 0
-
-    print("did all this stuff")
+    hct_max = 0
+    hut_max = 0
+    back_max = 0
 
     for h, c, l in zip(hist, histColors, legendNames):
-        print("entered this loop")
         if l == "signal_hut":
             h.SetLineColor(c)
             h_signal_hut = h.Clone()
-            #h_signal_hut.Scale(0.30954)
             h_signal_hut.SetStats(0)
             h_signal_hut.SetLineWidth(2)
             legend.AddEntry(h_signal_hut, l)
-            signalYMax = h_signal_hut.GetMaximum()
-            signalYMin = h_signal_hut.GetMinimum()
-            signalXMax = h_signal_hut.GetXaxis().GetXmax()
-            signalXMin = h_signal_hut.GetXaxis().GetXmin()
-            #print(signalYMax,signalYMin,signalXMax,signalXMin)
-            print("did hut signal stuff")
+            hut_max = h_signal_hut.GetMaximum()
         
         elif l == "signal_hct":
             h.SetLineColor(c)
             h_signal_hct = h.Clone()
-            #h_signal_hct.Scale(0.30954)
             h_signal_hct.SetStats(0)
             h_signal_hct.SetLineWidth(2)
             legend.AddEntry(h_signal_hct, l)
-            print("did hct signal stuff")
+            hct_max = h_signal_hct.GetMaximum()
 
         else:
-            print("im here")
-            #h.SetLineColor(c)
-            #print("i set line color")
-            #h.SetFillColor(c)
-            #print("i set fill color")
+            h.SetLineColor(c)
+            h.SetFillColor(c)
             h_stack.Add(h)
-            print("i add to stack")
             legend.AddEntry(h, l)
-            print("did background stuff")
 
         
         """h.SetLineColor(c)
@@ -87,43 +64,67 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
         legend.AddEntry(h, l)
         counter += 1"""
     
-    backgrYMax = h_stack.GetMaximum()
+    back_max = h_stack.GetMaximum()
     #print(backgrYMax)
-    if backgrYMax>signalYMax:
+    if (back_max>hut_max and back_max>hct_max):
         h_stack.Draw("hist")
         h_signal_hut.Draw("hist same")
         h_signal_hct.Draw("hist same")
-        print("backgrounds bigger")
-    else:
+    elif (hut_max>hct_max and hut_max>back_max):
         h_signal_hut.Draw("hist")
-        #h_signal_hct.Draw("hist")
         h_stack.Draw("hist same")
         h_signal_hut.Draw("hist same")
         h_signal_hct.Draw("hist same")
-        print("signals bigger")
+    elif (hct_max>hut_max and hct_max>back_max):
+        h_signal_hct.Draw("hist")
+        h_stack.Draw("hist same")
+        h_signal_hct.Draw("hist same")
+        h_signal_hut.Draw("hist same")
 
     legend.Draw()
 
 
-    can.SaveAs(outdir+hist_name+".pdf")
-    can.SaveAs(outdir+hist_name+".png")
+    can.SaveAs(outdir+"pdfs/"+hist_name+".pdf")
+    can.SaveAs(outdir+"pngs/"+hist_name+".png")
+
+def addHistos(hist, histNames, legendNames, histName, nBins, xmin, xmax):
+    
+    listOfAddedHistos = []
+    for s in legendNames:
+        h_combined = ROOT.TH1F("h_combined"+s+histName, histName, nBins, xmin, xmax)
+        for h, n in zip(hist, histNames):
+            if s in n:
+                h_combined.Add(h)
+        listOfAddedHistos.append(h_combined)
+    return listOfAddedHistos
+
+def getObjFromFile(fname, hname):
+    f = ROOT.TFile(fname)
+    assert not f.IsZombie()
+    f.cd()
+    htmp = f.Get(hname)
+    if not htmp:  return htmp
+    ROOT.gDirectory.cd('PyROOT:/')
+    res = htmp.Clone()
+    f.Close()
+    return res
 
 # main loop
-#outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots/"
-outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/plots/"
+outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots/"
+#outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/plots/"
 
-processTypes = ["other",
-                "fakes",
+processTypes = ["fakes",
                 "flips",
+                "other",
                 "signal_hut",
                 "signal_hct"
                 ]
 
-processColors = [ROOT.kRed,
-                 ROOT.kBlue,
+processColors = [ROOT.kPink+7,
+                 ROOT.kTeal-5,
                  ROOT.kOrange+7,
-                 ROOT.kPink+7,
-                 ROOT.kGreen+2
+                 ROOT.kGreen+2,
+                 ROOT.kGreen+3
                 ]
 """processTypes = ["signal_hut",
                 "signal_hct",
@@ -165,20 +166,20 @@ bJetSelections = ["0b",
 
 plottedVariables = [["nJet", 7, -0.5, 6.5],
                     ["nBJet", 4, -0.5, 3.5], 
-                    ["nGoodLeps", 6, -0.5, 5.5],
-                    ["leadLepPt", 50, 0, 500],
-                    ["leadLepEta", 20, -5, 5],
-                    ["leadLepMass", 50, 0, 500],
-                    ["leadLepMiniIso", 50, 0, 5],
-                    ["leadLepPtRel", 50, 0, 10],
-                    ["leadLepPtRatio", 50, 0, 5],
-                    ["leadJetPt", 50, 0, 500],
-                    ["leadBPt", 50, 0, 500],
-                    ["leadBMass", 50, 0, 500],
-                    ["jetHT", 100, 0, 1000],
-                    ["MET", 50, 0, 500],
-                    ["minMT", 50, 0, 500],
-                    ["MT_b_MET", 50, 0, 500]
+                    #["nGoodLeps", 6, -0.5, 5.5],
+                    #["leadLepPt", 50, 0, 500],
+                    #["leadLepEta", 20, -5, 5],
+                    #["leadLepMass", 50, 0, 500],
+                    #["leadLepMiniIso", 50, 0, 5],
+                    #["leadLepPtRel", 50, 0, 10],
+                    #["leadLepPtRatio", 50, 0, 5],
+                    #["leadJetPt", 50, 0, 500],
+                    #["leadBPt", 50, 0, 500],
+                    #["leadBMass", 50, 0, 500],
+                    #["jetHT", 50, 0, 500],
+                    #["MET", 50, 0, 500],
+                    #["minMT", 50, 0, 500],
+                    #["MT_b_MET", 50, 0, 500]
                    ]
 
 for var in plottedVariables:
@@ -186,16 +187,40 @@ for var in plottedVariables:
     nbins = var[1]
     xmin = var[2]
     xmax = var[3]
+    #print(nbins, xmin, xmax)
     for l in leptonSelections:
+        jHistos = []
+        jHistoNames = []
         for j in jetSelections:
+            bHistos = []
+            bHistoNames = []
             for b in bJetSelections:
                 histosToPlot = []
                 for p in processTypes:
                     histoName = "h_"+v+"_"+l+"_"+j+"_"+b+"_"+p
                     print(histoName)
-                    hist = ROOT.TH1F(histoName, v, nbins, xmin, xmax)
-                    hist = inFile.Get(histoName)
+                    #hist = inFile.Get(histoName)
+                    hist = getObjFromFile(filename,histoName)
+                    #hist.SetAxisRange(xmin,xmax)
+                    #hist.Rebin(nbins)
                     histosToPlot.append(hist)
-                print(len(histosToPlot))
-                saveFig(histosToPlot, processColors, processTypes, v, outdir)
-                print('saved those histos')
+                    if v == "nJet":
+                        jHistos.append(hist)
+                        jHistoNames.append(histoName)
+                        #print("nJet", histoName)
+                    if v == "nBJet":
+                        bHistos.append(hist)
+                        bHistoNames.append(histoName)
+                        #print("btag", histoName)
+                #print(len(histosToPlot))
+                histFileName = "h_"+v+"_"+l+"_"+j+"_"+b
+                saveFig(histosToPlot, processColors, processTypes, histFileName, outdir)
+                #print('saved those histos')
+            if v == "nBJet":
+                histFileName = "h_"+v+"_"+l+"_"+j
+                bHistosAdded = addHistos(bHistos, bHistoNames, processTypes, histFileName, nbins, xmin, xmax)
+                saveFig(bHistosAdded, processColors, processTypes, histFileName, outdir)
+        if v == "nJet":
+            histFileName = "h_"+v+"_"+l
+            jHistosAdded = addHistos(jHistos, jHistoNames, processTypes, histFileName, nbins, xmin, xmax)
+            saveFig(jHistosAdded, processColors, processTypes, histFileName, outdir)
