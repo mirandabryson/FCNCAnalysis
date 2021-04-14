@@ -3,6 +3,7 @@ import time
 import numpy as np
 import sys
 import pandas as pd
+ROOT.TH1F.SetDefaultSumw2()
 #from pdflatex import PDFLaTeX
 
 # Load histograms
@@ -55,6 +56,7 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
     totBack = 0
     totError = 0
     for h,p in zip(hist,processes):
+        #print(p)
         numBins = h.GetNbinsX()
         totYield = 0
         error = 0
@@ -63,7 +65,7 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
                 totYield = totYield+(0.01*h.GetBinContent(b))
             else:
                 totYield = totYield+h.GetBinContent(b)
-                totBack = totBack + totYield
+                totBack = totBack + h.GetBinContent(b)
             if h.GetBinContent(b) != 0:
                 if "signal" in p:
                     error = 0.01*h.GetBinError(b)
@@ -112,12 +114,16 @@ def getObjFromFile(fname, hname):
 #outdir = "/home/users/ksalyer/public_html/dump/FCNC_tables/"
 outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/plots/"
 
-processTypes = ["fakes",
+processTypes = ["signal_hut",
+                "signal_hct",
+                "fakes",
                 "flips",
-                "other",
-                "signal_hut",
-                "signal_hct"
+                "flipsOrFakes_flips",
+                "flipsOrFakes_fakes",
+                "other"
                 ]
+
+
 
 """processTypes = ["signal_hut",
                 "signal_hct",
@@ -132,8 +138,8 @@ processTypes = ["fakes",
 leptonSelections = ["trilep",
                     "SS_SF_dilep",
                     "SS_OF_dilep",
-                    "OS_SF_dilep",
-                    "OS_OF_dilep",
+                    #"OS_SF_dilep",
+                    #"OS_OF_dilep",
                     #"onelepFO",
                     #"dilepFO"
                    ]
@@ -149,7 +155,7 @@ bJetSelections = ["0b",
                   ]
 
 plottedVariables = [#["nJet", 7, -0.5, 6.5],
-                    "nBJet", 
+                    ["nBJet", 4, -0.5, 3.5], 
                     #["nGoodLeps", 6, -0.5, 5.5],
                     #["leadLepPt", 50, 0, 500],
                     #["leadLepEta", 20, -5, 5],
@@ -170,39 +176,78 @@ headers = ["nLeptons",
            "nJets",
            "nBtags"
            ]
-header = makeTableHeader(headers,processTypes)
+#header = makeTableHeader(headers,processTypes)
 #tableLines = [header]
 #df = pd.DataFrame(columns=header)
 #print(df)
 allLines = []
 
-for v in plottedVariables:
-    #print(nbins, xmin, xmax)
+for var in plottedVariables:
+    v = var[0]
+    nbins = var[1]
+    xmin = var[2]
+    xmax = var[3]
+
+    #ssHistos = []
     for l in leptonSelections:
         for j in jetSelections:
             for b in bJetSelections:
                 histosForTable = []
+                fakesHistos = []
+                #fakesHistos = ROOT.TList()
+                fakesNames = []
+                flipsHistos = []
+                #flipsHistos = ROOT.TList()
+                flipsNames = []
+                processes = []
                 for p in processTypes:
                     histoName = "h_"+v+"_"+l+"_"+j+"_"+b+"_"+p
                     #print(type(v),type(l),type(j),type(b),type(p))
                     hist = getObjFromFile(filename,histoName)
-                    histosForTable.append(hist)
+                    if p == "fakes" or p == "flipsOrFakes_fakes":
+                        fakesHistos.append(hist)
+                        fakesNames.append(histoName)
+                    elif p == "flips" or p == "flipsOrFakes_flips":
+                        flipsHistos.append(hist)
+                        flipsNames.append(histoName)
+                    else:
+                        histosForTable.append(hist)
+                        processes.append(p)
+
+                histoFileName = "h_"+v+"_"+l+"_"+j+"_"+b+"_fakes"
+                h_combined_fake =  ROOT.TH1F("h_combined"+"fakes"+histoFileName, histoFileName, nbins, xmin, xmax)
+                for h in fakesHistos:
+                    h_combined_fake.Add(h)
+                histosForTable.append(h_combined_fake)
+                processes.append("fakes")
+
+                histoFileName = "h_"+v+"_"+l+"_"+j+"_"+b+"_flips"
+                h_combined_flip =  ROOT.TH1F("h_combined"+"flips"+histoFileName, histoFileName, nbins, xmin, xmax)
+                for h in flipsHistos:
+                    h_combined_flip.Add(h)
+                histosForTable.append(h_combined_flip)
+                processes.append("flips")
+
                 line = ""
-                line = makeTableRow(histosForTable, j, b, l, processTypes)
+                line = makeTableRow(histosForTable, j, b, l, processes)
                 #print(df)
                 allLines.append(line)
                 #print(df)
                 #tableLines.append(line)
     #makeTable(tableLines, outdir)
+    header = makeTableHeader(headers,processes)
     df = pd.DataFrame(allLines, columns=header)
     outFile = open(outdir+"tables/yieldsTable.tex","w")
-    outFile.write("\documentclass[7pt,oneside]{report} \n")
+    outFile.write("\documentclass[oneside]{report} \n")
+    outFile.write("\usepackage[a2paper]{geometry}")
     outFile.write("\usepackage{graphicx,xspace,amssymb,amsmath,colordvi,colortbl,verbatim,multicol} \n")
     #outFile.write("\usepackage{multirow, rotating} \n")
     #outFile.write("\usepackage[active,tightpage]{preview} \n")
     outFile.write("\\renewcommand{\\arraystretch}{1.1} \n")
     outFile.write("\\begin{document} \n")
     #outFile.write("\begin{preview} \n")
+    #outFile.write("\\footnotesize \n")
+    outFile.write("\\centering \n")
     outFile.write(df.to_latex())
     #outFile.write("\end{preview} \n")
     outFile.write("\end{document} \n")

@@ -35,8 +35,7 @@ void event_looper(){
     string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/"+babyVersion+"/";
     vector< string > sample_names = {   "fakes",
                                         "flips",
-                                        "extraFlips",
-                                        "extraFakes",
+                                        "flipsOrFakes",
                                         "other",
                                         "signal_hut",
                                         "signal_hct"
@@ -51,8 +50,8 @@ void event_looper(){
                                         "signal_hct"
                                     };*/
 
-    //auto outFile = new TFile("plots/outputHistos.root", "recreate");
-    auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    auto outFile = new TFile("plots/outputHistos.root", "recreate");
+    //auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
 
     //Load samples
     for(uint btype = 0; btype < sample_names.size(); btype++){
@@ -86,6 +85,150 @@ void event_looper(){
         chain->SetBranchAddress("Generator_weight", &genWeight);
         
         //make all histograms
+        categoryHistogram trilep_2j_0b_fakes("trilep","2j","0b","flipsOrFakes_fakes");
+        categoryHistogram trilep_2j_1b_fakes("trilep","2j","1b","flipsOrFakes_fakes");
+        categoryHistogram trilep_2j_ge2b_fakes("trilep","2j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram trilep_3j_0b_fakes("trilep","3j","0b","flipsOrFakes_fakes");
+        categoryHistogram trilep_3j_1b_fakes("trilep","3j","1b","flipsOrFakes_fakes");
+        categoryHistogram trilep_3j_ge2b_fakes("trilep","3j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram trilep_ge4j_0b_fakes("trilep","ge4j","0b","flipsOrFakes_fakes");
+        categoryHistogram trilep_ge4j_1b_fakes("trilep","ge4j","1b","flipsOrFakes_fakes");
+        categoryHistogram trilep_ge4j_ge2b_fakes("trilep","ge4j","ge2b","flipsOrFakes_fakes");
+
+        categoryHistogram SS_SF_dilep_2j_0b_fakes("SS_SF_dilep","2j","0b","flipsOrFakes_fakes");
+        categoryHistogram SS_SF_dilep_2j_1b_fakes("SS_SF_dilep","2j","1b","flipsOrFakes_fakes");
+        categoryHistogram SS_SF_dilep_2j_ge2b_fakes("SS_SF_dilep","2j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram SS_SF_dilep_3j_0b_fakes("SS_SF_dilep","3j","0b","flipsOrFakes_fakes");
+        categoryHistogram SS_SF_dilep_3j_1b_fakes("SS_SF_dilep","3j","1b","flipsOrFakes_fakes");
+        categoryHistogram SS_SF_dilep_3j_ge2b_fakes("SS_SF_dilep","3j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram SS_SF_dilep_ge4j_0b_fakes("SS_SF_dilep","ge4j","0b","flipsOrFakes_fakes");
+        categoryHistogram SS_SF_dilep_ge4j_1b_fakes("SS_SF_dilep","ge4j","1b","flipsOrFakes_fakes");
+        categoryHistogram SS_SF_dilep_ge4j_ge2b_fakes("SS_SF_dilep","ge4j","ge2b","flipsOrFakes_fakes");
+
+        categoryHistogram SS_OF_dilep_2j_0b_fakes("SS_OF_dilep","2j","0b","flipsOrFakes_fakes");
+        categoryHistogram SS_OF_dilep_2j_1b_fakes("SS_OF_dilep","2j","1b","flipsOrFakes_fakes");
+        categoryHistogram SS_OF_dilep_2j_ge2b_fakes("SS_OF_dilep","2j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram SS_OF_dilep_3j_0b_fakes("SS_OF_dilep","3j","0b","flipsOrFakes_fakes");
+        categoryHistogram SS_OF_dilep_3j_1b_fakes("SS_OF_dilep","3j","1b","flipsOrFakes_fakes");
+        categoryHistogram SS_OF_dilep_3j_ge2b_fakes("SS_OF_dilep","3j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram SS_OF_dilep_ge4j_0b_fakes("SS_OF_dilep","ge4j","0b","flipsOrFakes_fakes");
+        categoryHistogram SS_OF_dilep_ge4j_1b_fakes("SS_OF_dilep","ge4j","1b","flipsOrFakes_fakes");
+        categoryHistogram SS_OF_dilep_ge4j_ge2b_fakes("SS_OF_dilep","ge4j","ge2b","flipsOrFakes_fakes");
+
+        categoryHistogram OS_SF_dilep_2j_0b_fakes("OS_SF_dilep","2j","0b","flipsOrFakes_fakes");
+        categoryHistogram OS_SF_dilep_2j_1b_fakes("OS_SF_dilep","2j","1b","flipsOrFakes_fakes");
+        categoryHistogram OS_SF_dilep_2j_ge2b_fakes("OS_SF_dilep","2j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram OS_SF_dilep_3j_0b_fakes("OS_SF_dilep","3j","0b","flipsOrFakes_fakes");
+        categoryHistogram OS_SF_dilep_3j_1b_fakes("OS_SF_dilep","3j","1b","flipsOrFakes_fakes");
+        categoryHistogram OS_SF_dilep_3j_ge2b_fakes("OS_SF_dilep","3j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram OS_SF_dilep_ge4j_0b_fakes("OS_SF_dilep","ge4j","0b","flipsOrFakes_fakes");
+        categoryHistogram OS_SF_dilep_ge4j_1b_fakes("OS_SF_dilep","ge4j","1b","flipsOrFakes_fakes");
+        categoryHistogram OS_SF_dilep_ge4j_ge2b_fakes("OS_SF_dilep","ge4j","ge2b","flipsOrFakes_fakes");
+
+        categoryHistogram OS_OF_dilep_2j_0b_fakes("OS_OF_dilep","2j","0b","flipsOrFakes_fakes");
+        categoryHistogram OS_OF_dilep_2j_1b_fakes("OS_OF_dilep","2j","1b","flipsOrFakes_fakes");
+        categoryHistogram OS_OF_dilep_2j_ge2b_fakes("OS_OF_dilep","2j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram OS_OF_dilep_3j_0b_fakes("OS_OF_dilep","3j","0b","flipsOrFakes_fakes");
+        categoryHistogram OS_OF_dilep_3j_1b_fakes("OS_OF_dilep","3j","1b","flipsOrFakes_fakes");
+        categoryHistogram OS_OF_dilep_3j_ge2b_fakes("OS_OF_dilep","3j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram OS_OF_dilep_ge4j_0b_fakes("OS_OF_dilep","ge4j","0b","flipsOrFakes_fakes");
+        categoryHistogram OS_OF_dilep_ge4j_1b_fakes("OS_OF_dilep","ge4j","1b","flipsOrFakes_fakes");
+        categoryHistogram OS_OF_dilep_ge4j_ge2b_fakes("OS_OF_dilep","ge4j","ge2b","flipsOrFakes_fakes");
+
+        categoryHistogram onelepFO_2j_0b_fakes("onelepFO","2j","0b","flipsOrFakes_fakes");
+        categoryHistogram onelepFO_2j_1b_fakes("onelepFO","2j","1b","flipsOrFakes_fakes");
+        categoryHistogram onelepFO_2j_ge2b_fakes("onelepFO","2j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram onelepFO_3j_0b_fakes("onelepFO","3j","0b","flipsOrFakes_fakes");
+        categoryHistogram onelepFO_3j_1b_fakes("onelepFO","3j","1b","flipsOrFakes_fakes");
+        categoryHistogram onelepFO_3j_ge2b_fakes("onelepFO","3j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram onelepFO_ge4j_0b_fakes("onelepFO","ge4j","0b","flipsOrFakes_fakes");
+        categoryHistogram onelepFO_ge4j_1b_fakes("onelepFO","ge4j","1b","flipsOrFakes_fakes");
+        categoryHistogram onelepFO_ge4j_ge2b_fakes("onelepFO","ge4j","ge2b","flipsOrFakes_fakes");
+
+        categoryHistogram dilepFO_2j_0b_fakes("dilepFO","2j","0b","flipsOrFakes_fakes");
+        categoryHistogram dilepFO_2j_1b_fakes("dilepFO","2j","1b","flipsOrFakes_fakes");
+        categoryHistogram dilepFO_2j_ge2b_fakes("dilepFO","2j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram dilepFO_3j_0b_fakes("dilepFO","3j","0b","flipsOrFakes_fakes");
+        categoryHistogram dilepFO_3j_1b_fakes("dilepFO","3j","1b","flipsOrFakes_fakes");
+        categoryHistogram dilepFO_3j_ge2b_fakes("dilepFO","3j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram dilepFO_ge4j_0b_fakes("dilepFO","ge4j","0b","flipsOrFakes_fakes");
+        categoryHistogram dilepFO_ge4j_1b_fakes("dilepFO","ge4j","1b","flipsOrFakes_fakes");
+        categoryHistogram dilepFO_ge4j_ge2b_fakes("dilepFO","ge4j","ge2b","flipsOrFakes_fakes");
+
+
+
+        categoryHistogram trilep_2j_0b_flips("trilep","2j","0b","flipsOrFakes_flips");
+        categoryHistogram trilep_2j_1b_flips("trilep","2j","1b","flipsOrFakes_flips");
+        categoryHistogram trilep_2j_ge2b_flips("trilep","2j","ge2b","flipsOrFakes_flips");
+        categoryHistogram trilep_3j_0b_flips("trilep","3j","0b","flipsOrFakes_flips");
+        categoryHistogram trilep_3j_1b_flips("trilep","3j","1b","flipsOrFakes_flips");
+        categoryHistogram trilep_3j_ge2b_flips("trilep","3j","ge2b","flipsOrFakes_flips");
+        categoryHistogram trilep_ge4j_0b_flips("trilep","ge4j","0b","flipsOrFakes_flips");
+        categoryHistogram trilep_ge4j_1b_flips("trilep","ge4j","1b","flipsOrFakes_flips");
+        categoryHistogram trilep_ge4j_ge2b_flips("trilep","ge4j","ge2b","flipsOrFakes_flips");
+
+        categoryHistogram SS_SF_dilep_2j_0b_flips("SS_SF_dilep","2j","0b","flipsOrFakes_flips");
+        categoryHistogram SS_SF_dilep_2j_1b_flips("SS_SF_dilep","2j","1b","flipsOrFakes_flips");
+        categoryHistogram SS_SF_dilep_2j_ge2b_flips("SS_SF_dilep","2j","ge2b","flipsOrFakes_flips");
+        categoryHistogram SS_SF_dilep_3j_0b_flips("SS_SF_dilep","3j","0b","flipsOrFakes_flips");
+        categoryHistogram SS_SF_dilep_3j_1b_flips("SS_SF_dilep","3j","1b","flipsOrFakes_flips");
+        categoryHistogram SS_SF_dilep_3j_ge2b_flips("SS_SF_dilep","3j","ge2b","flipsOrFakes_flips");
+        categoryHistogram SS_SF_dilep_ge4j_0b_flips("SS_SF_dilep","ge4j","0b","flipsOrFakes_flips");
+        categoryHistogram SS_SF_dilep_ge4j_1b_flips("SS_SF_dilep","ge4j","1b","flipsOrFakes_flips");
+        categoryHistogram SS_SF_dilep_ge4j_ge2b_flips("SS_SF_dilep","ge4j","ge2b","flipsOrFakes_flips");
+
+        categoryHistogram SS_OF_dilep_2j_0b_flips("SS_OF_dilep","2j","0b","flipsOrFakes_flips");
+        categoryHistogram SS_OF_dilep_2j_1b_flips("SS_OF_dilep","2j","1b","flipsOrFakes_flips");
+        categoryHistogram SS_OF_dilep_2j_ge2b_flips("SS_OF_dilep","2j","ge2b","flipsOrFakes_flips");
+        categoryHistogram SS_OF_dilep_3j_0b_flips("SS_OF_dilep","3j","0b","flipsOrFakes_flips");
+        categoryHistogram SS_OF_dilep_3j_1b_flips("SS_OF_dilep","3j","1b","flipsOrFakes_flips");
+        categoryHistogram SS_OF_dilep_3j_ge2b_flips("SS_OF_dilep","3j","ge2b","flipsOrFakes_flips");
+        categoryHistogram SS_OF_dilep_ge4j_0b_flips("SS_OF_dilep","ge4j","0b","flipsOrFakes_flips");
+        categoryHistogram SS_OF_dilep_ge4j_1b_flips("SS_OF_dilep","ge4j","1b","flipsOrFakes_flips");
+        categoryHistogram SS_OF_dilep_ge4j_ge2b_flips("SS_OF_dilep","ge4j","ge2b","flipsOrFakes_flips");
+
+        categoryHistogram OS_SF_dilep_2j_0b_flips("OS_SF_dilep","2j","0b","flipsOrFakes_flips");
+        categoryHistogram OS_SF_dilep_2j_1b_flips("OS_SF_dilep","2j","1b","flipsOrFakes_flips");
+        categoryHistogram OS_SF_dilep_2j_ge2b_flips("OS_SF_dilep","2j","ge2b","flipsOrFakes_flips");
+        categoryHistogram OS_SF_dilep_3j_0b_flips("OS_SF_dilep","3j","0b","flipsOrFakes_flips");
+        categoryHistogram OS_SF_dilep_3j_1b_flips("OS_SF_dilep","3j","1b","flipsOrFakes_flips");
+        categoryHistogram OS_SF_dilep_3j_ge2b_flips("OS_SF_dilep","3j","ge2b","flipsOrFakes_flips");
+        categoryHistogram OS_SF_dilep_ge4j_0b_flips("OS_SF_dilep","ge4j","0b","flipsOrFakes_flips");
+        categoryHistogram OS_SF_dilep_ge4j_1b_flips("OS_SF_dilep","ge4j","1b","flipsOrFakes_flips");
+        categoryHistogram OS_SF_dilep_ge4j_ge2b_flips("OS_SF_dilep","ge4j","ge2b","flipsOrFakes_flips");
+
+        categoryHistogram OS_OF_dilep_2j_0b_flips("OS_OF_dilep","2j","0b","flipsOrFakes_flips");
+        categoryHistogram OS_OF_dilep_2j_1b_flips("OS_OF_dilep","2j","1b","flipsOrFakes_flips");
+        categoryHistogram OS_OF_dilep_2j_ge2b_flips("OS_OF_dilep","2j","ge2b","flipsOrFakes_flips");
+        categoryHistogram OS_OF_dilep_3j_0b_flips("OS_OF_dilep","3j","0b","flipsOrFakes_flips");
+        categoryHistogram OS_OF_dilep_3j_1b_flips("OS_OF_dilep","3j","1b","flipsOrFakes_flips");
+        categoryHistogram OS_OF_dilep_3j_ge2b_flips("OS_OF_dilep","3j","ge2b","flipsOrFakes_flips");
+        categoryHistogram OS_OF_dilep_ge4j_0b_flips("OS_OF_dilep","ge4j","0b","flipsOrFakes_flips");
+        categoryHistogram OS_OF_dilep_ge4j_1b_flips("OS_OF_dilep","ge4j","1b","flipsOrFakes_flips");
+        categoryHistogram OS_OF_dilep_ge4j_ge2b_flips("OS_OF_dilep","ge4j","ge2b","flipsOrFakes_flips");
+
+        categoryHistogram onelepFO_2j_0b_flips("onelepFO","2j","0b","flipsOrFakes_flips");
+        categoryHistogram onelepFO_2j_1b_flips("onelepFO","2j","1b","flipsOrFakes_flips");
+        categoryHistogram onelepFO_2j_ge2b_flips("onelepFO","2j","ge2b","flipsOrFakes_flips");
+        categoryHistogram onelepFO_3j_0b_flips("onelepFO","3j","0b","flipsOrFakes_flips");
+        categoryHistogram onelepFO_3j_1b_flips("onelepFO","3j","1b","flipsOrFakes_flips");
+        categoryHistogram onelepFO_3j_ge2b_flips("onelepFO","3j","ge2b","flipsOrFakes_flips");
+        categoryHistogram onelepFO_ge4j_0b_flips("onelepFO","ge4j","0b","flipsOrFakes_flips");
+        categoryHistogram onelepFO_ge4j_1b_flips("onelepFO","ge4j","1b","flipsOrFakes_flips");
+        categoryHistogram onelepFO_ge4j_ge2b_flips("onelepFO","ge4j","ge2b","flipsOrFakes_flips");
+
+        categoryHistogram dilepFO_2j_0b_flips("dilepFO","2j","0b","flipsOrFakes_flips");
+        categoryHistogram dilepFO_2j_1b_flips("dilepFO","2j","1b","flipsOrFakes_flips");
+        categoryHistogram dilepFO_2j_ge2b_flips("dilepFO","2j","ge2b","flipsOrFakes_flips");
+        categoryHistogram dilepFO_3j_0b_flips("dilepFO","3j","0b","flipsOrFakes_flips");
+        categoryHistogram dilepFO_3j_1b_flips("dilepFO","3j","1b","flipsOrFakes_flips");
+        categoryHistogram dilepFO_3j_ge2b_flips("dilepFO","3j","ge2b","flipsOrFakes_flips");
+        categoryHistogram dilepFO_ge4j_0b_flips("dilepFO","ge4j","0b","flipsOrFakes_flips");
+        categoryHistogram dilepFO_ge4j_1b_flips("dilepFO","ge4j","1b","flipsOrFakes_flips");
+        categoryHistogram dilepFO_ge4j_ge2b_flips("dilepFO","ge4j","ge2b","flipsOrFakes_flips");
+
+
+
         categoryHistogram trilep_2j_0b("trilep","2j","0b",sample_names[btype]);
         categoryHistogram trilep_2j_1b("trilep","2j","1b",sample_names[btype]);
         categoryHistogram trilep_2j_ge2b("trilep","2j","ge2b",sample_names[btype]);
@@ -165,10 +308,10 @@ void event_looper(){
         int nFODiLep  = 0;
 
         //Main for loop
-        //for ( int counter = 0; counter < nEvents; counter++ ){
+        for ( int counter = 0; counter < nEvents; counter++ ){
         //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
-        for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
+        //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
             //cout << "counter " << counter << endl;
             if ( counter%100000==0 ){
                 cout << "event " << counter << endl;
@@ -258,37 +401,23 @@ void event_looper(){
             //loop to check for flip or fake in combined samples
             bool isFlip = 0;
             bool isFake = 0;
-            for( uint iMu = 0; iMu < nMuon; iMu++ ){
-                cout << mu.pdgid[iMu] << endl;
-                cout << mu.pdgid[iMu]*-1 << endl;
-                cout << mu.genPartIdx[iMu] << endl;
-                cout << genParts.pdgid[mu.genPartIdx[iMu]] << endl;
-                if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
-                    isFlip = 1;
-                    cout << "found flip" << endl;
+            if( sample_names[btype]=="flipsOrFakes" ){
+                for( uint iMu = 0; iMu < nMuon; iMu++ ){
+                    if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
+                        isFlip = 1;
+                    }
+                    if( mu.genPartFlav[iMu] != 1 || mu.genPartFlav[iMu] != 15 ){
+                        isFake = 1;
+                    }
                 }
-                if( mu.genPartFlav[iMu] != 1 || mu.genPartFlav[iMu] != 15 ){
-                    isFake = 1;
-                    cout << "found fake" << endl;
+                for( uint iEl = 0; iEl < nElectron; iEl++ ){
+                    if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
+                        isFlip = 1;
+                    }
+                    if( el.genPartFlav[iEl] != 1 || el.genPartFlav[iEl] != 15 ){
+                        isFake = 1;
+                    }
                 }
-            }
-            for( uint iEl = 0; iEl < nElectron; iEl++ ){
-                if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
-                    isFlip = 1;
-                    cout << "found flip" << endl;
-                }
-                if( el.genPartFlav[iEl] != 1 || el.genPartFlav[iEl] != 15 ){
-                    isFake = 1;
-                    cout << "found fake" << endl;
-                }
-            }
-            if( sample_names[btype]=="extraFlips" && isFlip == 0 ){
-                cout << "not flip" << endl;
-                continue;
-            }
-            if( sample_names[btype]=="extraFakes" && isFake == 0 ){
-                cout << "not fake" << endl;
-                continue;
             }
 
             //loop to count tight/loose muons
@@ -431,295 +560,878 @@ void event_looper(){
             }
             variablesForFilling.push_back(MT_leadb_MET);
 
+            //Now fill with those variables
+            if (sample_names[btype]=="flipsOrFakes" && isFake ==1){
+                if (nJets==2){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_2j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_2j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_2j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njet==2
+                if (nJets==3){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_3j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_3j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_3j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njet==3
+                if (nJets>=4){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_0b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_1b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_ge2b_fakes.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njets>=4
+            }else if(sample_names[btype]=="flipsOrFakes" && isFlip ==1){
+                if (nJets==2){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_2j_0b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_0b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_0b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_2j_1b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_1b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_1b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_2j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njet==2
+                if (nJets==3){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_3j_0b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_0b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_0b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_3j_1b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_1b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_1b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_3j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njet==3
+                if (nJets>=4){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_0b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_0b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_0b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_0b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_1b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_1b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_1b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_1b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njets>=4
+            }else{
+                if (nJets==2){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_2j_0b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_0b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_0b.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_2j_1b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_1b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_1b.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_ge2b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_ge2b.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njet==2
+                if (nJets==3){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_3j_0b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_0b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_0b.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_3j_1b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_1b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_1b.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_ge2b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_ge2b.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njet==3
+                if (nJets>=4){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_0b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_0b.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_1b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_1b.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njets>=4
+            }
 
-            if (nJets==2){
-                if (nBjets==0){
-                    if (nGoodLep>=3){
-                        trilep_2j_0b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nGoodLep == 2){
-                        if (muCharge_tight.size() == 2){
-                            if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                SS_SF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
-                            }else{ 
-                                OS_SF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (elCharge_tight.size() == 2) {
-                            if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                SS_SF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_SF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (muCharge_tight.size() == 1) {
-                            if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                SS_OF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_OF_dilep_2j_0b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }
-                    }
-                    if (nGoodLep==1 && nFakeableLep==1){
-                        onelepFO_2j_0b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nFakeableLep==2){
-                        dilepFO_2j_0b.fillHistogram(variablesForFilling, weight);
-                    }
-                }else if (nBjets==1){
-                    if (nGoodLep>=3){
-                        trilep_2j_1b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nGoodLep == 2){
-                        if (muCharge_tight.size() == 2){
-                            if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                SS_SF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
-                            }else{ 
-                                OS_SF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (elCharge_tight.size() == 2) {
-                            if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                SS_SF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_SF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (muCharge_tight.size() == 1) {
-                            if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                SS_OF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_OF_dilep_2j_1b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }
-                    }
-                    if (nGoodLep==1 && nFakeableLep==1){
-                        onelepFO_2j_1b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nFakeableLep==2){
-                        dilepFO_2j_1b.fillHistogram(variablesForFilling, weight);
-                    }
-                }else if (nBjets>=2){
-                    if (nGoodLep>=3){
-                        trilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nGoodLep == 2){
-                        if (muCharge_tight.size() == 2){
-                            if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                SS_SF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }else{ 
-                                OS_SF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (elCharge_tight.size() == 2) {
-                            if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                SS_SF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_SF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (muCharge_tight.size() == 1) {
-                            if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                SS_OF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_OF_dilep_2j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }
-                    }
-                    if (nGoodLep==1 && nFakeableLep==1){
-                        onelepFO_2j_ge2b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nFakeableLep==2){
-                        dilepFO_2j_ge2b.fillHistogram(variablesForFilling, weight);
-                    }
-                }
-            }//njet==2
-            if (nJets==3){
-                if (nBjets==0){
-                    if (nGoodLep>=3){
-                        trilep_3j_0b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nGoodLep == 2){
-                        if (muCharge_tight.size() == 2){
-                            if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                SS_SF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
-                            }else{ 
-                                OS_SF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (elCharge_tight.size() == 2) {
-                            if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                SS_SF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_SF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (muCharge_tight.size() == 1) {
-                            if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                SS_OF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_OF_dilep_3j_0b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }
-                    }
-                    if (nGoodLep==1 && nFakeableLep==1){
-                        onelepFO_3j_0b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nFakeableLep==2){
-                        dilepFO_3j_0b.fillHistogram(variablesForFilling, weight);
-                    }
-                }else if (nBjets==1){
-                    if (nGoodLep>=3){
-                        trilep_3j_1b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nGoodLep == 2){
-                        if (muCharge_tight.size() == 2){
-                            if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                SS_SF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
-                            }else{ 
-                                OS_SF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (elCharge_tight.size() == 2) {
-                            if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                SS_SF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_SF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (muCharge_tight.size() == 1) {
-                            if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                SS_OF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_OF_dilep_3j_1b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }
-                    }
-                    if (nGoodLep==1 && nFakeableLep==1){
-                        onelepFO_3j_1b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nFakeableLep==2){
-                        dilepFO_3j_1b.fillHistogram(variablesForFilling, weight);
-                    }
-                }else if (nBjets>=2){
-                    if (nGoodLep>=3){
-                        trilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nGoodLep == 2){
-                        if (muCharge_tight.size() == 2){
-                            if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                SS_SF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }else{ 
-                                OS_SF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (elCharge_tight.size() == 2) {
-                            if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                SS_SF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_SF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (muCharge_tight.size() == 1) {
-                            if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                SS_OF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_OF_dilep_3j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }
-                    }
-                    if (nGoodLep==1 && nFakeableLep==1){
-                        onelepFO_3j_ge2b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nFakeableLep==2){
-                        dilepFO_3j_ge2b.fillHistogram(variablesForFilling, weight);
-                    }
-                }
-            }//njet==3
-            if (nJets>=4){
-                if (nBjets==0){
-                    if (nGoodLep>=3){
-                        trilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nGoodLep == 2){
-                        if (muCharge_tight.size() == 2){
-                            if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                SS_SF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
-                            }else{ 
-                                OS_SF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (elCharge_tight.size() == 2) {
-                            if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                SS_SF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_SF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (muCharge_tight.size() == 1) {
-                            if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                SS_OF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_OF_dilep_ge4j_0b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }
-                    }
-                    if (nGoodLep==1 && nFakeableLep==1){
-                        onelepFO_ge4j_0b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nFakeableLep==2){
-                        dilepFO_ge4j_0b.fillHistogram(variablesForFilling, weight);
-                    }
-                }else if (nBjets==1){
-                    if (nGoodLep>=3){
-                        trilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nGoodLep == 2){
-                        if (muCharge_tight.size() == 2){
-                            if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                SS_SF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
-                            }else{ 
-                                OS_SF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (elCharge_tight.size() == 2) {
-                            if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                SS_SF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_SF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (muCharge_tight.size() == 1) {
-                            if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                SS_OF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_OF_dilep_ge4j_1b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }
-                    }
-                    if (nGoodLep==1 && nFakeableLep==1){
-                        onelepFO_ge4j_1b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nFakeableLep==2){
-                        dilepFO_ge4j_1b.fillHistogram(variablesForFilling, weight);
-                    }
-                }else if (nBjets>=2){
-                    if (nGoodLep>=3){
-                        trilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nGoodLep == 2){
-                        if (muCharge_tight.size() == 2){
-                            if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                SS_SF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }else{ 
-                                OS_SF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (elCharge_tight.size() == 2) {
-                            if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                SS_SF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_SF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }else if (muCharge_tight.size() == 1) {
-                            if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                SS_OF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }else{
-                                OS_OF_dilep_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
-                            }
-                        }
-                    }
-                    if (nGoodLep==1 && nFakeableLep==1){
-                        onelepFO_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
-                    }
-                    if (nFakeableLep==2){
-                        dilepFO_ge4j_ge2b.fillHistogram(variablesForFilling, weight);
-                    }
-                }
-            }//njets>=4
+
+
        }//event loop
 
         auto stop = high_resolution_clock::now();
@@ -734,76 +1446,222 @@ void event_looper(){
 
         cout << "processed " << nEvents << " events in " << duration.count() << " seconds!!" << endl;
 
+        if(sample_names[btype]=="flipsOrFakes"){
+            trilep_2j_0b_fakes.writeHistogram(outFile);
+            trilep_2j_1b_fakes.writeHistogram(outFile);
+            trilep_2j_ge2b_fakes.writeHistogram(outFile);
+            trilep_3j_0b_fakes.writeHistogram(outFile);
+            trilep_3j_1b_fakes.writeHistogram(outFile);
+            trilep_3j_ge2b_fakes.writeHistogram(outFile);
+            trilep_ge4j_0b_fakes.writeHistogram(outFile);
+            trilep_ge4j_1b_fakes.writeHistogram(outFile);
+            trilep_ge4j_ge2b_fakes.writeHistogram(outFile);
 
-        trilep_2j_0b.writeHistogram(outFile);
-        trilep_2j_1b.writeHistogram(outFile);
-        trilep_2j_ge2b.writeHistogram(outFile);
-        trilep_3j_0b.writeHistogram(outFile);
-        trilep_3j_1b.writeHistogram(outFile);
-        trilep_3j_ge2b.writeHistogram(outFile);
-        trilep_ge4j_0b.writeHistogram(outFile);
-        trilep_ge4j_1b.writeHistogram(outFile);
-        trilep_ge4j_ge2b.writeHistogram(outFile);
+            SS_SF_dilep_2j_0b_fakes.writeHistogram(outFile);
+            SS_SF_dilep_2j_1b_fakes.writeHistogram(outFile);
+            SS_SF_dilep_2j_ge2b_fakes.writeHistogram(outFile);
+            SS_SF_dilep_3j_0b_fakes.writeHistogram(outFile);
+            SS_SF_dilep_3j_1b_fakes.writeHistogram(outFile);
+            SS_SF_dilep_3j_ge2b_fakes.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_0b_fakes.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_1b_fakes.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_ge2b_fakes.writeHistogram(outFile);
 
-        SS_SF_dilep_2j_0b.writeHistogram(outFile);
-        SS_SF_dilep_2j_1b.writeHistogram(outFile);
-        SS_SF_dilep_2j_ge2b.writeHistogram(outFile);
-        SS_SF_dilep_3j_0b.writeHistogram(outFile);
-        SS_SF_dilep_3j_1b.writeHistogram(outFile);
-        SS_SF_dilep_3j_ge2b.writeHistogram(outFile);
-        SS_SF_dilep_ge4j_0b.writeHistogram(outFile);
-        SS_SF_dilep_ge4j_1b.writeHistogram(outFile);
-        SS_SF_dilep_ge4j_ge2b.writeHistogram(outFile);
+            SS_OF_dilep_2j_0b_fakes.writeHistogram(outFile);
+            SS_OF_dilep_2j_1b_fakes.writeHistogram(outFile);
+            SS_OF_dilep_2j_ge2b_fakes.writeHistogram(outFile);
+            SS_OF_dilep_3j_0b_fakes.writeHistogram(outFile);
+            SS_OF_dilep_3j_1b_fakes.writeHistogram(outFile);
+            SS_OF_dilep_3j_ge2b_fakes.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_0b_fakes.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_1b_fakes.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_ge2b_fakes.writeHistogram(outFile);
 
-        SS_OF_dilep_2j_0b.writeHistogram(outFile);
-        SS_OF_dilep_2j_1b.writeHistogram(outFile);
-        SS_OF_dilep_2j_ge2b.writeHistogram(outFile);
-        SS_OF_dilep_3j_0b.writeHistogram(outFile);
-        SS_OF_dilep_3j_1b.writeHistogram(outFile);
-        SS_OF_dilep_3j_ge2b.writeHistogram(outFile);
-        SS_OF_dilep_ge4j_0b.writeHistogram(outFile);
-        SS_OF_dilep_ge4j_1b.writeHistogram(outFile);
-        SS_OF_dilep_ge4j_ge2b.writeHistogram(outFile);
+            OS_SF_dilep_2j_0b_fakes.writeHistogram(outFile);
+            OS_SF_dilep_2j_1b_fakes.writeHistogram(outFile);
+            OS_SF_dilep_2j_ge2b_fakes.writeHistogram(outFile);
+            OS_SF_dilep_3j_0b_fakes.writeHistogram(outFile);
+            OS_SF_dilep_3j_1b_fakes.writeHistogram(outFile);
+            OS_SF_dilep_3j_ge2b_fakes.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_0b_fakes.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_1b_fakes.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_ge2b_fakes.writeHistogram(outFile);
 
-        OS_SF_dilep_2j_0b.writeHistogram(outFile);
-        OS_SF_dilep_2j_1b.writeHistogram(outFile);
-        OS_SF_dilep_2j_ge2b.writeHistogram(outFile);
-        OS_SF_dilep_3j_0b.writeHistogram(outFile);
-        OS_SF_dilep_3j_1b.writeHistogram(outFile);
-        OS_SF_dilep_3j_ge2b.writeHistogram(outFile);
-        OS_SF_dilep_ge4j_0b.writeHistogram(outFile);
-        OS_SF_dilep_ge4j_1b.writeHistogram(outFile);
-        OS_SF_dilep_ge4j_ge2b.writeHistogram(outFile);
+            OS_OF_dilep_2j_0b_fakes.writeHistogram(outFile);
+            OS_OF_dilep_2j_1b_fakes.writeHistogram(outFile);
+            OS_OF_dilep_2j_ge2b_fakes.writeHistogram(outFile);
+            OS_OF_dilep_3j_0b_fakes.writeHistogram(outFile);
+            OS_OF_dilep_3j_1b_fakes.writeHistogram(outFile);
+            OS_OF_dilep_3j_ge2b_fakes.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_0b_fakes.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_1b_fakes.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_ge2b_fakes.writeHistogram(outFile);
 
-        OS_OF_dilep_2j_0b.writeHistogram(outFile);
-        OS_OF_dilep_2j_1b.writeHistogram(outFile);
-        OS_OF_dilep_2j_ge2b.writeHistogram(outFile);
-        OS_OF_dilep_3j_0b.writeHistogram(outFile);
-        OS_OF_dilep_3j_1b.writeHistogram(outFile);
-        OS_OF_dilep_3j_ge2b.writeHistogram(outFile);
-        OS_OF_dilep_ge4j_0b.writeHistogram(outFile);
-        OS_OF_dilep_ge4j_1b.writeHistogram(outFile);
-        OS_OF_dilep_ge4j_ge2b.writeHistogram(outFile);
+            onelepFO_2j_0b_fakes.writeHistogram(outFile);
+            onelepFO_2j_1b_fakes.writeHistogram(outFile);
+            onelepFO_2j_ge2b_fakes.writeHistogram(outFile);
+            onelepFO_3j_0b_fakes.writeHistogram(outFile);
+            onelepFO_3j_1b_fakes.writeHistogram(outFile);
+            onelepFO_3j_ge2b_fakes.writeHistogram(outFile);
+            onelepFO_ge4j_0b_fakes.writeHistogram(outFile);
+            onelepFO_ge4j_1b_fakes.writeHistogram(outFile);
+            onelepFO_ge4j_ge2b_fakes.writeHistogram(outFile);
 
-        onelepFO_2j_0b.writeHistogram(outFile);
-        onelepFO_2j_1b.writeHistogram(outFile);
-        onelepFO_2j_ge2b.writeHistogram(outFile);
-        onelepFO_3j_0b.writeHistogram(outFile);
-        onelepFO_3j_1b.writeHistogram(outFile);
-        onelepFO_3j_ge2b.writeHistogram(outFile);
-        onelepFO_ge4j_0b.writeHistogram(outFile);
-        onelepFO_ge4j_1b.writeHistogram(outFile);
-        onelepFO_ge4j_ge2b.writeHistogram(outFile);
+            dilepFO_2j_0b_fakes.writeHistogram(outFile);
+            dilepFO_2j_1b_fakes.writeHistogram(outFile);
+            dilepFO_2j_ge2b_fakes.writeHistogram(outFile);
+            dilepFO_3j_0b_fakes.writeHistogram(outFile);
+            dilepFO_3j_1b_fakes.writeHistogram(outFile);
+            dilepFO_3j_ge2b_fakes.writeHistogram(outFile);
+            dilepFO_ge4j_0b_fakes.writeHistogram(outFile);
+            dilepFO_ge4j_1b_fakes.writeHistogram(outFile);
+            dilepFO_ge4j_ge2b_fakes.writeHistogram(outFile);
 
-        dilepFO_2j_0b.writeHistogram(outFile);
-        dilepFO_2j_1b.writeHistogram(outFile);
-        dilepFO_2j_ge2b.writeHistogram(outFile);
-        dilepFO_3j_0b.writeHistogram(outFile);
-        dilepFO_3j_1b.writeHistogram(outFile);
-        dilepFO_3j_ge2b.writeHistogram(outFile);
-        dilepFO_ge4j_0b.writeHistogram(outFile);
-        dilepFO_ge4j_1b.writeHistogram(outFile);
-        dilepFO_ge4j_ge2b.writeHistogram(outFile);
+
+
+            trilep_2j_0b_flips.writeHistogram(outFile);
+            trilep_2j_1b_flips.writeHistogram(outFile);
+            trilep_2j_ge2b_flips.writeHistogram(outFile);
+            trilep_3j_0b_flips.writeHistogram(outFile);
+            trilep_3j_1b_flips.writeHistogram(outFile);
+            trilep_3j_ge2b_flips.writeHistogram(outFile);
+            trilep_ge4j_0b_flips.writeHistogram(outFile);
+            trilep_ge4j_1b_flips.writeHistogram(outFile);
+            trilep_ge4j_ge2b_flips.writeHistogram(outFile);
+
+            SS_SF_dilep_2j_0b_flips.writeHistogram(outFile);
+            SS_SF_dilep_2j_1b_flips.writeHistogram(outFile);
+            SS_SF_dilep_2j_ge2b_flips.writeHistogram(outFile);
+            SS_SF_dilep_3j_0b_flips.writeHistogram(outFile);
+            SS_SF_dilep_3j_1b_flips.writeHistogram(outFile);
+            SS_SF_dilep_3j_ge2b_flips.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_0b_flips.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_1b_flips.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_ge2b_flips.writeHistogram(outFile);
+
+            SS_OF_dilep_2j_0b_flips.writeHistogram(outFile);
+            SS_OF_dilep_2j_1b_flips.writeHistogram(outFile);
+            SS_OF_dilep_2j_ge2b_flips.writeHistogram(outFile);
+            SS_OF_dilep_3j_0b_flips.writeHistogram(outFile);
+            SS_OF_dilep_3j_1b_flips.writeHistogram(outFile);
+            SS_OF_dilep_3j_ge2b_flips.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_0b_flips.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_1b_flips.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_ge2b_flips.writeHistogram(outFile);
+
+            OS_SF_dilep_2j_0b_flips.writeHistogram(outFile);
+            OS_SF_dilep_2j_1b_flips.writeHistogram(outFile);
+            OS_SF_dilep_2j_ge2b_flips.writeHistogram(outFile);
+            OS_SF_dilep_3j_0b_flips.writeHistogram(outFile);
+            OS_SF_dilep_3j_1b_flips.writeHistogram(outFile);
+            OS_SF_dilep_3j_ge2b_flips.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_0b_flips.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_1b_flips.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_ge2b_flips.writeHistogram(outFile);
+
+            OS_OF_dilep_2j_0b_flips.writeHistogram(outFile);
+            OS_OF_dilep_2j_1b_flips.writeHistogram(outFile);
+            OS_OF_dilep_2j_ge2b_flips.writeHistogram(outFile);
+            OS_OF_dilep_3j_0b_flips.writeHistogram(outFile);
+            OS_OF_dilep_3j_1b_flips.writeHistogram(outFile);
+            OS_OF_dilep_3j_ge2b_flips.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_0b_flips.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_1b_flips.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_ge2b_flips.writeHistogram(outFile);
+
+            onelepFO_2j_0b_flips.writeHistogram(outFile);
+            onelepFO_2j_1b_flips.writeHistogram(outFile);
+            onelepFO_2j_ge2b_flips.writeHistogram(outFile);
+            onelepFO_3j_0b_flips.writeHistogram(outFile);
+            onelepFO_3j_1b_flips.writeHistogram(outFile);
+            onelepFO_3j_ge2b_flips.writeHistogram(outFile);
+            onelepFO_ge4j_0b_flips.writeHistogram(outFile);
+            onelepFO_ge4j_1b_flips.writeHistogram(outFile);
+            onelepFO_ge4j_ge2b_flips.writeHistogram(outFile);
+
+            dilepFO_2j_0b_flips.writeHistogram(outFile);
+            dilepFO_2j_1b_flips.writeHistogram(outFile);
+            dilepFO_2j_ge2b_flips.writeHistogram(outFile);
+            dilepFO_3j_0b_flips.writeHistogram(outFile);
+            dilepFO_3j_1b_flips.writeHistogram(outFile);
+            dilepFO_3j_ge2b_flips.writeHistogram(outFile);
+            dilepFO_ge4j_0b_flips.writeHistogram(outFile);
+            dilepFO_ge4j_1b_flips.writeHistogram(outFile);
+            dilepFO_ge4j_ge2b_flips.writeHistogram(outFile);
+
+        }else{
+
+            trilep_2j_0b.writeHistogram(outFile);
+            trilep_2j_1b.writeHistogram(outFile);
+            trilep_2j_ge2b.writeHistogram(outFile);
+            trilep_3j_0b.writeHistogram(outFile);
+            trilep_3j_1b.writeHistogram(outFile);
+            trilep_3j_ge2b.writeHistogram(outFile);
+            trilep_ge4j_0b.writeHistogram(outFile);
+            trilep_ge4j_1b.writeHistogram(outFile);
+            trilep_ge4j_ge2b.writeHistogram(outFile);
+
+            SS_SF_dilep_2j_0b.writeHistogram(outFile);
+            SS_SF_dilep_2j_1b.writeHistogram(outFile);
+            SS_SF_dilep_2j_ge2b.writeHistogram(outFile);
+            SS_SF_dilep_3j_0b.writeHistogram(outFile);
+            SS_SF_dilep_3j_1b.writeHistogram(outFile);
+            SS_SF_dilep_3j_ge2b.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_0b.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_1b.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_ge2b.writeHistogram(outFile);
+
+            SS_OF_dilep_2j_0b.writeHistogram(outFile);
+            SS_OF_dilep_2j_1b.writeHistogram(outFile);
+            SS_OF_dilep_2j_ge2b.writeHistogram(outFile);
+            SS_OF_dilep_3j_0b.writeHistogram(outFile);
+            SS_OF_dilep_3j_1b.writeHistogram(outFile);
+            SS_OF_dilep_3j_ge2b.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_0b.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_1b.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_ge2b.writeHistogram(outFile);
+
+            OS_SF_dilep_2j_0b.writeHistogram(outFile);
+            OS_SF_dilep_2j_1b.writeHistogram(outFile);
+            OS_SF_dilep_2j_ge2b.writeHistogram(outFile);
+            OS_SF_dilep_3j_0b.writeHistogram(outFile);
+            OS_SF_dilep_3j_1b.writeHistogram(outFile);
+            OS_SF_dilep_3j_ge2b.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_0b.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_1b.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_ge2b.writeHistogram(outFile);
+
+            OS_OF_dilep_2j_0b.writeHistogram(outFile);
+            OS_OF_dilep_2j_1b.writeHistogram(outFile);
+            OS_OF_dilep_2j_ge2b.writeHistogram(outFile);
+            OS_OF_dilep_3j_0b.writeHistogram(outFile);
+            OS_OF_dilep_3j_1b.writeHistogram(outFile);
+            OS_OF_dilep_3j_ge2b.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_0b.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_1b.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_ge2b.writeHistogram(outFile);
+
+            onelepFO_2j_0b.writeHistogram(outFile);
+            onelepFO_2j_1b.writeHistogram(outFile);
+            onelepFO_2j_ge2b.writeHistogram(outFile);
+            onelepFO_3j_0b.writeHistogram(outFile);
+            onelepFO_3j_1b.writeHistogram(outFile);
+            onelepFO_3j_ge2b.writeHistogram(outFile);
+            onelepFO_ge4j_0b.writeHistogram(outFile);
+            onelepFO_ge4j_1b.writeHistogram(outFile);
+            onelepFO_ge4j_ge2b.writeHistogram(outFile);
+
+            dilepFO_2j_0b.writeHistogram(outFile);
+            dilepFO_2j_1b.writeHistogram(outFile);
+            dilepFO_2j_ge2b.writeHistogram(outFile);
+            dilepFO_3j_0b.writeHistogram(outFile);
+            dilepFO_3j_1b.writeHistogram(outFile);
+            dilepFO_3j_ge2b.writeHistogram(outFile);
+            dilepFO_ge4j_0b.writeHistogram(outFile);
+            dilepFO_ge4j_1b.writeHistogram(outFile);
+            dilepFO_ge4j_ge2b.writeHistogram(outFile);
+
+        }
 
     }
 
