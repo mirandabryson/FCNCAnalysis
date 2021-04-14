@@ -33,10 +33,7 @@ void event_looper(){
     double lumi = 137;
     string babyVersion = "fcnc_v3";
     string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/"+babyVersion+"/";
-    vector< string > sample_names = {   "fakes",
-                                        "flips",
-                                        "flipsOrFakes",
-                                        "other",
+    vector< string > sample_names = {   "background",
                                         "signal_hut",
                                         "signal_hct"
                                     };
@@ -50,8 +47,8 @@ void event_looper(){
                                         "signal_hct"
                                     };*/
 
-    auto outFile = new TFile("plots/outputHistos.root", "recreate");
-    //auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    //auto outFile = new TFile("plots/outputHistos.root", "recreate");
+    auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
 
     //Load samples
     for(uint btype = 0; btype < sample_names.size(); btype++){
@@ -85,147 +82,219 @@ void event_looper(){
         chain->SetBranchAddress("Generator_weight", &genWeight);
         
         //make all histograms
-        categoryHistogram trilep_2j_0b_fakes("trilep","2j","0b","flipsOrFakes_fakes");
-        categoryHistogram trilep_2j_1b_fakes("trilep","2j","1b","flipsOrFakes_fakes");
-        categoryHistogram trilep_2j_ge2b_fakes("trilep","2j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram trilep_3j_0b_fakes("trilep","3j","0b","flipsOrFakes_fakes");
-        categoryHistogram trilep_3j_1b_fakes("trilep","3j","1b","flipsOrFakes_fakes");
-        categoryHistogram trilep_3j_ge2b_fakes("trilep","3j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram trilep_ge4j_0b_fakes("trilep","ge4j","0b","flipsOrFakes_fakes");
-        categoryHistogram trilep_ge4j_1b_fakes("trilep","ge4j","1b","flipsOrFakes_fakes");
-        categoryHistogram trilep_ge4j_ge2b_fakes("trilep","ge4j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram trilep_2j_0b_fakes("trilep","2j","0b","fakes");
+        categoryHistogram trilep_2j_1b_fakes("trilep","2j","1b","fakes");
+        categoryHistogram trilep_2j_ge2b_fakes("trilep","2j","ge2b","fakes");
+        categoryHistogram trilep_3j_0b_fakes("trilep","3j","0b","fakes");
+        categoryHistogram trilep_3j_1b_fakes("trilep","3j","1b","fakes");
+        categoryHistogram trilep_3j_ge2b_fakes("trilep","3j","ge2b","fakes");
+        categoryHistogram trilep_ge4j_0b_fakes("trilep","ge4j","0b","fakes");
+        categoryHistogram trilep_ge4j_1b_fakes("trilep","ge4j","1b","fakes");
+        categoryHistogram trilep_ge4j_ge2b_fakes("trilep","ge4j","ge2b","fakes");
 
-        categoryHistogram SS_SF_dilep_2j_0b_fakes("SS_SF_dilep","2j","0b","flipsOrFakes_fakes");
-        categoryHistogram SS_SF_dilep_2j_1b_fakes("SS_SF_dilep","2j","1b","flipsOrFakes_fakes");
-        categoryHistogram SS_SF_dilep_2j_ge2b_fakes("SS_SF_dilep","2j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram SS_SF_dilep_3j_0b_fakes("SS_SF_dilep","3j","0b","flipsOrFakes_fakes");
-        categoryHistogram SS_SF_dilep_3j_1b_fakes("SS_SF_dilep","3j","1b","flipsOrFakes_fakes");
-        categoryHistogram SS_SF_dilep_3j_ge2b_fakes("SS_SF_dilep","3j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram SS_SF_dilep_ge4j_0b_fakes("SS_SF_dilep","ge4j","0b","flipsOrFakes_fakes");
-        categoryHistogram SS_SF_dilep_ge4j_1b_fakes("SS_SF_dilep","ge4j","1b","flipsOrFakes_fakes");
-        categoryHistogram SS_SF_dilep_ge4j_ge2b_fakes("SS_SF_dilep","ge4j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram SS_SF_dilep_2j_0b_fakes("SS_SF_dilep","2j","0b","fakes");
+        categoryHistogram SS_SF_dilep_2j_1b_fakes("SS_SF_dilep","2j","1b","fakes");
+        categoryHistogram SS_SF_dilep_2j_ge2b_fakes("SS_SF_dilep","2j","ge2b","fakes");
+        categoryHistogram SS_SF_dilep_3j_0b_fakes("SS_SF_dilep","3j","0b","fakes");
+        categoryHistogram SS_SF_dilep_3j_1b_fakes("SS_SF_dilep","3j","1b","fakes");
+        categoryHistogram SS_SF_dilep_3j_ge2b_fakes("SS_SF_dilep","3j","ge2b","fakes");
+        categoryHistogram SS_SF_dilep_ge4j_0b_fakes("SS_SF_dilep","ge4j","0b","fakes");
+        categoryHistogram SS_SF_dilep_ge4j_1b_fakes("SS_SF_dilep","ge4j","1b","fakes");
+        categoryHistogram SS_SF_dilep_ge4j_ge2b_fakes("SS_SF_dilep","ge4j","ge2b","fakes");
 
-        categoryHistogram SS_OF_dilep_2j_0b_fakes("SS_OF_dilep","2j","0b","flipsOrFakes_fakes");
-        categoryHistogram SS_OF_dilep_2j_1b_fakes("SS_OF_dilep","2j","1b","flipsOrFakes_fakes");
-        categoryHistogram SS_OF_dilep_2j_ge2b_fakes("SS_OF_dilep","2j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram SS_OF_dilep_3j_0b_fakes("SS_OF_dilep","3j","0b","flipsOrFakes_fakes");
-        categoryHistogram SS_OF_dilep_3j_1b_fakes("SS_OF_dilep","3j","1b","flipsOrFakes_fakes");
-        categoryHistogram SS_OF_dilep_3j_ge2b_fakes("SS_OF_dilep","3j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram SS_OF_dilep_ge4j_0b_fakes("SS_OF_dilep","ge4j","0b","flipsOrFakes_fakes");
-        categoryHistogram SS_OF_dilep_ge4j_1b_fakes("SS_OF_dilep","ge4j","1b","flipsOrFakes_fakes");
-        categoryHistogram SS_OF_dilep_ge4j_ge2b_fakes("SS_OF_dilep","ge4j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram SS_OF_dilep_2j_0b_fakes("SS_OF_dilep","2j","0b","fakes");
+        categoryHistogram SS_OF_dilep_2j_1b_fakes("SS_OF_dilep","2j","1b","fakes");
+        categoryHistogram SS_OF_dilep_2j_ge2b_fakes("SS_OF_dilep","2j","ge2b","fakes");
+        categoryHistogram SS_OF_dilep_3j_0b_fakes("SS_OF_dilep","3j","0b","fakes");
+        categoryHistogram SS_OF_dilep_3j_1b_fakes("SS_OF_dilep","3j","1b","fakes");
+        categoryHistogram SS_OF_dilep_3j_ge2b_fakes("SS_OF_dilep","3j","ge2b","fakes");
+        categoryHistogram SS_OF_dilep_ge4j_0b_fakes("SS_OF_dilep","ge4j","0b","fakes");
+        categoryHistogram SS_OF_dilep_ge4j_1b_fakes("SS_OF_dilep","ge4j","1b","fakes");
+        categoryHistogram SS_OF_dilep_ge4j_ge2b_fakes("SS_OF_dilep","ge4j","ge2b","fakes");
 
-        categoryHistogram OS_SF_dilep_2j_0b_fakes("OS_SF_dilep","2j","0b","flipsOrFakes_fakes");
-        categoryHistogram OS_SF_dilep_2j_1b_fakes("OS_SF_dilep","2j","1b","flipsOrFakes_fakes");
-        categoryHistogram OS_SF_dilep_2j_ge2b_fakes("OS_SF_dilep","2j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram OS_SF_dilep_3j_0b_fakes("OS_SF_dilep","3j","0b","flipsOrFakes_fakes");
-        categoryHistogram OS_SF_dilep_3j_1b_fakes("OS_SF_dilep","3j","1b","flipsOrFakes_fakes");
-        categoryHistogram OS_SF_dilep_3j_ge2b_fakes("OS_SF_dilep","3j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram OS_SF_dilep_ge4j_0b_fakes("OS_SF_dilep","ge4j","0b","flipsOrFakes_fakes");
-        categoryHistogram OS_SF_dilep_ge4j_1b_fakes("OS_SF_dilep","ge4j","1b","flipsOrFakes_fakes");
-        categoryHistogram OS_SF_dilep_ge4j_ge2b_fakes("OS_SF_dilep","ge4j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram OS_SF_dilep_2j_0b_fakes("OS_SF_dilep","2j","0b","fakes");
+        categoryHistogram OS_SF_dilep_2j_1b_fakes("OS_SF_dilep","2j","1b","fakes");
+        categoryHistogram OS_SF_dilep_2j_ge2b_fakes("OS_SF_dilep","2j","ge2b","fakes");
+        categoryHistogram OS_SF_dilep_3j_0b_fakes("OS_SF_dilep","3j","0b","fakes");
+        categoryHistogram OS_SF_dilep_3j_1b_fakes("OS_SF_dilep","3j","1b","fakes");
+        categoryHistogram OS_SF_dilep_3j_ge2b_fakes("OS_SF_dilep","3j","ge2b","fakes");
+        categoryHistogram OS_SF_dilep_ge4j_0b_fakes("OS_SF_dilep","ge4j","0b","fakes");
+        categoryHistogram OS_SF_dilep_ge4j_1b_fakes("OS_SF_dilep","ge4j","1b","fakes");
+        categoryHistogram OS_SF_dilep_ge4j_ge2b_fakes("OS_SF_dilep","ge4j","ge2b","fakes");
 
-        categoryHistogram OS_OF_dilep_2j_0b_fakes("OS_OF_dilep","2j","0b","flipsOrFakes_fakes");
-        categoryHistogram OS_OF_dilep_2j_1b_fakes("OS_OF_dilep","2j","1b","flipsOrFakes_fakes");
-        categoryHistogram OS_OF_dilep_2j_ge2b_fakes("OS_OF_dilep","2j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram OS_OF_dilep_3j_0b_fakes("OS_OF_dilep","3j","0b","flipsOrFakes_fakes");
-        categoryHistogram OS_OF_dilep_3j_1b_fakes("OS_OF_dilep","3j","1b","flipsOrFakes_fakes");
-        categoryHistogram OS_OF_dilep_3j_ge2b_fakes("OS_OF_dilep","3j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram OS_OF_dilep_ge4j_0b_fakes("OS_OF_dilep","ge4j","0b","flipsOrFakes_fakes");
-        categoryHistogram OS_OF_dilep_ge4j_1b_fakes("OS_OF_dilep","ge4j","1b","flipsOrFakes_fakes");
-        categoryHistogram OS_OF_dilep_ge4j_ge2b_fakes("OS_OF_dilep","ge4j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram OS_OF_dilep_2j_0b_fakes("OS_OF_dilep","2j","0b","fakes");
+        categoryHistogram OS_OF_dilep_2j_1b_fakes("OS_OF_dilep","2j","1b","fakes");
+        categoryHistogram OS_OF_dilep_2j_ge2b_fakes("OS_OF_dilep","2j","ge2b","fakes");
+        categoryHistogram OS_OF_dilep_3j_0b_fakes("OS_OF_dilep","3j","0b","fakes");
+        categoryHistogram OS_OF_dilep_3j_1b_fakes("OS_OF_dilep","3j","1b","fakes");
+        categoryHistogram OS_OF_dilep_3j_ge2b_fakes("OS_OF_dilep","3j","ge2b","fakes");
+        categoryHistogram OS_OF_dilep_ge4j_0b_fakes("OS_OF_dilep","ge4j","0b","fakes");
+        categoryHistogram OS_OF_dilep_ge4j_1b_fakes("OS_OF_dilep","ge4j","1b","fakes");
+        categoryHistogram OS_OF_dilep_ge4j_ge2b_fakes("OS_OF_dilep","ge4j","ge2b","fakes");
 
-        categoryHistogram onelepFO_2j_0b_fakes("onelepFO","2j","0b","flipsOrFakes_fakes");
-        categoryHistogram onelepFO_2j_1b_fakes("onelepFO","2j","1b","flipsOrFakes_fakes");
-        categoryHistogram onelepFO_2j_ge2b_fakes("onelepFO","2j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram onelepFO_3j_0b_fakes("onelepFO","3j","0b","flipsOrFakes_fakes");
-        categoryHistogram onelepFO_3j_1b_fakes("onelepFO","3j","1b","flipsOrFakes_fakes");
-        categoryHistogram onelepFO_3j_ge2b_fakes("onelepFO","3j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram onelepFO_ge4j_0b_fakes("onelepFO","ge4j","0b","flipsOrFakes_fakes");
-        categoryHistogram onelepFO_ge4j_1b_fakes("onelepFO","ge4j","1b","flipsOrFakes_fakes");
-        categoryHistogram onelepFO_ge4j_ge2b_fakes("onelepFO","ge4j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram onelepFO_2j_0b_fakes("onelepFO","2j","0b","fakes");
+        categoryHistogram onelepFO_2j_1b_fakes("onelepFO","2j","1b","fakes");
+        categoryHistogram onelepFO_2j_ge2b_fakes("onelepFO","2j","ge2b","fakes");
+        categoryHistogram onelepFO_3j_0b_fakes("onelepFO","3j","0b","fakes");
+        categoryHistogram onelepFO_3j_1b_fakes("onelepFO","3j","1b","fakes");
+        categoryHistogram onelepFO_3j_ge2b_fakes("onelepFO","3j","ge2b","fakes");
+        categoryHistogram onelepFO_ge4j_0b_fakes("onelepFO","ge4j","0b","fakes");
+        categoryHistogram onelepFO_ge4j_1b_fakes("onelepFO","ge4j","1b","fakes");
+        categoryHistogram onelepFO_ge4j_ge2b_fakes("onelepFO","ge4j","ge2b","fakes");
 
-        categoryHistogram dilepFO_2j_0b_fakes("dilepFO","2j","0b","flipsOrFakes_fakes");
-        categoryHistogram dilepFO_2j_1b_fakes("dilepFO","2j","1b","flipsOrFakes_fakes");
-        categoryHistogram dilepFO_2j_ge2b_fakes("dilepFO","2j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram dilepFO_3j_0b_fakes("dilepFO","3j","0b","flipsOrFakes_fakes");
-        categoryHistogram dilepFO_3j_1b_fakes("dilepFO","3j","1b","flipsOrFakes_fakes");
-        categoryHistogram dilepFO_3j_ge2b_fakes("dilepFO","3j","ge2b","flipsOrFakes_fakes");
-        categoryHistogram dilepFO_ge4j_0b_fakes("dilepFO","ge4j","0b","flipsOrFakes_fakes");
-        categoryHistogram dilepFO_ge4j_1b_fakes("dilepFO","ge4j","1b","flipsOrFakes_fakes");
-        categoryHistogram dilepFO_ge4j_ge2b_fakes("dilepFO","ge4j","ge2b","flipsOrFakes_fakes");
+        categoryHistogram dilepFO_2j_0b_fakes("dilepFO","2j","0b","fakes");
+        categoryHistogram dilepFO_2j_1b_fakes("dilepFO","2j","1b","fakes");
+        categoryHistogram dilepFO_2j_ge2b_fakes("dilepFO","2j","ge2b","fakes");
+        categoryHistogram dilepFO_3j_0b_fakes("dilepFO","3j","0b","fakes");
+        categoryHistogram dilepFO_3j_1b_fakes("dilepFO","3j","1b","fakes");
+        categoryHistogram dilepFO_3j_ge2b_fakes("dilepFO","3j","ge2b","fakes");
+        categoryHistogram dilepFO_ge4j_0b_fakes("dilepFO","ge4j","0b","fakes");
+        categoryHistogram dilepFO_ge4j_1b_fakes("dilepFO","ge4j","1b","fakes");
+        categoryHistogram dilepFO_ge4j_ge2b_fakes("dilepFO","ge4j","ge2b","fakes");
 
 
 
-        categoryHistogram trilep_2j_0b_flips("trilep","2j","0b","flipsOrFakes_flips");
-        categoryHistogram trilep_2j_1b_flips("trilep","2j","1b","flipsOrFakes_flips");
-        categoryHistogram trilep_2j_ge2b_flips("trilep","2j","ge2b","flipsOrFakes_flips");
-        categoryHistogram trilep_3j_0b_flips("trilep","3j","0b","flipsOrFakes_flips");
-        categoryHistogram trilep_3j_1b_flips("trilep","3j","1b","flipsOrFakes_flips");
-        categoryHistogram trilep_3j_ge2b_flips("trilep","3j","ge2b","flipsOrFakes_flips");
-        categoryHistogram trilep_ge4j_0b_flips("trilep","ge4j","0b","flipsOrFakes_flips");
-        categoryHistogram trilep_ge4j_1b_flips("trilep","ge4j","1b","flipsOrFakes_flips");
-        categoryHistogram trilep_ge4j_ge2b_flips("trilep","ge4j","ge2b","flipsOrFakes_flips");
+        categoryHistogram trilep_2j_0b_flips("trilep","2j","0b","flips");
+        categoryHistogram trilep_2j_1b_flips("trilep","2j","1b","flips");
+        categoryHistogram trilep_2j_ge2b_flips("trilep","2j","ge2b","flips");
+        categoryHistogram trilep_3j_0b_flips("trilep","3j","0b","flips");
+        categoryHistogram trilep_3j_1b_flips("trilep","3j","1b","flips");
+        categoryHistogram trilep_3j_ge2b_flips("trilep","3j","ge2b","flips");
+        categoryHistogram trilep_ge4j_0b_flips("trilep","ge4j","0b","flips");
+        categoryHistogram trilep_ge4j_1b_flips("trilep","ge4j","1b","flips");
+        categoryHistogram trilep_ge4j_ge2b_flips("trilep","ge4j","ge2b","flips");
 
-        categoryHistogram SS_SF_dilep_2j_0b_flips("SS_SF_dilep","2j","0b","flipsOrFakes_flips");
-        categoryHistogram SS_SF_dilep_2j_1b_flips("SS_SF_dilep","2j","1b","flipsOrFakes_flips");
-        categoryHistogram SS_SF_dilep_2j_ge2b_flips("SS_SF_dilep","2j","ge2b","flipsOrFakes_flips");
-        categoryHistogram SS_SF_dilep_3j_0b_flips("SS_SF_dilep","3j","0b","flipsOrFakes_flips");
-        categoryHistogram SS_SF_dilep_3j_1b_flips("SS_SF_dilep","3j","1b","flipsOrFakes_flips");
-        categoryHistogram SS_SF_dilep_3j_ge2b_flips("SS_SF_dilep","3j","ge2b","flipsOrFakes_flips");
-        categoryHistogram SS_SF_dilep_ge4j_0b_flips("SS_SF_dilep","ge4j","0b","flipsOrFakes_flips");
-        categoryHistogram SS_SF_dilep_ge4j_1b_flips("SS_SF_dilep","ge4j","1b","flipsOrFakes_flips");
-        categoryHistogram SS_SF_dilep_ge4j_ge2b_flips("SS_SF_dilep","ge4j","ge2b","flipsOrFakes_flips");
+        categoryHistogram SS_SF_dilep_2j_0b_flips("SS_SF_dilep","2j","0b","flips");
+        categoryHistogram SS_SF_dilep_2j_1b_flips("SS_SF_dilep","2j","1b","flips");
+        categoryHistogram SS_SF_dilep_2j_ge2b_flips("SS_SF_dilep","2j","ge2b","flips");
+        categoryHistogram SS_SF_dilep_3j_0b_flips("SS_SF_dilep","3j","0b","flips");
+        categoryHistogram SS_SF_dilep_3j_1b_flips("SS_SF_dilep","3j","1b","flips");
+        categoryHistogram SS_SF_dilep_3j_ge2b_flips("SS_SF_dilep","3j","ge2b","flips");
+        categoryHistogram SS_SF_dilep_ge4j_0b_flips("SS_SF_dilep","ge4j","0b","flips");
+        categoryHistogram SS_SF_dilep_ge4j_1b_flips("SS_SF_dilep","ge4j","1b","flips");
+        categoryHistogram SS_SF_dilep_ge4j_ge2b_flips("SS_SF_dilep","ge4j","ge2b","flips");
 
-        categoryHistogram SS_OF_dilep_2j_0b_flips("SS_OF_dilep","2j","0b","flipsOrFakes_flips");
-        categoryHistogram SS_OF_dilep_2j_1b_flips("SS_OF_dilep","2j","1b","flipsOrFakes_flips");
-        categoryHistogram SS_OF_dilep_2j_ge2b_flips("SS_OF_dilep","2j","ge2b","flipsOrFakes_flips");
-        categoryHistogram SS_OF_dilep_3j_0b_flips("SS_OF_dilep","3j","0b","flipsOrFakes_flips");
-        categoryHistogram SS_OF_dilep_3j_1b_flips("SS_OF_dilep","3j","1b","flipsOrFakes_flips");
-        categoryHistogram SS_OF_dilep_3j_ge2b_flips("SS_OF_dilep","3j","ge2b","flipsOrFakes_flips");
-        categoryHistogram SS_OF_dilep_ge4j_0b_flips("SS_OF_dilep","ge4j","0b","flipsOrFakes_flips");
-        categoryHistogram SS_OF_dilep_ge4j_1b_flips("SS_OF_dilep","ge4j","1b","flipsOrFakes_flips");
-        categoryHistogram SS_OF_dilep_ge4j_ge2b_flips("SS_OF_dilep","ge4j","ge2b","flipsOrFakes_flips");
+        categoryHistogram SS_OF_dilep_2j_0b_flips("SS_OF_dilep","2j","0b","flips");
+        categoryHistogram SS_OF_dilep_2j_1b_flips("SS_OF_dilep","2j","1b","flips");
+        categoryHistogram SS_OF_dilep_2j_ge2b_flips("SS_OF_dilep","2j","ge2b","flips");
+        categoryHistogram SS_OF_dilep_3j_0b_flips("SS_OF_dilep","3j","0b","flips");
+        categoryHistogram SS_OF_dilep_3j_1b_flips("SS_OF_dilep","3j","1b","flips");
+        categoryHistogram SS_OF_dilep_3j_ge2b_flips("SS_OF_dilep","3j","ge2b","flips");
+        categoryHistogram SS_OF_dilep_ge4j_0b_flips("SS_OF_dilep","ge4j","0b","flips");
+        categoryHistogram SS_OF_dilep_ge4j_1b_flips("SS_OF_dilep","ge4j","1b","flips");
+        categoryHistogram SS_OF_dilep_ge4j_ge2b_flips("SS_OF_dilep","ge4j","ge2b","flips");
 
-        categoryHistogram OS_SF_dilep_2j_0b_flips("OS_SF_dilep","2j","0b","flipsOrFakes_flips");
-        categoryHistogram OS_SF_dilep_2j_1b_flips("OS_SF_dilep","2j","1b","flipsOrFakes_flips");
-        categoryHistogram OS_SF_dilep_2j_ge2b_flips("OS_SF_dilep","2j","ge2b","flipsOrFakes_flips");
-        categoryHistogram OS_SF_dilep_3j_0b_flips("OS_SF_dilep","3j","0b","flipsOrFakes_flips");
-        categoryHistogram OS_SF_dilep_3j_1b_flips("OS_SF_dilep","3j","1b","flipsOrFakes_flips");
-        categoryHistogram OS_SF_dilep_3j_ge2b_flips("OS_SF_dilep","3j","ge2b","flipsOrFakes_flips");
-        categoryHistogram OS_SF_dilep_ge4j_0b_flips("OS_SF_dilep","ge4j","0b","flipsOrFakes_flips");
-        categoryHistogram OS_SF_dilep_ge4j_1b_flips("OS_SF_dilep","ge4j","1b","flipsOrFakes_flips");
-        categoryHistogram OS_SF_dilep_ge4j_ge2b_flips("OS_SF_dilep","ge4j","ge2b","flipsOrFakes_flips");
+        categoryHistogram OS_SF_dilep_2j_0b_flips("OS_SF_dilep","2j","0b","flips");
+        categoryHistogram OS_SF_dilep_2j_1b_flips("OS_SF_dilep","2j","1b","flips");
+        categoryHistogram OS_SF_dilep_2j_ge2b_flips("OS_SF_dilep","2j","ge2b","flips");
+        categoryHistogram OS_SF_dilep_3j_0b_flips("OS_SF_dilep","3j","0b","flips");
+        categoryHistogram OS_SF_dilep_3j_1b_flips("OS_SF_dilep","3j","1b","flips");
+        categoryHistogram OS_SF_dilep_3j_ge2b_flips("OS_SF_dilep","3j","ge2b","flips");
+        categoryHistogram OS_SF_dilep_ge4j_0b_flips("OS_SF_dilep","ge4j","0b","flips");
+        categoryHistogram OS_SF_dilep_ge4j_1b_flips("OS_SF_dilep","ge4j","1b","flips");
+        categoryHistogram OS_SF_dilep_ge4j_ge2b_flips("OS_SF_dilep","ge4j","ge2b","flips");
 
-        categoryHistogram OS_OF_dilep_2j_0b_flips("OS_OF_dilep","2j","0b","flipsOrFakes_flips");
-        categoryHistogram OS_OF_dilep_2j_1b_flips("OS_OF_dilep","2j","1b","flipsOrFakes_flips");
-        categoryHistogram OS_OF_dilep_2j_ge2b_flips("OS_OF_dilep","2j","ge2b","flipsOrFakes_flips");
-        categoryHistogram OS_OF_dilep_3j_0b_flips("OS_OF_dilep","3j","0b","flipsOrFakes_flips");
-        categoryHistogram OS_OF_dilep_3j_1b_flips("OS_OF_dilep","3j","1b","flipsOrFakes_flips");
-        categoryHistogram OS_OF_dilep_3j_ge2b_flips("OS_OF_dilep","3j","ge2b","flipsOrFakes_flips");
-        categoryHistogram OS_OF_dilep_ge4j_0b_flips("OS_OF_dilep","ge4j","0b","flipsOrFakes_flips");
-        categoryHistogram OS_OF_dilep_ge4j_1b_flips("OS_OF_dilep","ge4j","1b","flipsOrFakes_flips");
-        categoryHistogram OS_OF_dilep_ge4j_ge2b_flips("OS_OF_dilep","ge4j","ge2b","flipsOrFakes_flips");
+        categoryHistogram OS_OF_dilep_2j_0b_flips("OS_OF_dilep","2j","0b","flips");
+        categoryHistogram OS_OF_dilep_2j_1b_flips("OS_OF_dilep","2j","1b","flips");
+        categoryHistogram OS_OF_dilep_2j_ge2b_flips("OS_OF_dilep","2j","ge2b","flips");
+        categoryHistogram OS_OF_dilep_3j_0b_flips("OS_OF_dilep","3j","0b","flips");
+        categoryHistogram OS_OF_dilep_3j_1b_flips("OS_OF_dilep","3j","1b","flips");
+        categoryHistogram OS_OF_dilep_3j_ge2b_flips("OS_OF_dilep","3j","ge2b","flips");
+        categoryHistogram OS_OF_dilep_ge4j_0b_flips("OS_OF_dilep","ge4j","0b","flips");
+        categoryHistogram OS_OF_dilep_ge4j_1b_flips("OS_OF_dilep","ge4j","1b","flips");
+        categoryHistogram OS_OF_dilep_ge4j_ge2b_flips("OS_OF_dilep","ge4j","ge2b","flips");
 
-        categoryHistogram onelepFO_2j_0b_flips("onelepFO","2j","0b","flipsOrFakes_flips");
-        categoryHistogram onelepFO_2j_1b_flips("onelepFO","2j","1b","flipsOrFakes_flips");
-        categoryHistogram onelepFO_2j_ge2b_flips("onelepFO","2j","ge2b","flipsOrFakes_flips");
-        categoryHistogram onelepFO_3j_0b_flips("onelepFO","3j","0b","flipsOrFakes_flips");
-        categoryHistogram onelepFO_3j_1b_flips("onelepFO","3j","1b","flipsOrFakes_flips");
-        categoryHistogram onelepFO_3j_ge2b_flips("onelepFO","3j","ge2b","flipsOrFakes_flips");
-        categoryHistogram onelepFO_ge4j_0b_flips("onelepFO","ge4j","0b","flipsOrFakes_flips");
-        categoryHistogram onelepFO_ge4j_1b_flips("onelepFO","ge4j","1b","flipsOrFakes_flips");
-        categoryHistogram onelepFO_ge4j_ge2b_flips("onelepFO","ge4j","ge2b","flipsOrFakes_flips");
+        categoryHistogram onelepFO_2j_0b_flips("onelepFO","2j","0b","flips");
+        categoryHistogram onelepFO_2j_1b_flips("onelepFO","2j","1b","flips");
+        categoryHistogram onelepFO_2j_ge2b_flips("onelepFO","2j","ge2b","flips");
+        categoryHistogram onelepFO_3j_0b_flips("onelepFO","3j","0b","flips");
+        categoryHistogram onelepFO_3j_1b_flips("onelepFO","3j","1b","flips");
+        categoryHistogram onelepFO_3j_ge2b_flips("onelepFO","3j","ge2b","flips");
+        categoryHistogram onelepFO_ge4j_0b_flips("onelepFO","ge4j","0b","flips");
+        categoryHistogram onelepFO_ge4j_1b_flips("onelepFO","ge4j","1b","flips");
+        categoryHistogram onelepFO_ge4j_ge2b_flips("onelepFO","ge4j","ge2b","flips");
 
-        categoryHistogram dilepFO_2j_0b_flips("dilepFO","2j","0b","flipsOrFakes_flips");
-        categoryHistogram dilepFO_2j_1b_flips("dilepFO","2j","1b","flipsOrFakes_flips");
-        categoryHistogram dilepFO_2j_ge2b_flips("dilepFO","2j","ge2b","flipsOrFakes_flips");
-        categoryHistogram dilepFO_3j_0b_flips("dilepFO","3j","0b","flipsOrFakes_flips");
-        categoryHistogram dilepFO_3j_1b_flips("dilepFO","3j","1b","flipsOrFakes_flips");
-        categoryHistogram dilepFO_3j_ge2b_flips("dilepFO","3j","ge2b","flipsOrFakes_flips");
-        categoryHistogram dilepFO_ge4j_0b_flips("dilepFO","ge4j","0b","flipsOrFakes_flips");
-        categoryHistogram dilepFO_ge4j_1b_flips("dilepFO","ge4j","1b","flipsOrFakes_flips");
-        categoryHistogram dilepFO_ge4j_ge2b_flips("dilepFO","ge4j","ge2b","flipsOrFakes_flips");
+        categoryHistogram dilepFO_2j_0b_flips("dilepFO","2j","0b","flips");
+        categoryHistogram dilepFO_2j_1b_flips("dilepFO","2j","1b","flips");
+        categoryHistogram dilepFO_2j_ge2b_flips("dilepFO","2j","ge2b","flips");
+        categoryHistogram dilepFO_3j_0b_flips("dilepFO","3j","0b","flips");
+        categoryHistogram dilepFO_3j_1b_flips("dilepFO","3j","1b","flips");
+        categoryHistogram dilepFO_3j_ge2b_flips("dilepFO","3j","ge2b","flips");
+        categoryHistogram dilepFO_ge4j_0b_flips("dilepFO","ge4j","0b","flips");
+        categoryHistogram dilepFO_ge4j_1b_flips("dilepFO","ge4j","1b","flips");
+        categoryHistogram dilepFO_ge4j_ge2b_flips("dilepFO","ge4j","ge2b","flips");
+
+
+
+        categoryHistogram trilep_2j_0b_other("trilep","2j","0b","other");
+        categoryHistogram trilep_2j_1b_other("trilep","2j","1b","other");
+        categoryHistogram trilep_2j_ge2b_other("trilep","2j","ge2b","other");
+        categoryHistogram trilep_3j_0b_other("trilep","3j","0b","other");
+        categoryHistogram trilep_3j_1b_other("trilep","3j","1b","other");
+        categoryHistogram trilep_3j_ge2b_other("trilep","3j","ge2b","other");
+        categoryHistogram trilep_ge4j_0b_other("trilep","ge4j","0b","other");
+        categoryHistogram trilep_ge4j_1b_other("trilep","ge4j","1b","other");
+        categoryHistogram trilep_ge4j_ge2b_other("trilep","ge4j","ge2b","other");
+
+        categoryHistogram SS_SF_dilep_2j_0b_other("SS_SF_dilep","2j","0b","other");
+        categoryHistogram SS_SF_dilep_2j_1b_other("SS_SF_dilep","2j","1b","other");
+        categoryHistogram SS_SF_dilep_2j_ge2b_other("SS_SF_dilep","2j","ge2b","other");
+        categoryHistogram SS_SF_dilep_3j_0b_other("SS_SF_dilep","3j","0b","other");
+        categoryHistogram SS_SF_dilep_3j_1b_other("SS_SF_dilep","3j","1b","other");
+        categoryHistogram SS_SF_dilep_3j_ge2b_other("SS_SF_dilep","3j","ge2b","other");
+        categoryHistogram SS_SF_dilep_ge4j_0b_other("SS_SF_dilep","ge4j","0b","other");
+        categoryHistogram SS_SF_dilep_ge4j_1b_other("SS_SF_dilep","ge4j","1b","other");
+        categoryHistogram SS_SF_dilep_ge4j_ge2b_other("SS_SF_dilep","ge4j","ge2b","other");
+
+        categoryHistogram SS_OF_dilep_2j_0b_other("SS_OF_dilep","2j","0b","other");
+        categoryHistogram SS_OF_dilep_2j_1b_other("SS_OF_dilep","2j","1b","other");
+        categoryHistogram SS_OF_dilep_2j_ge2b_other("SS_OF_dilep","2j","ge2b","other");
+        categoryHistogram SS_OF_dilep_3j_0b_other("SS_OF_dilep","3j","0b","other");
+        categoryHistogram SS_OF_dilep_3j_1b_other("SS_OF_dilep","3j","1b","other");
+        categoryHistogram SS_OF_dilep_3j_ge2b_other("SS_OF_dilep","3j","ge2b","other");
+        categoryHistogram SS_OF_dilep_ge4j_0b_other("SS_OF_dilep","ge4j","0b","other");
+        categoryHistogram SS_OF_dilep_ge4j_1b_other("SS_OF_dilep","ge4j","1b","other");
+        categoryHistogram SS_OF_dilep_ge4j_ge2b_other("SS_OF_dilep","ge4j","ge2b","other");
+
+        categoryHistogram OS_SF_dilep_2j_0b_other("OS_SF_dilep","2j","0b","other");
+        categoryHistogram OS_SF_dilep_2j_1b_other("OS_SF_dilep","2j","1b","other");
+        categoryHistogram OS_SF_dilep_2j_ge2b_other("OS_SF_dilep","2j","ge2b","other");
+        categoryHistogram OS_SF_dilep_3j_0b_other("OS_SF_dilep","3j","0b","other");
+        categoryHistogram OS_SF_dilep_3j_1b_other("OS_SF_dilep","3j","1b","other");
+        categoryHistogram OS_SF_dilep_3j_ge2b_other("OS_SF_dilep","3j","ge2b","other");
+        categoryHistogram OS_SF_dilep_ge4j_0b_other("OS_SF_dilep","ge4j","0b","other");
+        categoryHistogram OS_SF_dilep_ge4j_1b_other("OS_SF_dilep","ge4j","1b","other");
+        categoryHistogram OS_SF_dilep_ge4j_ge2b_other("OS_SF_dilep","ge4j","ge2b","other");
+
+        categoryHistogram OS_OF_dilep_2j_0b_other("OS_OF_dilep","2j","0b","other");
+        categoryHistogram OS_OF_dilep_2j_1b_other("OS_OF_dilep","2j","1b","other");
+        categoryHistogram OS_OF_dilep_2j_ge2b_other("OS_OF_dilep","2j","ge2b","other");
+        categoryHistogram OS_OF_dilep_3j_0b_other("OS_OF_dilep","3j","0b","other");
+        categoryHistogram OS_OF_dilep_3j_1b_other("OS_OF_dilep","3j","1b","other");
+        categoryHistogram OS_OF_dilep_3j_ge2b_other("OS_OF_dilep","3j","ge2b","other");
+        categoryHistogram OS_OF_dilep_ge4j_0b_other("OS_OF_dilep","ge4j","0b","other");
+        categoryHistogram OS_OF_dilep_ge4j_1b_other("OS_OF_dilep","ge4j","1b","other");
+        categoryHistogram OS_OF_dilep_ge4j_ge2b_other("OS_OF_dilep","ge4j","ge2b","other");
+
+        categoryHistogram onelepFO_2j_0b_other("onelepFO","2j","0b","other");
+        categoryHistogram onelepFO_2j_1b_other("onelepFO","2j","1b","other");
+        categoryHistogram onelepFO_2j_ge2b_other("onelepFO","2j","ge2b","other");
+        categoryHistogram onelepFO_3j_0b_other("onelepFO","3j","0b","other");
+        categoryHistogram onelepFO_3j_1b_other("onelepFO","3j","1b","other");
+        categoryHistogram onelepFO_3j_ge2b_other("onelepFO","3j","ge2b","other");
+        categoryHistogram onelepFO_ge4j_0b_other("onelepFO","ge4j","0b","other");
+        categoryHistogram onelepFO_ge4j_1b_other("onelepFO","ge4j","1b","other");
+        categoryHistogram onelepFO_ge4j_ge2b_other("onelepFO","ge4j","ge2b","other");
+
+        categoryHistogram dilepFO_2j_0b_other("dilepFO","2j","0b","other");
+        categoryHistogram dilepFO_2j_1b_other("dilepFO","2j","1b","other");
+        categoryHistogram dilepFO_2j_ge2b_other("dilepFO","2j","ge2b","other");
+        categoryHistogram dilepFO_3j_0b_other("dilepFO","3j","0b","other");
+        categoryHistogram dilepFO_3j_1b_other("dilepFO","3j","1b","other");
+        categoryHistogram dilepFO_3j_ge2b_other("dilepFO","3j","ge2b","other");
+        categoryHistogram dilepFO_ge4j_0b_other("dilepFO","ge4j","0b","other");
+        categoryHistogram dilepFO_ge4j_1b_other("dilepFO","ge4j","1b","other");
+        categoryHistogram dilepFO_ge4j_ge2b_other("dilepFO","ge4j","ge2b","other");
 
 
 
@@ -299,6 +368,8 @@ void event_looper(){
         categoryHistogram dilepFO_ge4j_1b("dilepFO","ge4j","1b",sample_names[btype]);
         categoryHistogram dilepFO_ge4j_ge2b("dilepFO","ge4j","ge2b",sample_names[btype]);
 
+        cout << "defined histograms" << endl;
+        
         auto start = high_resolution_clock::now();
 
         int nTriLep   = 0;
@@ -308,8 +379,8 @@ void event_looper(){
         int nFODiLep  = 0;
 
         //Main for loop
-        for ( int counter = 0; counter < nEvents; counter++ ){
-        //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
+        //for ( int counter = 0; counter < nEvents; counter++ ){
+        for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
             //cout << "counter " << counter << endl;
@@ -401,24 +472,30 @@ void event_looper(){
             //loop to check for flip or fake in combined samples
             bool isFlip = 0;
             bool isFake = 0;
-            if( sample_names[btype]=="flipsOrFakes" ){
+            bool isSMSS = 0;
+            if( sample_names[btype]=="background" ){
                 for( uint iMu = 0; iMu < nMuon; iMu++ ){
-                    if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
-                        isFlip = 1;
-                    }
                     if( mu.genPartFlav[iMu] != 1 || mu.genPartFlav[iMu] != 15 ){
                         isFake = 1;
+                    }else if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
+                        isFlip = 1;
+                    }else{
+                        isSMSS = 1;
                     }
                 }
                 for( uint iEl = 0; iEl < nElectron; iEl++ ){
-                    if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
-                        isFlip = 1;
-                    }
                     if( el.genPartFlav[iEl] != 1 || el.genPartFlav[iEl] != 15 ){
                         isFake = 1;
+                    }else if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
+                        isFlip = 1;
+                    }else{
+                        isSMSS = 1;
                     }
                 }
             }
+            cout << "flip: " << isFlip << endl;
+            cout << "fake: " << isFake << endl;
+            cout << "other: " << isSMSS << endl;
 
             //loop to count tight/loose muons
             for( uint iMu = 0; iMu < nMuon; iMu++ ){
@@ -561,7 +638,11 @@ void event_looper(){
             variablesForFilling.push_back(MT_leadb_MET);
 
             //Now fill with those variables
-            if (sample_names[btype]=="flipsOrFakes" && isFake ==1){
+            if (sample_names[btype]=="background" && isFake ==1){
+                cout << "filling fake histos" << endl;
+                cout << "leps: " << nGoodLep << endl;
+                cout << "jets: " << nJets << endl;
+                cout << "b: " << nBjets << endl;
                 if (nJets==2){
                     if (nBjets==0){
                         if (nGoodLep>=3){
@@ -850,7 +931,8 @@ void event_looper(){
                         }
                     }
                 }//njets>=4
-            }else if(sample_names[btype]=="flipsOrFakes" && isFlip ==1){
+            }else if(sample_names[btype]=="background" && isFlip ==1){
+                cout << "filling flip histos" << endl;
                 if (nJets==2){
                     if (nBjets==0){
                         if (nGoodLep>=3){
@@ -1136,6 +1218,296 @@ void event_looper(){
                         }
                         if (nFakeableLep==2){
                             dilepFO_ge4j_ge2b_flips.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njets>=4
+            }else if (sample_names[btype]=="background" && isSMSS ==1){
+                cout << "filling other histos" << endl;
+                if (nJets==2){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_2j_0b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_0b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_0b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_2j_1b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_1b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_1b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_2j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_2j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_2j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_2j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_2j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_2j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_2j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_2j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njet==2
+                if (nJets==3){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_3j_0b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_0b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_0b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_3j_1b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_1b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_1b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_3j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_3j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_3j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_3j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_3j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_3j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_3j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_3j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                    }
+                }//njet==3
+                if (nJets>=4){
+                    if (nBjets==0){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_0b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_0b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_0b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_0b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets==1){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_1b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_1b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_1b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_1b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                    }else if (nBjets>=2){
+                        if (nGoodLep>=3){
+                            trilep_ge4j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nGoodLep == 2){
+                            if (muCharge_tight.size() == 2){
+                                if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }else{ 
+                                    OS_SF_dilep_ge4j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (elCharge_tight.size() == 2) {
+                                if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                    SS_SF_dilep_ge4j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_SF_dilep_ge4j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }else if (muCharge_tight.size() == 1) {
+                                if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                    SS_OF_dilep_ge4j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }else{
+                                    OS_OF_dilep_ge4j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                                }
+                            }
+                        }
+                        if (nGoodLep==1 && nFakeableLep==1){
+                            onelepFO_ge4j_ge2b_other.fillHistogram(variablesForFilling, weight);
+                        }
+                        if (nFakeableLep==2){
+                            dilepFO_ge4j_ge2b_other.fillHistogram(variablesForFilling, weight);
                         }
                     }
                 }//njets>=4
@@ -1446,7 +1818,7 @@ void event_looper(){
 
         cout << "processed " << nEvents << " events in " << duration.count() << " seconds!!" << endl;
 
-        if(sample_names[btype]=="flipsOrFakes"){
+        if(sample_names[btype]=="background"){
             trilep_2j_0b_fakes.writeHistogram(outFile);
             trilep_2j_1b_fakes.writeHistogram(outFile);
             trilep_2j_ge2b_fakes.writeHistogram(outFile);
@@ -1588,6 +1960,78 @@ void event_looper(){
             dilepFO_ge4j_0b_flips.writeHistogram(outFile);
             dilepFO_ge4j_1b_flips.writeHistogram(outFile);
             dilepFO_ge4j_ge2b_flips.writeHistogram(outFile);
+
+
+
+            trilep_2j_0b_other.writeHistogram(outFile);
+            trilep_2j_1b_other.writeHistogram(outFile);
+            trilep_2j_ge2b_other.writeHistogram(outFile);
+            trilep_3j_0b_other.writeHistogram(outFile);
+            trilep_3j_1b_other.writeHistogram(outFile);
+            trilep_3j_ge2b_other.writeHistogram(outFile);
+            trilep_ge4j_0b_other.writeHistogram(outFile);
+            trilep_ge4j_1b_other.writeHistogram(outFile);
+            trilep_ge4j_ge2b_other.writeHistogram(outFile);
+
+            SS_SF_dilep_2j_0b_other.writeHistogram(outFile);
+            SS_SF_dilep_2j_1b_other.writeHistogram(outFile);
+            SS_SF_dilep_2j_ge2b_other.writeHistogram(outFile);
+            SS_SF_dilep_3j_0b_other.writeHistogram(outFile);
+            SS_SF_dilep_3j_1b_other.writeHistogram(outFile);
+            SS_SF_dilep_3j_ge2b_other.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_0b_other.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_1b_other.writeHistogram(outFile);
+            SS_SF_dilep_ge4j_ge2b_other.writeHistogram(outFile);
+
+            SS_OF_dilep_2j_0b_other.writeHistogram(outFile);
+            SS_OF_dilep_2j_1b_other.writeHistogram(outFile);
+            SS_OF_dilep_2j_ge2b_other.writeHistogram(outFile);
+            SS_OF_dilep_3j_0b_other.writeHistogram(outFile);
+            SS_OF_dilep_3j_1b_other.writeHistogram(outFile);
+            SS_OF_dilep_3j_ge2b_other.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_0b_other.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_1b_other.writeHistogram(outFile);
+            SS_OF_dilep_ge4j_ge2b_other.writeHistogram(outFile);
+
+            OS_SF_dilep_2j_0b_other.writeHistogram(outFile);
+            OS_SF_dilep_2j_1b_other.writeHistogram(outFile);
+            OS_SF_dilep_2j_ge2b_other.writeHistogram(outFile);
+            OS_SF_dilep_3j_0b_other.writeHistogram(outFile);
+            OS_SF_dilep_3j_1b_other.writeHistogram(outFile);
+            OS_SF_dilep_3j_ge2b_other.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_0b_other.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_1b_other.writeHistogram(outFile);
+            OS_SF_dilep_ge4j_ge2b_other.writeHistogram(outFile);
+
+            OS_OF_dilep_2j_0b_other.writeHistogram(outFile);
+            OS_OF_dilep_2j_1b_other.writeHistogram(outFile);
+            OS_OF_dilep_2j_ge2b_other.writeHistogram(outFile);
+            OS_OF_dilep_3j_0b_other.writeHistogram(outFile);
+            OS_OF_dilep_3j_1b_other.writeHistogram(outFile);
+            OS_OF_dilep_3j_ge2b_other.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_0b_other.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_1b_other.writeHistogram(outFile);
+            OS_OF_dilep_ge4j_ge2b_other.writeHistogram(outFile);
+
+            onelepFO_2j_0b_other.writeHistogram(outFile);
+            onelepFO_2j_1b_other.writeHistogram(outFile);
+            onelepFO_2j_ge2b_other.writeHistogram(outFile);
+            onelepFO_3j_0b_other.writeHistogram(outFile);
+            onelepFO_3j_1b_other.writeHistogram(outFile);
+            onelepFO_3j_ge2b_other.writeHistogram(outFile);
+            onelepFO_ge4j_0b_other.writeHistogram(outFile);
+            onelepFO_ge4j_1b_other.writeHistogram(outFile);
+            onelepFO_ge4j_ge2b_other.writeHistogram(outFile);
+
+            dilepFO_2j_0b_other.writeHistogram(outFile);
+            dilepFO_2j_1b_other.writeHistogram(outFile);
+            dilepFO_2j_ge2b_other.writeHistogram(outFile);
+            dilepFO_3j_0b_other.writeHistogram(outFile);
+            dilepFO_3j_1b_other.writeHistogram(outFile);
+            dilepFO_3j_ge2b_other.writeHistogram(outFile);
+            dilepFO_ge4j_0b_other.writeHistogram(outFile);
+            dilepFO_ge4j_1b_other.writeHistogram(outFile);
+            dilepFO_ge4j_ge2b_other.writeHistogram(outFile);
 
         }else{
 
