@@ -116,11 +116,11 @@ outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/plots/"
 
 processTypes = ["signal_hut",
                 "signal_hct",
+                "other",
                 "fakes",
                 "flips",
-                "flipsOrFakes_flips",
-                "flipsOrFakes_fakes",
-                "other"
+                #"flipsOrFakes_flips",
+                #"flipsOrFakes_fakes",
                 ]
 
 
@@ -194,27 +194,21 @@ for var in plottedVariables:
             for b in bJetSelections:
                 histosForTable = []
                 fakesHistos = []
-                #fakesHistos = ROOT.TList()
-                fakesNames = []
                 flipsHistos = []
-                #flipsHistos = ROOT.TList()
-                flipsNames = []
                 processes = []
                 for p in processTypes:
                     histoName = "h_"+v+"_"+l+"_"+j+"_"+b+"_"+p
                     #print(type(v),type(l),type(j),type(b),type(p))
                     hist = getObjFromFile(filename,histoName)
-                    if p == "fakes" or p == "flipsOrFakes_fakes":
+                    """if p == "fakes" or p == "flipsOrFakes_fakes":
                         fakesHistos.append(hist)
-                        fakesNames.append(histoName)
                     elif p == "flips" or p == "flipsOrFakes_flips":
                         flipsHistos.append(hist)
-                        flipsNames.append(histoName)
-                    else:
-                        histosForTable.append(hist)
-                        processes.append(p)
+                    else:"""
+                    histosForTable.append(hist)
+                    processes.append(p)
 
-                histoFileName = "h_"+v+"_"+l+"_"+j+"_"+b+"_fakes"
+                """histoFileName = "h_"+v+"_"+l+"_"+j+"_"+b+"_fakes"
                 h_combined_fake =  ROOT.TH1F("h_combined"+"fakes"+histoFileName, histoFileName, nbins, xmin, xmax)
                 for h in fakesHistos:
                     h_combined_fake.Add(h)
@@ -226,7 +220,7 @@ for var in plottedVariables:
                 for h in flipsHistos:
                     h_combined_flip.Add(h)
                 histosForTable.append(h_combined_flip)
-                processes.append("flips")
+                processes.append("flips")"""
 
                 line = ""
                 line = makeTableRow(histosForTable, j, b, l, processes)

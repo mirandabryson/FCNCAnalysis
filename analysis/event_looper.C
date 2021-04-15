@@ -451,9 +451,9 @@ void event_looper(){
             //Find the exact sample name
             TFile* sFile(chain->GetFile());
             string sName = sFile->GetName();
-            /*if ( counter%1000==0 ){
+            if ( counter%10000==0 ){
                 cout << sName << endl;
-            }*/
+            }
             //get event weight based on sample!
             double weight = getEventWeight( sName, inputDir, babyVersion );
             /*cout << weight << endl;
@@ -469,33 +469,9 @@ void event_looper(){
             Jet jet(chain, nJet, year);
             GenPart genParts(chain, nGenPart, year);
 
-            //loop to check for flip or fake in combined samples
             bool isFlip = 0;
             bool isFake = 0;
             bool isSMSS = 0;
-            if( sample_names[btype]=="background" ){
-                for( uint iMu = 0; iMu < nMuon; iMu++ ){
-                    if( mu.genPartFlav[iMu] != 1 || mu.genPartFlav[iMu] != 15 ){
-                        isFake = 1;
-                    }else if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
-                        isFlip = 1;
-                    }else{
-                        isSMSS = 1;
-                    }
-                }
-                for( uint iEl = 0; iEl < nElectron; iEl++ ){
-                    if( el.genPartFlav[iEl] != 1 || el.genPartFlav[iEl] != 15 ){
-                        isFake = 1;
-                    }else if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
-                        isFlip = 1;
-                    }else{
-                        isSMSS = 1;
-                    }
-                }
-            }
-            cout << "flip: " << isFlip << endl;
-            cout << "fake: " << isFake << endl;
-            cout << "other: " << isSMSS << endl;
 
             //loop to count tight/loose muons
             for( uint iMu = 0; iMu < nMuon; iMu++ ){
@@ -518,6 +494,18 @@ void event_looper(){
                         leadLep_miniIso = mu.miniIso[iMu];
                         leadLep_ptRel = mu.jetPtRelv2[iMu];
                         leadLep_ptRatio = 1/(mu.jetRelIso[iMu] + 1);
+                    }
+                    if( sample_names[btype]=="background" ){
+                        if( mu.genPartFlav[iMu] != 1 || mu.genPartFlav[iMu] != 15 ){
+                            isFake = 1;
+                            //cout << "Mu isFake" << endl;
+                        }else if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
+                            isFlip = 1;
+                            cout << "Mu isFlip" << endl;
+                        }else{
+                            isSMSS = 1;
+                            cout << "Mu isOther" << endl;
+                        }
                     }
                 }else if ( isLooseLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType ) ){
                     nFakeableLep += 1;
@@ -548,6 +536,18 @@ void event_looper(){
                         leadLep_miniIso = el.miniIso[iEl];
                         leadLep_ptRel = el.jetPtRelv2[iEl];
                         leadLep_ptRatio = 1/(el.jetRelIso[iEl] + 1);
+                    }
+                    if( sample_names[btype]=="background" ){
+                        if( el.genPartFlav[iEl] != 1 || el.genPartFlav[iEl] != 15 ){
+                            isFake = 1;
+                            //cout << "El isFake" << endl;
+                        }else if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
+                            isFlip = 1;
+                            cout << "El isFlip" << endl;
+                        }else{
+                            isSMSS = 1;
+                            cout << "El isOther" << endl;
+                        }
                     }
                 }else if ( isLooseLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ){
                     nFakeableLep += 1;
@@ -639,10 +639,6 @@ void event_looper(){
 
             //Now fill with those variables
             if (sample_names[btype]=="background" && isFake ==1){
-                cout << "filling fake histos" << endl;
-                cout << "leps: " << nGoodLep << endl;
-                cout << "jets: " << nJets << endl;
-                cout << "b: " << nBjets << endl;
                 if (nJets==2){
                     if (nBjets==0){
                         if (nGoodLep>=3){
@@ -932,7 +928,6 @@ void event_looper(){
                     }
                 }//njets>=4
             }else if(sample_names[btype]=="background" && isFlip ==1){
-                cout << "filling flip histos" << endl;
                 if (nJets==2){
                     if (nBjets==0){
                         if (nGoodLep>=3){
@@ -1222,7 +1217,6 @@ void event_looper(){
                     }
                 }//njets>=4
             }else if (sample_names[btype]=="background" && isSMSS ==1){
-                cout << "filling other histos" << endl;
                 if (nJets==2){
                     if (nBjets==0){
                         if (nGoodLep>=3){
@@ -1808,13 +1802,6 @@ void event_looper(){
 
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<seconds>(stop - start);
-
-        /*cout << "TriLep: " << nTriLep << endl;
-        cout << "SS DiLep: " << nSSDiLep << endl;
-        cout << "OS DiLep: " << nOSDiLep << endl;
-        cout << "One Lep with FO: " << nOneLepFO << endl;
-        cout << "FO DiLep: " << nFODiLep << endl;*/
-        //cout << "total filtered: " << (nTriLep+nSSDiLep+nOSDiLep) << endl;
 
         cout << "processed " << nEvents << " events in " << duration.count() << " seconds!!" << endl;
 
