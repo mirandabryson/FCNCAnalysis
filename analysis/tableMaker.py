@@ -31,17 +31,21 @@ def makeTableHeader(selectionHeaders, processes):
         proc = p.replace("_", " ")
         #line = line + cBreak + proc
         line.append(proc)
-        line.append("error")
+        line.append(proc+" error")
     #line = line + cBreak + "total background \\\\"
     line.append("total background")
-    line.append("error")
+    line.append("tot back error")
+    line.append("total signal")
+    line.append("tot sig error")
+    line.append("S/B")
+    line.append("S/B error")
     return line
     
 def makeTableRow(hist, nJets, nBs, nLeps, processes):
     cBreak = " & "
     nLeps = nLeps.replace("_"," ")
     nLeps = nLeps.replace("lep","l")
-    nLeps = nLeps.replace("tri","3+")
+    nLeps = nLeps.replace("tri","3")
     nLeps = nLeps.replace("di","2")
     nLeps = nLeps.replace("one","1")
     nJets = nJets.replace("j","")
@@ -53,8 +57,10 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
     line.append(nLeps)
     line.append(nJets)
     line.append(nBs)
+    totSig = 0
     totBack = 0
-    totError = 0
+    totSigError = 0
+    totBackError = 0
     for h,p in zip(hist,processes):
         #print(p)
         numBins = h.GetNbinsX()
@@ -63,22 +69,32 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
         for b in range(numBins):
             if "signal" in p:
                 totYield = totYield+(0.01*h.GetBinContent(b))
+                totSig = totSig + (0.01*h.GetBinContent(b))
             else:
                 totYield = totYield+h.GetBinContent(b)
                 totBack = totBack + h.GetBinContent(b)
             if h.GetBinContent(b) != 0:
                 if "signal" in p:
                     error = 0.01*h.GetBinError(b)
+                    totSigError = totSigError + pow(error,2)
                 else:
                     error = h.GetBinError(b)
-                    totError = totError + pow(h.GetBinError(b),2)
+                    totBackError = totBackError + pow(h.GetBinError(b),2)
         #line = line + cBreak + str(round(totYield,2)) + " $\pm$ " + str(round(error,2))
         line.append(round(totYield,2))
         line.append(round(error,2))
     #line = line + cBreak + str(round(totBack,2)) + " \\\\"
     line.append(round(totBack,2))
-    totError = np.sqrt(totError)
-    line.append(round(totError,2))
+    totBackError = np.sqrt(totBackError)
+    line.append(round(totBackError,2))
+    
+    line.append(round(totSig,2))
+    totSigError = np.sqrt(totSigError)
+    line.append(round(totSigError,2))
+    
+    line.append(round(totSig/totBack,2))
+    totSoverBError = (totSig/totBack)*np.sqrt(pow(totSigError/totSig,2)+pow(totBackError/totBack,2))
+    line.append(round(totSoverBError,2))
     return line
 
 def makeTable(lines, outdir):
@@ -231,6 +247,11 @@ for var in plottedVariables:
     #makeTable(tableLines, outdir)
     header = makeTableHeader(headers,processes)
     df = pd.DataFrame(allLines, columns=header)
+    
+    outText = open(outdir+"tables/yieldsTable.txt","w")
+    outText.write(df.to_csv(index=False))
+    outText.close()
+
     outFile = open(outdir+"tables/yieldsTable.tex","w")
     outFile.write("\documentclass[oneside]{report} \n")
     outFile.write("\usepackage[a2paper]{geometry}")

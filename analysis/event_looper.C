@@ -47,8 +47,8 @@ void event_looper(){
                                         "signal_hct"
                                     };*/
 
-    //auto outFile = new TFile("plots/outputHistos.root", "recreate");
-    auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    auto outFile = new TFile("plots/outputHistos.root", "recreate");
+    //auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
 
     //Load samples
     for(uint btype = 0; btype < sample_names.size(); btype++){
@@ -379,8 +379,9 @@ void event_looper(){
         int nFODiLep  = 0;
 
         //Main for loop
-        //for ( int counter = 0; counter < nEvents; counter++ ){
-        for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
+        for ( int counter = 0; counter < nEvents; counter++ ){
+        //for ( int counter = 0; counter < 100000; counter++ ){ //for testing only!!
+        //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
             //cout << "counter " << counter << endl;
@@ -496,15 +497,15 @@ void event_looper(){
                         leadLep_ptRatio = 1/(mu.jetRelIso[iMu] + 1);
                     }
                     if( sample_names[btype]=="background" ){
-                        if( mu.genPartFlav[iMu] != 1 || mu.genPartFlav[iMu] != 15 ){
+                        if( mu.genPartFlav[iMu] != 1 && mu.genPartFlav[iMu] != 15 ){
                             isFake = 1;
                             //cout << "Mu isFake" << endl;
                         }else if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
                             isFlip = 1;
-                            cout << "Mu isFlip" << endl;
+                            //cout << "Mu isFlip" << endl;
                         }else{
                             isSMSS = 1;
-                            cout << "Mu isOther" << endl;
+                            //cout << "Mu isOther" << endl;
                         }
                     }
                 }else if ( isLooseLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType ) ){
@@ -538,15 +539,15 @@ void event_looper(){
                         leadLep_ptRatio = 1/(el.jetRelIso[iEl] + 1);
                     }
                     if( sample_names[btype]=="background" ){
-                        if( el.genPartFlav[iEl] != 1 || el.genPartFlav[iEl] != 15 ){
+                        if( el.genPartFlav[iEl] != 1 && el.genPartFlav[iEl] != 15 ){
                             isFake = 1;
                             //cout << "El isFake" << endl;
                         }else if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
                             isFlip = 1;
-                            cout << "El isFlip" << endl;
+                            //cout << "El isFlip" << endl;
                         }else{
                             isSMSS = 1;
-                            cout << "El isOther" << endl;
+                            //cout << "El isOther" << endl;
                         }
                     }
                 }else if ( isLooseLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ){
