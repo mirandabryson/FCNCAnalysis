@@ -20,14 +20,14 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
         eta_bin = 0;
       }
     
-      else if (abs(lepton_eta) < 1.479{
+      else if (abs(lepton_eta) < 1.479){
         eta_bin = 1;
       }
     
-      else if (abs(lepton_eta) < 2.4{
+      else if (abs(lepton_eta) < 2.4){
         eta_bin = 2;
       }
-      else (abs(lepton_eta) >= 2.4{
+      else (abs(lepton_eta) >= 2.4){
         /* again not sure what to do with these 
         may need to copy this over to other if statements*/
     }
@@ -38,11 +38,11 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
         eta_bin = 0;
       }
     
-      else if (abs(lepton_eta) < 1.479{
+      else if (abs(lepton_eta) < 1.479){
         eta_bin = 1;
       }
     
-      else if (abs(lepton_eta) < 2.4{
+      else if (abs(lepton_eta) < 2.4){
         eta_bin = 2;
       }
     }
@@ -53,11 +53,11 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
         eta_bin = 0;
       }
     
-      else if (abs(lepton_eta) < 1.479{
+      else if (abs(lepton_eta) < 1.479){
         eta_bin = 1;
       }
     
-      else if (abs(lepton_eta) < 2.4{
+      else if (abs(lepton_eta) < 2.4){
         eta_bin = 2;
       }
     }
@@ -68,11 +68,11 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
         eta_bin = 0;
       }
     
-      else if (abs(lepton_eta) < 1.479{
+      else if (abs(lepton_eta) < 1.479){
         eta_bin = 1;
       }
     
-      else if (abs(lepton_eta) < 2.4{
+      else if (abs(lepton_eta) < 2.4){
         eta_bin = 2;
       }
     }
@@ -83,11 +83,11 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
         eta_bin = 0;
       }
     
-      else if (abs(lepton_eta) < 1.479{
+      else if (abs(lepton_eta) < 1.479){
         eta_bin = 1;
       }
     
-      else if (abs(lepton_eta) < 2.4{
+      else if (abs(lepton_eta) < 2.4){
         eta_bin = 2;
       }
     }
@@ -98,11 +98,11 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
         eta_bin = 0;
       }
     
-      else if (abs(lepton_eta) < 1.479{
+      else if (abs(lepton_eta) < 1.479){
         eta_bin = 1;
       }
     
-      else if (abs(lepton_eta) < 2.4{
+      else if (abs(lepton_eta) < 2.4){
         eta_bin = 2;
       }
     }
