@@ -10,7 +10,7 @@ double GetFlipRatio(int pt_bin, int eta_bin ){
   flipratio[200] = {0.0000300963, 0.000146605, 0.00118509}    ;
   flipratio[300] = {0.000076572, 0.000227187, 0.00201814}     ;
   
-  double flip_ratio = flipratiomap[pt_bin][eta_bin];
+  double flip_ratio = flip_ratio_map[pt_bin][eta_bin];
   
   return flip_ratio;
   
