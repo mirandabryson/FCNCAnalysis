@@ -20,7 +20,7 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
     }
     
     else if (lepton_pt < 40){
-      pt_bin = 0;
+      pt_bin = 40;
       if (abs(lepton_eta) < 0.8){
         eta_bin = 0;
       }
@@ -41,7 +41,7 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
     }
     
     else if (lepton_pt < 60){
-      pt_bin = 1;
+      pt_bin = 60;
       if (abs(lepton_eta) < 0.8){
         eta_bin = 0;
       }
@@ -62,7 +62,7 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
     }
     
     else if (lepton_pt < 80){
-      pt_bin = 2;
+      pt_bin = 80;
       if (abs(lepton_eta) < 0.8){
         eta_bin = 0;
       }
@@ -82,7 +82,7 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
     }
     
     else if (lepton_pt < 100){
-      pt_bin = 3;
+      pt_bin = 100;
       if (abs(lepton_eta) < 0.8){
         eta_bin = 0;
       }
@@ -103,7 +103,7 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
     }
     
     else if (lepton_pt < 200){
-      pt_bin = 4;
+      pt_bin = 200;
       if (abs(lepton_eta) < 0.8){
         eta_bin = 0;
       }
@@ -124,7 +124,7 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
     }
     
     else if (lepton_pt >= 200){
-      pt_bin = 5;
+      pt_bin = 300;
       if (abs(lepton_eta) < 0.8){
         eta_bin = 0;
       }
