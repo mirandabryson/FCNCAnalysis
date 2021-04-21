@@ -22,6 +22,7 @@
 #include "./helpers/objectClasses.h"
 #include "./helpers/weights.h"
 #include "./helpers/histogrammingClass.h"
+#include "./helpers/flip_weights.h"
 
 
 using namespace std;
@@ -47,8 +48,8 @@ void event_looper(){
                                         "signal_hct"
                                     };*/
 
-    auto outFile = new TFile("plots/outputHistos.root", "recreate");
-    //auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    //auto outFile = new TFile("plots/outputHistos.root", "recreate");
+    auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
 
     //Load samples
     for(uint btype = 0; btype < sample_names.size(); btype++){
@@ -379,8 +380,8 @@ void event_looper(){
         int nFODiLep  = 0;
 
         //Main for loop
-        for ( int counter = 0; counter < nEvents; counter++ ){
-        //for ( int counter = 0; counter < 100000; counter++ ){ //for testing only!!
+        //for ( int counter = 0; counter < nEvents; counter++ ){
+        for ( int counter = 0; counter < 100000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
@@ -499,7 +500,6 @@ void event_looper(){
                     if( sample_names[btype]=="background" ){
                         if( mu.genPartFlav[iMu] != 1 && mu.genPartFlav[iMu] != 15 ){
                             isFake = 1;
-                            //cout << "Mu isFake" << endl;
                         }else if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
                             isFlip = 1;
                             //cout << "Mu isFlip" << endl;
@@ -541,13 +541,18 @@ void event_looper(){
                     if( sample_names[btype]=="background" ){
                         if( el.genPartFlav[iEl] != 1 && el.genPartFlav[iEl] != 15 ){
                             isFake = 1;
-                            //cout << "El isFake" << endl;
                         }else if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
+                            //for debugging/testing
+                            cout << "is flip" << endl;
+                            /////////////////////////
                             isFlip = 1;
-                            //cout << "El isFlip" << endl;
+                            //for debugging/testing
+                            float flipWeight = GetFlipWeight(el.pt[iEl],el.eta[iEl],el.pdgid[iEl]);
+                            cout << flipWeight << endl;
+                            cout << "***************" << endl;
+                            ////////////////////////
                         }else{
                             isSMSS = 1;
-                            //cout << "El isOther" << endl;
                         }
                     }
                 }else if ( isLooseLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ){
