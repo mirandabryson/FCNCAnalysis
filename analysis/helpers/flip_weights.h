@@ -11,7 +11,7 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
   else if (abs(lepton_pdgid == 11){
     
     if (lepton_pt < 15){
-      flip_weight = /* not sure what to do with objects outside of the definition */;
+      flip_weight = 1;
     }
     
     else if (lepton_pt < 40){
@@ -27,9 +27,6 @@ double GetFlipWeight(int lepton_pt, int lepton_eta, int lepton_pdgid){
       else if (abs(lepton_eta) < 2.4){
         eta_bin = 2;
       }
-      else (abs(lepton_eta) >= 2.4){
-        /* again not sure what to do with these 
-        may need to copy this over to other if statements*/
     }
     
     else if (lepton_pt < 60){
