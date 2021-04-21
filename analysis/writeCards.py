@@ -16,9 +16,10 @@ outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/datacards/"
 #first, we load the txt output from the tableMaker.py script into a dataframe
 #we will manipulate these data, save it into a different dataframe, and print to an output file
 df = pd.read_csv("/home/users/ksalyer/FCNCAnalysis/analysis/plots/tables/yieldsTable.txt")
-df = df.drop(["total background", "tot back error", "total signal", "tot sig error", "S/B", "S/B error"], axis=1)
+df = df.drop(["total signal", "tot sig error", "S/B", "S/B error"], axis=1)
 #df = df.drop(["signal hut","signal hut error","signal hct","signal hct error"], axis=1)
 #df = df.rename(columns={"total signal":"signal","tot sig error":"signal error"})
+print(df)
 print("got yields and stat errors")
 
 #now we need to add the SF and OF dilepton cases
@@ -44,12 +45,15 @@ for j in nJets:
                 (sf_df["fakes"].values[0]+of_df["fakes"].values[0]),
                 round(( np.sqrt( (sf_df["fakes error"].values[0]**2)+(of_df["fakes error"].values[0]**2) ) ), 2),
                 (sf_df["flips"].values[0]+of_df["flips"].values[0]),
-                round(( np.sqrt( (sf_df["flips error"].values[0]**2)+(of_df["flips error"].values[0]**2) ) ), 2)
+                round(( np.sqrt( (sf_df["flips error"].values[0]**2)+(of_df["flips error"].values[0]**2) ) ), 2),
+                (sf_df["total background"].values[0]+of_df["total background"].values[0]),
+                round(( np.sqrt( (sf_df["tot back error"].values[0]**2)+(of_df["tot back error"].values[0]**2) ) ), 2)
                 ]]
         new_ss_df = pd.DataFrame( data, columns = df.columns )
         
         df = df.drop([sf_idx[0],of_idx[0]], axis=0)
         df = df.append(new_ss_df, ignore_index=True)
+print(df)
 print("combined SF and OF dilepton cases")
 
 #now we have imported the data and manipulated it into the categories we want
@@ -71,19 +75,23 @@ for s in signals:
     #make some headers for my dataframe columns
     dcColumns = []
     binNames = []
+    binNamesObs = []
     procNames = []
     procIndex = []
     for l in nLeps:
+        if l == "3l":
+            l = "trilep"
         for j in nJets:
             for b in nBtags:
                 counter = 0
                 srName_base = l+"_"+j+"_"+b
+                binName = srName_base
+                while len(binName) < 20:
+                    binName+=" "
+                binNamesObs.append(binName)
                 for p in nProc:
                     srName = srName_base+"_"+p
-                    binName = srName_base
 
-                    while len(binName) < 20:
-                        binName+=" "
                     binNames.append(binName)
 
                     while len(srName) < 20:
@@ -150,7 +158,7 @@ for s in signals:
                     err = row[proc+" error"].values[0]
                     
                     if yld != 0:
-                        dcPercentage = err/yld
+                        dcPercentage = round(err/yld,3)
                     else:
                         dcPercentage = 1
 
@@ -194,11 +202,19 @@ for s in signals:
             for b in nBtags:
                 btag = b[:-1]
                 btag = int(btag)
+
+                row = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==jet) & (df["nBtags"]==btag) ]
+                obsYld = row["total background"].values[0]
+                obsYld = round(obsYld,0)
+                obsString = str(obsYld)
+                while len(obsString)<20:
+                    obsString+=" "
+                observation.append(obsString)
+
                 for p in nProc:
                     if p == "signal":
                         p = s
                         p = p.replace("_", " ")
-                    row = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==jet) & (df["nBtags"]==btag) ]
                     yld = row[p].values[0]
                     observed = round(yld,0)
 
@@ -206,11 +222,6 @@ for s in signals:
                     while len(yldString)<20:
                         yldString+=" "
                     rates.append(yldString)
-
-                    obsString = str(observed)
-                    while len(obsString)<20:
-                        obsString+=" "
-                    observation.append(obsString)
 
 
 
@@ -249,6 +260,11 @@ for s in signals:
 
     #define output file and write to output file
     outfile = open(outdir+outfileName,"w")
+    binHeadersObs = "bin                 \t"
+    for b in binNamesObs:
+        binHeadersObs+=b
+        binHeadersObs+="\t"
+    binHeadersObs+="\n"
     binHeaders = "bin                 \t"
     for b in binNames:
         binHeaders+=b
@@ -281,7 +297,7 @@ for s in signals:
     outfile.write(jmaxHeader)
     outfile.write(kmaxHeader)
     outfile.write("shape * * FAKE\n\n")
-    outfile.write(binHeaders)
+    outfile.write(binHeadersObs)
     outfile.write(obsHeaders)
     outfile.write("\n")
     outfile.write(binHeaders)
