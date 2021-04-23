@@ -1,22 +1,21 @@
 #include <iostream>
 #include "./flip_ratios.h"
+using namespace std;
 
 double GetFlipWeight(float lepton_pt, float lepton_eta, int lepton_pdgid){
   double flip_weight = 0;
   int pt_bin = 0;
   int eta_bin = 0;
-  
+ 
+ 
   if (abs(lepton_pdgid) != 11){
     flip_weight = 1;
+    cout << "flip_weight.h warning: object not an electron!" << endl;
   }
-  else{
-    
+  else{ 
     if (lepton_pt < 15){
-      flip_weight = 1;
-      if (abs(lepton_eta) >= 2.4){
-       return 1;
-       cout << "flip_weight.h warning: electron does not meet object definitions." << endl; 
-      }
+        cout << "flip_weight.h warning: object does not meet object pt definitions." << endl;
+	return 1;
     }
     
     else if (lepton_pt < 40){
@@ -34,8 +33,8 @@ double GetFlipWeight(float lepton_pt, float lepton_eta, int lepton_pdgid){
       }
       
       else if (abs(lepton_eta) >= 2.4){
-       return 1;
-       cout << "flip_weight.h warning: electron does not meet object definitions." << endl; 
+       cout << "flip_weight.h warning: electron does not meet object definitions." << endl;
+       return 1; 
       }
 
     }
@@ -55,8 +54,8 @@ double GetFlipWeight(float lepton_pt, float lepton_eta, int lepton_pdgid){
       }
       
       else if (abs(lepton_eta) >= 2.4){
-       return 1;
-       cout << "flip_weight.h warning: electron does not meet object definitions." << endl; 
+       cout << "flip_weight.h warning: electron does not meet object definitions." << endl;
+       return 1; 
       }
 
     }
@@ -76,8 +75,8 @@ double GetFlipWeight(float lepton_pt, float lepton_eta, int lepton_pdgid){
       }
       
       else if (abs(lepton_eta) >= 2.4){
-       return 1;
-       cout << "flip_weight.h warning: electron does not meet object definitions." << endl; 
+        cout << "flip_weight.h warning: electron does not meet object definitions." << endl;
+	return 1;
       }
     }
     
@@ -96,8 +95,8 @@ double GetFlipWeight(float lepton_pt, float lepton_eta, int lepton_pdgid){
       }
       
       else if (abs(lepton_eta) >= 2.4){
-       return 1;
-       cout << "flip_weight.h warning: electron does not meet object definitions." << endl; 
+        cout << "flip_weight.h warning: electron does not meet object definitions." << endl;
+        return 1;
       }
 
     }
@@ -117,8 +116,8 @@ double GetFlipWeight(float lepton_pt, float lepton_eta, int lepton_pdgid){
       }
       
       else if (abs(lepton_eta) >= 2.4){
-       return 1;
-       cout << "flip_weight.h warning: electron does not meet object definitions." << endl; 
+        cout << "flip_weight.h warning: electron does not meet object definitions." << endl; 
+        return 1;
       }
 
     }
@@ -138,8 +137,8 @@ double GetFlipWeight(float lepton_pt, float lepton_eta, int lepton_pdgid){
       }
       
       else if (abs(lepton_eta) >= 2.4){
-       return 1;
-       cout << "flip_weight.h warning: electron does not meet object definitions." << endl; 
+        cout << "flip_weight.h warning: electron does not meet object definitions." << endl;
+        return 1;
       }
 
     }
