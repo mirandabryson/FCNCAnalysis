@@ -24,7 +24,8 @@ print("got yields and stat errors")
 
 #now we need to add the SF and OF dilepton cases
 nJets = [2, 3, 4]
-nBjets = [0, 1, 2]
+#nBjets = [0, 1, 2]
+nBjets = [1, 2]
 
 for j in nJets:
     for b in nBjets:
@@ -67,7 +68,8 @@ for s in signals:
     #signal region bins
     nLeps = ["3l", "SS2l"]
     nJets = ["2j","3j","4j"]
-    nBtags = ["0b","1b","2b"]
+    #nBtags = ["0b","1b","2b"]
+    nBtags = ["1b","2b"]
     numBins = len(nLeps)*len(nJets)*len(nBtags)
     nProc = ["signal", "other", "fakes", "flips"]
     numBackgrounds = len(nProc)-1
@@ -113,7 +115,7 @@ for s in signals:
     rowTitles = []
     for p in nProc:
         iterator = 0
-        while iterator < 18:
+        while iterator < numBins:
             title = p+"_stat_"+str(iterator)
             while len(title) <17:
                 title+=" "
@@ -215,8 +217,9 @@ for s in signals:
                     if p == "signal":
                         p = s
                         p = p.replace("_", " ")
-                    yld = row[p].values[0]
-                    observed = round(yld,0)
+                        yld = 10*row[p].values[0]
+                    else:
+                        yld = row[p].values[0]
 
                     yldString = str(yld)
                     while len(yldString)<20:

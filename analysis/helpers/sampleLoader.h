@@ -83,7 +83,6 @@ std::vector<string> loadSamples ( int year, string type, string version ){
 
 
 
-
         }else if ( type == "background" ){
             
             samples.push_back("TTGamma_SingleLept_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_"+version);

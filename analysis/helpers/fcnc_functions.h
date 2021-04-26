@@ -74,7 +74,7 @@ bool isGoodElectron( float dxy, float dz, float sip3d, float tightCharge, int lo
 
     bool isGood = 0;
 
-    if ( abs(dxy)<0.05 && abs(dz)<0.01 && abs(sip3d)<4 && tightCharge ==2 ){
+    if ( abs(dxy)<0.05 && abs(dz)<0.1 && abs(sip3d)<4 && tightCharge ==2 ){
         if ( lostHits==0 && convVeto==1 ){
             isGood=1;
         }
@@ -89,7 +89,7 @@ bool isGoodMuon( float dxy, float dz, float sip3d, float tightCharge, bool mediu
 
     bool isGood = 0;
 
-    if ( abs(dxy)<0.05 && abs(dz)<0.01 && abs(sip3d)<4 && tightCharge ==2 ){
+    if ( abs(dxy)<0.05 && abs(dz)<0.1 && abs(sip3d)<4 && tightCharge ==2 ){
         if ( mediumID == 1 && chargeQuality < 0.2 ){
             isGood = 1;
         }

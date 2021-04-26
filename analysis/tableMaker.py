@@ -58,6 +58,7 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
     line.append(nJets)
     line.append(nBs)
     totSig = 0
+    totSig_noWeight = 0
     totBack = 0
     totSigError = 0
     totBackError = 0
@@ -70,6 +71,7 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
             if "signal" in p:
                 totYield = totYield+(0.01*h.GetBinContent(b))
                 totSig = totSig + (0.01*h.GetBinContent(b))
+                totSig_noWeight = totSig_noWeight + (h.GetBinContent(b))
             else:
                 totYield = totYield+h.GetBinContent(b)
                 totBack = totBack + h.GetBinContent(b)
@@ -88,7 +90,8 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
     totBackError = np.sqrt(totBackError)
     line.append(round(totBackError,2))
     
-    line.append(round(totSig,2))
+    #line.append(round(totSig,2))
+    line.append(round(totSig_noWeight,2))
     totSigError = np.sqrt(totSigError)
     line.append(round(totSigError,2))
     
@@ -165,7 +168,7 @@ jetSelections = ["2j",
                  "ge4j"
                  ]
 
-bJetSelections = ["0b",
+bJetSelections = [#"0b",
                   "1b",
                   "ge2b"
                   ]

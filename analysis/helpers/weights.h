@@ -28,9 +28,12 @@ double getEventWeight ( string sampleName, string inputDir, string tag ){
     string numEvents;
     for ( int i = 0; i < lineToGet; i++ ){
         std::getline(inFile, numEvents);
+        //cout << "line " << i << ": "<< numEvents << endl;
     }
 
     double nEvents = stod(numEvents);
+    //cout << "num effective events: " << nEvents << endl;
+
 
     //get name of sample for xsec map
     tag.pop_back();
