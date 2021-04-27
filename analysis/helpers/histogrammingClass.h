@@ -386,10 +386,597 @@ class makeHistograms{
         categoryHistogram* dilepFO_ge4j_1b;
         categoryHistogram* dilepFO_ge4j_ge2b;
 
+
+
+
+
+        categoryHistogram* trilep_2j_0b_fakeCR_fakes;
+        categoryHistogram* trilep_2j_1b_fakeCR_fakes;
+        categoryHistogram* trilep_2j_ge2b_fakeCR_fakes;
+        categoryHistogram* trilep_3j_0b_fakeCR_fakes;
+        categoryHistogram* trilep_3j_1b_fakeCR_fakes;
+        categoryHistogram* trilep_3j_ge2b_fakeCR_fakes;
+        categoryHistogram* trilep_ge4j_0b_fakeCR_fakes;
+        categoryHistogram* trilep_ge4j_1b_fakeCR_fakes;
+        categoryHistogram* trilep_ge4j_ge2b_fakeCR_fakes;
+
+        categoryHistogram* SS_SF_dilep_2j_0b_fakeCR_fakes;
+        categoryHistogram* SS_SF_dilep_2j_1b_fakeCR_fakes;
+        categoryHistogram* SS_SF_dilep_2j_ge2b_fakeCR_fakes;
+        categoryHistogram* SS_SF_dilep_3j_0b_fakeCR_fakes;
+        categoryHistogram* SS_SF_dilep_3j_1b_fakeCR_fakes;
+        categoryHistogram* SS_SF_dilep_3j_ge2b_fakeCR_fakes;
+        categoryHistogram* SS_SF_dilep_ge4j_0b_fakeCR_fakes;
+        categoryHistogram* SS_SF_dilep_ge4j_1b_fakeCR_fakes;
+        categoryHistogram* SS_SF_dilep_ge4j_ge2b_fakeCR_fakes;
+
+        categoryHistogram* SS_OF_dilep_2j_0b_fakeCR_fakes;
+        categoryHistogram* SS_OF_dilep_2j_1b_fakeCR_fakes;
+        categoryHistogram* SS_OF_dilep_2j_ge2b_fakeCR_fakes;
+        categoryHistogram* SS_OF_dilep_3j_0b_fakeCR_fakes;
+        categoryHistogram* SS_OF_dilep_3j_1b_fakeCR_fakes;
+        categoryHistogram* SS_OF_dilep_3j_ge2b_fakeCR_fakes;
+        categoryHistogram* SS_OF_dilep_ge4j_0b_fakeCR_fakes;
+        categoryHistogram* SS_OF_dilep_ge4j_1b_fakeCR_fakes;
+        categoryHistogram* SS_OF_dilep_ge4j_ge2b_fakeCR_fakes;
+
+        categoryHistogram* OS_SF_dilep_2j_0b_fakeCR_fakes;
+        categoryHistogram* OS_SF_dilep_2j_1b_fakeCR_fakes;
+        categoryHistogram* OS_SF_dilep_2j_ge2b_fakeCR_fakes;
+        categoryHistogram* OS_SF_dilep_3j_0b_fakeCR_fakes;
+        categoryHistogram* OS_SF_dilep_3j_1b_fakeCR_fakes;
+        categoryHistogram* OS_SF_dilep_3j_ge2b_fakeCR_fakes;
+        categoryHistogram* OS_SF_dilep_ge4j_0b_fakeCR_fakes;
+        categoryHistogram* OS_SF_dilep_ge4j_1b_fakeCR_fakes;
+        categoryHistogram* OS_SF_dilep_ge4j_ge2b_fakeCR_fakes;
+
+        categoryHistogram* OS_OF_dilep_2j_0b_fakeCR_fakes;
+        categoryHistogram* OS_OF_dilep_2j_1b_fakeCR_fakes;
+        categoryHistogram* OS_OF_dilep_2j_ge2b_fakeCR_fakes;
+        categoryHistogram* OS_OF_dilep_3j_0b_fakeCR_fakes;
+        categoryHistogram* OS_OF_dilep_3j_1b_fakeCR_fakes;
+        categoryHistogram* OS_OF_dilep_3j_ge2b_fakeCR_fakes;
+        categoryHistogram* OS_OF_dilep_ge4j_0b_fakeCR_fakes;
+        categoryHistogram* OS_OF_dilep_ge4j_1b_fakeCR_fakes;
+        categoryHistogram* OS_OF_dilep_ge4j_ge2b_fakeCR_fakes;
+
+        categoryHistogram* onelepFO_2j_0b_fakeCR_fakes;
+        categoryHistogram* onelepFO_2j_1b_fakeCR_fakes;
+        categoryHistogram* onelepFO_2j_ge2b_fakeCR_fakes;
+        categoryHistogram* onelepFO_3j_0b_fakeCR_fakes;
+        categoryHistogram* onelepFO_3j_1b_fakeCR_fakes;
+        categoryHistogram* onelepFO_3j_ge2b_fakeCR_fakes;
+        categoryHistogram* onelepFO_ge4j_0b_fakeCR_fakes;
+        categoryHistogram* onelepFO_ge4j_1b_fakeCR_fakes;
+        categoryHistogram* onelepFO_ge4j_ge2b_fakeCR_fakes;
+
+        categoryHistogram* dilepFO_2j_0b_fakeCR_fakes;
+        categoryHistogram* dilepFO_2j_1b_fakeCR_fakes;
+        categoryHistogram* dilepFO_2j_ge2b_fakeCR_fakes;
+        categoryHistogram* dilepFO_3j_0b_fakeCR_fakes;
+        categoryHistogram* dilepFO_3j_1b_fakeCR_fakes;
+        categoryHistogram* dilepFO_3j_ge2b_fakeCR_fakes;
+        categoryHistogram* dilepFO_ge4j_0b_fakeCR_fakes;
+        categoryHistogram* dilepFO_ge4j_1b_fakeCR_fakes;
+        categoryHistogram* dilepFO_ge4j_ge2b_fakeCR_fakes;
+
+
+
+        categoryHistogram* trilep_2j_0b_fakeCR_flips;
+        categoryHistogram* trilep_2j_1b_fakeCR_flips;
+        categoryHistogram* trilep_2j_ge2b_fakeCR_flips;
+        categoryHistogram* trilep_3j_0b_fakeCR_flips;
+        categoryHistogram* trilep_3j_1b_fakeCR_flips;
+        categoryHistogram* trilep_3j_ge2b_fakeCR_flips;
+        categoryHistogram* trilep_ge4j_0b_fakeCR_flips;
+        categoryHistogram* trilep_ge4j_1b_fakeCR_flips;
+        categoryHistogram* trilep_ge4j_ge2b_fakeCR_flips;
+
+        categoryHistogram* SS_SF_dilep_2j_0b_fakeCR_flips;
+        categoryHistogram* SS_SF_dilep_2j_1b_fakeCR_flips;
+        categoryHistogram* SS_SF_dilep_2j_ge2b_fakeCR_flips;
+        categoryHistogram* SS_SF_dilep_3j_0b_fakeCR_flips;
+        categoryHistogram* SS_SF_dilep_3j_1b_fakeCR_flips;
+        categoryHistogram* SS_SF_dilep_3j_ge2b_fakeCR_flips;
+        categoryHistogram* SS_SF_dilep_ge4j_0b_fakeCR_flips;
+        categoryHistogram* SS_SF_dilep_ge4j_1b_fakeCR_flips;
+        categoryHistogram* SS_SF_dilep_ge4j_ge2b_fakeCR_flips;
+
+        categoryHistogram* SS_OF_dilep_2j_0b_fakeCR_flips;
+        categoryHistogram* SS_OF_dilep_2j_1b_fakeCR_flips;
+        categoryHistogram* SS_OF_dilep_2j_ge2b_fakeCR_flips;
+        categoryHistogram* SS_OF_dilep_3j_0b_fakeCR_flips;
+        categoryHistogram* SS_OF_dilep_3j_1b_fakeCR_flips;
+        categoryHistogram* SS_OF_dilep_3j_ge2b_fakeCR_flips;
+        categoryHistogram* SS_OF_dilep_ge4j_0b_fakeCR_flips;
+        categoryHistogram* SS_OF_dilep_ge4j_1b_fakeCR_flips;
+        categoryHistogram* SS_OF_dilep_ge4j_ge2b_fakeCR_flips;
+
+        categoryHistogram* OS_SF_dilep_2j_0b_fakeCR_flips;
+        categoryHistogram* OS_SF_dilep_2j_1b_fakeCR_flips;
+        categoryHistogram* OS_SF_dilep_2j_ge2b_fakeCR_flips;
+        categoryHistogram* OS_SF_dilep_3j_0b_fakeCR_flips;
+        categoryHistogram* OS_SF_dilep_3j_1b_fakeCR_flips;
+        categoryHistogram* OS_SF_dilep_3j_ge2b_fakeCR_flips;
+        categoryHistogram* OS_SF_dilep_ge4j_0b_fakeCR_flips;
+        categoryHistogram* OS_SF_dilep_ge4j_1b_fakeCR_flips;
+        categoryHistogram* OS_SF_dilep_ge4j_ge2b_fakeCR_flips;
+
+        categoryHistogram* OS_OF_dilep_2j_0b_fakeCR_flips;
+        categoryHistogram* OS_OF_dilep_2j_1b_fakeCR_flips;
+        categoryHistogram* OS_OF_dilep_2j_ge2b_fakeCR_flips;
+        categoryHistogram* OS_OF_dilep_3j_0b_fakeCR_flips;
+        categoryHistogram* OS_OF_dilep_3j_1b_fakeCR_flips;
+        categoryHistogram* OS_OF_dilep_3j_ge2b_fakeCR_flips;
+        categoryHistogram* OS_OF_dilep_ge4j_0b_fakeCR_flips;
+        categoryHistogram* OS_OF_dilep_ge4j_1b_fakeCR_flips;
+        categoryHistogram* OS_OF_dilep_ge4j_ge2b_fakeCR_flips;
+
+        categoryHistogram* onelepFO_2j_0b_fakeCR_flips;
+        categoryHistogram* onelepFO_2j_1b_fakeCR_flips;
+        categoryHistogram* onelepFO_2j_ge2b_fakeCR_flips;
+        categoryHistogram* onelepFO_3j_0b_fakeCR_flips;
+        categoryHistogram* onelepFO_3j_1b_fakeCR_flips;
+        categoryHistogram* onelepFO_3j_ge2b_fakeCR_flips;
+        categoryHistogram* onelepFO_ge4j_0b_fakeCR_flips;
+        categoryHistogram* onelepFO_ge4j_1b_fakeCR_flips;
+        categoryHistogram* onelepFO_ge4j_ge2b_fakeCR_flips;
+
+        categoryHistogram* dilepFO_2j_0b_fakeCR_flips;
+        categoryHistogram* dilepFO_2j_1b_fakeCR_flips;
+        categoryHistogram* dilepFO_2j_ge2b_fakeCR_flips;
+        categoryHistogram* dilepFO_3j_0b_fakeCR_flips;
+        categoryHistogram* dilepFO_3j_1b_fakeCR_flips;
+        categoryHistogram* dilepFO_3j_ge2b_fakeCR_flips;
+        categoryHistogram* dilepFO_ge4j_0b_fakeCR_flips;
+        categoryHistogram* dilepFO_ge4j_1b_fakeCR_flips;
+        categoryHistogram* dilepFO_ge4j_ge2b_fakeCR_flips;
+
+
+
+        categoryHistogram* trilep_2j_0b_fakeCR_other;
+        categoryHistogram* trilep_2j_1b_fakeCR_other;
+        categoryHistogram* trilep_2j_ge2b_fakeCR_other;
+        categoryHistogram* trilep_3j_0b_fakeCR_other;
+        categoryHistogram* trilep_3j_1b_fakeCR_other;
+        categoryHistogram* trilep_3j_ge2b_fakeCR_other;
+        categoryHistogram* trilep_ge4j_0b_fakeCR_other;
+        categoryHistogram* trilep_ge4j_1b_fakeCR_other;
+        categoryHistogram* trilep_ge4j_ge2b_fakeCR_other;
+
+        categoryHistogram* SS_SF_dilep_2j_0b_fakeCR_other;
+        categoryHistogram* SS_SF_dilep_2j_1b_fakeCR_other;
+        categoryHistogram* SS_SF_dilep_2j_ge2b_fakeCR_other;
+        categoryHistogram* SS_SF_dilep_3j_0b_fakeCR_other;
+        categoryHistogram* SS_SF_dilep_3j_1b_fakeCR_other;
+        categoryHistogram* SS_SF_dilep_3j_ge2b_fakeCR_other;
+        categoryHistogram* SS_SF_dilep_ge4j_0b_fakeCR_other;
+        categoryHistogram* SS_SF_dilep_ge4j_1b_fakeCR_other;
+        categoryHistogram* SS_SF_dilep_ge4j_ge2b_fakeCR_other;
+
+        categoryHistogram* SS_OF_dilep_2j_0b_fakeCR_other;
+        categoryHistogram* SS_OF_dilep_2j_1b_fakeCR_other;
+        categoryHistogram* SS_OF_dilep_2j_ge2b_fakeCR_other;
+        categoryHistogram* SS_OF_dilep_3j_0b_fakeCR_other;
+        categoryHistogram* SS_OF_dilep_3j_1b_fakeCR_other;
+        categoryHistogram* SS_OF_dilep_3j_ge2b_fakeCR_other;
+        categoryHistogram* SS_OF_dilep_ge4j_0b_fakeCR_other;
+        categoryHistogram* SS_OF_dilep_ge4j_1b_fakeCR_other;
+        categoryHistogram* SS_OF_dilep_ge4j_ge2b_fakeCR_other;
+
+        categoryHistogram* OS_SF_dilep_2j_0b_fakeCR_other;
+        categoryHistogram* OS_SF_dilep_2j_1b_fakeCR_other;
+        categoryHistogram* OS_SF_dilep_2j_ge2b_fakeCR_other;
+        categoryHistogram* OS_SF_dilep_3j_0b_fakeCR_other;
+        categoryHistogram* OS_SF_dilep_3j_1b_fakeCR_other;
+        categoryHistogram* OS_SF_dilep_3j_ge2b_fakeCR_other;
+        categoryHistogram* OS_SF_dilep_ge4j_0b_fakeCR_other;
+        categoryHistogram* OS_SF_dilep_ge4j_1b_fakeCR_other;
+        categoryHistogram* OS_SF_dilep_ge4j_ge2b_fakeCR_other;
+
+        categoryHistogram* OS_OF_dilep_2j_0b_fakeCR_other;
+        categoryHistogram* OS_OF_dilep_2j_1b_fakeCR_other;
+        categoryHistogram* OS_OF_dilep_2j_ge2b_fakeCR_other;
+        categoryHistogram* OS_OF_dilep_3j_0b_fakeCR_other;
+        categoryHistogram* OS_OF_dilep_3j_1b_fakeCR_other;
+        categoryHistogram* OS_OF_dilep_3j_ge2b_fakeCR_other;
+        categoryHistogram* OS_OF_dilep_ge4j_0b_fakeCR_other;
+        categoryHistogram* OS_OF_dilep_ge4j_1b_fakeCR_other;
+        categoryHistogram* OS_OF_dilep_ge4j_ge2b_fakeCR_other;
+
+        categoryHistogram* onelepFO_2j_0b_fakeCR_other;
+        categoryHistogram* onelepFO_2j_1b_fakeCR_other;
+        categoryHistogram* onelepFO_2j_ge2b_fakeCR_other;
+        categoryHistogram* onelepFO_3j_0b_fakeCR_other;
+        categoryHistogram* onelepFO_3j_1b_fakeCR_other;
+        categoryHistogram* onelepFO_3j_ge2b_fakeCR_other;
+        categoryHistogram* onelepFO_ge4j_0b_fakeCR_other;
+        categoryHistogram* onelepFO_ge4j_1b_fakeCR_other;
+        categoryHistogram* onelepFO_ge4j_ge2b_fakeCR_other;
+
+        categoryHistogram* dilepFO_2j_0b_fakeCR_other;
+        categoryHistogram* dilepFO_2j_1b_fakeCR_other;
+        categoryHistogram* dilepFO_2j_ge2b_fakeCR_other;
+        categoryHistogram* dilepFO_3j_0b_fakeCR_other;
+        categoryHistogram* dilepFO_3j_1b_fakeCR_other;
+        categoryHistogram* dilepFO_3j_ge2b_fakeCR_other;
+        categoryHistogram* dilepFO_ge4j_0b_fakeCR_other;
+        categoryHistogram* dilepFO_ge4j_1b_fakeCR_other;
+        categoryHistogram* dilepFO_ge4j_ge2b_fakeCR_other;
+
+
+
+        categoryHistogram* trilep_2j_0b_fakeCR;
+        categoryHistogram* trilep_2j_1b_fakeCR;
+        categoryHistogram* trilep_2j_ge2b_fakeCR;
+        categoryHistogram* trilep_3j_0b_fakeCR;
+        categoryHistogram* trilep_3j_1b_fakeCR;
+        categoryHistogram* trilep_3j_ge2b_fakeCR;
+        categoryHistogram* trilep_ge4j_0b_fakeCR;
+        categoryHistogram* trilep_ge4j_1b_fakeCR;
+        categoryHistogram* trilep_ge4j_ge2b_fakeCR;
+
+        categoryHistogram* SS_SF_dilep_2j_0b_fakeCR;
+        categoryHistogram* SS_SF_dilep_2j_1b_fakeCR;
+        categoryHistogram* SS_SF_dilep_2j_ge2b_fakeCR;
+        categoryHistogram* SS_SF_dilep_3j_0b_fakeCR;
+        categoryHistogram* SS_SF_dilep_3j_1b_fakeCR;
+        categoryHistogram* SS_SF_dilep_3j_ge2b_fakeCR;
+        categoryHistogram* SS_SF_dilep_ge4j_0b_fakeCR;
+        categoryHistogram* SS_SF_dilep_ge4j_1b_fakeCR;
+        categoryHistogram* SS_SF_dilep_ge4j_ge2b_fakeCR;
+
+        categoryHistogram* SS_OF_dilep_2j_0b_fakeCR;
+        categoryHistogram* SS_OF_dilep_2j_1b_fakeCR;
+        categoryHistogram* SS_OF_dilep_2j_ge2b_fakeCR;
+        categoryHistogram* SS_OF_dilep_3j_0b_fakeCR;
+        categoryHistogram* SS_OF_dilep_3j_1b_fakeCR;
+        categoryHistogram* SS_OF_dilep_3j_ge2b_fakeCR;
+        categoryHistogram* SS_OF_dilep_ge4j_0b_fakeCR;
+        categoryHistogram* SS_OF_dilep_ge4j_1b_fakeCR;
+        categoryHistogram* SS_OF_dilep_ge4j_ge2b_fakeCR;
+
+        categoryHistogram* OS_SF_dilep_2j_0b_fakeCR;
+        categoryHistogram* OS_SF_dilep_2j_1b_fakeCR;
+        categoryHistogram* OS_SF_dilep_2j_ge2b_fakeCR;
+        categoryHistogram* OS_SF_dilep_3j_0b_fakeCR;
+        categoryHistogram* OS_SF_dilep_3j_1b_fakeCR;
+        categoryHistogram* OS_SF_dilep_3j_ge2b_fakeCR;
+        categoryHistogram* OS_SF_dilep_ge4j_0b_fakeCR;
+        categoryHistogram* OS_SF_dilep_ge4j_1b_fakeCR;
+        categoryHistogram* OS_SF_dilep_ge4j_ge2b_fakeCR;
+
+        categoryHistogram* OS_OF_dilep_2j_0b_fakeCR;
+        categoryHistogram* OS_OF_dilep_2j_1b_fakeCR;
+        categoryHistogram* OS_OF_dilep_2j_ge2b_fakeCR;
+        categoryHistogram* OS_OF_dilep_3j_0b_fakeCR;
+        categoryHistogram* OS_OF_dilep_3j_1b_fakeCR;
+        categoryHistogram* OS_OF_dilep_3j_ge2b_fakeCR;
+        categoryHistogram* OS_OF_dilep_ge4j_0b_fakeCR;
+        categoryHistogram* OS_OF_dilep_ge4j_1b_fakeCR;
+        categoryHistogram* OS_OF_dilep_ge4j_ge2b_fakeCR;
+
+        categoryHistogram* onelepFO_2j_0b_fakeCR;
+        categoryHistogram* onelepFO_2j_1b_fakeCR;
+        categoryHistogram* onelepFO_2j_ge2b_fakeCR;
+        categoryHistogram* onelepFO_3j_0b_fakeCR;
+        categoryHistogram* onelepFO_3j_1b_fakeCR;
+        categoryHistogram* onelepFO_3j_ge2b_fakeCR;
+        categoryHistogram* onelepFO_ge4j_0b_fakeCR;
+        categoryHistogram* onelepFO_ge4j_1b_fakeCR;
+        categoryHistogram* onelepFO_ge4j_ge2b_fakeCR;
+
+        categoryHistogram* dilepFO_2j_0b_fakeCR;
+        categoryHistogram* dilepFO_2j_1b_fakeCR;
+        categoryHistogram* dilepFO_2j_ge2b_fakeCR;
+        categoryHistogram* dilepFO_3j_0b_fakeCR;
+        categoryHistogram* dilepFO_3j_1b_fakeCR;
+        categoryHistogram* dilepFO_3j_ge2b_fakeCR;
+        categoryHistogram* dilepFO_ge4j_0b_fakeCR;
+        categoryHistogram* dilepFO_ge4j_1b_fakeCR;
+        categoryHistogram* dilepFO_ge4j_ge2b_fakeCR;
+
+
+
+
+
+        categoryHistogram* trilep_2j_0b_flipCR_fakes;
+        categoryHistogram* trilep_2j_1b_flipCR_fakes;
+        categoryHistogram* trilep_2j_ge2b_flipCR_fakes;
+        categoryHistogram* trilep_3j_0b_flipCR_fakes;
+        categoryHistogram* trilep_3j_1b_flipCR_fakes;
+        categoryHistogram* trilep_3j_ge2b_flipCR_fakes;
+        categoryHistogram* trilep_ge4j_0b_flipCR_fakes;
+        categoryHistogram* trilep_ge4j_1b_flipCR_fakes;
+        categoryHistogram* trilep_ge4j_ge2b_flipCR_fakes;
+
+        categoryHistogram* SS_SF_dilep_2j_0b_flipCR_fakes;
+        categoryHistogram* SS_SF_dilep_2j_1b_flipCR_fakes;
+        categoryHistogram* SS_SF_dilep_2j_ge2b_flipCR_fakes;
+        categoryHistogram* SS_SF_dilep_3j_0b_flipCR_fakes;
+        categoryHistogram* SS_SF_dilep_3j_1b_flipCR_fakes;
+        categoryHistogram* SS_SF_dilep_3j_ge2b_flipCR_fakes;
+        categoryHistogram* SS_SF_dilep_ge4j_0b_flipCR_fakes;
+        categoryHistogram* SS_SF_dilep_ge4j_1b_flipCR_fakes;
+        categoryHistogram* SS_SF_dilep_ge4j_ge2b_flipCR_fakes;
+
+        categoryHistogram* SS_OF_dilep_2j_0b_flipCR_fakes;
+        categoryHistogram* SS_OF_dilep_2j_1b_flipCR_fakes;
+        categoryHistogram* SS_OF_dilep_2j_ge2b_flipCR_fakes;
+        categoryHistogram* SS_OF_dilep_3j_0b_flipCR_fakes;
+        categoryHistogram* SS_OF_dilep_3j_1b_flipCR_fakes;
+        categoryHistogram* SS_OF_dilep_3j_ge2b_flipCR_fakes;
+        categoryHistogram* SS_OF_dilep_ge4j_0b_flipCR_fakes;
+        categoryHistogram* SS_OF_dilep_ge4j_1b_flipCR_fakes;
+        categoryHistogram* SS_OF_dilep_ge4j_ge2b_flipCR_fakes;
+
+        categoryHistogram* OS_SF_dilep_2j_0b_flipCR_fakes;
+        categoryHistogram* OS_SF_dilep_2j_1b_flipCR_fakes;
+        categoryHistogram* OS_SF_dilep_2j_ge2b_flipCR_fakes;
+        categoryHistogram* OS_SF_dilep_3j_0b_flipCR_fakes;
+        categoryHistogram* OS_SF_dilep_3j_1b_flipCR_fakes;
+        categoryHistogram* OS_SF_dilep_3j_ge2b_flipCR_fakes;
+        categoryHistogram* OS_SF_dilep_ge4j_0b_flipCR_fakes;
+        categoryHistogram* OS_SF_dilep_ge4j_1b_flipCR_fakes;
+        categoryHistogram* OS_SF_dilep_ge4j_ge2b_flipCR_fakes;
+
+        categoryHistogram* OS_OF_dilep_2j_0b_flipCR_fakes;
+        categoryHistogram* OS_OF_dilep_2j_1b_flipCR_fakes;
+        categoryHistogram* OS_OF_dilep_2j_ge2b_flipCR_fakes;
+        categoryHistogram* OS_OF_dilep_3j_0b_flipCR_fakes;
+        categoryHistogram* OS_OF_dilep_3j_1b_flipCR_fakes;
+        categoryHistogram* OS_OF_dilep_3j_ge2b_flipCR_fakes;
+        categoryHistogram* OS_OF_dilep_ge4j_0b_flipCR_fakes;
+        categoryHistogram* OS_OF_dilep_ge4j_1b_flipCR_fakes;
+        categoryHistogram* OS_OF_dilep_ge4j_ge2b_flipCR_fakes;
+
+        categoryHistogram* onelepFO_2j_0b_flipCR_fakes;
+        categoryHistogram* onelepFO_2j_1b_flipCR_fakes;
+        categoryHistogram* onelepFO_2j_ge2b_flipCR_fakes;
+        categoryHistogram* onelepFO_3j_0b_flipCR_fakes;
+        categoryHistogram* onelepFO_3j_1b_flipCR_fakes;
+        categoryHistogram* onelepFO_3j_ge2b_flipCR_fakes;
+        categoryHistogram* onelepFO_ge4j_0b_flipCR_fakes;
+        categoryHistogram* onelepFO_ge4j_1b_flipCR_fakes;
+        categoryHistogram* onelepFO_ge4j_ge2b_flipCR_fakes;
+
+        categoryHistogram* dilepFO_2j_0b_flipCR_fakes;
+        categoryHistogram* dilepFO_2j_1b_flipCR_fakes;
+        categoryHistogram* dilepFO_2j_ge2b_flipCR_fakes;
+        categoryHistogram* dilepFO_3j_0b_flipCR_fakes;
+        categoryHistogram* dilepFO_3j_1b_flipCR_fakes;
+        categoryHistogram* dilepFO_3j_ge2b_flipCR_fakes;
+        categoryHistogram* dilepFO_ge4j_0b_flipCR_fakes;
+        categoryHistogram* dilepFO_ge4j_1b_flipCR_fakes;
+        categoryHistogram* dilepFO_ge4j_ge2b_flipCR_fakes;
+
+
+
+        categoryHistogram* trilep_2j_0b_flipCR_flips;
+        categoryHistogram* trilep_2j_1b_flipCR_flips;
+        categoryHistogram* trilep_2j_ge2b_flipCR_flips;
+        categoryHistogram* trilep_3j_0b_flipCR_flips;
+        categoryHistogram* trilep_3j_1b_flipCR_flips;
+        categoryHistogram* trilep_3j_ge2b_flipCR_flips;
+        categoryHistogram* trilep_ge4j_0b_flipCR_flips;
+        categoryHistogram* trilep_ge4j_1b_flipCR_flips;
+        categoryHistogram* trilep_ge4j_ge2b_flipCR_flips;
+
+        categoryHistogram* SS_SF_dilep_2j_0b_flipCR_flips;
+        categoryHistogram* SS_SF_dilep_2j_1b_flipCR_flips;
+        categoryHistogram* SS_SF_dilep_2j_ge2b_flipCR_flips;
+        categoryHistogram* SS_SF_dilep_3j_0b_flipCR_flips;
+        categoryHistogram* SS_SF_dilep_3j_1b_flipCR_flips;
+        categoryHistogram* SS_SF_dilep_3j_ge2b_flipCR_flips;
+        categoryHistogram* SS_SF_dilep_ge4j_0b_flipCR_flips;
+        categoryHistogram* SS_SF_dilep_ge4j_1b_flipCR_flips;
+        categoryHistogram* SS_SF_dilep_ge4j_ge2b_flipCR_flips;
+
+        categoryHistogram* SS_OF_dilep_2j_0b_flipCR_flips;
+        categoryHistogram* SS_OF_dilep_2j_1b_flipCR_flips;
+        categoryHistogram* SS_OF_dilep_2j_ge2b_flipCR_flips;
+        categoryHistogram* SS_OF_dilep_3j_0b_flipCR_flips;
+        categoryHistogram* SS_OF_dilep_3j_1b_flipCR_flips;
+        categoryHistogram* SS_OF_dilep_3j_ge2b_flipCR_flips;
+        categoryHistogram* SS_OF_dilep_ge4j_0b_flipCR_flips;
+        categoryHistogram* SS_OF_dilep_ge4j_1b_flipCR_flips;
+        categoryHistogram* SS_OF_dilep_ge4j_ge2b_flipCR_flips;
+
+        categoryHistogram* OS_SF_dilep_2j_0b_flipCR_flips;
+        categoryHistogram* OS_SF_dilep_2j_1b_flipCR_flips;
+        categoryHistogram* OS_SF_dilep_2j_ge2b_flipCR_flips;
+        categoryHistogram* OS_SF_dilep_3j_0b_flipCR_flips;
+        categoryHistogram* OS_SF_dilep_3j_1b_flipCR_flips;
+        categoryHistogram* OS_SF_dilep_3j_ge2b_flipCR_flips;
+        categoryHistogram* OS_SF_dilep_ge4j_0b_flipCR_flips;
+        categoryHistogram* OS_SF_dilep_ge4j_1b_flipCR_flips;
+        categoryHistogram* OS_SF_dilep_ge4j_ge2b_flipCR_flips;
+
+        categoryHistogram* OS_OF_dilep_2j_0b_flipCR_flips;
+        categoryHistogram* OS_OF_dilep_2j_1b_flipCR_flips;
+        categoryHistogram* OS_OF_dilep_2j_ge2b_flipCR_flips;
+        categoryHistogram* OS_OF_dilep_3j_0b_flipCR_flips;
+        categoryHistogram* OS_OF_dilep_3j_1b_flipCR_flips;
+        categoryHistogram* OS_OF_dilep_3j_ge2b_flipCR_flips;
+        categoryHistogram* OS_OF_dilep_ge4j_0b_flipCR_flips;
+        categoryHistogram* OS_OF_dilep_ge4j_1b_flipCR_flips;
+        categoryHistogram* OS_OF_dilep_ge4j_ge2b_flipCR_flips;
+
+        categoryHistogram* onelepFO_2j_0b_flipCR_flips;
+        categoryHistogram* onelepFO_2j_1b_flipCR_flips;
+        categoryHistogram* onelepFO_2j_ge2b_flipCR_flips;
+        categoryHistogram* onelepFO_3j_0b_flipCR_flips;
+        categoryHistogram* onelepFO_3j_1b_flipCR_flips;
+        categoryHistogram* onelepFO_3j_ge2b_flipCR_flips;
+        categoryHistogram* onelepFO_ge4j_0b_flipCR_flips;
+        categoryHistogram* onelepFO_ge4j_1b_flipCR_flips;
+        categoryHistogram* onelepFO_ge4j_ge2b_flipCR_flips;
+
+        categoryHistogram* dilepFO_2j_0b_flipCR_flips;
+        categoryHistogram* dilepFO_2j_1b_flipCR_flips;
+        categoryHistogram* dilepFO_2j_ge2b_flipCR_flips;
+        categoryHistogram* dilepFO_3j_0b_flipCR_flips;
+        categoryHistogram* dilepFO_3j_1b_flipCR_flips;
+        categoryHistogram* dilepFO_3j_ge2b_flipCR_flips;
+        categoryHistogram* dilepFO_ge4j_0b_flipCR_flips;
+        categoryHistogram* dilepFO_ge4j_1b_flipCR_flips;
+        categoryHistogram* dilepFO_ge4j_ge2b_flipCR_flips;
+
+
+
+        categoryHistogram* trilep_2j_0b_flipCR_other;
+        categoryHistogram* trilep_2j_1b_flipCR_other;
+        categoryHistogram* trilep_2j_ge2b_flipCR_other;
+        categoryHistogram* trilep_3j_0b_flipCR_other;
+        categoryHistogram* trilep_3j_1b_flipCR_other;
+        categoryHistogram* trilep_3j_ge2b_flipCR_other;
+        categoryHistogram* trilep_ge4j_0b_flipCR_other;
+        categoryHistogram* trilep_ge4j_1b_flipCR_other;
+        categoryHistogram* trilep_ge4j_ge2b_flipCR_other;
+
+        categoryHistogram* SS_SF_dilep_2j_0b_flipCR_other;
+        categoryHistogram* SS_SF_dilep_2j_1b_flipCR_other;
+        categoryHistogram* SS_SF_dilep_2j_ge2b_flipCR_other;
+        categoryHistogram* SS_SF_dilep_3j_0b_flipCR_other;
+        categoryHistogram* SS_SF_dilep_3j_1b_flipCR_other;
+        categoryHistogram* SS_SF_dilep_3j_ge2b_flipCR_other;
+        categoryHistogram* SS_SF_dilep_ge4j_0b_flipCR_other;
+        categoryHistogram* SS_SF_dilep_ge4j_1b_flipCR_other;
+        categoryHistogram* SS_SF_dilep_ge4j_ge2b_flipCR_other;
+
+        categoryHistogram* SS_OF_dilep_2j_0b_flipCR_other;
+        categoryHistogram* SS_OF_dilep_2j_1b_flipCR_other;
+        categoryHistogram* SS_OF_dilep_2j_ge2b_flipCR_other;
+        categoryHistogram* SS_OF_dilep_3j_0b_flipCR_other;
+        categoryHistogram* SS_OF_dilep_3j_1b_flipCR_other;
+        categoryHistogram* SS_OF_dilep_3j_ge2b_flipCR_other;
+        categoryHistogram* SS_OF_dilep_ge4j_0b_flipCR_other;
+        categoryHistogram* SS_OF_dilep_ge4j_1b_flipCR_other;
+        categoryHistogram* SS_OF_dilep_ge4j_ge2b_flipCR_other;
+
+        categoryHistogram* OS_SF_dilep_2j_0b_flipCR_other;
+        categoryHistogram* OS_SF_dilep_2j_1b_flipCR_other;
+        categoryHistogram* OS_SF_dilep_2j_ge2b_flipCR_other;
+        categoryHistogram* OS_SF_dilep_3j_0b_flipCR_other;
+        categoryHistogram* OS_SF_dilep_3j_1b_flipCR_other;
+        categoryHistogram* OS_SF_dilep_3j_ge2b_flipCR_other;
+        categoryHistogram* OS_SF_dilep_ge4j_0b_flipCR_other;
+        categoryHistogram* OS_SF_dilep_ge4j_1b_flipCR_other;
+        categoryHistogram* OS_SF_dilep_ge4j_ge2b_flipCR_other;
+
+        categoryHistogram* OS_OF_dilep_2j_0b_flipCR_other;
+        categoryHistogram* OS_OF_dilep_2j_1b_flipCR_other;
+        categoryHistogram* OS_OF_dilep_2j_ge2b_flipCR_other;
+        categoryHistogram* OS_OF_dilep_3j_0b_flipCR_other;
+        categoryHistogram* OS_OF_dilep_3j_1b_flipCR_other;
+        categoryHistogram* OS_OF_dilep_3j_ge2b_flipCR_other;
+        categoryHistogram* OS_OF_dilep_ge4j_0b_flipCR_other;
+        categoryHistogram* OS_OF_dilep_ge4j_1b_flipCR_other;
+        categoryHistogram* OS_OF_dilep_ge4j_ge2b_flipCR_other;
+
+        categoryHistogram* onelepFO_2j_0b_flipCR_other;
+        categoryHistogram* onelepFO_2j_1b_flipCR_other;
+        categoryHistogram* onelepFO_2j_ge2b_flipCR_other;
+        categoryHistogram* onelepFO_3j_0b_flipCR_other;
+        categoryHistogram* onelepFO_3j_1b_flipCR_other;
+        categoryHistogram* onelepFO_3j_ge2b_flipCR_other;
+        categoryHistogram* onelepFO_ge4j_0b_flipCR_other;
+        categoryHistogram* onelepFO_ge4j_1b_flipCR_other;
+        categoryHistogram* onelepFO_ge4j_ge2b_flipCR_other;
+
+        categoryHistogram* dilepFO_2j_0b_flipCR_other;
+        categoryHistogram* dilepFO_2j_1b_flipCR_other;
+        categoryHistogram* dilepFO_2j_ge2b_flipCR_other;
+        categoryHistogram* dilepFO_3j_0b_flipCR_other;
+        categoryHistogram* dilepFO_3j_1b_flipCR_other;
+        categoryHistogram* dilepFO_3j_ge2b_flipCR_other;
+        categoryHistogram* dilepFO_ge4j_0b_flipCR_other;
+        categoryHistogram* dilepFO_ge4j_1b_flipCR_other;
+        categoryHistogram* dilepFO_ge4j_ge2b_flipCR_other;
+
+
+
+        categoryHistogram* trilep_2j_0b_flipCR;
+        categoryHistogram* trilep_2j_1b_flipCR;
+        categoryHistogram* trilep_2j_ge2b_flipCR;
+        categoryHistogram* trilep_3j_0b_flipCR;
+        categoryHistogram* trilep_3j_1b_flipCR;
+        categoryHistogram* trilep_3j_ge2b_flipCR;
+        categoryHistogram* trilep_ge4j_0b_flipCR;
+        categoryHistogram* trilep_ge4j_1b_flipCR;
+        categoryHistogram* trilep_ge4j_ge2b_flipCR;
+
+        categoryHistogram* SS_SF_dilep_2j_0b_flipCR;
+        categoryHistogram* SS_SF_dilep_2j_1b_flipCR;
+        categoryHistogram* SS_SF_dilep_2j_ge2b_flipCR;
+        categoryHistogram* SS_SF_dilep_3j_0b_flipCR;
+        categoryHistogram* SS_SF_dilep_3j_1b_flipCR;
+        categoryHistogram* SS_SF_dilep_3j_ge2b_flipCR;
+        categoryHistogram* SS_SF_dilep_ge4j_0b_flipCR;
+        categoryHistogram* SS_SF_dilep_ge4j_1b_flipCR;
+        categoryHistogram* SS_SF_dilep_ge4j_ge2b_flipCR;
+
+        categoryHistogram* SS_OF_dilep_2j_0b_flipCR;
+        categoryHistogram* SS_OF_dilep_2j_1b_flipCR;
+        categoryHistogram* SS_OF_dilep_2j_ge2b_flipCR;
+        categoryHistogram* SS_OF_dilep_3j_0b_flipCR;
+        categoryHistogram* SS_OF_dilep_3j_1b_flipCR;
+        categoryHistogram* SS_OF_dilep_3j_ge2b_flipCR;
+        categoryHistogram* SS_OF_dilep_ge4j_0b_flipCR;
+        categoryHistogram* SS_OF_dilep_ge4j_1b_flipCR;
+        categoryHistogram* SS_OF_dilep_ge4j_ge2b_flipCR;
+
+        categoryHistogram* OS_SF_dilep_2j_0b_flipCR;
+        categoryHistogram* OS_SF_dilep_2j_1b_flipCR;
+        categoryHistogram* OS_SF_dilep_2j_ge2b_flipCR;
+        categoryHistogram* OS_SF_dilep_3j_0b_flipCR;
+        categoryHistogram* OS_SF_dilep_3j_1b_flipCR;
+        categoryHistogram* OS_SF_dilep_3j_ge2b_flipCR;
+        categoryHistogram* OS_SF_dilep_ge4j_0b_flipCR;
+        categoryHistogram* OS_SF_dilep_ge4j_1b_flipCR;
+        categoryHistogram* OS_SF_dilep_ge4j_ge2b_flipCR;
+
+        categoryHistogram* OS_OF_dilep_2j_0b_flipCR;
+        categoryHistogram* OS_OF_dilep_2j_1b_flipCR;
+        categoryHistogram* OS_OF_dilep_2j_ge2b_flipCR;
+        categoryHistogram* OS_OF_dilep_3j_0b_flipCR;
+        categoryHistogram* OS_OF_dilep_3j_1b_flipCR;
+        categoryHistogram* OS_OF_dilep_3j_ge2b_flipCR;
+        categoryHistogram* OS_OF_dilep_ge4j_0b_flipCR;
+        categoryHistogram* OS_OF_dilep_ge4j_1b_flipCR;
+        categoryHistogram* OS_OF_dilep_ge4j_ge2b_flipCR;
+
+        categoryHistogram* onelepFO_2j_0b_flipCR;
+        categoryHistogram* onelepFO_2j_1b_flipCR;
+        categoryHistogram* onelepFO_2j_ge2b_flipCR;
+        categoryHistogram* onelepFO_3j_0b_flipCR;
+        categoryHistogram* onelepFO_3j_1b_flipCR;
+        categoryHistogram* onelepFO_3j_ge2b_flipCR;
+        categoryHistogram* onelepFO_ge4j_0b_flipCR;
+        categoryHistogram* onelepFO_ge4j_1b_flipCR;
+        categoryHistogram* onelepFO_ge4j_ge2b_flipCR;
+
+        categoryHistogram* dilepFO_2j_0b_flipCR;
+        categoryHistogram* dilepFO_2j_1b_flipCR;
+        categoryHistogram* dilepFO_2j_ge2b_flipCR;
+        categoryHistogram* dilepFO_3j_0b_flipCR;
+        categoryHistogram* dilepFO_3j_1b_flipCR;
+        categoryHistogram* dilepFO_3j_ge2b_flipCR;
+        categoryHistogram* dilepFO_ge4j_0b_flipCR;
+        categoryHistogram* dilepFO_ge4j_1b_flipCR;
+        categoryHistogram* dilepFO_ge4j_ge2b_flipCR;
+
     public:
         makeHistograms(string category){
             if (category == "background"){
 
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
+                //SR
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
                 trilep_2j_0b_fakes      = new categoryHistogram("trilep","2j","0b","fakes");
                 trilep_2j_1b_fakes      = new categoryHistogram("trilep","2j","1b","fakes");
                 trilep_2j_ge2b_fakes    = new categoryHistogram("trilep","2j","ge2b","fakes");
@@ -604,7 +1191,460 @@ class makeHistograms{
                 dilepFO_ge4j_1b_other       = new categoryHistogram("dilepFO","ge4j","1b","other");
                 dilepFO_ge4j_ge2b_other     = new categoryHistogram("dilepFO","ge4j","ge2b","other");
 
+
+
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
+                //FAKE CR
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
+                trilep_2j_0b_fakeCR_fakes      = new categoryHistogram("trilep_fakeCR","2j","0b","fakes");
+                trilep_2j_1b_fakeCR_fakes      = new categoryHistogram("trilep_fakeCR","2j","1b","fakes");
+                trilep_2j_ge2b_fakeCR_fakes    = new categoryHistogram("trilep_fakeCR","2j","ge2b","fakes");
+                trilep_3j_0b_fakeCR_fakes      = new categoryHistogram("trilep_fakeCR","3j","0b","fakes");
+                trilep_3j_1b_fakeCR_fakes      = new categoryHistogram("trilep_fakeCR","3j","1b","fakes");
+                trilep_3j_ge2b_fakeCR_fakes    = new categoryHistogram("trilep_fakeCR","3j","ge2b","fakes");
+                trilep_ge4j_0b_fakeCR_fakes    = new categoryHistogram("trilep_fakeCR","ge4j","0b","fakes");
+                trilep_ge4j_1b_fakeCR_fakes    = new categoryHistogram("trilep_fakeCR","ge4j","1b","fakes");
+                trilep_ge4j_ge2b_fakeCR_fakes  = new categoryHistogram("trilep_fakeCR","ge4j","ge2b","fakes");
+
+                SS_SF_dilep_2j_0b_fakeCR_fakes     = new categoryHistogram("SS_SF_dilep_fakeCR","2j","0b","fakes");
+                SS_SF_dilep_2j_1b_fakeCR_fakes     = new categoryHistogram("SS_SF_dilep_fakeCR","2j","1b","fakes");
+                SS_SF_dilep_2j_ge2b_fakeCR_fakes   = new categoryHistogram("SS_SF_dilep_fakeCR","2j","ge2b","fakes");
+                SS_SF_dilep_3j_0b_fakeCR_fakes     = new categoryHistogram("SS_SF_dilep_fakeCR","3j","0b","fakes");
+                SS_SF_dilep_3j_1b_fakeCR_fakes     = new categoryHistogram("SS_SF_dilep_fakeCR","3j","1b","fakes");
+                SS_SF_dilep_3j_ge2b_fakeCR_fakes   = new categoryHistogram("SS_SF_dilep_fakeCR","3j","ge2b","fakes");
+                SS_SF_dilep_ge4j_0b_fakeCR_fakes   = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","0b","fakes");
+                SS_SF_dilep_ge4j_1b_fakeCR_fakes   = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","1b","fakes");
+                SS_SF_dilep_ge4j_ge2b_fakeCR_fakes = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","ge2b","fakes");
+
+                SS_OF_dilep_2j_0b_fakeCR_fakes     = new categoryHistogram("SS_OF_dilep_fakeCR","2j","0b","fakes");
+                SS_OF_dilep_2j_1b_fakeCR_fakes     = new categoryHistogram("SS_OF_dilep_fakeCR","2j","1b","fakes");
+                SS_OF_dilep_2j_ge2b_fakeCR_fakes   = new categoryHistogram("SS_OF_dilep_fakeCR","2j","ge2b","fakes");
+                SS_OF_dilep_3j_0b_fakeCR_fakes     = new categoryHistogram("SS_OF_dilep_fakeCR","3j","0b","fakes");
+                SS_OF_dilep_3j_1b_fakeCR_fakes     = new categoryHistogram("SS_OF_dilep_fakeCR","3j","1b","fakes");
+                SS_OF_dilep_3j_ge2b_fakeCR_fakes   = new categoryHistogram("SS_OF_dilep_fakeCR","3j","ge2b","fakes");
+                SS_OF_dilep_ge4j_0b_fakeCR_fakes   = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","0b","fakes");
+                SS_OF_dilep_ge4j_1b_fakeCR_fakes   = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","1b","fakes");
+                SS_OF_dilep_ge4j_ge2b_fakeCR_fakes = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","ge2b","fakes");
+
+                OS_SF_dilep_2j_0b_fakeCR_fakes     = new categoryHistogram("OS_SF_dilep_fakeCR","2j","0b","fakes");
+                OS_SF_dilep_2j_1b_fakeCR_fakes     = new categoryHistogram("OS_SF_dilep_fakeCR","2j","1b","fakes");
+                OS_SF_dilep_2j_ge2b_fakeCR_fakes   = new categoryHistogram("OS_SF_dilep_fakeCR","2j","ge2b","fakes");
+                OS_SF_dilep_3j_0b_fakeCR_fakes     = new categoryHistogram("OS_SF_dilep_fakeCR","3j","0b","fakes");
+                OS_SF_dilep_3j_1b_fakeCR_fakes     = new categoryHistogram("OS_SF_dilep_fakeCR","3j","1b","fakes");
+                OS_SF_dilep_3j_ge2b_fakeCR_fakes   = new categoryHistogram("OS_SF_dilep_fakeCR","3j","ge2b","fakes");
+                OS_SF_dilep_ge4j_0b_fakeCR_fakes   = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","0b","fakes");
+                OS_SF_dilep_ge4j_1b_fakeCR_fakes   = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","1b","fakes");
+                OS_SF_dilep_ge4j_ge2b_fakeCR_fakes = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","ge2b","fakes");
+
+                OS_OF_dilep_2j_0b_fakeCR_fakes     = new categoryHistogram("OS_OF_dilep_fakeCR","2j","0b","fakes");
+                OS_OF_dilep_2j_1b_fakeCR_fakes     = new categoryHistogram("OS_OF_dilep_fakeCR","2j","1b","fakes");
+                OS_OF_dilep_2j_ge2b_fakeCR_fakes   = new categoryHistogram("OS_OF_dilep_fakeCR","2j","ge2b","fakes");
+                OS_OF_dilep_3j_0b_fakeCR_fakes     = new categoryHistogram("OS_OF_dilep_fakeCR","3j","0b","fakes");
+                OS_OF_dilep_3j_1b_fakeCR_fakes     = new categoryHistogram("OS_OF_dilep_fakeCR","3j","1b","fakes");
+                OS_OF_dilep_3j_ge2b_fakeCR_fakes   = new categoryHistogram("OS_OF_dilep_fakeCR","3j","ge2b","fakes");
+                OS_OF_dilep_ge4j_0b_fakeCR_fakes   = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","0b","fakes");
+                OS_OF_dilep_ge4j_1b_fakeCR_fakes   = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","1b","fakes");
+                OS_OF_dilep_ge4j_ge2b_fakeCR_fakes = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","ge2b","fakes");
+
+                onelepFO_2j_0b_fakeCR_fakes        = new categoryHistogram("onelepFO_fakeCR","2j","0b","fakes");
+                onelepFO_2j_1b_fakeCR_fakes        = new categoryHistogram("onelepFO_fakeCR","2j","1b","fakes");
+                onelepFO_2j_ge2b_fakeCR_fakes      = new categoryHistogram("onelepFO_fakeCR","2j","ge2b","fakes");
+                onelepFO_3j_0b_fakeCR_fakes        = new categoryHistogram("onelepFO_fakeCR","3j","0b","fakes");
+                onelepFO_3j_1b_fakeCR_fakes        = new categoryHistogram("onelepFO_fakeCR","3j","1b","fakes");
+                onelepFO_3j_ge2b_fakeCR_fakes      = new categoryHistogram("onelepFO_fakeCR","3j","ge2b","fakes");
+                onelepFO_ge4j_0b_fakeCR_fakes      = new categoryHistogram("onelepFO_fakeCR","ge4j","0b","fakes");
+                onelepFO_ge4j_1b_fakeCR_fakes      = new categoryHistogram("onelepFO_fakeCR","ge4j","1b","fakes");
+                onelepFO_ge4j_ge2b_fakeCR_fakes    = new categoryHistogram("onelepFO_fakeCR","ge4j","ge2b","fakes");
+
+                dilepFO_2j_0b_fakeCR_fakes         = new categoryHistogram("dilepFO_fakeCR","2j","0b","fakes");
+                dilepFO_2j_1b_fakeCR_fakes         = new categoryHistogram("dilepFO_fakeCR","2j","1b","fakes");
+                dilepFO_2j_ge2b_fakeCR_fakes       = new categoryHistogram("dilepFO_fakeCR","2j","ge2b","fakes");
+                dilepFO_3j_0b_fakeCR_fakes         = new categoryHistogram("dilepFO_fakeCR","3j","0b","fakes");
+                dilepFO_3j_1b_fakeCR_fakes         = new categoryHistogram("dilepFO_fakeCR","3j","1b","fakes");
+                dilepFO_3j_ge2b_fakeCR_fakes       = new categoryHistogram("dilepFO_fakeCR","3j","ge2b","fakes");
+                dilepFO_ge4j_0b_fakeCR_fakes       = new categoryHistogram("dilepFO_fakeCR","ge4j","0b","fakes");
+                dilepFO_ge4j_1b_fakeCR_fakes       = new categoryHistogram("dilepFO_fakeCR","ge4j","1b","fakes");
+                dilepFO_ge4j_ge2b_fakeCR_fakes     = new categoryHistogram("dilepFO_fakeCR","ge4j","ge2b","fakes");
+
+
+
+                trilep_2j_0b_fakeCR_flips      = new categoryHistogram("trilep_fakeCR","2j","0b","flips");
+                trilep_2j_1b_fakeCR_flips      = new categoryHistogram("trilep_fakeCR","2j","1b","flips");
+                trilep_2j_ge2b_fakeCR_flips    = new categoryHistogram("trilep_fakeCR","2j","ge2b","flips");
+                trilep_3j_0b_fakeCR_flips      = new categoryHistogram("trilep_fakeCR","3j","0b","flips");
+                trilep_3j_1b_fakeCR_flips      = new categoryHistogram("trilep_fakeCR","3j","1b","flips");
+                trilep_3j_ge2b_fakeCR_flips    = new categoryHistogram("trilep_fakeCR","3j","ge2b","flips");
+                trilep_ge4j_0b_fakeCR_flips    = new categoryHistogram("trilep_fakeCR","ge4j","0b","flips");
+                trilep_ge4j_1b_fakeCR_flips    = new categoryHistogram("trilep_fakeCR","ge4j","1b","flips");
+                trilep_ge4j_ge2b_fakeCR_flips  = new categoryHistogram("trilep_fakeCR","ge4j","ge2b","flips");
+
+                SS_SF_dilep_2j_0b_fakeCR_flips     = new categoryHistogram("SS_SF_dilep_fakeCR","2j","0b","flips");
+                SS_SF_dilep_2j_1b_fakeCR_flips     = new categoryHistogram("SS_SF_dilep_fakeCR","2j","1b","flips");
+                SS_SF_dilep_2j_ge2b_fakeCR_flips   = new categoryHistogram("SS_SF_dilep_fakeCR","2j","ge2b","flips");
+                SS_SF_dilep_3j_0b_fakeCR_flips     = new categoryHistogram("SS_SF_dilep_fakeCR","3j","0b","flips");
+                SS_SF_dilep_3j_1b_fakeCR_flips     = new categoryHistogram("SS_SF_dilep_fakeCR","3j","1b","flips");
+                SS_SF_dilep_3j_ge2b_fakeCR_flips   = new categoryHistogram("SS_SF_dilep_fakeCR","3j","ge2b","flips");
+                SS_SF_dilep_ge4j_0b_fakeCR_flips   = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","0b","flips");
+                SS_SF_dilep_ge4j_1b_fakeCR_flips   = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","1b","flips");
+                SS_SF_dilep_ge4j_ge2b_fakeCR_flips = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","ge2b","flips");
+
+                SS_OF_dilep_2j_0b_fakeCR_flips     = new categoryHistogram("SS_OF_dilep_fakeCR","2j","0b","flips");
+                SS_OF_dilep_2j_1b_fakeCR_flips     = new categoryHistogram("SS_OF_dilep_fakeCR","2j","1b","flips");
+                SS_OF_dilep_2j_ge2b_fakeCR_flips   = new categoryHistogram("SS_OF_dilep_fakeCR","2j","ge2b","flips");
+                SS_OF_dilep_3j_0b_fakeCR_flips     = new categoryHistogram("SS_OF_dilep_fakeCR","3j","0b","flips");
+                SS_OF_dilep_3j_1b_fakeCR_flips     = new categoryHistogram("SS_OF_dilep_fakeCR","3j","1b","flips");
+                SS_OF_dilep_3j_ge2b_fakeCR_flips   = new categoryHistogram("SS_OF_dilep_fakeCR","3j","ge2b","flips");
+                SS_OF_dilep_ge4j_0b_fakeCR_flips   = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","0b","flips");
+                SS_OF_dilep_ge4j_1b_fakeCR_flips   = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","1b","flips");
+                SS_OF_dilep_ge4j_ge2b_fakeCR_flips = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","ge2b","flips");
+
+                OS_SF_dilep_2j_0b_fakeCR_flips     = new categoryHistogram("OS_SF_dilep_fakeCR","2j","0b","flips");
+                OS_SF_dilep_2j_1b_fakeCR_flips     = new categoryHistogram("OS_SF_dilep_fakeCR","2j","1b","flips");
+                OS_SF_dilep_2j_ge2b_fakeCR_flips   = new categoryHistogram("OS_SF_dilep_fakeCR","2j","ge2b","flips");
+                OS_SF_dilep_3j_0b_fakeCR_flips     = new categoryHistogram("OS_SF_dilep_fakeCR","3j","0b","flips");
+                OS_SF_dilep_3j_1b_fakeCR_flips     = new categoryHistogram("OS_SF_dilep_fakeCR","3j","1b","flips");
+                OS_SF_dilep_3j_ge2b_fakeCR_flips   = new categoryHistogram("OS_SF_dilep_fakeCR","3j","ge2b","flips");
+                OS_SF_dilep_ge4j_0b_fakeCR_flips   = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","0b","flips");
+                OS_SF_dilep_ge4j_1b_fakeCR_flips   = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","1b","flips");
+                OS_SF_dilep_ge4j_ge2b_fakeCR_flips = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","ge2b","flips");
+
+                OS_OF_dilep_2j_0b_fakeCR_flips     = new categoryHistogram("OS_OF_dilep_fakeCR","2j","0b","flips");
+                OS_OF_dilep_2j_1b_fakeCR_flips     = new categoryHistogram("OS_OF_dilep_fakeCR","2j","1b","flips");
+                OS_OF_dilep_2j_ge2b_fakeCR_flips   = new categoryHistogram("OS_OF_dilep_fakeCR","2j","ge2b","flips");
+                OS_OF_dilep_3j_0b_fakeCR_flips     = new categoryHistogram("OS_OF_dilep_fakeCR","3j","0b","flips");
+                OS_OF_dilep_3j_1b_fakeCR_flips     = new categoryHistogram("OS_OF_dilep_fakeCR","3j","1b","flips");
+                OS_OF_dilep_3j_ge2b_fakeCR_flips   = new categoryHistogram("OS_OF_dilep_fakeCR","3j","ge2b","flips");
+                OS_OF_dilep_ge4j_0b_fakeCR_flips   = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","0b","flips");
+                OS_OF_dilep_ge4j_1b_fakeCR_flips   = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","1b","flips");
+                OS_OF_dilep_ge4j_ge2b_fakeCR_flips = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","ge2b","flips");
+
+                onelepFO_2j_0b_fakeCR_flips        = new categoryHistogram("onelepFO_fakeCR","2j","0b","flips");
+                onelepFO_2j_1b_fakeCR_flips        = new categoryHistogram("onelepFO_fakeCR","2j","1b","flips");
+                onelepFO_2j_ge2b_fakeCR_flips      = new categoryHistogram("onelepFO_fakeCR","2j","ge2b","flips");
+                onelepFO_3j_0b_fakeCR_flips        = new categoryHistogram("onelepFO_fakeCR","3j","0b","flips");
+                onelepFO_3j_1b_fakeCR_flips        = new categoryHistogram("onelepFO_fakeCR","3j","1b","flips");
+                onelepFO_3j_ge2b_fakeCR_flips      = new categoryHistogram("onelepFO_fakeCR","3j","ge2b","flips");
+                onelepFO_ge4j_0b_fakeCR_flips      = new categoryHistogram("onelepFO_fakeCR","ge4j","0b","flips");
+                onelepFO_ge4j_1b_fakeCR_flips      = new categoryHistogram("onelepFO_fakeCR","ge4j","1b","flips");
+                onelepFO_ge4j_ge2b_fakeCR_flips    = new categoryHistogram("onelepFO_fakeCR","ge4j","ge2b","flips");
+
+                dilepFO_2j_0b_fakeCR_flips         = new categoryHistogram("dilepFO_fakeCR","2j","0b","flips");
+                dilepFO_2j_1b_fakeCR_flips         = new categoryHistogram("dilepFO_fakeCR","2j","1b","flips");
+                dilepFO_2j_ge2b_fakeCR_flips       = new categoryHistogram("dilepFO_fakeCR","2j","ge2b","flips");
+                dilepFO_3j_0b_fakeCR_flips         = new categoryHistogram("dilepFO_fakeCR","3j","0b","flips");
+                dilepFO_3j_1b_fakeCR_flips         = new categoryHistogram("dilepFO_fakeCR","3j","1b","flips");
+                dilepFO_3j_ge2b_fakeCR_flips       = new categoryHistogram("dilepFO_fakeCR","3j","ge2b","flips");
+                dilepFO_ge4j_0b_fakeCR_flips       = new categoryHistogram("dilepFO_fakeCR","ge4j","0b","flips");
+                dilepFO_ge4j_1b_fakeCR_flips       = new categoryHistogram("dilepFO_fakeCR","ge4j","1b","flips");
+                dilepFO_ge4j_ge2b_fakeCR_flips     = new categoryHistogram("dilepFO_fakeCR","ge4j","ge2b","flips");
+
+
+
+                trilep_2j_0b_fakeCR_other      = new categoryHistogram("trilep_fakeCR","2j","0b","other");
+                trilep_2j_1b_fakeCR_other      = new categoryHistogram("trilep_fakeCR","2j","1b","other");
+                trilep_2j_ge2b_fakeCR_other    = new categoryHistogram("trilep_fakeCR","2j","ge2b","other");
+                trilep_3j_0b_fakeCR_other      = new categoryHistogram("trilep_fakeCR","3j","0b","other");
+                trilep_3j_1b_fakeCR_other      = new categoryHistogram("trilep_fakeCR","3j","1b","other");
+                trilep_3j_ge2b_fakeCR_other    = new categoryHistogram("trilep_fakeCR","3j","ge2b","other");
+                trilep_ge4j_0b_fakeCR_other    = new categoryHistogram("trilep_fakeCR","ge4j","0b","other");
+                trilep_ge4j_1b_fakeCR_other    = new categoryHistogram("trilep_fakeCR","ge4j","1b","other");
+                trilep_ge4j_ge2b_fakeCR_other  = new categoryHistogram("trilep_fakeCR","ge4j","ge2b","other");
+
+                SS_SF_dilep_2j_0b_fakeCR_other     = new categoryHistogram("SS_SF_dilep_fakeCR","2j","0b","other");
+                SS_SF_dilep_2j_1b_fakeCR_other     = new categoryHistogram("SS_SF_dilep_fakeCR","2j","1b","other");
+                SS_SF_dilep_2j_ge2b_fakeCR_other   = new categoryHistogram("SS_SF_dilep_fakeCR","2j","ge2b","other");
+                SS_SF_dilep_3j_0b_fakeCR_other     = new categoryHistogram("SS_SF_dilep_fakeCR","3j","0b","other");
+                SS_SF_dilep_3j_1b_fakeCR_other     = new categoryHistogram("SS_SF_dilep_fakeCR","3j","1b","other");
+                SS_SF_dilep_3j_ge2b_fakeCR_other   = new categoryHistogram("SS_SF_dilep_fakeCR","3j","ge2b","other");
+                SS_SF_dilep_ge4j_0b_fakeCR_other   = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","0b","other");
+                SS_SF_dilep_ge4j_1b_fakeCR_other   = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","1b","other");
+                SS_SF_dilep_ge4j_ge2b_fakeCR_other = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","ge2b","other");
+
+                SS_OF_dilep_2j_0b_fakeCR_other     = new categoryHistogram("SS_OF_dilep_fakeCR","2j","0b","other");
+                SS_OF_dilep_2j_1b_fakeCR_other     = new categoryHistogram("SS_OF_dilep_fakeCR","2j","1b","other");
+                SS_OF_dilep_2j_ge2b_fakeCR_other   = new categoryHistogram("SS_OF_dilep_fakeCR","2j","ge2b","other");
+                SS_OF_dilep_3j_0b_fakeCR_other     = new categoryHistogram("SS_OF_dilep_fakeCR","3j","0b","other");
+                SS_OF_dilep_3j_1b_fakeCR_other     = new categoryHistogram("SS_OF_dilep_fakeCR","3j","1b","other");
+                SS_OF_dilep_3j_ge2b_fakeCR_other   = new categoryHistogram("SS_OF_dilep_fakeCR","3j","ge2b","other");
+                SS_OF_dilep_ge4j_0b_fakeCR_other   = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","0b","other");
+                SS_OF_dilep_ge4j_1b_fakeCR_other   = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","1b","other");
+                SS_OF_dilep_ge4j_ge2b_fakeCR_other = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","ge2b","other");
+
+                OS_SF_dilep_2j_0b_fakeCR_other     = new categoryHistogram("OS_SF_dilep_fakeCR","2j","0b","other");
+                OS_SF_dilep_2j_1b_fakeCR_other     = new categoryHistogram("OS_SF_dilep_fakeCR","2j","1b","other");
+                OS_SF_dilep_2j_ge2b_fakeCR_other   = new categoryHistogram("OS_SF_dilep_fakeCR","2j","ge2b","other");
+                OS_SF_dilep_3j_0b_fakeCR_other     = new categoryHistogram("OS_SF_dilep_fakeCR","3j","0b","other");
+                OS_SF_dilep_3j_1b_fakeCR_other     = new categoryHistogram("OS_SF_dilep_fakeCR","3j","1b","other");
+                OS_SF_dilep_3j_ge2b_fakeCR_other   = new categoryHistogram("OS_SF_dilep_fakeCR","3j","ge2b","other");
+                OS_SF_dilep_ge4j_0b_fakeCR_other   = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","0b","other");
+                OS_SF_dilep_ge4j_1b_fakeCR_other   = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","1b","other");
+                OS_SF_dilep_ge4j_ge2b_fakeCR_other = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","ge2b","other");
+
+                OS_OF_dilep_2j_0b_fakeCR_other     = new categoryHistogram("OS_OF_dilep_fakeCR","2j","0b","other");
+                OS_OF_dilep_2j_1b_fakeCR_other     = new categoryHistogram("OS_OF_dilep_fakeCR","2j","1b","other");
+                OS_OF_dilep_2j_ge2b_fakeCR_other   = new categoryHistogram("OS_OF_dilep_fakeCR","2j","ge2b","other");
+                OS_OF_dilep_3j_0b_fakeCR_other     = new categoryHistogram("OS_OF_dilep_fakeCR","3j","0b","other");
+                OS_OF_dilep_3j_1b_fakeCR_other     = new categoryHistogram("OS_OF_dilep_fakeCR","3j","1b","other");
+                OS_OF_dilep_3j_ge2b_fakeCR_other   = new categoryHistogram("OS_OF_dilep_fakeCR","3j","ge2b","other");
+                OS_OF_dilep_ge4j_0b_fakeCR_other   = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","0b","other");
+                OS_OF_dilep_ge4j_1b_fakeCR_other   = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","1b","other");
+                OS_OF_dilep_ge4j_ge2b_fakeCR_other = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","ge2b","other");
+
+                onelepFO_2j_0b_fakeCR_other        = new categoryHistogram("onelepFO_fakeCR","2j","0b","other");
+                onelepFO_2j_1b_fakeCR_other        = new categoryHistogram("onelepFO_fakeCR","2j","1b","other");
+                onelepFO_2j_ge2b_fakeCR_other      = new categoryHistogram("onelepFO_fakeCR","2j","ge2b","other");
+                onelepFO_3j_0b_fakeCR_other        = new categoryHistogram("onelepFO_fakeCR","3j","0b","other");
+                onelepFO_3j_1b_fakeCR_other        = new categoryHistogram("onelepFO_fakeCR","3j","1b","other");
+                onelepFO_3j_ge2b_fakeCR_other      = new categoryHistogram("onelepFO_fakeCR","3j","ge2b","other");
+                onelepFO_ge4j_0b_fakeCR_other      = new categoryHistogram("onelepFO_fakeCR","ge4j","0b","other");
+                onelepFO_ge4j_1b_fakeCR_other      = new categoryHistogram("onelepFO_fakeCR","ge4j","1b","other");
+                onelepFO_ge4j_ge2b_fakeCR_other    = new categoryHistogram("onelepFO_fakeCR","ge4j","ge2b","other");
+
+                dilepFO_2j_0b_fakeCR_other         = new categoryHistogram("dilepFO_fakeCR","2j","0b","other");
+                dilepFO_2j_1b_fakeCR_other         = new categoryHistogram("dilepFO_fakeCR","2j","1b","other");
+                dilepFO_2j_ge2b_fakeCR_other       = new categoryHistogram("dilepFO_fakeCR","2j","ge2b","other");
+                dilepFO_3j_0b_fakeCR_other         = new categoryHistogram("dilepFO_fakeCR","3j","0b","other");
+                dilepFO_3j_1b_fakeCR_other         = new categoryHistogram("dilepFO_fakeCR","3j","1b","other");
+                dilepFO_3j_ge2b_fakeCR_other       = new categoryHistogram("dilepFO_fakeCR","3j","ge2b","other");
+                dilepFO_ge4j_0b_fakeCR_other       = new categoryHistogram("dilepFO_fakeCR","ge4j","0b","other");
+                dilepFO_ge4j_1b_fakeCR_other       = new categoryHistogram("dilepFO_fakeCR","ge4j","1b","other");
+                dilepFO_ge4j_ge2b_fakeCR_other     = new categoryHistogram("dilepFO_fakeCR","ge4j","ge2b","other");
+
+
+
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
+                //FLIP CR
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
+                trilep_2j_0b_flipCR_fakes      = new categoryHistogram("trilep_flipCR","2j","0b","fakes");
+                trilep_2j_1b_flipCR_fakes      = new categoryHistogram("trilep_flipCR","2j","1b","fakes");
+                trilep_2j_ge2b_flipCR_fakes    = new categoryHistogram("trilep_flipCR","2j","ge2b","fakes");
+                trilep_3j_0b_flipCR_fakes      = new categoryHistogram("trilep_flipCR","3j","0b","fakes");
+                trilep_3j_1b_flipCR_fakes      = new categoryHistogram("trilep_flipCR","3j","1b","fakes");
+                trilep_3j_ge2b_flipCR_fakes    = new categoryHistogram("trilep_flipCR","3j","ge2b","fakes");
+                trilep_ge4j_0b_flipCR_fakes    = new categoryHistogram("trilep_flipCR","ge4j","0b","fakes");
+                trilep_ge4j_1b_flipCR_fakes    = new categoryHistogram("trilep_flipCR","ge4j","1b","fakes");
+                trilep_ge4j_ge2b_flipCR_fakes  = new categoryHistogram("trilep_flipCR","ge4j","ge2b","fakes");
+
+                SS_SF_dilep_2j_0b_flipCR_fakes     = new categoryHistogram("SS_SF_dilep_flipCR","2j","0b","fakes");
+                SS_SF_dilep_2j_1b_flipCR_fakes     = new categoryHistogram("SS_SF_dilep_flipCR","2j","1b","fakes");
+                SS_SF_dilep_2j_ge2b_flipCR_fakes   = new categoryHistogram("SS_SF_dilep_flipCR","2j","ge2b","fakes");
+                SS_SF_dilep_3j_0b_flipCR_fakes     = new categoryHistogram("SS_SF_dilep_flipCR","3j","0b","fakes");
+                SS_SF_dilep_3j_1b_flipCR_fakes     = new categoryHistogram("SS_SF_dilep_flipCR","3j","1b","fakes");
+                SS_SF_dilep_3j_ge2b_flipCR_fakes   = new categoryHistogram("SS_SF_dilep_flipCR","3j","ge2b","fakes");
+                SS_SF_dilep_ge4j_0b_flipCR_fakes   = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","0b","fakes");
+                SS_SF_dilep_ge4j_1b_flipCR_fakes   = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","1b","fakes");
+                SS_SF_dilep_ge4j_ge2b_flipCR_fakes = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","ge2b","fakes");
+
+                SS_OF_dilep_2j_0b_flipCR_fakes     = new categoryHistogram("SS_OF_dilep_flipCR","2j","0b","fakes");
+                SS_OF_dilep_2j_1b_flipCR_fakes     = new categoryHistogram("SS_OF_dilep_flipCR","2j","1b","fakes");
+                SS_OF_dilep_2j_ge2b_flipCR_fakes   = new categoryHistogram("SS_OF_dilep_flipCR","2j","ge2b","fakes");
+                SS_OF_dilep_3j_0b_flipCR_fakes     = new categoryHistogram("SS_OF_dilep_flipCR","3j","0b","fakes");
+                SS_OF_dilep_3j_1b_flipCR_fakes     = new categoryHistogram("SS_OF_dilep_flipCR","3j","1b","fakes");
+                SS_OF_dilep_3j_ge2b_flipCR_fakes   = new categoryHistogram("SS_OF_dilep_flipCR","3j","ge2b","fakes");
+                SS_OF_dilep_ge4j_0b_flipCR_fakes   = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","0b","fakes");
+                SS_OF_dilep_ge4j_1b_flipCR_fakes   = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","1b","fakes");
+                SS_OF_dilep_ge4j_ge2b_flipCR_fakes = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","ge2b","fakes");
+
+                OS_SF_dilep_2j_0b_flipCR_fakes     = new categoryHistogram("OS_SF_dilep_flipCR","2j","0b","fakes");
+                OS_SF_dilep_2j_1b_flipCR_fakes     = new categoryHistogram("OS_SF_dilep_flipCR","2j","1b","fakes");
+                OS_SF_dilep_2j_ge2b_flipCR_fakes   = new categoryHistogram("OS_SF_dilep_flipCR","2j","ge2b","fakes");
+                OS_SF_dilep_3j_0b_flipCR_fakes     = new categoryHistogram("OS_SF_dilep_flipCR","3j","0b","fakes");
+                OS_SF_dilep_3j_1b_flipCR_fakes     = new categoryHistogram("OS_SF_dilep_flipCR","3j","1b","fakes");
+                OS_SF_dilep_3j_ge2b_flipCR_fakes   = new categoryHistogram("OS_SF_dilep_flipCR","3j","ge2b","fakes");
+                OS_SF_dilep_ge4j_0b_flipCR_fakes   = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","0b","fakes");
+                OS_SF_dilep_ge4j_1b_flipCR_fakes   = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","1b","fakes");
+                OS_SF_dilep_ge4j_ge2b_flipCR_fakes = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","ge2b","fakes");
+
+                OS_OF_dilep_2j_0b_flipCR_fakes     = new categoryHistogram("OS_OF_dilep_flipCR","2j","0b","fakes");
+                OS_OF_dilep_2j_1b_flipCR_fakes     = new categoryHistogram("OS_OF_dilep_flipCR","2j","1b","fakes");
+                OS_OF_dilep_2j_ge2b_flipCR_fakes   = new categoryHistogram("OS_OF_dilep_flipCR","2j","ge2b","fakes");
+                OS_OF_dilep_3j_0b_flipCR_fakes     = new categoryHistogram("OS_OF_dilep_flipCR","3j","0b","fakes");
+                OS_OF_dilep_3j_1b_flipCR_fakes     = new categoryHistogram("OS_OF_dilep_flipCR","3j","1b","fakes");
+                OS_OF_dilep_3j_ge2b_flipCR_fakes   = new categoryHistogram("OS_OF_dilep_flipCR","3j","ge2b","fakes");
+                OS_OF_dilep_ge4j_0b_flipCR_fakes   = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","0b","fakes");
+                OS_OF_dilep_ge4j_1b_flipCR_fakes   = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","1b","fakes");
+                OS_OF_dilep_ge4j_ge2b_flipCR_fakes = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","ge2b","fakes");
+
+                onelepFO_2j_0b_flipCR_fakes        = new categoryHistogram("onelepFO_flipCR","2j","0b","fakes");
+                onelepFO_2j_1b_flipCR_fakes        = new categoryHistogram("onelepFO_flipCR","2j","1b","fakes");
+                onelepFO_2j_ge2b_flipCR_fakes      = new categoryHistogram("onelepFO_flipCR","2j","ge2b","fakes");
+                onelepFO_3j_0b_flipCR_fakes        = new categoryHistogram("onelepFO_flipCR","3j","0b","fakes");
+                onelepFO_3j_1b_flipCR_fakes        = new categoryHistogram("onelepFO_flipCR","3j","1b","fakes");
+                onelepFO_3j_ge2b_flipCR_fakes      = new categoryHistogram("onelepFO_flipCR","3j","ge2b","fakes");
+                onelepFO_ge4j_0b_flipCR_fakes      = new categoryHistogram("onelepFO_flipCR","ge4j","0b","fakes");
+                onelepFO_ge4j_1b_flipCR_fakes      = new categoryHistogram("onelepFO_flipCR","ge4j","1b","fakes");
+                onelepFO_ge4j_ge2b_flipCR_fakes    = new categoryHistogram("onelepFO_flipCR","ge4j","ge2b","fakes");
+
+                dilepFO_2j_0b_flipCR_fakes         = new categoryHistogram("dilepFO_flipCR","2j","0b","fakes");
+                dilepFO_2j_1b_flipCR_fakes         = new categoryHistogram("dilepFO_flipCR","2j","1b","fakes");
+                dilepFO_2j_ge2b_flipCR_fakes       = new categoryHistogram("dilepFO_flipCR","2j","ge2b","fakes");
+                dilepFO_3j_0b_flipCR_fakes         = new categoryHistogram("dilepFO_flipCR","3j","0b","fakes");
+                dilepFO_3j_1b_flipCR_fakes         = new categoryHistogram("dilepFO_flipCR","3j","1b","fakes");
+                dilepFO_3j_ge2b_flipCR_fakes       = new categoryHistogram("dilepFO_flipCR","3j","ge2b","fakes");
+                dilepFO_ge4j_0b_flipCR_fakes       = new categoryHistogram("dilepFO_flipCR","ge4j","0b","fakes");
+                dilepFO_ge4j_1b_flipCR_fakes       = new categoryHistogram("dilepFO_flipCR","ge4j","1b","fakes");
+                dilepFO_ge4j_ge2b_flipCR_fakes     = new categoryHistogram("dilepFO_flipCR","ge4j","ge2b","fakes");
+
+
+
+                trilep_2j_0b_flipCR_flips      = new categoryHistogram("trilep_flipCR","2j","0b","flips");
+                trilep_2j_1b_flipCR_flips      = new categoryHistogram("trilep_flipCR","2j","1b","flips");
+                trilep_2j_ge2b_flipCR_flips    = new categoryHistogram("trilep_flipCR","2j","ge2b","flips");
+                trilep_3j_0b_flipCR_flips      = new categoryHistogram("trilep_flipCR","3j","0b","flips");
+                trilep_3j_1b_flipCR_flips      = new categoryHistogram("trilep_flipCR","3j","1b","flips");
+                trilep_3j_ge2b_flipCR_flips    = new categoryHistogram("trilep_flipCR","3j","ge2b","flips");
+                trilep_ge4j_0b_flipCR_flips    = new categoryHistogram("trilep_flipCR","ge4j","0b","flips");
+                trilep_ge4j_1b_flipCR_flips    = new categoryHistogram("trilep_flipCR","ge4j","1b","flips");
+                trilep_ge4j_ge2b_flipCR_flips  = new categoryHistogram("trilep_flipCR","ge4j","ge2b","flips");
+
+                SS_SF_dilep_2j_0b_flipCR_flips     = new categoryHistogram("SS_SF_dilep_flipCR","2j","0b","flips");
+                SS_SF_dilep_2j_1b_flipCR_flips     = new categoryHistogram("SS_SF_dilep_flipCR","2j","1b","flips");
+                SS_SF_dilep_2j_ge2b_flipCR_flips   = new categoryHistogram("SS_SF_dilep_flipCR","2j","ge2b","flips");
+                SS_SF_dilep_3j_0b_flipCR_flips     = new categoryHistogram("SS_SF_dilep_flipCR","3j","0b","flips");
+                SS_SF_dilep_3j_1b_flipCR_flips     = new categoryHistogram("SS_SF_dilep_flipCR","3j","1b","flips");
+                SS_SF_dilep_3j_ge2b_flipCR_flips   = new categoryHistogram("SS_SF_dilep_flipCR","3j","ge2b","flips");
+                SS_SF_dilep_ge4j_0b_flipCR_flips   = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","0b","flips");
+                SS_SF_dilep_ge4j_1b_flipCR_flips   = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","1b","flips");
+                SS_SF_dilep_ge4j_ge2b_flipCR_flips = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","ge2b","flips");
+
+                SS_OF_dilep_2j_0b_flipCR_flips     = new categoryHistogram("SS_OF_dilep_flipCR","2j","0b","flips");
+                SS_OF_dilep_2j_1b_flipCR_flips     = new categoryHistogram("SS_OF_dilep_flipCR","2j","1b","flips");
+                SS_OF_dilep_2j_ge2b_flipCR_flips   = new categoryHistogram("SS_OF_dilep_flipCR","2j","ge2b","flips");
+                SS_OF_dilep_3j_0b_flipCR_flips     = new categoryHistogram("SS_OF_dilep_flipCR","3j","0b","flips");
+                SS_OF_dilep_3j_1b_flipCR_flips     = new categoryHistogram("SS_OF_dilep_flipCR","3j","1b","flips");
+                SS_OF_dilep_3j_ge2b_flipCR_flips   = new categoryHistogram("SS_OF_dilep_flipCR","3j","ge2b","flips");
+                SS_OF_dilep_ge4j_0b_flipCR_flips   = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","0b","flips");
+                SS_OF_dilep_ge4j_1b_flipCR_flips   = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","1b","flips");
+                SS_OF_dilep_ge4j_ge2b_flipCR_flips = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","ge2b","flips");
+
+                OS_SF_dilep_2j_0b_flipCR_flips     = new categoryHistogram("OS_SF_dilep_flipCR","2j","0b","flips");
+                OS_SF_dilep_2j_1b_flipCR_flips     = new categoryHistogram("OS_SF_dilep_flipCR","2j","1b","flips");
+                OS_SF_dilep_2j_ge2b_flipCR_flips   = new categoryHistogram("OS_SF_dilep_flipCR","2j","ge2b","flips");
+                OS_SF_dilep_3j_0b_flipCR_flips     = new categoryHistogram("OS_SF_dilep_flipCR","3j","0b","flips");
+                OS_SF_dilep_3j_1b_flipCR_flips     = new categoryHistogram("OS_SF_dilep_flipCR","3j","1b","flips");
+                OS_SF_dilep_3j_ge2b_flipCR_flips   = new categoryHistogram("OS_SF_dilep_flipCR","3j","ge2b","flips");
+                OS_SF_dilep_ge4j_0b_flipCR_flips   = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","0b","flips");
+                OS_SF_dilep_ge4j_1b_flipCR_flips   = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","1b","flips");
+                OS_SF_dilep_ge4j_ge2b_flipCR_flips = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","ge2b","flips");
+
+                OS_OF_dilep_2j_0b_flipCR_flips     = new categoryHistogram("OS_OF_dilep_flipCR","2j","0b","flips");
+                OS_OF_dilep_2j_1b_flipCR_flips     = new categoryHistogram("OS_OF_dilep_flipCR","2j","1b","flips");
+                OS_OF_dilep_2j_ge2b_flipCR_flips   = new categoryHistogram("OS_OF_dilep_flipCR","2j","ge2b","flips");
+                OS_OF_dilep_3j_0b_flipCR_flips     = new categoryHistogram("OS_OF_dilep_flipCR","3j","0b","flips");
+                OS_OF_dilep_3j_1b_flipCR_flips     = new categoryHistogram("OS_OF_dilep_flipCR","3j","1b","flips");
+                OS_OF_dilep_3j_ge2b_flipCR_flips   = new categoryHistogram("OS_OF_dilep_flipCR","3j","ge2b","flips");
+                OS_OF_dilep_ge4j_0b_flipCR_flips   = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","0b","flips");
+                OS_OF_dilep_ge4j_1b_flipCR_flips   = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","1b","flips");
+                OS_OF_dilep_ge4j_ge2b_flipCR_flips = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","ge2b","flips");
+
+                onelepFO_2j_0b_flipCR_flips        = new categoryHistogram("onelepFO_flipCR","2j","0b","flips");
+                onelepFO_2j_1b_flipCR_flips        = new categoryHistogram("onelepFO_flipCR","2j","1b","flips");
+                onelepFO_2j_ge2b_flipCR_flips      = new categoryHistogram("onelepFO_flipCR","2j","ge2b","flips");
+                onelepFO_3j_0b_flipCR_flips        = new categoryHistogram("onelepFO_flipCR","3j","0b","flips");
+                onelepFO_3j_1b_flipCR_flips        = new categoryHistogram("onelepFO_flipCR","3j","1b","flips");
+                onelepFO_3j_ge2b_flipCR_flips      = new categoryHistogram("onelepFO_flipCR","3j","ge2b","flips");
+                onelepFO_ge4j_0b_flipCR_flips      = new categoryHistogram("onelepFO_flipCR","ge4j","0b","flips");
+                onelepFO_ge4j_1b_flipCR_flips      = new categoryHistogram("onelepFO_flipCR","ge4j","1b","flips");
+                onelepFO_ge4j_ge2b_flipCR_flips    = new categoryHistogram("onelepFO_flipCR","ge4j","ge2b","flips");
+
+                dilepFO_2j_0b_flipCR_flips         = new categoryHistogram("dilepFO_flipCR","2j","0b","flips");
+                dilepFO_2j_1b_flipCR_flips         = new categoryHistogram("dilepFO_flipCR","2j","1b","flips");
+                dilepFO_2j_ge2b_flipCR_flips       = new categoryHistogram("dilepFO_flipCR","2j","ge2b","flips");
+                dilepFO_3j_0b_flipCR_flips         = new categoryHistogram("dilepFO_flipCR","3j","0b","flips");
+                dilepFO_3j_1b_flipCR_flips         = new categoryHistogram("dilepFO_flipCR","3j","1b","flips");
+                dilepFO_3j_ge2b_flipCR_flips       = new categoryHistogram("dilepFO_flipCR","3j","ge2b","flips");
+                dilepFO_ge4j_0b_flipCR_flips       = new categoryHistogram("dilepFO_flipCR","ge4j","0b","flips");
+                dilepFO_ge4j_1b_flipCR_flips       = new categoryHistogram("dilepFO_flipCR","ge4j","1b","flips");
+                dilepFO_ge4j_ge2b_flipCR_flips     = new categoryHistogram("dilepFO_flipCR","ge4j","ge2b","flips");
+
+
+
+                trilep_2j_0b_flipCR_other      = new categoryHistogram("trilep_flipCR","2j","0b","other");
+                trilep_2j_1b_flipCR_other      = new categoryHistogram("trilep_flipCR","2j","1b","other");
+                trilep_2j_ge2b_flipCR_other    = new categoryHistogram("trilep_flipCR","2j","ge2b","other");
+                trilep_3j_0b_flipCR_other      = new categoryHistogram("trilep_flipCR","3j","0b","other");
+                trilep_3j_1b_flipCR_other      = new categoryHistogram("trilep_flipCR","3j","1b","other");
+                trilep_3j_ge2b_flipCR_other    = new categoryHistogram("trilep_flipCR","3j","ge2b","other");
+                trilep_ge4j_0b_flipCR_other    = new categoryHistogram("trilep_flipCR","ge4j","0b","other");
+                trilep_ge4j_1b_flipCR_other    = new categoryHistogram("trilep_flipCR","ge4j","1b","other");
+                trilep_ge4j_ge2b_flipCR_other  = new categoryHistogram("trilep_flipCR","ge4j","ge2b","other");
+
+                SS_SF_dilep_2j_0b_flipCR_other     = new categoryHistogram("SS_SF_dilep_flipCR","2j","0b","other");
+                SS_SF_dilep_2j_1b_flipCR_other     = new categoryHistogram("SS_SF_dilep_flipCR","2j","1b","other");
+                SS_SF_dilep_2j_ge2b_flipCR_other   = new categoryHistogram("SS_SF_dilep_flipCR","2j","ge2b","other");
+                SS_SF_dilep_3j_0b_flipCR_other     = new categoryHistogram("SS_SF_dilep_flipCR","3j","0b","other");
+                SS_SF_dilep_3j_1b_flipCR_other     = new categoryHistogram("SS_SF_dilep_flipCR","3j","1b","other");
+                SS_SF_dilep_3j_ge2b_flipCR_other   = new categoryHistogram("SS_SF_dilep_flipCR","3j","ge2b","other");
+                SS_SF_dilep_ge4j_0b_flipCR_other   = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","0b","other");
+                SS_SF_dilep_ge4j_1b_flipCR_other   = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","1b","other");
+                SS_SF_dilep_ge4j_ge2b_flipCR_other = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","ge2b","other");
+
+                SS_OF_dilep_2j_0b_flipCR_other     = new categoryHistogram("SS_OF_dilep_flipCR","2j","0b","other");
+                SS_OF_dilep_2j_1b_flipCR_other     = new categoryHistogram("SS_OF_dilep_flipCR","2j","1b","other");
+                SS_OF_dilep_2j_ge2b_flipCR_other   = new categoryHistogram("SS_OF_dilep_flipCR","2j","ge2b","other");
+                SS_OF_dilep_3j_0b_flipCR_other     = new categoryHistogram("SS_OF_dilep_flipCR","3j","0b","other");
+                SS_OF_dilep_3j_1b_flipCR_other     = new categoryHistogram("SS_OF_dilep_flipCR","3j","1b","other");
+                SS_OF_dilep_3j_ge2b_flipCR_other   = new categoryHistogram("SS_OF_dilep_flipCR","3j","ge2b","other");
+                SS_OF_dilep_ge4j_0b_flipCR_other   = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","0b","other");
+                SS_OF_dilep_ge4j_1b_flipCR_other   = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","1b","other");
+                SS_OF_dilep_ge4j_ge2b_flipCR_other = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","ge2b","other");
+
+                OS_SF_dilep_2j_0b_flipCR_other     = new categoryHistogram("OS_SF_dilep_flipCR","2j","0b","other");
+                OS_SF_dilep_2j_1b_flipCR_other     = new categoryHistogram("OS_SF_dilep_flipCR","2j","1b","other");
+                OS_SF_dilep_2j_ge2b_flipCR_other   = new categoryHistogram("OS_SF_dilep_flipCR","2j","ge2b","other");
+                OS_SF_dilep_3j_0b_flipCR_other     = new categoryHistogram("OS_SF_dilep_flipCR","3j","0b","other");
+                OS_SF_dilep_3j_1b_flipCR_other     = new categoryHistogram("OS_SF_dilep_flipCR","3j","1b","other");
+                OS_SF_dilep_3j_ge2b_flipCR_other   = new categoryHistogram("OS_SF_dilep_flipCR","3j","ge2b","other");
+                OS_SF_dilep_ge4j_0b_flipCR_other   = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","0b","other");
+                OS_SF_dilep_ge4j_1b_flipCR_other   = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","1b","other");
+                OS_SF_dilep_ge4j_ge2b_flipCR_other = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","ge2b","other");
+
+                OS_OF_dilep_2j_0b_flipCR_other     = new categoryHistogram("OS_OF_dilep_flipCR","2j","0b","other");
+                OS_OF_dilep_2j_1b_flipCR_other     = new categoryHistogram("OS_OF_dilep_flipCR","2j","1b","other");
+                OS_OF_dilep_2j_ge2b_flipCR_other   = new categoryHistogram("OS_OF_dilep_flipCR","2j","ge2b","other");
+                OS_OF_dilep_3j_0b_flipCR_other     = new categoryHistogram("OS_OF_dilep_flipCR","3j","0b","other");
+                OS_OF_dilep_3j_1b_flipCR_other     = new categoryHistogram("OS_OF_dilep_flipCR","3j","1b","other");
+                OS_OF_dilep_3j_ge2b_flipCR_other   = new categoryHistogram("OS_OF_dilep_flipCR","3j","ge2b","other");
+                OS_OF_dilep_ge4j_0b_flipCR_other   = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","0b","other");
+                OS_OF_dilep_ge4j_1b_flipCR_other   = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","1b","other");
+                OS_OF_dilep_ge4j_ge2b_flipCR_other = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","ge2b","other");
+
+                onelepFO_2j_0b_flipCR_other        = new categoryHistogram("onelepFO_flipCR","2j","0b","other");
+                onelepFO_2j_1b_flipCR_other        = new categoryHistogram("onelepFO_flipCR","2j","1b","other");
+                onelepFO_2j_ge2b_flipCR_other      = new categoryHistogram("onelepFO_flipCR","2j","ge2b","other");
+                onelepFO_3j_0b_flipCR_other        = new categoryHistogram("onelepFO_flipCR","3j","0b","other");
+                onelepFO_3j_1b_flipCR_other        = new categoryHistogram("onelepFO_flipCR","3j","1b","other");
+                onelepFO_3j_ge2b_flipCR_other      = new categoryHistogram("onelepFO_flipCR","3j","ge2b","other");
+                onelepFO_ge4j_0b_flipCR_other      = new categoryHistogram("onelepFO_flipCR","ge4j","0b","other");
+                onelepFO_ge4j_1b_flipCR_other      = new categoryHistogram("onelepFO_flipCR","ge4j","1b","other");
+                onelepFO_ge4j_ge2b_flipCR_other    = new categoryHistogram("onelepFO_flipCR","ge4j","ge2b","other");
+
+                dilepFO_2j_0b_flipCR_other         = new categoryHistogram("dilepFO_flipCR","2j","0b","other");
+                dilepFO_2j_1b_flipCR_other         = new categoryHistogram("dilepFO_flipCR","2j","1b","other");
+                dilepFO_2j_ge2b_flipCR_other       = new categoryHistogram("dilepFO_flipCR","2j","ge2b","other");
+                dilepFO_3j_0b_flipCR_other         = new categoryHistogram("dilepFO_flipCR","3j","0b","other");
+                dilepFO_3j_1b_flipCR_other         = new categoryHistogram("dilepFO_flipCR","3j","1b","other");
+                dilepFO_3j_ge2b_flipCR_other       = new categoryHistogram("dilepFO_flipCR","3j","ge2b","other");
+                dilepFO_ge4j_0b_flipCR_other       = new categoryHistogram("dilepFO_flipCR","ge4j","0b","other");
+                dilepFO_ge4j_1b_flipCR_other       = new categoryHistogram("dilepFO_flipCR","ge4j","1b","other");
+                dilepFO_ge4j_ge2b_flipCR_other     = new categoryHistogram("dilepFO_flipCR","ge4j","ge2b","other");
+
             }else{
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
+                //SR
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
                 trilep_2j_0b      = new categoryHistogram("trilep","2j","0b",category);
                 trilep_2j_1b      = new categoryHistogram("trilep","2j","1b",category);
                 trilep_2j_ge2b    = new categoryHistogram("trilep","2j","ge2b",category);
@@ -675,1169 +1715,3647 @@ class makeHistograms{
                 dilepFO_ge4j_1b       = new categoryHistogram("dilepFO","ge4j","1b",category);
                 dilepFO_ge4j_ge2b     = new categoryHistogram("dilepFO","ge4j","ge2b",category);
 
+
+
+
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
+                //FAKE CR
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
+                trilep_2j_0b_fakeCR      = new categoryHistogram("trilep_fakeCR","2j","0b",category);
+                trilep_2j_1b_fakeCR      = new categoryHistogram("trilep_fakeCR","2j","1b",category);
+                trilep_2j_ge2b_fakeCR    = new categoryHistogram("trilep_fakeCR","2j","ge2b",category);
+                trilep_3j_0b_fakeCR      = new categoryHistogram("trilep_fakeCR","3j","0b",category);
+                trilep_3j_1b_fakeCR      = new categoryHistogram("trilep_fakeCR","3j","1b",category);
+                trilep_3j_ge2b_fakeCR    = new categoryHistogram("trilep_fakeCR","3j","ge2b",category);
+                trilep_ge4j_0b_fakeCR    = new categoryHistogram("trilep_fakeCR","ge4j","0b",category);
+                trilep_ge4j_1b_fakeCR    = new categoryHistogram("trilep_fakeCR","ge4j","1b",category);
+                trilep_ge4j_ge2b_fakeCR  = new categoryHistogram("trilep_fakeCR","ge4j","ge2b",category);
+
+                SS_SF_dilep_2j_0b_fakeCR     = new categoryHistogram("SS_SF_dilep_fakeCR","2j","0b",category);
+                SS_SF_dilep_2j_1b_fakeCR     = new categoryHistogram("SS_SF_dilep_fakeCR","2j","1b",category);
+                SS_SF_dilep_2j_ge2b_fakeCR   = new categoryHistogram("SS_SF_dilep_fakeCR","2j","ge2b",category);
+                SS_SF_dilep_3j_0b_fakeCR     = new categoryHistogram("SS_SF_dilep_fakeCR","3j","0b",category);
+                SS_SF_dilep_3j_1b_fakeCR     = new categoryHistogram("SS_SF_dilep_fakeCR","3j","1b",category);
+                SS_SF_dilep_3j_ge2b_fakeCR   = new categoryHistogram("SS_SF_dilep_fakeCR","3j","ge2b",category);
+                SS_SF_dilep_ge4j_0b_fakeCR   = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","0b",category);
+                SS_SF_dilep_ge4j_1b_fakeCR   = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","1b",category);
+                SS_SF_dilep_ge4j_ge2b_fakeCR = new categoryHistogram("SS_SF_dilep_fakeCR","ge4j","ge2b",category);
+
+                SS_OF_dilep_2j_0b_fakeCR     = new categoryHistogram("SS_OF_dilep_fakeCR","2j","0b",category);
+                SS_OF_dilep_2j_1b_fakeCR     = new categoryHistogram("SS_OF_dilep_fakeCR","2j","1b",category);
+                SS_OF_dilep_2j_ge2b_fakeCR   = new categoryHistogram("SS_OF_dilep_fakeCR","2j","ge2b",category);
+                SS_OF_dilep_3j_0b_fakeCR     = new categoryHistogram("SS_OF_dilep_fakeCR","3j","0b",category);
+                SS_OF_dilep_3j_1b_fakeCR     = new categoryHistogram("SS_OF_dilep_fakeCR","3j","1b",category);
+                SS_OF_dilep_3j_ge2b_fakeCR   = new categoryHistogram("SS_OF_dilep_fakeCR","3j","ge2b",category);
+                SS_OF_dilep_ge4j_0b_fakeCR   = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","0b",category);
+                SS_OF_dilep_ge4j_1b_fakeCR   = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","1b",category);
+                SS_OF_dilep_ge4j_ge2b_fakeCR = new categoryHistogram("SS_OF_dilep_fakeCR","ge4j","ge2b",category);
+
+                OS_SF_dilep_2j_0b_fakeCR     = new categoryHistogram("OS_SF_dilep_fakeCR","2j","0b",category);
+                OS_SF_dilep_2j_1b_fakeCR     = new categoryHistogram("OS_SF_dilep_fakeCR","2j","1b",category);
+                OS_SF_dilep_2j_ge2b_fakeCR   = new categoryHistogram("OS_SF_dilep_fakeCR","2j","ge2b",category);
+                OS_SF_dilep_3j_0b_fakeCR     = new categoryHistogram("OS_SF_dilep_fakeCR","3j","0b",category);
+                OS_SF_dilep_3j_1b_fakeCR     = new categoryHistogram("OS_SF_dilep_fakeCR","3j","1b",category);
+                OS_SF_dilep_3j_ge2b_fakeCR   = new categoryHistogram("OS_SF_dilep_fakeCR","3j","ge2b",category);
+                OS_SF_dilep_ge4j_0b_fakeCR   = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","0b",category);
+                OS_SF_dilep_ge4j_1b_fakeCR   = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","1b",category);
+                OS_SF_dilep_ge4j_ge2b_fakeCR = new categoryHistogram("OS_SF_dilep_fakeCR","ge4j","ge2b",category);
+
+                OS_OF_dilep_2j_0b_fakeCR     = new categoryHistogram("OS_OF_dilep_fakeCR","2j","0b",category);
+                OS_OF_dilep_2j_1b_fakeCR     = new categoryHistogram("OS_OF_dilep_fakeCR","2j","1b",category);
+                OS_OF_dilep_2j_ge2b_fakeCR   = new categoryHistogram("OS_OF_dilep_fakeCR","2j","ge2b",category);
+                OS_OF_dilep_3j_0b_fakeCR     = new categoryHistogram("OS_OF_dilep_fakeCR","3j","0b",category);
+                OS_OF_dilep_3j_1b_fakeCR     = new categoryHistogram("OS_OF_dilep_fakeCR","3j","1b",category);
+                OS_OF_dilep_3j_ge2b_fakeCR   = new categoryHistogram("OS_OF_dilep_fakeCR","3j","ge2b",category);
+                OS_OF_dilep_ge4j_0b_fakeCR   = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","0b",category);
+                OS_OF_dilep_ge4j_1b_fakeCR   = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","1b",category);
+                OS_OF_dilep_ge4j_ge2b_fakeCR = new categoryHistogram("OS_OF_dilep_fakeCR","ge4j","ge2b",category);
+
+                onelepFO_2j_0b_fakeCR        = new categoryHistogram("onelepFO_fakeCR","2j","0b",category);
+                onelepFO_2j_1b_fakeCR        = new categoryHistogram("onelepFO_fakeCR","2j","1b",category);
+                onelepFO_2j_ge2b_fakeCR      = new categoryHistogram("onelepFO_fakeCR","2j","ge2b",category);
+                onelepFO_3j_0b_fakeCR        = new categoryHistogram("onelepFO_fakeCR","3j","0b",category);
+                onelepFO_3j_1b_fakeCR        = new categoryHistogram("onelepFO_fakeCR","3j","1b",category);
+                onelepFO_3j_ge2b_fakeCR      = new categoryHistogram("onelepFO_fakeCR","3j","ge2b",category);
+                onelepFO_ge4j_0b_fakeCR      = new categoryHistogram("onelepFO_fakeCR","ge4j","0b",category);
+                onelepFO_ge4j_1b_fakeCR      = new categoryHistogram("onelepFO_fakeCR","ge4j","1b",category);
+                onelepFO_ge4j_ge2b_fakeCR    = new categoryHistogram("onelepFO_fakeCR","ge4j","ge2b",category);
+
+                dilepFO_2j_0b_fakeCR         = new categoryHistogram("dilepFO_fakeCR","2j","0b",category);
+                dilepFO_2j_1b_fakeCR         = new categoryHistogram("dilepFO_fakeCR","2j","1b",category);
+                dilepFO_2j_ge2b_fakeCR       = new categoryHistogram("dilepFO_fakeCR","2j","ge2b",category);
+                dilepFO_3j_0b_fakeCR         = new categoryHistogram("dilepFO_fakeCR","3j","0b",category);
+                dilepFO_3j_1b_fakeCR         = new categoryHistogram("dilepFO_fakeCR","3j","1b",category);
+                dilepFO_3j_ge2b_fakeCR       = new categoryHistogram("dilepFO_fakeCR","3j","ge2b",category);
+                dilepFO_ge4j_0b_fakeCR       = new categoryHistogram("dilepFO_fakeCR","ge4j","0b",category);
+                dilepFO_ge4j_1b_fakeCR       = new categoryHistogram("dilepFO_fakeCR","ge4j","1b",category);
+                dilepFO_ge4j_ge2b_fakeCR     = new categoryHistogram("dilepFO_fakeCR","ge4j","ge2b",category);
+
+
+
+
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
+                //FLIP CR
+                //***********************************************************
+                //***********************************************************
+                //***********************************************************
+                trilep_2j_0b_flipCR      = new categoryHistogram("trilep_flipCR","2j","0b",category);
+                trilep_2j_1b_flipCR      = new categoryHistogram("trilep_flipCR","2j","1b",category);
+                trilep_2j_ge2b_flipCR    = new categoryHistogram("trilep_flipCR","2j","ge2b",category);
+                trilep_3j_0b_flipCR      = new categoryHistogram("trilep_flipCR","3j","0b",category);
+                trilep_3j_1b_flipCR      = new categoryHistogram("trilep_flipCR","3j","1b",category);
+                trilep_3j_ge2b_flipCR    = new categoryHistogram("trilep_flipCR","3j","ge2b",category);
+                trilep_ge4j_0b_flipCR    = new categoryHistogram("trilep_flipCR","ge4j","0b",category);
+                trilep_ge4j_1b_flipCR    = new categoryHistogram("trilep_flipCR","ge4j","1b",category);
+                trilep_ge4j_ge2b_flipCR  = new categoryHistogram("trilep_flipCR","ge4j","ge2b",category);
+
+                SS_SF_dilep_2j_0b_flipCR     = new categoryHistogram("SS_SF_dilep_flipCR","2j","0b",category);
+                SS_SF_dilep_2j_1b_flipCR     = new categoryHistogram("SS_SF_dilep_flipCR","2j","1b",category);
+                SS_SF_dilep_2j_ge2b_flipCR   = new categoryHistogram("SS_SF_dilep_flipCR","2j","ge2b",category);
+                SS_SF_dilep_3j_0b_flipCR     = new categoryHistogram("SS_SF_dilep_flipCR","3j","0b",category);
+                SS_SF_dilep_3j_1b_flipCR     = new categoryHistogram("SS_SF_dilep_flipCR","3j","1b",category);
+                SS_SF_dilep_3j_ge2b_flipCR   = new categoryHistogram("SS_SF_dilep_flipCR","3j","ge2b",category);
+                SS_SF_dilep_ge4j_0b_flipCR   = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","0b",category);
+                SS_SF_dilep_ge4j_1b_flipCR   = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","1b",category);
+                SS_SF_dilep_ge4j_ge2b_flipCR = new categoryHistogram("SS_SF_dilep_flipCR","ge4j","ge2b",category);
+
+                SS_OF_dilep_2j_0b_flipCR     = new categoryHistogram("SS_OF_dilep_flipCR","2j","0b",category);
+                SS_OF_dilep_2j_1b_flipCR     = new categoryHistogram("SS_OF_dilep_flipCR","2j","1b",category);
+                SS_OF_dilep_2j_ge2b_flipCR   = new categoryHistogram("SS_OF_dilep_flipCR","2j","ge2b",category);
+                SS_OF_dilep_3j_0b_flipCR     = new categoryHistogram("SS_OF_dilep_flipCR","3j","0b",category);
+                SS_OF_dilep_3j_1b_flipCR     = new categoryHistogram("SS_OF_dilep_flipCR","3j","1b",category);
+                SS_OF_dilep_3j_ge2b_flipCR   = new categoryHistogram("SS_OF_dilep_flipCR","3j","ge2b",category);
+                SS_OF_dilep_ge4j_0b_flipCR   = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","0b",category);
+                SS_OF_dilep_ge4j_1b_flipCR   = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","1b",category);
+                SS_OF_dilep_ge4j_ge2b_flipCR = new categoryHistogram("SS_OF_dilep_flipCR","ge4j","ge2b",category);
+
+                OS_SF_dilep_2j_0b_flipCR     = new categoryHistogram("OS_SF_dilep_flipCR","2j","0b",category);
+                OS_SF_dilep_2j_1b_flipCR     = new categoryHistogram("OS_SF_dilep_flipCR","2j","1b",category);
+                OS_SF_dilep_2j_ge2b_flipCR   = new categoryHistogram("OS_SF_dilep_flipCR","2j","ge2b",category);
+                OS_SF_dilep_3j_0b_flipCR     = new categoryHistogram("OS_SF_dilep_flipCR","3j","0b",category);
+                OS_SF_dilep_3j_1b_flipCR     = new categoryHistogram("OS_SF_dilep_flipCR","3j","1b",category);
+                OS_SF_dilep_3j_ge2b_flipCR   = new categoryHistogram("OS_SF_dilep_flipCR","3j","ge2b",category);
+                OS_SF_dilep_ge4j_0b_flipCR   = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","0b",category);
+                OS_SF_dilep_ge4j_1b_flipCR   = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","1b",category);
+                OS_SF_dilep_ge4j_ge2b_flipCR = new categoryHistogram("OS_SF_dilep_flipCR","ge4j","ge2b",category);
+
+                OS_OF_dilep_2j_0b_flipCR     = new categoryHistogram("OS_OF_dilep_flipCR","2j","0b",category);
+                OS_OF_dilep_2j_1b_flipCR     = new categoryHistogram("OS_OF_dilep_flipCR","2j","1b",category);
+                OS_OF_dilep_2j_ge2b_flipCR   = new categoryHistogram("OS_OF_dilep_flipCR","2j","ge2b",category);
+                OS_OF_dilep_3j_0b_flipCR     = new categoryHistogram("OS_OF_dilep_flipCR","3j","0b",category);
+                OS_OF_dilep_3j_1b_flipCR     = new categoryHistogram("OS_OF_dilep_flipCR","3j","1b",category);
+                OS_OF_dilep_3j_ge2b_flipCR   = new categoryHistogram("OS_OF_dilep_flipCR","3j","ge2b",category);
+                OS_OF_dilep_ge4j_0b_flipCR   = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","0b",category);
+                OS_OF_dilep_ge4j_1b_flipCR   = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","1b",category);
+                OS_OF_dilep_ge4j_ge2b_flipCR = new categoryHistogram("OS_OF_dilep_flipCR","ge4j","ge2b",category);
+
+                onelepFO_2j_0b_flipCR        = new categoryHistogram("onelepFO_flipCR","2j","0b",category);
+                onelepFO_2j_1b_flipCR        = new categoryHistogram("onelepFO_flipCR","2j","1b",category);
+                onelepFO_2j_ge2b_flipCR      = new categoryHistogram("onelepFO_flipCR","2j","ge2b",category);
+                onelepFO_3j_0b_flipCR        = new categoryHistogram("onelepFO_flipCR","3j","0b",category);
+                onelepFO_3j_1b_flipCR        = new categoryHistogram("onelepFO_flipCR","3j","1b",category);
+                onelepFO_3j_ge2b_flipCR      = new categoryHistogram("onelepFO_flipCR","3j","ge2b",category);
+                onelepFO_ge4j_0b_flipCR      = new categoryHistogram("onelepFO_flipCR","ge4j","0b",category);
+                onelepFO_ge4j_1b_flipCR      = new categoryHistogram("onelepFO_flipCR","ge4j","1b",category);
+                onelepFO_ge4j_ge2b_flipCR    = new categoryHistogram("onelepFO_flipCR","ge4j","ge2b",category);
+
+                dilepFO_2j_0b_flipCR         = new categoryHistogram("dilepFO_flipCR","2j","0b",category);
+                dilepFO_2j_1b_flipCR         = new categoryHistogram("dilepFO_flipCR","2j","1b",category);
+                dilepFO_2j_ge2b_flipCR       = new categoryHistogram("dilepFO_flipCR","2j","ge2b",category);
+                dilepFO_3j_0b_flipCR         = new categoryHistogram("dilepFO_flipCR","3j","0b",category);
+                dilepFO_3j_1b_flipCR         = new categoryHistogram("dilepFO_flipCR","3j","1b",category);
+                dilepFO_3j_ge2b_flipCR       = new categoryHistogram("dilepFO_flipCR","3j","ge2b",category);
+                dilepFO_ge4j_0b_flipCR       = new categoryHistogram("dilepFO_flipCR","ge4j","0b",category);
+                dilepFO_ge4j_1b_flipCR       = new categoryHistogram("dilepFO_flipCR","ge4j","1b",category);
+                dilepFO_ge4j_ge2b_flipCR     = new categoryHistogram("dilepFO_flipCR","ge4j","ge2b",category);
+
             }
         }
 
         //methods to fill and save histograms
-        void fill(vector<float> variablesForFilling, float weight, int nJets, int nBjets, int nGoodLep, int nFakeableLep, vector<int> muCharge_tight, vector<int> elCharge_tight, bool isFake, bool isFlip, bool isSMSS, bool isSignal){
-            if(isFake == 1){
-                if (nJets==2){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+        void fill(vector<float> variablesForFilling, float weight, int nJets, int nBjets, int nGoodLep, int nFakeableLep, int nLooseNotTight, int nTightNotLoose, vector<int> muCharge_tight, vector<int> elCharge_tight, bool isFake, bool isFlip, bool isSMSS, bool isSignal){
+            if(nLooseNotTight>0){
+                if(isFake == 1){
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                    }
-                }//njet==2
-                if (nJets==3){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                    }
-                }//njet==3
-                if (nJets>=4){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
-                        }
-                    }
-                }//njets>=4
-            }else if(isFlip == 1){
-                if (nJets==2){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b_fakeCR_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                    }
-                }//njet==2
-                if (nJets==3){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                    }//njets>=4
+                }else if(isFlip == 1){
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                    }
-                }//njet==3
-                if (nJets>=4){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
-                                }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
-                        }
-                    }
-                }//njets>=4
-            }else if(isSMSS == 1){
-                if (nJets==2){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                    }
-                }//njet==2
-                if (nJets==3){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b_fakeCR_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                    }
-                }//njet==3
-                if (nJets>=4){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                    }//njets>=4
+                }else if(isSMSS == 1){
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
                         }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b_fakeCR_other->fillHistogram(variablesForFilling, weight);
+                            }
                         }
-                    }
-                }//njets>=4
+                    }//njets>=4
+                }else{
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b_fakeCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njets>=4
+                }
+            }else if (nTightNotLoose>0){
+                if(isFake == 1){
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b_flipCR_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njets>=4
+                }else if(isFlip == 1){
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b_flipCR_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njets>=4
+                }else if(isSMSS == 1){
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b_flipCR_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njets>=4
+                }else{
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b_flipCR->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njets>=4
+                }
             }else{
-                if (nJets==2){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_2j_0b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                if(isFake == 1){
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_0b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_0b->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_2j_1b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_1b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_1b->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
-                        }
-                    }
-                }//njet==2
-                if (nJets==3){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_3j_0b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
-                                }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_0b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_0b->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_3j_1b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_1b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_1b->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
-                        }
-                    }
-                }//njet==3
-                if (nJets>=4){
-                    if (nBjets==0){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
-                        }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets==1){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
-                                }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
-                        }
-                    }else if (nBjets>=2){
-                        if (nGoodLep>=3){
-                            trilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
-                        }
-                        if (nGoodLep == 2){
-                            if (muCharge_tight.size() == 2){
-                                if (muCharge_tight[0]*muCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }else{ 
-                                    OS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (elCharge_tight.size() == 2) {
-                                if (elCharge_tight[0]*elCharge_tight[1]>0){
-                                    SS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }
-                            }else if (muCharge_tight.size() == 1) {
-                                if (muCharge_tight[0]*elCharge_tight[0]>0){
-                                    SS_OF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
-                                }else{
-                                    OS_OF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
                                 }
                             }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
-                            onelepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                    }//njets>=4
+                }else if(isFlip == 1){
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
                         }
-                        if (nFakeableLep==2){
-                            dilepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
                         }
-                    }
-                }//njets>=4
-            }
-        }
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njets>=4
+                }else if(isSMSS == 1){
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njets>=4
+                }else{
+                    if (nJets==2){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==2
+                    if (nJets==3){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njet==3
+                    if (nJets>=4){
+                        if (nBjets==0){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets==1){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (nBjets>=2){
+                            if (nGoodLep>=3){
+                                trilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nGoodLep == 2){
+                                if (muCharge_tight.size() == 2){
+                                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }else{ 
+                                        OS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (elCharge_tight.size() == 2) {
+                                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                                        SS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }else if (muCharge_tight.size() == 1) {
+                                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                                        SS_OF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }else{
+                                        OS_OF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                                    }
+                                }
+                            }
+                            if (nGoodLep==1 && nFakeableLep==1){
+                                onelepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                            if (nFakeableLep==2){
+                                dilepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }//njets>=4
+                }
+            }//sr or cr loop
+        }//function close
 
         void write(string sampleName, TFile* &outfile){
             if (sampleName == "background"){
@@ -2055,6 +5573,442 @@ class makeHistograms{
                 dilepFO_ge4j_1b_other->writeHistogram(outfile);
                 dilepFO_ge4j_ge2b_other->writeHistogram(outfile);
 
+
+
+
+
+                trilep_2j_0b_fakeCR_fakes->writeHistogram(outfile);
+                trilep_2j_1b_fakeCR_fakes->writeHistogram(outfile);
+                trilep_2j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                trilep_3j_0b_fakeCR_fakes->writeHistogram(outfile);
+                trilep_3j_1b_fakeCR_fakes->writeHistogram(outfile);
+                trilep_3j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                trilep_ge4j_0b_fakeCR_fakes->writeHistogram(outfile);
+                trilep_ge4j_1b_fakeCR_fakes->writeHistogram(outfile);
+                trilep_ge4j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+
+                SS_SF_dilep_2j_0b_fakeCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_2j_1b_fakeCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_2j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_3j_0b_fakeCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_3j_1b_fakeCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_3j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_0b_fakeCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_1b_fakeCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+
+                SS_OF_dilep_2j_0b_fakeCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_2j_1b_fakeCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_2j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_3j_0b_fakeCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_3j_1b_fakeCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_3j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_0b_fakeCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_1b_fakeCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+
+                OS_SF_dilep_2j_0b_fakeCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_2j_1b_fakeCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_2j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_3j_0b_fakeCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_3j_1b_fakeCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_3j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_0b_fakeCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_1b_fakeCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+
+                OS_OF_dilep_2j_0b_fakeCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_2j_1b_fakeCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_2j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_3j_0b_fakeCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_3j_1b_fakeCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_3j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_0b_fakeCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_1b_fakeCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+
+                onelepFO_2j_0b_fakeCR_fakes->writeHistogram(outfile);
+                onelepFO_2j_1b_fakeCR_fakes->writeHistogram(outfile);
+                onelepFO_2j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                onelepFO_3j_0b_fakeCR_fakes->writeHistogram(outfile);
+                onelepFO_3j_1b_fakeCR_fakes->writeHistogram(outfile);
+                onelepFO_3j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                onelepFO_ge4j_0b_fakeCR_fakes->writeHistogram(outfile);
+                onelepFO_ge4j_1b_fakeCR_fakes->writeHistogram(outfile);
+                onelepFO_ge4j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+
+                dilepFO_2j_0b_fakeCR_fakes->writeHistogram(outfile);
+                dilepFO_2j_1b_fakeCR_fakes->writeHistogram(outfile);
+                dilepFO_2j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                dilepFO_3j_0b_fakeCR_fakes->writeHistogram(outfile);
+                dilepFO_3j_1b_fakeCR_fakes->writeHistogram(outfile);
+                dilepFO_3j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+                dilepFO_ge4j_0b_fakeCR_fakes->writeHistogram(outfile);
+                dilepFO_ge4j_1b_fakeCR_fakes->writeHistogram(outfile);
+                dilepFO_ge4j_ge2b_fakeCR_fakes->writeHistogram(outfile);
+
+
+
+                trilep_2j_0b_fakeCR_flips->writeHistogram(outfile);
+                trilep_2j_1b_fakeCR_flips->writeHistogram(outfile);
+                trilep_2j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                trilep_3j_0b_fakeCR_flips->writeHistogram(outfile);
+                trilep_3j_1b_fakeCR_flips->writeHistogram(outfile);
+                trilep_3j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                trilep_ge4j_0b_fakeCR_flips->writeHistogram(outfile);
+                trilep_ge4j_1b_fakeCR_flips->writeHistogram(outfile);
+                trilep_ge4j_ge2b_fakeCR_flips->writeHistogram(outfile);
+
+                SS_SF_dilep_2j_0b_fakeCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_2j_1b_fakeCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_2j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_3j_0b_fakeCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_3j_1b_fakeCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_3j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_0b_fakeCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_1b_fakeCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_ge2b_fakeCR_flips->writeHistogram(outfile);
+
+                SS_OF_dilep_2j_0b_fakeCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_2j_1b_fakeCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_2j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_3j_0b_fakeCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_3j_1b_fakeCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_3j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_0b_fakeCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_1b_fakeCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_ge2b_fakeCR_flips->writeHistogram(outfile);
+
+                OS_SF_dilep_2j_0b_fakeCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_2j_1b_fakeCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_2j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_3j_0b_fakeCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_3j_1b_fakeCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_3j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_0b_fakeCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_1b_fakeCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_ge2b_fakeCR_flips->writeHistogram(outfile);
+
+                OS_OF_dilep_2j_0b_fakeCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_2j_1b_fakeCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_2j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_3j_0b_fakeCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_3j_1b_fakeCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_3j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_0b_fakeCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_1b_fakeCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_ge2b_fakeCR_flips->writeHistogram(outfile);
+
+                onelepFO_2j_0b_fakeCR_flips->writeHistogram(outfile);
+                onelepFO_2j_1b_fakeCR_flips->writeHistogram(outfile);
+                onelepFO_2j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                onelepFO_3j_0b_fakeCR_flips->writeHistogram(outfile);
+                onelepFO_3j_1b_fakeCR_flips->writeHistogram(outfile);
+                onelepFO_3j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                onelepFO_ge4j_0b_fakeCR_flips->writeHistogram(outfile);
+                onelepFO_ge4j_1b_fakeCR_flips->writeHistogram(outfile);
+                onelepFO_ge4j_ge2b_fakeCR_flips->writeHistogram(outfile);
+
+                dilepFO_2j_0b_fakeCR_flips->writeHistogram(outfile);
+                dilepFO_2j_1b_fakeCR_flips->writeHistogram(outfile);
+                dilepFO_2j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                dilepFO_3j_0b_fakeCR_flips->writeHistogram(outfile);
+                dilepFO_3j_1b_fakeCR_flips->writeHistogram(outfile);
+                dilepFO_3j_ge2b_fakeCR_flips->writeHistogram(outfile);
+                dilepFO_ge4j_0b_fakeCR_flips->writeHistogram(outfile);
+                dilepFO_ge4j_1b_fakeCR_flips->writeHistogram(outfile);
+                dilepFO_ge4j_ge2b_fakeCR_flips->writeHistogram(outfile);
+
+
+
+                trilep_2j_0b_fakeCR_other->writeHistogram(outfile);
+                trilep_2j_1b_fakeCR_other->writeHistogram(outfile);
+                trilep_2j_ge2b_fakeCR_other->writeHistogram(outfile);
+                trilep_3j_0b_fakeCR_other->writeHistogram(outfile);
+                trilep_3j_1b_fakeCR_other->writeHistogram(outfile);
+                trilep_3j_ge2b_fakeCR_other->writeHistogram(outfile);
+                trilep_ge4j_0b_fakeCR_other->writeHistogram(outfile);
+                trilep_ge4j_1b_fakeCR_other->writeHistogram(outfile);
+                trilep_ge4j_ge2b_fakeCR_other->writeHistogram(outfile);
+
+                SS_SF_dilep_2j_0b_fakeCR_other->writeHistogram(outfile);
+                SS_SF_dilep_2j_1b_fakeCR_other->writeHistogram(outfile);
+                SS_SF_dilep_2j_ge2b_fakeCR_other->writeHistogram(outfile);
+                SS_SF_dilep_3j_0b_fakeCR_other->writeHistogram(outfile);
+                SS_SF_dilep_3j_1b_fakeCR_other->writeHistogram(outfile);
+                SS_SF_dilep_3j_ge2b_fakeCR_other->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_0b_fakeCR_other->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_1b_fakeCR_other->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_ge2b_fakeCR_other->writeHistogram(outfile);
+
+                SS_OF_dilep_2j_0b_fakeCR_other->writeHistogram(outfile);
+                SS_OF_dilep_2j_1b_fakeCR_other->writeHistogram(outfile);
+                SS_OF_dilep_2j_ge2b_fakeCR_other->writeHistogram(outfile);
+                SS_OF_dilep_3j_0b_fakeCR_other->writeHistogram(outfile);
+                SS_OF_dilep_3j_1b_fakeCR_other->writeHistogram(outfile);
+                SS_OF_dilep_3j_ge2b_fakeCR_other->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_0b_fakeCR_other->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_1b_fakeCR_other->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_ge2b_fakeCR_other->writeHistogram(outfile);
+
+                OS_SF_dilep_2j_0b_fakeCR_other->writeHistogram(outfile);
+                OS_SF_dilep_2j_1b_fakeCR_other->writeHistogram(outfile);
+                OS_SF_dilep_2j_ge2b_fakeCR_other->writeHistogram(outfile);
+                OS_SF_dilep_3j_0b_fakeCR_other->writeHistogram(outfile);
+                OS_SF_dilep_3j_1b_fakeCR_other->writeHistogram(outfile);
+                OS_SF_dilep_3j_ge2b_fakeCR_other->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_0b_fakeCR_other->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_1b_fakeCR_other->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_ge2b_fakeCR_other->writeHistogram(outfile);
+
+                OS_OF_dilep_2j_0b_fakeCR_other->writeHistogram(outfile);
+                OS_OF_dilep_2j_1b_fakeCR_other->writeHistogram(outfile);
+                OS_OF_dilep_2j_ge2b_fakeCR_other->writeHistogram(outfile);
+                OS_OF_dilep_3j_0b_fakeCR_other->writeHistogram(outfile);
+                OS_OF_dilep_3j_1b_fakeCR_other->writeHistogram(outfile);
+                OS_OF_dilep_3j_ge2b_fakeCR_other->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_0b_fakeCR_other->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_1b_fakeCR_other->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_ge2b_fakeCR_other->writeHistogram(outfile);
+
+                onelepFO_2j_0b_fakeCR_other->writeHistogram(outfile);
+                onelepFO_2j_1b_fakeCR_other->writeHistogram(outfile);
+                onelepFO_2j_ge2b_fakeCR_other->writeHistogram(outfile);
+                onelepFO_3j_0b_fakeCR_other->writeHistogram(outfile);
+                onelepFO_3j_1b_fakeCR_other->writeHistogram(outfile);
+                onelepFO_3j_ge2b_fakeCR_other->writeHistogram(outfile);
+                onelepFO_ge4j_0b_fakeCR_other->writeHistogram(outfile);
+                onelepFO_ge4j_1b_fakeCR_other->writeHistogram(outfile);
+                onelepFO_ge4j_ge2b_fakeCR_other->writeHistogram(outfile);
+
+                dilepFO_2j_0b_fakeCR_other->writeHistogram(outfile);
+                dilepFO_2j_1b_fakeCR_other->writeHistogram(outfile);
+                dilepFO_2j_ge2b_fakeCR_other->writeHistogram(outfile);
+                dilepFO_3j_0b_fakeCR_other->writeHistogram(outfile);
+                dilepFO_3j_1b_fakeCR_other->writeHistogram(outfile);
+                dilepFO_3j_ge2b_fakeCR_other->writeHistogram(outfile);
+                dilepFO_ge4j_0b_fakeCR_other->writeHistogram(outfile);
+                dilepFO_ge4j_1b_fakeCR_other->writeHistogram(outfile);
+                dilepFO_ge4j_ge2b_fakeCR_other->writeHistogram(outfile);
+
+
+
+
+
+                trilep_2j_0b_flipCR_fakes->writeHistogram(outfile);
+                trilep_2j_1b_flipCR_fakes->writeHistogram(outfile);
+                trilep_2j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                trilep_3j_0b_flipCR_fakes->writeHistogram(outfile);
+                trilep_3j_1b_flipCR_fakes->writeHistogram(outfile);
+                trilep_3j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                trilep_ge4j_0b_flipCR_fakes->writeHistogram(outfile);
+                trilep_ge4j_1b_flipCR_fakes->writeHistogram(outfile);
+                trilep_ge4j_ge2b_flipCR_fakes->writeHistogram(outfile);
+
+                SS_SF_dilep_2j_0b_flipCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_2j_1b_flipCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_2j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_3j_0b_flipCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_3j_1b_flipCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_3j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_0b_flipCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_1b_flipCR_fakes->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_ge2b_flipCR_fakes->writeHistogram(outfile);
+
+                SS_OF_dilep_2j_0b_flipCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_2j_1b_flipCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_2j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_3j_0b_flipCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_3j_1b_flipCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_3j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_0b_flipCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_1b_flipCR_fakes->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_ge2b_flipCR_fakes->writeHistogram(outfile);
+
+                OS_SF_dilep_2j_0b_flipCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_2j_1b_flipCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_2j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_3j_0b_flipCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_3j_1b_flipCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_3j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_0b_flipCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_1b_flipCR_fakes->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_ge2b_flipCR_fakes->writeHistogram(outfile);
+
+                OS_OF_dilep_2j_0b_flipCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_2j_1b_flipCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_2j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_3j_0b_flipCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_3j_1b_flipCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_3j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_0b_flipCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_1b_flipCR_fakes->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_ge2b_flipCR_fakes->writeHistogram(outfile);
+
+                onelepFO_2j_0b_flipCR_fakes->writeHistogram(outfile);
+                onelepFO_2j_1b_flipCR_fakes->writeHistogram(outfile);
+                onelepFO_2j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                onelepFO_3j_0b_flipCR_fakes->writeHistogram(outfile);
+                onelepFO_3j_1b_flipCR_fakes->writeHistogram(outfile);
+                onelepFO_3j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                onelepFO_ge4j_0b_flipCR_fakes->writeHistogram(outfile);
+                onelepFO_ge4j_1b_flipCR_fakes->writeHistogram(outfile);
+                onelepFO_ge4j_ge2b_flipCR_fakes->writeHistogram(outfile);
+
+                dilepFO_2j_0b_flipCR_fakes->writeHistogram(outfile);
+                dilepFO_2j_1b_flipCR_fakes->writeHistogram(outfile);
+                dilepFO_2j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                dilepFO_3j_0b_flipCR_fakes->writeHistogram(outfile);
+                dilepFO_3j_1b_flipCR_fakes->writeHistogram(outfile);
+                dilepFO_3j_ge2b_flipCR_fakes->writeHistogram(outfile);
+                dilepFO_ge4j_0b_flipCR_fakes->writeHistogram(outfile);
+                dilepFO_ge4j_1b_flipCR_fakes->writeHistogram(outfile);
+                dilepFO_ge4j_ge2b_flipCR_fakes->writeHistogram(outfile);
+
+
+
+                trilep_2j_0b_flipCR_flips->writeHistogram(outfile);
+                trilep_2j_1b_flipCR_flips->writeHistogram(outfile);
+                trilep_2j_ge2b_flipCR_flips->writeHistogram(outfile);
+                trilep_3j_0b_flipCR_flips->writeHistogram(outfile);
+                trilep_3j_1b_flipCR_flips->writeHistogram(outfile);
+                trilep_3j_ge2b_flipCR_flips->writeHistogram(outfile);
+                trilep_ge4j_0b_flipCR_flips->writeHistogram(outfile);
+                trilep_ge4j_1b_flipCR_flips->writeHistogram(outfile);
+                trilep_ge4j_ge2b_flipCR_flips->writeHistogram(outfile);
+
+                SS_SF_dilep_2j_0b_flipCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_2j_1b_flipCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_2j_ge2b_flipCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_3j_0b_flipCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_3j_1b_flipCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_3j_ge2b_flipCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_0b_flipCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_1b_flipCR_flips->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_ge2b_flipCR_flips->writeHistogram(outfile);
+
+                SS_OF_dilep_2j_0b_flipCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_2j_1b_flipCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_2j_ge2b_flipCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_3j_0b_flipCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_3j_1b_flipCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_3j_ge2b_flipCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_0b_flipCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_1b_flipCR_flips->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_ge2b_flipCR_flips->writeHistogram(outfile);
+
+                OS_SF_dilep_2j_0b_flipCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_2j_1b_flipCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_2j_ge2b_flipCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_3j_0b_flipCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_3j_1b_flipCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_3j_ge2b_flipCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_0b_flipCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_1b_flipCR_flips->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_ge2b_flipCR_flips->writeHistogram(outfile);
+
+                OS_OF_dilep_2j_0b_flipCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_2j_1b_flipCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_2j_ge2b_flipCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_3j_0b_flipCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_3j_1b_flipCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_3j_ge2b_flipCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_0b_flipCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_1b_flipCR_flips->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_ge2b_flipCR_flips->writeHistogram(outfile);
+
+                onelepFO_2j_0b_flipCR_flips->writeHistogram(outfile);
+                onelepFO_2j_1b_flipCR_flips->writeHistogram(outfile);
+                onelepFO_2j_ge2b_flipCR_flips->writeHistogram(outfile);
+                onelepFO_3j_0b_flipCR_flips->writeHistogram(outfile);
+                onelepFO_3j_1b_flipCR_flips->writeHistogram(outfile);
+                onelepFO_3j_ge2b_flipCR_flips->writeHistogram(outfile);
+                onelepFO_ge4j_0b_flipCR_flips->writeHistogram(outfile);
+                onelepFO_ge4j_1b_flipCR_flips->writeHistogram(outfile);
+                onelepFO_ge4j_ge2b_flipCR_flips->writeHistogram(outfile);
+
+                dilepFO_2j_0b_flipCR_flips->writeHistogram(outfile);
+                dilepFO_2j_1b_flipCR_flips->writeHistogram(outfile);
+                dilepFO_2j_ge2b_flipCR_flips->writeHistogram(outfile);
+                dilepFO_3j_0b_flipCR_flips->writeHistogram(outfile);
+                dilepFO_3j_1b_flipCR_flips->writeHistogram(outfile);
+                dilepFO_3j_ge2b_flipCR_flips->writeHistogram(outfile);
+                dilepFO_ge4j_0b_flipCR_flips->writeHistogram(outfile);
+                dilepFO_ge4j_1b_flipCR_flips->writeHistogram(outfile);
+                dilepFO_ge4j_ge2b_flipCR_flips->writeHistogram(outfile);
+
+
+
+                trilep_2j_0b_flipCR_other->writeHistogram(outfile);
+                trilep_2j_1b_flipCR_other->writeHistogram(outfile);
+                trilep_2j_ge2b_flipCR_other->writeHistogram(outfile);
+                trilep_3j_0b_flipCR_other->writeHistogram(outfile);
+                trilep_3j_1b_flipCR_other->writeHistogram(outfile);
+                trilep_3j_ge2b_flipCR_other->writeHistogram(outfile);
+                trilep_ge4j_0b_flipCR_other->writeHistogram(outfile);
+                trilep_ge4j_1b_flipCR_other->writeHistogram(outfile);
+                trilep_ge4j_ge2b_flipCR_other->writeHistogram(outfile);
+
+                SS_SF_dilep_2j_0b_flipCR_other->writeHistogram(outfile);
+                SS_SF_dilep_2j_1b_flipCR_other->writeHistogram(outfile);
+                SS_SF_dilep_2j_ge2b_flipCR_other->writeHistogram(outfile);
+                SS_SF_dilep_3j_0b_flipCR_other->writeHistogram(outfile);
+                SS_SF_dilep_3j_1b_flipCR_other->writeHistogram(outfile);
+                SS_SF_dilep_3j_ge2b_flipCR_other->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_0b_flipCR_other->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_1b_flipCR_other->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_ge2b_flipCR_other->writeHistogram(outfile);
+
+                SS_OF_dilep_2j_0b_flipCR_other->writeHistogram(outfile);
+                SS_OF_dilep_2j_1b_flipCR_other->writeHistogram(outfile);
+                SS_OF_dilep_2j_ge2b_flipCR_other->writeHistogram(outfile);
+                SS_OF_dilep_3j_0b_flipCR_other->writeHistogram(outfile);
+                SS_OF_dilep_3j_1b_flipCR_other->writeHistogram(outfile);
+                SS_OF_dilep_3j_ge2b_flipCR_other->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_0b_flipCR_other->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_1b_flipCR_other->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_ge2b_flipCR_other->writeHistogram(outfile);
+
+                OS_SF_dilep_2j_0b_flipCR_other->writeHistogram(outfile);
+                OS_SF_dilep_2j_1b_flipCR_other->writeHistogram(outfile);
+                OS_SF_dilep_2j_ge2b_flipCR_other->writeHistogram(outfile);
+                OS_SF_dilep_3j_0b_flipCR_other->writeHistogram(outfile);
+                OS_SF_dilep_3j_1b_flipCR_other->writeHistogram(outfile);
+                OS_SF_dilep_3j_ge2b_flipCR_other->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_0b_flipCR_other->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_1b_flipCR_other->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_ge2b_flipCR_other->writeHistogram(outfile);
+
+                OS_OF_dilep_2j_0b_flipCR_other->writeHistogram(outfile);
+                OS_OF_dilep_2j_1b_flipCR_other->writeHistogram(outfile);
+                OS_OF_dilep_2j_ge2b_flipCR_other->writeHistogram(outfile);
+                OS_OF_dilep_3j_0b_flipCR_other->writeHistogram(outfile);
+                OS_OF_dilep_3j_1b_flipCR_other->writeHistogram(outfile);
+                OS_OF_dilep_3j_ge2b_flipCR_other->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_0b_flipCR_other->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_1b_flipCR_other->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_ge2b_flipCR_other->writeHistogram(outfile);
+
+                onelepFO_2j_0b_flipCR_other->writeHistogram(outfile);
+                onelepFO_2j_1b_flipCR_other->writeHistogram(outfile);
+                onelepFO_2j_ge2b_flipCR_other->writeHistogram(outfile);
+                onelepFO_3j_0b_flipCR_other->writeHistogram(outfile);
+                onelepFO_3j_1b_flipCR_other->writeHistogram(outfile);
+                onelepFO_3j_ge2b_flipCR_other->writeHistogram(outfile);
+                onelepFO_ge4j_0b_flipCR_other->writeHistogram(outfile);
+                onelepFO_ge4j_1b_flipCR_other->writeHistogram(outfile);
+                onelepFO_ge4j_ge2b_flipCR_other->writeHistogram(outfile);
+
+                dilepFO_2j_0b_flipCR_other->writeHistogram(outfile);
+                dilepFO_2j_1b_flipCR_other->writeHistogram(outfile);
+                dilepFO_2j_ge2b_flipCR_other->writeHistogram(outfile);
+                dilepFO_3j_0b_flipCR_other->writeHistogram(outfile);
+                dilepFO_3j_1b_flipCR_other->writeHistogram(outfile);
+                dilepFO_3j_ge2b_flipCR_other->writeHistogram(outfile);
+                dilepFO_ge4j_0b_flipCR_other->writeHistogram(outfile);
+                dilepFO_ge4j_1b_flipCR_other->writeHistogram(outfile);
+                dilepFO_ge4j_ge2b_flipCR_other->writeHistogram(outfile);
+
             }else{
 
                 trilep_2j_0b->writeHistogram(outfile);
@@ -2126,6 +6080,156 @@ class makeHistograms{
                 dilepFO_ge4j_0b->writeHistogram(outfile);
                 dilepFO_ge4j_1b->writeHistogram(outfile);
                 dilepFO_ge4j_ge2b->writeHistogram(outfile);
+
+
+
+
+
+
+                trilep_2j_0b_fakeCR->writeHistogram(outfile);
+                trilep_2j_1b_fakeCR->writeHistogram(outfile);
+                trilep_2j_ge2b_fakeCR->writeHistogram(outfile);
+                trilep_3j_0b_fakeCR->writeHistogram(outfile);
+                trilep_3j_1b_fakeCR->writeHistogram(outfile);
+                trilep_3j_ge2b_fakeCR->writeHistogram(outfile);
+                trilep_ge4j_0b_fakeCR->writeHistogram(outfile);
+                trilep_ge4j_1b_fakeCR->writeHistogram(outfile);
+                trilep_ge4j_ge2b_fakeCR->writeHistogram(outfile);
+
+                SS_SF_dilep_2j_0b_fakeCR->writeHistogram(outfile);
+                SS_SF_dilep_2j_1b_fakeCR->writeHistogram(outfile);
+                SS_SF_dilep_2j_ge2b_fakeCR->writeHistogram(outfile);
+                SS_SF_dilep_3j_0b_fakeCR->writeHistogram(outfile);
+                SS_SF_dilep_3j_1b_fakeCR->writeHistogram(outfile);
+                SS_SF_dilep_3j_ge2b_fakeCR->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_0b_fakeCR->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_1b_fakeCR->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_ge2b_fakeCR->writeHistogram(outfile);
+
+                SS_OF_dilep_2j_0b_fakeCR->writeHistogram(outfile);
+                SS_OF_dilep_2j_1b_fakeCR->writeHistogram(outfile);
+                SS_OF_dilep_2j_ge2b_fakeCR->writeHistogram(outfile);
+                SS_OF_dilep_3j_0b_fakeCR->writeHistogram(outfile);
+                SS_OF_dilep_3j_1b_fakeCR->writeHistogram(outfile);
+                SS_OF_dilep_3j_ge2b_fakeCR->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_0b_fakeCR->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_1b_fakeCR->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_ge2b_fakeCR->writeHistogram(outfile);
+
+                OS_SF_dilep_2j_0b_fakeCR->writeHistogram(outfile);
+                OS_SF_dilep_2j_1b_fakeCR->writeHistogram(outfile);
+                OS_SF_dilep_2j_ge2b_fakeCR->writeHistogram(outfile);
+                OS_SF_dilep_3j_0b_fakeCR->writeHistogram(outfile);
+                OS_SF_dilep_3j_1b_fakeCR->writeHistogram(outfile);
+                OS_SF_dilep_3j_ge2b_fakeCR->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_0b_fakeCR->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_1b_fakeCR->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_ge2b_fakeCR->writeHistogram(outfile);
+
+                OS_OF_dilep_2j_0b_fakeCR->writeHistogram(outfile);
+                OS_OF_dilep_2j_1b_fakeCR->writeHistogram(outfile);
+                OS_OF_dilep_2j_ge2b_fakeCR->writeHistogram(outfile);
+                OS_OF_dilep_3j_0b_fakeCR->writeHistogram(outfile);
+                OS_OF_dilep_3j_1b_fakeCR->writeHistogram(outfile);
+                OS_OF_dilep_3j_ge2b_fakeCR->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_0b_fakeCR->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_1b_fakeCR->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_ge2b_fakeCR->writeHistogram(outfile);
+
+                onelepFO_2j_0b_fakeCR->writeHistogram(outfile);
+                onelepFO_2j_1b_fakeCR->writeHistogram(outfile);
+                onelepFO_2j_ge2b_fakeCR->writeHistogram(outfile);
+                onelepFO_3j_0b_fakeCR->writeHistogram(outfile);
+                onelepFO_3j_1b_fakeCR->writeHistogram(outfile);
+                onelepFO_3j_ge2b_fakeCR->writeHistogram(outfile);
+                onelepFO_ge4j_0b_fakeCR->writeHistogram(outfile);
+                onelepFO_ge4j_1b_fakeCR->writeHistogram(outfile);
+                onelepFO_ge4j_ge2b_fakeCR->writeHistogram(outfile);
+
+                dilepFO_2j_0b_fakeCR->writeHistogram(outfile);
+                dilepFO_2j_1b_fakeCR->writeHistogram(outfile);
+                dilepFO_2j_ge2b_fakeCR->writeHistogram(outfile);
+                dilepFO_3j_0b_fakeCR->writeHistogram(outfile);
+                dilepFO_3j_1b_fakeCR->writeHistogram(outfile);
+                dilepFO_3j_ge2b_fakeCR->writeHistogram(outfile);
+                dilepFO_ge4j_0b_fakeCR->writeHistogram(outfile);
+                dilepFO_ge4j_1b_fakeCR->writeHistogram(outfile);
+                dilepFO_ge4j_ge2b_fakeCR->writeHistogram(outfile);
+
+
+
+
+
+
+                trilep_2j_0b_flipCR->writeHistogram(outfile);
+                trilep_2j_1b_flipCR->writeHistogram(outfile);
+                trilep_2j_ge2b_flipCR->writeHistogram(outfile);
+                trilep_3j_0b_flipCR->writeHistogram(outfile);
+                trilep_3j_1b_flipCR->writeHistogram(outfile);
+                trilep_3j_ge2b_flipCR->writeHistogram(outfile);
+                trilep_ge4j_0b_flipCR->writeHistogram(outfile);
+                trilep_ge4j_1b_flipCR->writeHistogram(outfile);
+                trilep_ge4j_ge2b_flipCR->writeHistogram(outfile);
+
+                SS_SF_dilep_2j_0b_flipCR->writeHistogram(outfile);
+                SS_SF_dilep_2j_1b_flipCR->writeHistogram(outfile);
+                SS_SF_dilep_2j_ge2b_flipCR->writeHistogram(outfile);
+                SS_SF_dilep_3j_0b_flipCR->writeHistogram(outfile);
+                SS_SF_dilep_3j_1b_flipCR->writeHistogram(outfile);
+                SS_SF_dilep_3j_ge2b_flipCR->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_0b_flipCR->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_1b_flipCR->writeHistogram(outfile);
+                SS_SF_dilep_ge4j_ge2b_flipCR->writeHistogram(outfile);
+
+                SS_OF_dilep_2j_0b_flipCR->writeHistogram(outfile);
+                SS_OF_dilep_2j_1b_flipCR->writeHistogram(outfile);
+                SS_OF_dilep_2j_ge2b_flipCR->writeHistogram(outfile);
+                SS_OF_dilep_3j_0b_flipCR->writeHistogram(outfile);
+                SS_OF_dilep_3j_1b_flipCR->writeHistogram(outfile);
+                SS_OF_dilep_3j_ge2b_flipCR->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_0b_flipCR->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_1b_flipCR->writeHistogram(outfile);
+                SS_OF_dilep_ge4j_ge2b_flipCR->writeHistogram(outfile);
+
+                OS_SF_dilep_2j_0b_flipCR->writeHistogram(outfile);
+                OS_SF_dilep_2j_1b_flipCR->writeHistogram(outfile);
+                OS_SF_dilep_2j_ge2b_flipCR->writeHistogram(outfile);
+                OS_SF_dilep_3j_0b_flipCR->writeHistogram(outfile);
+                OS_SF_dilep_3j_1b_flipCR->writeHistogram(outfile);
+                OS_SF_dilep_3j_ge2b_flipCR->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_0b_flipCR->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_1b_flipCR->writeHistogram(outfile);
+                OS_SF_dilep_ge4j_ge2b_flipCR->writeHistogram(outfile);
+
+                OS_OF_dilep_2j_0b_flipCR->writeHistogram(outfile);
+                OS_OF_dilep_2j_1b_flipCR->writeHistogram(outfile);
+                OS_OF_dilep_2j_ge2b_flipCR->writeHistogram(outfile);
+                OS_OF_dilep_3j_0b_flipCR->writeHistogram(outfile);
+                OS_OF_dilep_3j_1b_flipCR->writeHistogram(outfile);
+                OS_OF_dilep_3j_ge2b_flipCR->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_0b_flipCR->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_1b_flipCR->writeHistogram(outfile);
+                OS_OF_dilep_ge4j_ge2b_flipCR->writeHistogram(outfile);
+
+                onelepFO_2j_0b_flipCR->writeHistogram(outfile);
+                onelepFO_2j_1b_flipCR->writeHistogram(outfile);
+                onelepFO_2j_ge2b_flipCR->writeHistogram(outfile);
+                onelepFO_3j_0b_flipCR->writeHistogram(outfile);
+                onelepFO_3j_1b_flipCR->writeHistogram(outfile);
+                onelepFO_3j_ge2b_flipCR->writeHistogram(outfile);
+                onelepFO_ge4j_0b_flipCR->writeHistogram(outfile);
+                onelepFO_ge4j_1b_flipCR->writeHistogram(outfile);
+                onelepFO_ge4j_ge2b_flipCR->writeHistogram(outfile);
+
+                dilepFO_2j_0b_flipCR->writeHistogram(outfile);
+                dilepFO_2j_1b_flipCR->writeHistogram(outfile);
+                dilepFO_2j_ge2b_flipCR->writeHistogram(outfile);
+                dilepFO_3j_0b_flipCR->writeHistogram(outfile);
+                dilepFO_3j_1b_flipCR->writeHistogram(outfile);
+                dilepFO_3j_ge2b_flipCR->writeHistogram(outfile);
+                dilepFO_ge4j_0b_flipCR->writeHistogram(outfile);
+                dilepFO_ge4j_1b_flipCR->writeHistogram(outfile);
+                dilepFO_ge4j_ge2b_flipCR->writeHistogram(outfile);
             }
 
         }

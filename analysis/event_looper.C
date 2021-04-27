@@ -40,8 +40,8 @@ void event_looper(){
                                     };
 
 
-    auto outFile = new TFile("plots/outputHistos.root", "recreate");
-    //auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    //auto outFile = new TFile("plots/outputHistos.root", "recreate");
+    auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
 
     //Load samples
     for(uint btype = 0; btype < sample_names.size(); btype++){
@@ -96,10 +96,10 @@ void event_looper(){
         int nFODiLep  = 0;
 
         //Main for loop
-        for ( int counter = 0; counter < nEvents; counter++ ){
+        //for ( int counter = 0; counter < nEvents; counter++ ){
         //for ( int counter = 0; counter < 100000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
-        //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
+        for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
             //cout << "counter " << counter << endl;
             if ( counter%100000==0 ){
@@ -109,6 +109,10 @@ void event_looper(){
             //variables to hold information
             int nGoodLep = 0;
             int nFakeableLep = 0;
+            int nLooseNotTight_mu = 0;
+            int nTightNotLoose_mu = 0;
+            int nLooseNotTight_el = 0;
+            int nTightNotLoose_el = 0;
             int nJets = 0;
             int nBjets = 0;
             float minMT_tight = 10000;
@@ -223,11 +227,6 @@ void event_looper(){
                     if( sample_names[btype]=="background" ){
                         if( mu.genPartFlav[iMu] != 1 && mu.genPartFlav[iMu] != 15 ){
                             isFake = 1;
-                            /*fakeRateValue = fakeRate(year, mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu]);
-                            cout << "isFake Lepton" << endl;
-                            cout << "FakeRate: " << fakeRateValue << endl;
-                            cout << "*****************" << endl;*/
-
                         }else if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
                             isFlip = 1;
                             //cout << "Mu isFlip" << endl;
@@ -238,6 +237,9 @@ void event_looper(){
                     }else{
                         isSignal =1;
                     }
+                    if(!isLooseLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType )){
+                        nTightNotLoose_mu++;
+                    }
                 }else if ( isLooseLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType ) ){
                     nFakeableLep += 1;
                     muCharge_loose.push_back(mu.charge[iMu]);
@@ -245,10 +247,10 @@ void event_looper(){
                         minMT_loose = mt( MET, MET_phi, mu.pt[iMu], mu.phi[iMu] );
                     }
                     MT_MET_lep = mt(MET, MET_phi, mu.pt[iMu], mu.phi[iMu]);
-                    if(isFake == 1){
+                    if(!isTightLepton(mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType)){
+                        nLooseNotTight_mu++;
                         fakeRateValue = fakeRate(year, mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu]);
                         fakeRates.push_back(fakeRateValue);
-
                     }
                 }else continue;
             }
@@ -279,16 +281,16 @@ void event_looper(){
                             isFake = 1;
                         }else if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
                             isFlip = 1;
-                            //for debugging/testing
-                            flipRateValue = GetFlipWeight(el.pt[iEl],el.eta[iEl],el.pdgid[iEl]);
-                            flipRates.push_back(flipRateValue);
-                            //cout << flipWeight << endl;
-                            //cout << "***************" << endl;
                         }else{
                             isSMSS = 1;
                         }
                     }else{
                         isSignal = 1;
+                    }
+                    if(!(isLooseLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ))){
+                        nTightNotLoose_el++;
+                        flipRateValue = GetFlipWeight(el.pt[iEl],el.eta[iEl],el.pdgid[iEl]);
+                        flipRates.push_back(flipRateValue);
                     }
                 }else if ( isLooseLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ){
                     nFakeableLep += 1;
@@ -297,7 +299,8 @@ void event_looper(){
                         minMT_loose = mt( MET, MET_phi, el.pt[iEl], el.phi[iEl] );
                     }
                     MT_MET_lep = mt(MET, MET_phi, el.pt[iEl], el.phi[iEl]);
-                    if(isFake == 1){
+                    if(!(( isTightLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "tight" ) ))){
+                        nLooseNotTight_el++;
                         fakeRateValue = fakeRate(year, el.pdgid[iEl], el.pt[iEl], el.eta[iEl]);
                         fakeRates.push_back(fakeRateValue);
                     }
@@ -355,19 +358,30 @@ void event_looper(){
 
 
             //apply fake rate to fake CR events
-            if (isFake==1 && nFakeableLep==1 && nJets > 0){
+            cout << nGoodLep << endl;
+            cout << nFakeableLep << endl;
+            cout << nLooseNotTight_mu << endl;
+            cout << nLooseNotTight_el << endl;
+            cout << nTightNotLoose_el << endl;
+            cout << nTightNotLoose_mu << endl;
+            cout << "****************" << endl;
+
+            if ((nLooseNotTight_mu+nLooseNotTight_el) > 0 && nJets > 1){
                 for(uint f = 0; f < fakeRates.size(); f++){
                     //cout << "fake" << endl;
                     weight = weight * (fakeRates[f]/(1-fakeRates[f]));
                     //cout << weight << endl;
                 }
             }
+            int nLooseNotTight = nLooseNotTight_mu + nLooseNotTight_el;
             //apply flip rate to flip CR events
-            if (isFlip==1){
-               for(uint f = 0; f < flipRates.size(); f++){
-                    weight = weight * (flipRates[f]/(1-flipRates[f]));
+            if (nTightNotLoose_el > 0 && nJets > 1){
+                float flipWeight = 0;
+                for(uint f = 0; f < flipRates.size(); f++){
+                    flipWeight = flipWeight + (flipRates[f]/(1-flipRates[f]));
                     //cout << weight << endl;
                 }
+                weight = weight * flipWeight;
             }
 
 
@@ -405,7 +419,7 @@ void event_looper(){
 
             //Now fill with those variables
             if (isFake||isFlip||isSMSS||isSignal){
-                histos.fill(variablesForFilling, weight, nJets, nBjets, nGoodLep, nFakeableLep, muCharge_tight, elCharge_tight, isFake, isFlip, isSMSS, isSignal);
+                histos.fill(variablesForFilling, weight, nJets, nBjets, nGoodLep, nFakeableLep, nLooseNotTight, nTightNotLoose_el, muCharge_tight, elCharge_tight, isFake, isFlip, isSMSS, isSignal);
             }
 
        }//event loop
