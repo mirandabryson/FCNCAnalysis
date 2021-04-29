@@ -9,8 +9,8 @@ double GetFlipWeight(float lepton_pt, float lepton_eta, int lepton_pdgid){
  
  
   if (abs(lepton_pdgid) != 11){
-    flip_weight = 1;
-    cout << "flip_weight.h warning: object not an electron!" << endl;
+    flip_weight = 0;
+    //cout << "flip_weight.h warning: object not an electron!" << endl;
   }
   else{ 
     if (lepton_pt < 15){

@@ -62,6 +62,38 @@ for j in nJets:
 #print(df)
 print("combined SF and OF dilepton cases")
 
+"""trilep_df_1b = df.loc[ (df["nLeptons"]=="3l") & (df["nBtags"]==1) ]
+trilep_df_2b = df.loc[ (df["nLeptons"]=="3l") & (df["nBtags"]==2) ]
+trilep_df = trilep_df_1b
+trilep_df = trilep_df.append(trilep_df_2b)
+print(trilep_df)
+otherTotal = trilep_df["other"].sum()
+fakesTotal = trilep_df["fakes"].sum()
+flipsTotal = trilep_df["flips"].sum()
+bkgTotal = trilep_df["total background"].sum()
+hctTotal = trilep_df["signal hct"].sum()
+hutTotal = trilep_df["signal hut"].sum()
+print(otherTotal)
+print(fakesTotal)
+print(flipsTotal)
+print(bkgTotal)
+print(hctTotal)
+print(hutTotal)
+print("*****************")
+dilep_df = df.loc[ (df["nLeptons"]=="SS2l") ]
+otherTotal = dilep_df["other"].sum()
+fakesTotal = dilep_df["fakes"].sum()
+flipsTotal = dilep_df["flips"].sum()
+bkgTotal = dilep_df["total background"].sum()
+hctTotal = dilep_df["signal hct"].sum()
+hutTotal = dilep_df["signal hut"].sum()
+print(otherTotal)
+print(fakesTotal)
+print(flipsTotal)
+print(bkgTotal)
+print(hctTotal)
+print(hutTotal)"""
+
 #now we have imported the data and manipulated it into the categories we want
 #we will do the rest in a loop over signals
 signals = ["signal_hut","signal_hct"]
@@ -178,6 +210,9 @@ for s in signals:
             jet = statUnc[i][1]
             btag = statUnc[i][2]
             unc = statUnc[i][3]
+
+            if unc < 0:
+                unc = 2.0
 
             cTitle = lep+"_"+jet+"_"+btag+"_"+p
             rTitle = p+"_stat_"+str(i)

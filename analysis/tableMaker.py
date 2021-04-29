@@ -70,7 +70,9 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
         for b in range(numBins):
             if "signal" in p:
                 totYield = totYield+(0.01*h.GetBinContent(b))
+                #totYield = totYield+(h.GetBinContent(b))
                 totSig = totSig + (0.01*h.GetBinContent(b))
+                #totSig = totSig + (h.GetBinContent(b))
                 totSig_noWeight = totSig_noWeight + (h.GetBinContent(b))
             else:
                 totYield = totYield+h.GetBinContent(b)
@@ -78,26 +80,31 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
             if h.GetBinContent(b) != 0:
                 if "signal" in p:
                     error = 0.01*h.GetBinError(b)
+                    #error = h.GetBinError(b)
                     totSigError = totSigError + pow(error,2)
                 else:
                     error = h.GetBinError(b)
                     totBackError = totBackError + pow(h.GetBinError(b),2)
         #line = line + cBreak + str(round(totYield,2)) + " $\pm$ " + str(round(error,2))
-        line.append(round(totYield,2))
-        line.append(round(error,2))
+        line.append(round(totYield,5))
+        line.append(round(error,5))
     #line = line + cBreak + str(round(totBack,2)) + " \\\\"
-    line.append(round(totBack,2))
+    line.append(round(totBack,5))
     totBackError = np.sqrt(totBackError)
-    line.append(round(totBackError,2))
+    line.append(round(totBackError,5))
     
-    #line.append(round(totSig,2))
-    line.append(round(totSig_noWeight,2))
+    line.append(round(totSig,5))
+    #line.append(round(totSig_noWeight,2))
     totSigError = np.sqrt(totSigError)
-    line.append(round(totSigError,2))
+    line.append(round(totSigError,5))
     
-    line.append(round(totSig/totBack,2))
-    totSoverBError = (totSig/totBack)*np.sqrt(pow(totSigError/totSig,2)+pow(totBackError/totBack,2))
-    line.append(round(totSoverBError,2))
+    if totBack == 0:
+        line.append(0)
+        line.append(0)
+    else:
+        line.append(round(totSig/totBack,5))
+        totSoverBError = (totSig/totBack)*np.sqrt(pow(totSigError/totSig,2)+pow(totBackError/totBack,2))
+        line.append(round(totSoverBError,5))
     return line
 
 def makeTable(lines, outdir):
@@ -157,10 +164,14 @@ processTypes = ["signal_hut",
 leptonSelections = ["trilep",
                     "SS_SF_dilep",
                     "SS_OF_dilep",
-                    #"OS_SF_dilep",
-                    #"OS_OF_dilep",
-                    #"onelepFO",
-                    #"dilepFO"
+                    "OS_SF_dilep",
+                    "OS_OF_dilep",
+                    "onelepFO",
+                    "dilepFO",
+                    "SS_SF_flipEst",
+                    "SS_OF_flipEst",
+                    "dilep_fakeEst",
+                    "trilep_fakeEst"
                    ]
 
 jetSelections = ["2j",
@@ -168,7 +179,7 @@ jetSelections = ["2j",
                  "ge4j"
                  ]
 
-bJetSelections = [#"0b",
+bJetSelections = ["0b",
                   "1b",
                   "ge2b"
                   ]
@@ -217,6 +228,7 @@ for var in plottedVariables:
                 processes = []
                 for p in processTypes:
                     histoName = "h_"+v+"_"+l+"_"+j+"_"+b+"_"+p
+                    print(histoName)
                     #print(type(v),type(l),type(j),type(b),type(p))
                     hist = getObjFromFile(filename,histoName)
                     """if p == "fakes" or p == "flipsOrFakes_fakes":
@@ -257,7 +269,7 @@ for var in plottedVariables:
 
     outFile = open(outdir+"tables/yieldsTable.tex","w")
     outFile.write("\documentclass[oneside]{report} \n")
-    outFile.write("\usepackage[a2paper]{geometry}")
+    outFile.write("\usepackage[a1paper]{geometry}")
     outFile.write("\usepackage{graphicx,xspace,amssymb,amsmath,colordvi,colortbl,verbatim,multicol} \n")
     #outFile.write("\usepackage{multirow, rotating} \n")
     #outFile.write("\usepackage[active,tightpage]{preview} \n")
