@@ -19,14 +19,17 @@ cmsrel CMSSW_10_2_9
 
 ## Each time you log in
 To set up the CMS environment:
+
 cd CMSSW_10_2_9/src
 cmsenv
 
 Code for this iteration of the analysis is in the FCNCAnalysis/analysis directory:
+
 cd ~/FCNCAnalysis/analysis
 
 ## Once per baby cycle
 The first time you run anything, you will first need to run
+
 python eventCounter.py
 
 This will produce an n_events directory which contains information for calculating event weights. This command only needs to be run once per cycle of babies.
