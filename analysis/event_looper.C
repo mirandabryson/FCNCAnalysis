@@ -40,8 +40,8 @@ void event_looper(){
                                     };
 
 
-    //auto outFile = new TFile("plots/outputHistos.root", "recreate");
-    auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    auto outFile = new TFile("plots/outputHistos.root", "recreate");
+    //auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
 
     //Load samples
     for(uint btype = 0; btype < sample_names.size(); btype++){
@@ -187,11 +187,6 @@ void event_looper(){
             bool isFake = 0;
             bool isSMSS = 0;
             bool isSignal = 0;
-            
-            bool isFlip_loose = 0;
-            bool isFake_loose = 0;
-            bool isSMSS_loose = 0;
-            bool isSignal_loose = 0;
 
             float fakeRateValue = 0;
             vector<float> fakeRates;
