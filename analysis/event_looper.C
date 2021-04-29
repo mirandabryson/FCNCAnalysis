@@ -40,8 +40,8 @@ void event_looper(){
                                     };
 
 
-    auto outFile = new TFile("plots/outputHistos.root", "recreate");
-    //auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    //auto outFile = new TFile("plots/outputHistos.root", "recreate");
+    auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
 
     //Load samples
     for(uint btype = 0; btype < sample_names.size(); btype++){
@@ -63,7 +63,7 @@ void event_looper(){
         }*/
         cout << "Loaded Samples!" << endl;
 
-        int nEvents = chain->GetEntries();
+        int nEvents = chain->GetEntriesFast();
         cout << "found " << nEvents << " " << sample_names[btype] << " events" << endl;
 
         //event variables
@@ -412,9 +412,13 @@ void event_looper(){
             float crWeight = 0;
             //calculate fake rate weight
             if ((isOneLepFO||isDilepFO) && nJets > 1){
-                float fakeWeight = 0;
-                for(uint f = 0; f < fakeRates.size(); f++){
-                    fakeWeight = fakeWeight * (fakeRates[f]/(1-fakeRates[f]));
+                float fakeWeight = 1;
+                if (fakeRates.size() < 1){
+                    fakeWeight = 0;
+                }else{
+                    for(uint f = 0; f < fakeRates.size(); f++){
+                        fakeWeight = fakeWeight * (fakeRates[f]/(1-fakeRates[f]));
+                    }
                 }
                 crWeight = weight*fakeWeight;
             }
