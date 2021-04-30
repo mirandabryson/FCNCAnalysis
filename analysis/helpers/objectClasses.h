@@ -1,5 +1,5 @@
 //define classes for physics objects 
-class Lepton {
+class Lepton2 {
     public:
         vector<int> pdgid;
         vector<float> pt;
@@ -21,7 +21,7 @@ class Lepton {
 
 
 
-class Electron: public Lepton {//class electron inherits from class lepton
+class Electron: public Lepton2 {//class electron inherits from class lepton
     private:
         vector<int> el_pdgid;
         vector<float> el_pt;
@@ -100,7 +100,7 @@ class Electron: public Lepton {//class electron inherits from class lepton
 
 
 
-class Muon: public Lepton {//class muon inherits from class lepton
+class Muon: public Lepton2 {//class muon inherits from class lepton
     private:
         vector<int> mu_pdgid;
         vector<float> mu_pt;

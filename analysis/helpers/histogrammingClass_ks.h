@@ -51,6 +51,7 @@ class categoryHistogram{
 
         //methods to fill and save histograms
         void fillHistogram(vector<float> variables, float weight){
+            std::cout << h_nJet->GetDirectory()->GetName() << std::endl;
             h_nJet->Fill(variables[0], weight);
             h_nBJet->Fill(variables[1], weight);
             h_nGoodLeps->Fill(variables[2], weight);
@@ -60,16 +61,17 @@ class categoryHistogram{
             h_leadLepMiniIso->Fill(variables[6], weight);
             h_leadLepPtRel->Fill(variables[7], weight);
             h_leadLepPtRatio->Fill(variables[8], weight);
-            h_leadJetPt->Fill(variables[9], weight);
-            h_leadBPt->Fill(variables[10], weight);
+            h_leadJetPt->Fill(variables[7], weight);
+            h_leadBPt->Fill(variables[8], weight);
             h_leadBMass->Fill(variables[11], weight);
-            h_jetHT->Fill(variables[12], weight);
-            h_MET->Fill(variables[13], weight);
+            h_jetHT->Fill(variables[9], weight);
+            h_MET->Fill(variables[10], weight);
             h_minMT->Fill(variables[14], weight);
             h_MT_b_MET->Fill(variables[15], weight);
         }
 
         void writeHistogram(TFile* &outfile){
+            std::cout << outfile->GetName() << std::endl;
             if (outfile->IsOpen()){
                 h_nJet->Write();
                 h_nBJet->Write();
@@ -5358,6 +5360,7 @@ class makeHistograms{
         }//function close
 
         void write(string sampleName, TFile* &outfile){
+            std::cout << "Writing " << sampleName << " to " << outfile->GetPath() << "/" << outfile->GetName() << std::endl;
             if (sampleName == "background"){
                 trilep_2j_0b_fakes->writeHistogram(outfile);
                 trilep_2j_1b_fakes->writeHistogram(outfile);

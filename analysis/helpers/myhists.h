@@ -1,0 +1,4 @@
+class MyHists {
+    private:
+    public:
+};
