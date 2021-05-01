@@ -42,10 +42,10 @@ void event_looper(){
 
     auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
 
-    MyHists hists;
+    HistContainer hists;
     for(uint btype = 0; btype < sample_names.size(); btype++){
         // book histograms
-        hists.load_hists(sample_names[btype]);
+        hists.loadHists(sample_names[btype]);
     }
 
     //Load samples
@@ -150,7 +150,7 @@ void event_looper(){
 
                 // if we've reached here we've passed the baseline selection
                 // fill histograms
-                hists.fill(sample_names[btype],best_hyp,best_hyp_type,good_jets,good_bjets,nt.MET_pt(),weight);
+                hists.fill(sample_names[btype],best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
            }//loop over events
 
         } // loop over files
@@ -164,7 +164,7 @@ void event_looper(){
         std::cout << "Writing " << sample_names[btype] << " histograms to " << outFile->GetName() << std::endl;
 
         outFile->cd();
-        hists.write(outFile);
+        hists.write();
     } // loop over samples
     outFile->Close();
 }
