@@ -14,7 +14,7 @@ if __name__ == '__main__':
         2018: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v3/",
     }
     outdir = basedirs[2016]
-    if len(sys.argv[1]) > 1: outdir = sys.argv[1]
+    if len(sys.argv) > 1: outdir = sys.argv[1]
 
     count=0
     for year in [2016,2017,2018]:
