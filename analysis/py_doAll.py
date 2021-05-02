@@ -274,7 +274,7 @@ if __name__ == "__main__":
                 basedirs[2018] + get_sample_path("wjets_ht400-600", 2018) + "/*.root",
                 basedirs[2018] + get_sample_path("wjets_ht600-800", 2018) + "/*.root",
                 basedirs[2018] + get_sample_path("wjets_ht800-1200", 2018) + "/*.root",
-                ], options=options[2018] + " doTruthFake doSt-itch "),
+                ], options=options[2018] + " doTruthFake doStitch "),
             "flips_mc": make_obj([
                 basedirs[2018] + get_sample_path("dyjets_m10-50", 2018) + "/*.root",
                 basedirs[2018] + get_sample_path("dyjets_m50", 2018) + "/*.root",
