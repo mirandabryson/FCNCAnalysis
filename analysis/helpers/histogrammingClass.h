@@ -14,6 +14,7 @@ class HistContainer {
         std::vector<std::string> region_names_;
         std::vector<std::string> getRegionNames();
         std::string getRegionName(int hyp_type, int njets, int  nbjets);
+        int getSR(int hyp_type, int njets, int nbjets);
     public:
         HistContainer () {region_names_=getRegionNames();}
         void addHist1d(std::string quantity, std::string sample, int nbins, float min, float max, std::string region="");
