@@ -187,10 +187,9 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
     //************************** setup good run list **************************//
     std::string goodrun_path = "/home/users/fgolf/fcnc/current/samples/goodRunList/";
     std::map<int, std::string> goodrun_file = {
-        2016 : 'goldenJson_2016rereco_36p46ifb.txt',
-        2017 : 'Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_v1_snt.txt',
-        2018 : 'goldenJson_2018_final_59p76ifb_snt.txt'
-    };
+        {2016, "goldenJson_2016rereco_36p46ifb.txt"},
+        {2017, "Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_v1_snt.txt"},
+        {2018, "goldenJson_2018_final_59p76ifb_snt.txt"} };
     set_goodrun_file(goodrun_path+goodrun_file[year]);
 
 
