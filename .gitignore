@@ -6,3 +6,5 @@
 *.gdb_history
 *.idea
 *.pyc
+*.log
+*.tmp
