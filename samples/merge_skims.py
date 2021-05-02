@@ -44,11 +44,14 @@ if __name__ == '__main__':
             if len(procs) and sname not in procs: continue
             if sname in exprocs: continue
             ifnames = []
-            fpath = basedirs[2016] + lname + "/"
-            for f in os.listdir(fpath):
+            ifpath = basedirs[2016] + lname + "/"
+            for f in os.listdir(ifpath):
                 if f.endswith('.root'): ifnames.append(f)
-            ofname = outdir + "/{}/{}/'.format(tag,year) + 'merged/%s.root' % (sname)
-            ifnames_long = [fpath + f for f in ifnames]
+            ofpath = outdir + "/{}/{}/'.format(tag,year) + 'merged/'
+            if not os.path.isdir(ofpath):
+                os.system('mkdir -p {}'.format(ofpath))
+            ofname = ofpath+'%s.root' % (sname)
+            ifnames_long = [ifpath + f for f in ifnames]
             command='hadd -f %s %s' % (ofname, ' '.join(ifnames_long))
             if args.verbosity: print command
             count += 1
