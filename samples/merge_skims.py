@@ -24,7 +24,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     tag = args.tag
     years = [2016,2017,2018]
-    if args.year != "": years = [int(x.strip()) for x in args.year.strip().split(]
+    if args.year != "": years = [int(x.strip()) for x in args.year.strip().split()]
     dryrun=False
     if args.dryrun: dryrun=True
 
