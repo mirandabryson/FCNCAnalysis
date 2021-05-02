@@ -334,10 +334,6 @@ if __name__ == "__main__":
         t1 = time.time()
         return index, [ret, ch.GetTitle(), t1-t0]
 
-    print basedirs[2018]
-    print get_sample_path("ttw",2018)
-    print "/*.root"
-
     to_run = []
     already_done = []
     if args.skip_already_done and os.path.exists("../limits/{}/".format(args.tag)):
