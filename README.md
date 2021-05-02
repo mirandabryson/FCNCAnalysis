@@ -1,5 +1,7 @@
 # FCNCAnalysis
-git clone https://github.com/fgolf/FCNCAnalysis.git
+mkdir fcnc
+cd fcnc
+git clone https://github.com/fgolf/FCNCAnalysis.git current
 git clone https://github.com/fgolf/NanoTools.git
 pushd .
 cd NanoTools/NanoCORE
