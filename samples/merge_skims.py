@@ -25,7 +25,7 @@ if __name__ == '__main__':
                 if f.endswith('.root'): ifnames.append(f)
             ofname = basedirs[2016] + lname + "merged/%s.root" % (sname)
             ifnames_long = [fpath + f for f in ifnames]
-            command='hadd %s %s' % (ofname, ' '.join(ifnames_long))
+            command='hadd -f %s %s' % (ofname, ' '.join(ifnames_long))
             print command
             #os.system(command)
             count += 1
