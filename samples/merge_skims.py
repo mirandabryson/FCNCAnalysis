@@ -9,8 +9,8 @@ samples = { 2016 : samples_2016, 2017 : samples_2017, 2018 : samples_2018}
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument("-o", "--out", help="output directory", default="/nfs-7/userdata/fgolf/")
-    parser.add_argument("-t", "--tag", help="tag for bookkeeping and output directory location", default="v3.08_allyears_tmp")
+    parser.add_argument("-o", "--out", help="output directory", default="")
+    parser.add_argument("-t", "--tag", help="tag for bookkeeping and output directory location", default="fcnc_v3")
     parser.add_argument("-y", "--year", help="year, if you only want to run one", default="")
     parser.add_argument(      "--proc", help="process, if you only want to run one/some. accepts wildcards if quoted.", default="", type=str)
     parser.add_argument(      "--excludeproc", help="opposite of proc", default="", type=str)
@@ -18,23 +18,32 @@ if __name__ == '__main__':
     parser.add_argument(      "--slim", help="smaller subset of processes", action="store_true")
     parser.add_argument(      "--ncpu", help="number of cpus", default=25, type=int)
     parser.add_argument(      "--maxprocs", help="maximum number of chains", default=-1, type=int)
-    parser.add_argument("-n", "--noloop", help="skip looping/scanchain", action="store_true")
+    parser.add_argument("-n", "--dryrun", help="dont actually merge", action="store_true")
     parser.add_argument("-v", "--verbosity", help="verbosity level (0 = default,1,2)", default=0, type=int)
 
     args = parser.parse_args()
-    print type(args)
-    print args
+    tag = args.tag
+    years = [2016,2017,2018]
+    dryrun=False
+    if args.dryrun: dryrun=True
+    verbose=False
+    if args.verbose: verbose=True
 
     basedirs = {
-        2016: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v3/",
-        2017: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v3/",
-        2018: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v3/",
+        2016: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format('fcnc_v3'),
+        2017: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format('fcnc_v3'),
+        2018: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format('fcnc_v3'),
     }
     outdir = basedirs[2016]
+    if args.out != "": outdir = args.out
+    procs = [x.strip() for x in args.proc.strip().split()]
+    exprocs = [x.strip() for x in args.excludeproc.strip().split()]
 
     count=0
-    for year in [2016,2017,2018]:
+    for year in years:
         for sname, lname in samples_2016.items():
+            if len(procs) and sname not in procs: continue
+            if sname in exprocs: continue
             ifnames = []
             fpath = basedirs[2016] + lname + "/"
             for f in os.listdir(fpath):
@@ -42,8 +51,8 @@ if __name__ == '__main__':
             ofname = basedirs[2016] + lname + "merged/%s.root" % (sname)
             ifnames_long = [fpath + f for f in ifnames]
             command='hadd -f %s %s' % (ofname, ' '.join(ifnames_long))
-            print command
+            if verbose: print command
             count += 1
-            if not test:
+            if not dryrun:
                 os.system(command)
                 if count%5==0: time.sleep(60)
