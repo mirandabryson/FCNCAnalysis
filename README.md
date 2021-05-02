@@ -7,17 +7,23 @@ pushd .
 cd NanoTools/NanoCORE
 make -j8
 popd
-cd FCNCAnalysis/analysis/helpers
 
 ## build histogrammingClass.C
+pushd current/analysis/helpers
 root -b
-gROOT->ProcessLine(".L ../../../NanoTools/NanoCORE/libNANO_CORE.so");
+gROOT->ProcessLine(".L ../../../NanoTools/NanoCORE/NANO_CORE.so");
 .L histogrammingClass.C++
-cd ..
+
+## checkout plotting tools
+popd
+pushd current
+git clone https://github.com/aminnj/matplottery.git
+popd
 
 ## build event looper
+pushd current/analysis
 root -b
-gROOT->ProcessLine(".L ../../NanoTools/NanoCORE/libNANO_CORE.so");
+gROOT->ProcessLine(".L ../../NanoTools/NanoCORE/NANO_CORE.so");
 gROOT->ProcessLine(".L  helpers/histogrammingClass_C.so");
 .L event_looper.C++;
 event_looper()
