@@ -14,7 +14,7 @@ std::vector<std::string> HistContainer::getRegionNames() {
 }
 
 int HistContainer::getSR(int hyp_type, int njets, int nbjets) {
-    if ( !(hyp_type==2 || hyp_type==4) ) continue;
+    if ( !(hyp_type==2 || hyp_type==4) ) return -1;
     int ret=0;
     int offset=(std::min(njets,4)-1)+3*std::min(nbjets,2);
     int loffset=0;
@@ -141,7 +141,9 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             }
         }
     }
-    fill1d("sr","br",sample,getSR(hyp_type,njets,nbjets),weight)
+    int sr = getSR(hyp_type,njets,nbjets);
+    if (sr>=0)
+        fill1d("sr","br",sample,sr,weight)
 
     // now fill 2d histograms
     return;
