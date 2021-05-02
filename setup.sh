@@ -12,7 +12,7 @@ popd
 ##
 ## checkout and build histogramming tools
 ##
-pushd current/analysis/helpers 
+pushd ana/analysis/helpers 
 root -b -l -q compile.C
 #gROOT->ProcessLine(".L ../../../NanoTools/NanoCORE/NANO_CORE.so"); 
 #.L histogrammingClass.C++ 
