@@ -275,6 +275,22 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
                 std::cout << "leading jet pt: " << good_jets[0].pt() << std::endl;
             }
 
+            // now let's check if there are additional requirements we need to make
+            bool is_fake = false;
+            bool is_flip = false;
+            if (doFakes && !isData) {
+                int nfakes=0;
+                for ( auto lep : best_hyp ) {if (lep.isFake()) nfakes++;}
+                if (nfakes>0) is_fake=true;
+                if (is_fake) continue;
+            }
+            if (doFlips && !isData) {
+                int nflips=0;
+                for ( auto lep : best_hyp ) {if (lep.isFlip()) nflips++;}
+                if (best_hyp.size() == 2 && nflips==1) is_flip=true;
+                if (is_flip) continue;
+            }
+
             // if we've reached here we've passed the baseline selection
             // fill histograms
             hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
