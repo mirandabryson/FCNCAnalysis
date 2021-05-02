@@ -14,9 +14,9 @@ std::vector<std::string> HistContainer::getRegionNames() {
 }
 
 int HistContainer::getSR(int hyp_type, int njets, int nbjets) {
-    if !(hyp_type==2 || hyp_type==4) continue;
+    if ( !(hyp_type==2 || hyp_type==4) ) continue;
     int ret=0;
-    int offset=(std::min(njets,4)-1)+3*std::min(nbjets,2)
+    int offset=(std::min(njets,4)-1)+3*std::min(nbjets,2);
     int loffset=0;
     if (hyp_type==2) loffset=9;
     return loffset+offset;
@@ -123,7 +123,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     int nbjets=bjets.size();
     for (auto name : rnames) {
         fill1d("njets",name,sample,njets,weight);
-        fill1d("nbjets",name,sample,bjets,weight);
+        fill1d("nbjets",name,sample,nbjets,weight);
         fill1d("nleps",name,sample,leps.size(),weight);
         fill1d("llpt",name,sample,leps[0].pt(),weight);
         fill1d("ltpt",name,sample,leps[1].pt(),weight);
