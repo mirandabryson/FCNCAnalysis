@@ -108,21 +108,24 @@ float get_sum_pt(Jets  &jets) {
 void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, float weight) {
     // fill 1d histograms first
     std::string rname = getRegionName(best_hyp_type,jets.size(),bjets.size());
-    fill1d("njets",rname,sample,jets.size(),weight);
-    fill1d("nbjets",rname,sample,bjets.size(),weight);
-    fill1d("nleps",rname,sample,leps.size(),weight);
-    fill1d("llpt",rname,sample,leps[0].pt(),weight);
-    fill1d("ltpt",rname,sample,leps[1].pt(),weight);
-    fill1d("lleta",rname,sample,leps[0].eta(),weight);
-    fill1d("lteta",rname,sample,leps[1].eta(),weight);
-    fill1d("ljpt",rname,sample,jets[0].pt(),weight);
-    fill1d("met",rname,sample,met,weight);
-    if (bjets.size()>0) fill1d("lbpt",rname,sample,bjets[0].pt(),weight);
-    float ht = get_sum_pt(jets);
-    for (unsigned int idx1=0; idx1<leps.size();idx1++) {
-        for (unsigned int idx2=idx1+1; idx2<leps.size();idx2++) {
-            float mass = (leps[idx1].p4()+leps[idx2].p4()).M();
-            fill1d("mll",rname,sample,mass,weight);
+    std::vector<std::string> rnames = {"br",rname};
+    for (auto name : rnames) {
+        fill1d("njets",name,sample,jets.size(),weight);
+        fill1d("nbjets",name,sample,bjets.size(),weight);
+        fill1d("nleps",name,sample,leps.size(),weight);
+        fill1d("llpt",name,sample,leps[0].pt(),weight);
+        fill1d("ltpt",name,sample,leps[1].pt(),weight);
+        fill1d("lleta",name,sample,leps[0].eta(),weight);
+        fill1d("lteta",name,sample,leps[1].eta(),weight);
+        fill1d("ljpt",name,sample,jets[0].pt(),weight);
+        fill1d("met",name,sample,met,weight);
+        if (bjets.size()>0) fill1d("lbpt",name,sample,bjets[0].pt(),weight);
+        float ht = get_sum_pt(jets);
+        for (unsigned int idx1=0; idx1<leps.size();idx1++) {
+            for (unsigned int idx2=idx1+1; idx2<leps.size();idx2++) {
+                float mass = (leps[idx1].p4()+leps[idx2].p4()).M();
+                fill1d("mll",name,sample,mass,weight);
+            }
         }
     }
 

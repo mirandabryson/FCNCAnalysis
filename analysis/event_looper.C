@@ -218,15 +218,10 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
             nt.GetEntry(counter);
             ++nEventsTotal;
 
-            if ( counter%100000==0 ){
-                cout << "event " << counter << endl;
-                cout << filename.Data() << endl;
-            }
-
             if (!quiet) bar.progress(nEventsTotal, nEventsChain);
 
             //get event weight based on sample!
-            double weight = getEventWeight( file->GetName() );
+            double weight = getEventWeight( file->GetName(), chainTitle.Data() );
             double genWeight = nt.Generator_weight();
             weight = (weight*genWeight*lumi)/(abs(genWeight));
 
@@ -289,10 +284,10 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
      auto stop = high_resolution_clock::now();
      auto duration = duration_cast<seconds>(stop - start);
 
-     cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
+     if (verbose) cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
 
      //write histograms
-     std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
+     if (verbose) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
 
      outFile->cd();
      hists.write();

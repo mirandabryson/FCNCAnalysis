@@ -18,7 +18,7 @@ def remove(rs1,rs2):
     return list(set(rs1)-set(rs2))
 
 #regions = ("br","ml","ss")
-regions = ("ml","ss")
+regions = ("br","ml","ss")
 labels = {}
 labels["fcnc"] = {
 
@@ -459,8 +459,7 @@ def worker(info):
 
         if (region in ["sr","brpostfit","ttwcr","ttzcr"]):
             fname_tmp = fname.replace(".pdf","_stacked.pdf").replace(".png","_stacked.png")
-#            plot_stack(bgs=bgs+sigs, data=data, title=title, xlabel=xlabel, ylabel=ylabel, filename=fname_tmp,
-            plot_stack(bgs=bgs+sigs, data=bgs, title=title, xlabel=xlabel, ylabel=ylabel, filename=fname_tmp,
+            plot_stack(bgs=bgs+sigs, data=data, title=title, xlabel=xlabel, ylabel=ylabel, filename=fname_tmp,
                        # cms_type = "Preliminary",
                        cms_type = "",
                        lumi = lumi_,
@@ -487,7 +486,7 @@ def worker(info):
         # print data
         # return
 
-        table_info = write_table(bgs,bgs,signal=(None if not sigs else sigs[0]),outname=fname.replace(".pdf",".txt"))
+        table_info = write_table(bgs[0],bgs,signal=(None if not sigs else sigs[0]),outname=fname.replace(".pdf",".txt"))
         #table_info = write_table(data,bgs,signal=(None if not sigs else sigs[0]),outname=fname.replace(".pdf",".txt"))
         # table_info = write_table(data,bgs,signal=sig,outname=fname.replace(".pdf",".txt"),
         #         binlabels=xticks,signame=sigstrs[0].replace(r"$\times 10$","x10").replace(","," "),csv=True)
