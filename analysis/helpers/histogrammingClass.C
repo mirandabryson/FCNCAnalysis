@@ -141,7 +141,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             }
         }
     }
-    int sr = getSR(hyp_type,njets,nbjets);
+    int sr = getSR(best_hyp_type,njets,nbjets);
     if (sr>=0)
         fill1d("sr","br",sample,sr,weight)
 
