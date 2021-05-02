@@ -56,5 +56,6 @@ if __name__ == '__main__':
             if args.verbosity: print command
             count += 1
             if not dryrun:
+                os.nice(4)
                 os.system(command)
                 if count%5==0: time.sleep(60)
