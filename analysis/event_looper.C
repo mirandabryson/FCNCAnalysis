@@ -24,6 +24,7 @@
 #include "../../NanoTools/NanoCORE/Nano.h"
 #include "../../NanoTools/NanoCORE/Config.h"
 #include "../../NanoTools/NanoCORE/Tools/goodrun.h"
+#include "../../NanoTools/NanoCORE/Tools/dorky.h"
 #include "../misc/common_utils.h"
 
 using namespace std;
@@ -232,6 +233,13 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
             if (!quiet) bar.progress(nEventsTotal, nEventsChain);
 
             // filter lumi blocks not in the good run list
+            if ( isData && !goodrun( nt.run(), nt.luminosityBlock() ) ) continue;
+
+            // removal duplicates
+            if ( isData ) {
+                duplicate_removal::DorkyEventIdentifier id( nt.run(), nt.event(), nt.luminosityBlock() );
+                if (duplicate_removal::is_duplicate(id)) continue;
+            }
 
             //get event weight based on sample!
             double weight = getEventWeight( file->GetName(), chainTitle.Data() );
