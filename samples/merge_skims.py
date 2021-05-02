@@ -33,7 +33,7 @@ if __name__ == '__main__':
         2018: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format('fcnc_v3'),
     }
     outdir = basedirs[2016]
-    if args.out != "": outdir = args.ou
+    if args.out != "": outdir = args.out
     procs = [x.strip() for x in args.proc.strip().split()]
     exprocs = [x.strip() for x in args.excludeproc.strip().split()]
 
