@@ -13,7 +13,7 @@ if __name__ == '__main__':
         2017: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v3/",
         2018: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v3/",
     }
-    outdir = basedirs[0]
+    outdir = basedirs[2016]
     if len(sys.argv[1]) > 1: outdir = sys.argv[1]
 
     count=0
