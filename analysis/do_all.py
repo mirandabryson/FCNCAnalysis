@@ -16,7 +16,8 @@ for year in years:
     for proc in procs:
         command='python py_doAll.py --proc {} -y {}'.format(proc,year)
         print command
-        #os.system(command)
-        #time.sleep(120)
+        os.nice(5)
+        os.system(command)
+        time.sleep(120)
 
 

@@ -23,6 +23,7 @@
 #include "../../NanoTools/NanoCORE/SSSelections.h"
 #include "../../NanoTools/NanoCORE/Nano.h"
 #include "../../NanoTools/NanoCORE/Config.h"
+#include "../../NanoTools/NanoCORE/Tools/goodrun.h"
 #include "../misc/common_utils.h"
 
 using namespace std;
@@ -181,6 +182,16 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
     //**************************** end set options ****************************//
     //*************************************************************************//
 
+    //*************************************************************************//
+    //************************** setup good run list **************************//
+    std::string goodrun_path = "/home/users/fgolf/fcnc/current/samples/goodRunList/";
+    std::map<int, std:string> goodrun_file = {
+        2016 : 'goldenJson_2016rereco_36p46ifb.txt',
+        2017 : 'Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_v1_snt.txt',
+        2018 : 'goldenJson_2018_final_59p76ifb_snt.txt'
+    }
+    set_goodrun_file(goodrun_path+goodrun_file[year]);
+
 
     auto outFileName = outputdir+"/"+chainTitle+"_"+TString(std::to_string(year).c_str())+"_hists.root";
     std::cout << "Will write histograms to " << outFileName.Data() << std::endl;
@@ -219,6 +230,8 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
             ++nEventsTotal;
 
             if (!quiet) bar.progress(nEventsTotal, nEventsChain);
+
+            // filter lumi blocks not in the good run list
 
             //get event weight based on sample!
             double weight = getEventWeight( file->GetName(), chainTitle.Data() );
