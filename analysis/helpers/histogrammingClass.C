@@ -121,6 +121,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         fill1d("met",name,sample,met,weight);
         if (bjets.size()>0) fill1d("lbpt",name,sample,bjets[0].pt(),weight);
         float ht = get_sum_pt(jets);
+        fill1d("ht",name,sample,ht,weight);
         for (unsigned int idx1=0; idx1<leps.size();idx1++) {
             for (unsigned int idx2=idx1+1; idx2<leps.size();idx2++) {
                 float mass = (leps[idx1].p4()+leps[idx2].p4()).M();
