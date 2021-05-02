@@ -71,7 +71,7 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("lbpt",sample,50,0,500);
     addHist1d("ht",sample,50,0,1000);
     addHist1d("met",sample,20,0,400);
-    addHist1d("sr",sample,0.5,18.5,18,"br");
+    addHist1d("sr",sample,18,0.5,18.5,"br");
     return;
 }
 
