@@ -16,155 +16,285 @@
 #include <THStack.h>
 #include <TLegend.h>
 #include <TFile.h>
-#include "./helpers/sampleLoader.h"
+#include <signal.h>
 #include "./helpers/weights.h"
 #include "./helpers/histogrammingClass.h"
+#include "./helpers/tqdm.h"
 #include "../../NanoTools/NanoCORE/SSSelections.h"
 #include "../../NanoTools/NanoCORE/Nano.h"
 #include "../../NanoTools/NanoCORE/Config.h"
-
+#include "../misc/common_utils.h"
 
 using namespace std;
 using namespace std::chrono;
 
-void event_looper(){
+void event_looper(TChain *chain, TString options="", TString outputdir="outputs/"){
+    //*************************************************************************//
+    //*************************** begin set options ***************************//
     bool verbose = false;
-    //global variables
-    int year = 2018;
-    double lumi = 137;
-    string babyVersion = "fcnc_v3";
-    string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/"+babyVersion+"/";
-    //vector< string > sample_names = {   "background", //for testing, removing background
-    //                                    "signal_hut",
-    //                                    "signal_hct"
-    //                                };
-    vector< string > sample_names = {"signal_hct"};
+    bool quiet = options.Contains("quiet");
+    bool evaluateBDT = options.Contains("evaluateBDT") && not options.Contains("noBDT");
+    bool write_tree = options.Contains("writeTree");
+    bool minPtFake18 = options.Contains("minPtFake18");
+    bool new2016FRBins = options.Contains("new2016FRBins");
+    bool doStitch = options.Contains("doStitch");
+    bool isData = 0;
+    bool doFlips = 0;
+    int doFakes = 0;
+    int exclude = 0;
+    bool isGamma = 0;
+    bool truthfake = 0;
+    bool skipmatching = 0;
+    bool ignoreFakeFactor = 0;
+    float scaleLumi=1.;
+    int nbdtbins = 17;
+    int nsrdisc = nbdtbins+1; // this is supposed to be 1 more than nbdtbins (we add in CRZ as a "bin")
+/*
+    bool STOP_REQUESTED = false;
 
-    auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    signal(SIGINT, [](int){
+            cout << "SIGINT Caught, stopping after current event" << endl;
+            STOP_REQUESTED=true;
+            });
+    STOP_REQUESTED=false;
+*/
 
-    HistContainer hists;
-    for(uint btype = 0; btype < sample_names.size(); btype++){
-        // book histograms
-        hists.loadHists(sample_names[btype]);
+    int year = -1;
+    TString extra("");
+    if (options.Contains("Data2016")) {
+        year = 2016;
+        if (options.Contains("94x")) extra = "_94x";
+    } else if (options.Contains("Data2017")) {
+        year = 2017;
+    } else if (options.Contains("Data2018")) {
+        year = 2018;
+    } else {
+        cout << "Need to specify year!\n";
+        assert(year > 0);
     }
 
-    //Load samples
-    for(uint btype = 0; btype < sample_names.size(); btype++){
-        TChain* chain = new TChain("Events");
-        vector<string> samples = loadSamples ( year, sample_names[btype],babyVersion );
-        for ( uint s = 0; s < samples.size(); s++ ){
-            string pathname = inputDir+samples[s];
-            string name = inputDir+samples[s]+"/output_*.root";
-            chain->Add(name.c_str());
+    int year_for_output = year;
+    float lumi = getLumi(year);
+
+    float min_pt_fake = minPtFake18 ? 18. : -1;
+
+    if (options.Contains("FakeLumi2017")) {
+        if (!quiet) std::cout << "Faking 2017 luminosity" << std::endl;
+        lumi = getLumi(2017);
+    } else if (options.Contains("FakeLumi2018")) {
+        if (!quiet) std::cout << "Faking 2018 luminosity" << std::endl;
+        lumi = getLumi(2018);
+    }
+
+    bool partialUnblind = false;
+    /*
+    if (options.Contains("partialUnblind")) {
+        set_goodrun_file("unblindjson/allsnt.txt");
+        if (year == 2017 or options.Contains("FakeLumi2017")) {
+            lumi = 10.;
         }
-        cout << "Loaded Samples!" << endl;
+        if (year == 2018 or options.Contains("FakeLumi2018")) {
+            lumi = 15.415;
+        }
+        partialUnblind = true;
+    }
+    */
 
-        int nEvents = chain->GetEntries();
-        cout << "found " << nEvents << " " << sample_names[btype] << " events" << endl;
+    // Note the blocks and else/ifs
+    if (options.Contains("doData")) {
+        if (!quiet) std::cout << "Doing data" << std::endl;
+        isData = 1;
+    }
 
-        // setup iterator
-        TObjArray *listOfFiles = chain->GetListOfFiles();
-        TIter fileIter(listOfFiles);
-        TFile *currentFile = 0;
+    // --------
+    if (options.Contains("doFakesMCUnw")) {
+        if (!quiet) std::cout << "Doing fakesMC unweighted" << std::endl;
+        doFakes = 1;
+        ignoreFakeFactor = 1;
+    }
+    else if (options.Contains("doFakesUnw")) {
+        if (!quiet) std::cout << "Doing fakes unweighted" << std::endl;
+        isData = 1;
+        doFakes = 1;
+        ignoreFakeFactor = 1;
+    }
+    else if (options.Contains("doFakesMC")) {
+        if (!quiet) std::cout << "Doing fakesMC" << std::endl;
+        doFakes = 1;
+    }
+    else if (options.Contains("doFakes")) {
+        if (!quiet) std::cout << "Doing fakes" << std::endl;
+        isData = 1;
+        doFakes = 1;
+    }
 
-        auto start = high_resolution_clock::now();
+    // --------
+    if (options.Contains("doFlipsMC")) {
+        if (!quiet) std::cout << "Doing flipsMC" << std::endl;
+        doFlips = 1;
+    }
 
-        //Find the exact sample name
-        TFile* sFile(chain->GetFile());
-        string sName = sFile->GetName();
+    // --------
+    if (options.Contains("doFlips")) {
+        if (!quiet) std::cout << "Doing flips" << std::endl;
+        isData = 1;
+        doFlips = 1;
+    }
 
-        // loop over events
-        while ( (currentFile = (TFile*)fileIter.Next()) ) {
-            TFile *file = new TFile(currentFile->GetTitle());
-            TString filename = currentFile->GetTitle();
-            TTree *tree = (TTree*)file->Get("Events");
-            nt.Init(tree);
-//            for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ //for testing only!!
-            for ( unsigned int counter = 0; counter < 100; counter++ ){ //for testing only!!
-                if ( counter%100000==0 ){
-                    cout << "event " << counter << endl;
-                }
+    // --------
+    if (options.Contains("doTruthFake")) {
+        if (!quiet) std::cout << "Doing truthfake" << std::endl;
+        truthfake = 1;
+    }
 
-                //Get individual event
-                //Long64_t event = chain->GetEntry(counter);
-                nt.GetEntry(counter);
+    // --------
+    if (options.Contains("doSkipMatching")) {
+        if (!quiet) std::cout << "Skipping gen matching" << std::endl;
+        skipmatching = 1;
+    }
 
-                // print out sample name
-                if ( counter%10000==0 ){
-                    cout << filename.Data() << endl;
-                }
-                //get event weight based on sample!
-                double weight = getEventWeight( sName, inputDir, babyVersion );
-                double genWeight = nt.Generator_weight();
-                weight = (weight*genWeight*lumi)/(abs(genWeight));
+    // --------
+    if (options.Contains("doXgamma")) {
+        if (!quiet) std::cout << "Doing x+gamma" << std::endl;
+        isGamma = 1;
+    }
 
-                // load the leptons
-                Leptons leptons = getLeptons();
-                Leptons tight_leptons = getTightLeptons();
-                Leptons loose_leptons = getLooseLeptons();
-                unsigned int nleps_tight = tight_leptons.size();
-                unsigned int nleps_loose = loose_leptons.size();
+    if (!quiet) cout << "Running with lumi=" << lumi*scaleLumi << endl;
 
-                if (verbose) {
-                    std::cout << "Event has " << nleps_loose << " loose leptons and "
-                              << nleps_tight << " tight leptons." << std::endl;
-                }
+    TString chainTitle = chain->GetTitle();
+    const char* chainTitleCh = chainTitle.Data();
+    if (!quiet) std::cout << "Working on " << chainTitle << std::endl;
 
-                // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, TL, OS
-                std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,false);
-                int best_hyp_type = best_hyp_info.first;
-                Leptons best_hyp = best_hyp_info.second;
-                if (best_hyp_type<0) continue;
-                sort(best_hyp.begin(),best_hyp.end(),lepsort);
-                Lepton leading_lep = best_hyp[0];
-                Lepton trailing_lep = best_hyp[1];
-                Lepton third_lep;
-                if (best_hyp.size()>2) third_lep = best_hyp[2];
+    bool isFakes = (chainTitle=="fakes") || (chainTitle=="fakes_mc");
+    bool isFlips = (chainTitle=="flips") || (chainTitle=="flips_mc");
+    bool isRares = (chainTitle=="rares");
+    bool istt = (chainTitle=="ttjets") || (chainTitle=="fakes_mc") || (chainTitle=="fakes_mc_unw");
+    bool isttH = (chainTitle=="tth");
+    bool istttt = (chainTitle=="tttt");
+    bool isttVV = (chainTitle=="ttvv");
+    bool isttW = (chainTitle=="ttw");
+    bool isWW = (chainTitle=="ww");
+    bool isttZ = (chainTitle=="ttz_m1-10") || (chainTitle=="ttz_m10");
+    bool isWZ = (chainTitle=="wz");
+    bool isXgamma = (chainTitle=="xg");
 
-                if (verbose) {
-                    std::cout << "best hyp type: " << best_hyp_type << "; lepton ids: " << leading_lep.id()
-                                                                    << ", " << trailing_lep.id() << std::endl;
-                }
+    //**************************** end set options ****************************//
+    //*************************************************************************//
 
-                // get jets and bjets
-                std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
-                Jets good_jets = good_jets_and_bjets.first;
-                Jets good_bjets = good_jets_and_bjets.second;
-                int njets = good_jets.size();
-                int nbjets = good_bjets.size();
-                sort(good_jets.begin(),good_jets.end(),jetptsort);
-                sort(good_bjets.begin(),good_bjets.end(),jetptsort);
-                float ht = 0.;
-                for (auto jet : good_jets) ht += jet.pt();
 
-                if (verbose) {
-                    std::cout << "Event has " << good_jets.size() << " jets and "
-                              << good_bjets.size() << " b-tagged jets." << std::endl;
-                }
+    auto outFileName = outputdir+"/"+chainTitle+"_"+TString(std::to_string(year).c_str())+"_hists.root";
+    std::cout << "Will write histograms to " << outFileName.Data() << std::endl;
+    auto outFile = new TFile(outFileName.Data(), "recreate");//for testing only!!
 
-                if (njets < 2) continue;
+    HistContainer hists;
+    hists.loadHists(chainTitleCh);
 
-                if (verbose) {
-                    std::cout << "leading jet pt: " << good_jets[0].pt() << std::endl;
-                }
+        //nEvents in chain
+    unsigned int nEventsTotal = 0;
+    unsigned int nEventsChain = chain->GetEntries();
 
-                // if we've reached here we've passed the baseline selection
-                // fill histograms
-                hists.fill(sample_names[btype],best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
-           }//loop over events
+    //Set up iterator
+    TObjArray *listOfFiles = chain->GetListOfFiles();
+    TIter fileIter(listOfFiles);
+    TFile *currentFile = 0;
 
-        } // loop over files
+    //Number of selected events
+    //int nSelected = 0;
 
-        auto stop = high_resolution_clock::now();
-        auto duration = duration_cast<seconds>(stop - start);
+    tqdm bar;
+    // bar.set_theme_braille();
 
-        cout << "processed " << nEvents << " events in " << duration.count() << " seconds!!" << endl;
+    auto start = high_resolution_clock::now();
 
-        //write histograms
-        std::cout << "Writing " << sample_names[btype] << " histograms to " << outFile->GetName() << std::endl;
+    //File Loop
+    while ( (currentFile = (TFile*)fileIter.Next()) ){
+        TFile *file = new TFile(currentFile->GetTitle());
+        TString filename = currentFile->GetTitle();
+        TTree *tree = (TTree*)file->Get("Events");
+        nt.Init(tree);
 
-        outFile->cd();
-        hists.write();
-    } // loop over samples
-    outFile->Close();
+        //for ( unsigned int counter = 0; counter < 100; counter++ ){ //for testing only!!
+        for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ //for testing only!!
+            nt.GetEntry(counter);
+            ++nEventsTotal;
+
+            if ( counter%100000==0 ){
+                cout << "event " << counter << endl;
+                cout << filename.Data() << endl;
+            }
+
+            if (!quiet) bar.progress(nEventsTotal, nEventsChain);
+
+            //get event weight based on sample!
+            double weight = getEventWeight( file->GetName() );
+            double genWeight = nt.Generator_weight();
+            weight = (weight*genWeight*lumi)/(abs(genWeight));
+
+            // load the leptons
+            Leptons leptons = getLeptons();
+            Leptons tight_leptons = getTightLeptons();
+            Leptons loose_leptons = getLooseLeptons();
+            unsigned int nleps_tight = tight_leptons.size();
+            unsigned int nleps_loose = loose_leptons.size();
+
+            if (verbose) {
+                std::cout << "Event has " << nleps_loose << " loose leptons and "
+                          << nleps_tight << " tight leptons." << std::endl;
+            }
+
+            // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, TL, OS
+            std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,false);
+            int best_hyp_type = best_hyp_info.first;
+            Leptons best_hyp = best_hyp_info.second;
+            if (best_hyp_type<0) continue;
+            sort(best_hyp.begin(),best_hyp.end(),lepsort);
+            Lepton leading_lep = best_hyp[0];
+            Lepton trailing_lep = best_hyp[1];
+            Lepton third_lep;
+            if (best_hyp.size()>2) third_lep = best_hyp[2];
+
+            if (verbose) {
+                std::cout << "best hyp type: " << best_hyp_type << "; lepton ids: " << leading_lep.id()
+                                                                << ", " << trailing_lep.id() << std::endl;
+            }
+
+            // get jets and bjets
+            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
+            Jets good_jets = good_jets_and_bjets.first;
+            Jets good_bjets = good_jets_and_bjets.second;
+            int njets = good_jets.size();
+            int nbjets = good_bjets.size();
+            sort(good_jets.begin(),good_jets.end(),jetptsort);
+            sort(good_bjets.begin(),good_bjets.end(),jetptsort);
+            float ht = 0.;
+            for (auto jet : good_jets) ht += jet.pt();
+
+            if (verbose) {
+                std::cout << "Event has " << good_jets.size() << " jets and "
+                          << good_bjets.size() << " b-tagged jets." << std::endl;
+            }
+
+            if (njets < 2) continue;
+
+            if (verbose) {
+                std::cout << "leading jet pt: " << good_jets[0].pt() << std::endl;
+            }
+
+            // if we've reached here we've passed the baseline selection
+            // fill histograms
+            hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
+        }//loop over events
+     } // loop over files
+
+     auto stop = high_resolution_clock::now();
+     auto duration = duration_cast<seconds>(stop - start);
+
+     cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
+
+     //write histograms
+     std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
+
+     outFile->cd();
+     hists.write();
+     outFile->Close();
 }

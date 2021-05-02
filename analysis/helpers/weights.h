@@ -4,19 +4,29 @@
 
 using namespace std;
 
-double getEventWeight ( string sampleName, string inputDir, string tag ){
+double getEventWeight (string sampleName){
     
     double eventWeight;
 
     //get name of txt file with number MC events
-    sampleName.erase(0, inputDir.length());
-    //cout << sampleName << endl;
-    int sampleEnd = sampleName.find("/output");
+    TString sName = TString(sampleName.c_str());
+    TObjArray *tokens = sName.Tokenize("/");
+    unsigned int nentries = tokens->GetEntries();
+    TString str1 = ((TObjString*)tokens->At(nentries-2) )->GetString();
+    TString str2 = ((TObjString*)tokens->At(nentries-1) )->GetString();
+    std::string sName_short = (str1+"/"+str2).Data();
+    int sampleEnd = sName_short.find("/output");
     string endToRemove = sampleName.substr(sampleEnd);
     sampleName.erase(sampleEnd,endToRemove.length());
-    //cout << sampleName << endl;
+    TString input_dir = "";
+    for (unsigned int idx=0; idx<nentries-2; idx++) {
+        input_dir = input_dir+"/"+((TObjString*)tokens->At(idx) )->GetString();
+    }
+    std::string inputDir = input_dir.Data();
+    std::string tag = ((TObjString*)tokens->At(nentries-3) )->GetString().Data();
 
     string fileEnding = "_n_events.txt";
+    sampleName = ((TObjString*)tokens->At(nentries-2) )->GetString().Data();
     sampleName = sampleName+fileEnding;
     //cout << sampleName << endl;
 

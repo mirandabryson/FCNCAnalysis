@@ -7,10 +7,10 @@ def get_sample_path(sample,year):
     if year==2016: 
         if sample in samples_2016: return samples_2016[sample]
         else: print("ERROR: Sample %s does not exist in year %d." % (sample,year))
-    else if year==2017: 
-        if sample in samples_2016: return samples_2016[sample]
+    elif year==2017: 
+        if sample in samples_2017: return samples_2017[sample]
         else: print("ERROR: Sample %s does not exist in year %d." % (sample,year))
-    else if year==2018: 
-        if sample in samples_2016: return samples_2016[sample]
+    elif year==2018: 
+        if sample in samples_2018: return samples_2018[sample]
         else: print("ERROR: Sample %s does not exist in year %d." % (sample,year))
     else: print("ERRROR: No samples for year ", year)
