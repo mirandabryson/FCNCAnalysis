@@ -47,7 +47,7 @@ if __name__ == '__main__':
             ifpath = basedirs[2016] + lname + "/"
             for f in os.listdir(ifpath):
                 if f.endswith('.root'): ifnames.append(f)
-            ofpath = outdir + "/{}/{}/'.format(tag,year) + 'merged/'
+            ofpath = outdir+'/{}/{}/merged/'.format(tag,year)
             if not os.path.isdir(ofpath):
                 os.system('mkdir -p {}'.format(ofpath))
             ofname = ofpath+'%s.root' % (sname)
