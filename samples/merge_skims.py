@@ -29,9 +29,9 @@ if __name__ == '__main__':
     if args.dryrun: dryrun=True
 
     basedirs = {
-        2016: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format('fcnc_v3'),
-        2017: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format('fcnc_v3'),
-        2018: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format('fcnc_v3'),
+        2016: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format(tag),
+        2017: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format(tag),
+        2018: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format(tag),
     }
     outdir = basedirs[2016]
     if args.out != "": outdir = args.out
@@ -46,8 +46,8 @@ if __name__ == '__main__':
             ifnames = []
             fpath = basedirs[2016] + lname + "/"
             for f in os.listdir(fpath):
-                if f.endswith('.root'): ifnames.append(f    )
-            ofname = basedirs[2016] + lname + "merged/%s.root" % (sname)
+                if f.endswith('.root'): ifnames.append(f)
+            ofname = outdir + "/{}/{}/'.format(tag,year) + 'merged/%s.root' % (sname)
             ifnames_long = [fpath + f for f in ifnames]
             command='hadd -f %s %s' % (ofname, ' '.join(ifnames_long))
             if args.verbosity: print command
