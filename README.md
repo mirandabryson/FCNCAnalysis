@@ -1,29 +1,29 @@
 # FCNCAnalysis
-mkdir fcnc
-cd fcnc
-git clone https://github.com/fgolf/FCNCAnalysis.git current
-git clone https://github.com/fgolf/NanoTools.git
-pushd .
-cd NanoTools/NanoCORE
-make -j8
-popd
+mkdir fcnc <br>
+cd fcnc <br>
+git clone https://github.com/fgolf/FCNCAnalysis.git ana <br>
+git clone https://github.com/fgolf/NanoTools.git <br>
+pushd . <br>
+cd NanoTools/NanoCORE <br>
+make -j8 <br>
+popd <br>
 
 ## build histogrammingClass.C
-pushd current/analysis/helpers
-root -b
-gROOT->ProcessLine(".L ../../../NanoTools/NanoCORE/NANO_CORE.so");
-.L histogrammingClass.C++
+pushd ana/analysis/helpers <br>
+root -b <br>
+gROOT->ProcessLine(".L ../../../NanoTools/NanoCORE/NANO_CORE.so"); <br>
+.L histogrammingClass.C++ <br>
+popd <br>
 
 ## checkout plotting tools
-popd
-pushd current
-git clone https://github.com/aminnj/matplottery.git
-popd
+pushd ana <br>
+git clone https://github.com/aminnj/matplottery.git <br>
+popd <br>
 
-## build event looper
-pushd current/analysis
-root -b
-gROOT->ProcessLine(".L ../../NanoTools/NanoCORE/NANO_CORE.so");
-gROOT->ProcessLine(".L  helpers/histogrammingClass_C.so");
-.L event_looper.C++;
+## build analysis looper
+pushd ana/analysis <br>
+root -b <br>
+gROOT->ProcessLine(".L ../../NanoTools/NanoCORE/NANO_CORE.so"); <br>
+gROOT->ProcessLine(".L  helpers/histogrammingClass_C.so"); <br>
+.L event_looper.C++; <br>
 event_looper()
