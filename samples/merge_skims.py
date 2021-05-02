@@ -52,7 +52,7 @@ if __name__ == '__main__':
                 os.system('mkdir -p {}'.format(ofpath))
             ofname = ofpath+'%s.root' % (sname)
             ifnames_long = [ifpath + f for f in ifnames]
-            command='hadd -f %s %s' % (ofname, ' '.join(ifnames_long))
+            command='hadd -fk %s %s' % (ofname, ' '.join(ifnames_long))
             if args.verbosity: print command
             count += 1
             if not dryrun:
