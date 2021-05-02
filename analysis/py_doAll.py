@@ -64,7 +64,7 @@ if __name__ == "__main__":
         r.gSystem.SetAclicMode(r.TSystem.kDebug)
         r.gROOT.ProcessLine(".L ../../NanoTools/NanoCORE/NANO_CORE.so")
         #r.gROOT.ProcessLine(".L helpers/histogrammingClass_C.so")
-        .gROOT.ProcessLine(".L helpers/histogrammingClass.C++")
+        r.gROOT.ProcessLine(".L helpers/histogrammingClass.C++")
         #r.gROOT.ProcessLine(".L ../../common/CORE/Tools/goodrun.cc+")
         #r.gROOT.ProcessLine(".L ../../common/CORE/Tools/dorky/dorky.cc+")
         r.gROOT.ProcessLine(".L event_looper.C+")
