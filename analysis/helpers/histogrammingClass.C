@@ -13,6 +13,15 @@ std::vector<std::string> HistContainer::getRegionNames() {
     return rnames;
 }
 
+int HistContainer::getSR(int hyp_type, int njets, int nbjets) {
+    if !(hyp_type==2 || hyp_type==4) continue;
+    int ret=0;
+    int offset=(std::min(njets,4)-1)+3*std::min(nbjets,2)
+    int loffset=0;
+    if (hyp_type==2) loffset=9;
+    return loffset+offset;
+}
+
 void HistContainer::addHist1d(std::string quantity, std::string sample, int nbins, float xmin, float xmax, std::string region) {
     if (region=="") {
         for (auto name : region_names_) {
@@ -62,6 +71,7 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("lbpt",sample,50,0,500);
     addHist1d("ht",sample,50,0,1000);
     addHist1d("met",sample,20,0,400);
+    addHist1d("sr",sample,0.5,18.5,18,"br");
     return;
 }
 
@@ -109,9 +119,11 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     // fill 1d histograms first
     std::string rname = getRegionName(best_hyp_type,jets.size(),bjets.size());
     std::vector<std::string> rnames = {"br",rname};
+    int njets=jets.size();
+    int nbjets=bjets.size();
     for (auto name : rnames) {
-        fill1d("njets",name,sample,jets.size(),weight);
-        fill1d("nbjets",name,sample,bjets.size(),weight);
+        fill1d("njets",name,sample,njets,weight);
+        fill1d("nbjets",name,sample,bjets,weight);
         fill1d("nleps",name,sample,leps.size(),weight);
         fill1d("llpt",name,sample,leps[0].pt(),weight);
         fill1d("ltpt",name,sample,leps[1].pt(),weight);
@@ -119,7 +131,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         fill1d("lteta",name,sample,leps[1].eta(),weight);
         fill1d("ljpt",name,sample,jets[0].pt(),weight);
         fill1d("met",name,sample,met,weight);
-        if (bjets.size()>0) fill1d("lbpt",name,sample,bjets[0].pt(),weight);
+        if (nbjets>0) fill1d("lbpt",name,sample,bjets[0].pt(),weight);
         float ht = get_sum_pt(jets);
         fill1d("ht",name,sample,ht,weight);
         for (unsigned int idx1=0; idx1<leps.size();idx1++) {
@@ -129,6 +141,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             }
         }
     }
+    fill1d("sr","br",sample,getSR(hyp_type,njets,nbjets),weight)
 
     // now fill 2d histograms
     return;
