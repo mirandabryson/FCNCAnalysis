@@ -20,7 +20,7 @@ pushd ana <br>
 git clone https://github.com/aminnj/matplottery.git <br>
 popd <br>
 
-## build event looper
+## build analysis looper
 pushd ana/analysis <br>
 root -b <br>
 gROOT->ProcessLine(".L ../../NanoTools/NanoCORE/NANO_CORE.so"); <br>
