@@ -13,9 +13,9 @@ pushd ana/analysis/helpers <br>
 root -b <br>
 gROOT->ProcessLine(".L ../../../NanoTools/NanoCORE/NANO_CORE.so"); <br>
 .L histogrammingClass.C++ <br>
+popd <br>
 
 ## checkout plotting tools
-popd <br>
 pushd ana <br>
 git clone https://github.com/aminnj/matplottery.git <br>
 popd <br>
