@@ -26,8 +26,6 @@ if __name__ == '__main__':
     years = [2016,2017,2018]
     dryrun=False
     if args.dryrun: dryrun=True
-    verbose=False
-    if args.verbose: verbose=True
 
     basedirs = {
         2016: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format('fcnc_v3'),
@@ -47,11 +45,11 @@ if __name__ == '__main__':
             ifnames = []
             fpath = basedirs[2016] + lname + "/"
             for f in os.listdir(fpath):
-                if f.endswith('.root'): ifnames.append(f)
+                if f.endswith('.root'): ifnames.append(f    )
             ofname = basedirs[2016] + lname + "merged/%s.root" % (sname)
             ifnames_long = [fpath + f for f in ifnames]
             command='hadd -f %s %s' % (ofname, ' '.join(ifnames_long))
-            if verbose: print command
+            if args.verbosity: print command
             count += 1
             if not dryrun:
                 os.system(command)
