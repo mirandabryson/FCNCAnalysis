@@ -71,6 +71,7 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("lbpt",sample,50,0,500);
     addHist1d("ht",sample,50,0,1000);
     addHist1d("met",sample,20,0,400);
+    addHist1d("cutflow",sample,4,0.5,4.5,"br");
     addHist1d("sr",sample,18,0.5,18.5,"br");
     return;
 }
@@ -118,7 +119,9 @@ float get_sum_pt(Jets  &jets) {
 void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, float weight) {
     // fill 1d histograms first
     std::string rname = getRegionName(best_hyp_type,jets.size(),bjets.size());
-    std::vector<std::string> rnames = {"br",rname};
+    std::vector<std::string> rnames = {rname};
+    std::vector<std::string> brmap = {"ml","mlsf","ss"};
+    if brmap.contains(rname): rnames.append("br");
     int njets=jets.size();
     int nbjets=bjets.size();
     for (auto name : rnames) {
@@ -140,10 +143,14 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
                 fill1d("mll",name,sample,mass,weight);
             }
         }
-    }
-    int sr = getSR(best_hyp_type,njets,nbjets);
-    if (sr>=0)
-        fill1d("sr","br",sample,sr,weight);
+        if (name == "br") {
+            int sr = getSR(best_hyp_type,njets,nbjets);
+            if (sr>=0)
+                fill1d("sr",name,sample,sr,weight);
+            int cutflow_counter=4;
+            fill1d("cutflow",name,sample,cutflow_counter,weight);
+        }
+    } // end loop over regions
 
     // now fill 2d histograms
     return;
