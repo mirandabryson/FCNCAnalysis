@@ -226,6 +226,7 @@ class GenPart {
         vector<float> genPart_mass;
         vector<float> genPart_pdgid;
         vector<int> genPart_genPartIdxMother;
+	vector<int> genPart_statusFlags;
 
     public:
         vector<float> pt;
@@ -234,6 +235,7 @@ class GenPart {
         vector<float> mass;
         vector<float> pdgid;
         vector<int> motherIdx;
+	vector<int> statusFlags;
 
         //constructor automatically gets and fills the necessary kinematic variables
         GenPart(TChain* &chain, int nGenParts, int year) {
@@ -245,6 +247,7 @@ class GenPart {
                 genPart_mass.push_back( chain->GetLeaf("GenPart_mass")->GetValue(g) );
                 genPart_pdgid.push_back( chain->GetLeaf("GenPart_pdgId")->GetValue(g) );
                 genPart_genPartIdxMother.push_back( chain->GetLeaf("GenPart_genPartIdxMother")->GetValue(g) );
+		genPart_statusFlags.push_back( chain->GetLeaf("GenPart_statusFlags")->GetValue(g) );
 
             }
 
@@ -254,6 +257,7 @@ class GenPart {
             mass = genPart_mass;
             pdgid = genPart_pdgid;
             motherIdx = genPart_genPartIdxMother;
+	    statusFlags = genPart_statusFlags;
 
 
         }//end constructor

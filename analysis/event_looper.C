@@ -63,7 +63,7 @@ void event_looper(){
         }*/
         cout << "Loaded Samples!" << endl;
 
-        int nEvents = chain->GetEntriesFast();
+        int nEvents = chain->GetEntries();
         cout << "found " << nEvents << " " << sample_names[btype] << " events" << endl;
 
         //event variables
@@ -90,12 +90,14 @@ void event_looper(){
         auto start = high_resolution_clock::now();
 
         int processed = 0;
-        //Main for loop
-        for ( int counter = 0; counter < nEvents; counter++ ){
+        int stitchCounter = 0;
+	//Main for loop
+        //for ( int counter = 0; counter < nEvents; counter++ ){
         //for ( int counter = 0; counter < 100000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
-        //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
+        for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
+            processed++;
             //cout << "counter " << counter << endl;
             if ( counter%100000==0 ){
                 cout << "event " << counter << endl;
@@ -190,8 +192,36 @@ void event_looper(){
 
             float fakeRateValue = 0;
             vector<float> fakeRates;
+            float coneCorrPtValue = 0;
             float flipRateValue = 0;
             vector<float> flipRates;
+
+	    bool stitch = 1;
+	    int w_idx = sName.find("WJets");
+	    int t_idx = sName.find("TTJets");
+	    if ( w_idx!=-1 || t_idx!=-1 ){
+	       for ( uint i = 0; i<nGenPart; i++ ){
+		 if (abs(genParts.pdgid[i])==22 && genParts.statusFlags[i]%2==1 && genParts.pt[i]>15 && abs(genParts.eta[i])<2.6){
+		     stitch = 0;
+		  }
+	       }
+	    }
+	    w_idx = sName.find("WG");
+	    t_idx = sName.find("TTG");
+	    if (w_idx!=-1 || t_idx!=-1){
+	      stitch = 0;
+	      for ( uint i = 0; i<nGenPart; i++ ){
+		if(abs(genParts.pdgid[i])==22 && genParts.statusFlags[i]%2==1 && genParts.pt[i]>15 && abs(genParts.eta[i])<2.6){
+		  stitch = 1;
+		}else if(abs(genParts.pdgid[i])==22 && genParts.statusFlags[i]%2==1 && (genParts.pt[i]<15 || abs(genParts.eta[i])>2.6)){
+		  stitch = 0;
+		}
+	      }
+	    }
+	    if (stitch ==1){
+		stitchCounter++;
+	    }
+	    //cout << stitch << endl;
 
             //loop to count tight/loose muons
             for( uint iMu = 0; iMu < nMuon; iMu++ ){
@@ -254,7 +284,8 @@ void event_looper(){
                         isSignal = 1;
                     }
 
-                    fakeRateValue = fakeRate(year, mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu]);
+                    coneCorrPtValue = coneCorrPt(year, mu.pdgid[iMu], mu.pt[iMu], mu.miniIso[iMu], mu.jetRelIso[iMu], mu.jetPtRelv2[iMu] );
+                    fakeRateValue = fakeRate(year, mu.pdgid[iMu], coneCorrPtValue, mu.eta[iMu]);
                     fakeRates.push_back(fakeRateValue);
                 }else continue;
             }
@@ -315,7 +346,8 @@ void event_looper(){
                         isSignal = 1;
                     }
 
-                    fakeRateValue = fakeRate(year, el.pdgid[iEl], el.pt[iEl], el.eta[iEl]);
+                    coneCorrPtValue = coneCorrPt(year, el.pdgid[iEl], el.pt[iEl], el.miniIso[iEl], el.jetRelIso[iEl], el.jetPtRelv2[iEl] );
+                    fakeRateValue = fakeRate(year, el.pdgid[iEl], coneCorrPtValue, el.eta[iEl]);
                     fakeRates.push_back(fakeRateValue);
                 }else continue;
             }
@@ -377,6 +409,9 @@ void event_looper(){
             bool isOS_OFdilep = 0;
             bool isOneLepFO = 0;
             bool isDilepFO = 0;
+            bool isSSFO = 0;
+            float goodLepCh = 0;
+            float fakeLepCh = 0;
 
             if (nGoodLep>=3){
                 isTrilep = 1;
@@ -401,11 +436,38 @@ void event_looper(){
                     }
                 }
             }else if (nGoodLep==1 && nFakeableLep==1){
-                isOneLepFO = 1;
+                if(muCharge_tight.size()==1){
+                    goodLepCh = muCharge_tight[0];
+                }else if (elCharge_tight.size()==1){
+                    goodLepCh = elCharge_tight[0];
+                }
+                if(muCharge_loose.size()==1){
+                    fakeLepCh = muCharge_loose[0];
+                }else if (elCharge_loose.size()==1){
+                    fakeLepCh = elCharge_loose[0];
+                }
+                if(goodLepCh*fakeLepCh>0){
+                    isSSFO = 1;
+                    isOneLepFO = 1;
+                }
             }else if (nFakeableLep==2){
-                isDilepFO = 1;
+                if(muCharge_loose.size()==2){
+                    if(muCharge_loose[0]*muCharge_loose[1]>0){
+                        isSSFO = 1;
+                    }
+                }else if(elCharge_loose.size()==2){
+                    if(elCharge_loose[0]*elCharge_loose[1]>0){
+                        isSSFO = 1;
+                    }
+                }else{
+                    if(elCharge_loose[0]*muCharge_loose[0]>0){
+                        isSSFO = 1;
+                    }
+                }
+                if (isSSFO){
+                    isDilepFO = 1;
+                }
             }
-
 
             //define a weight for CR events.
             //this will be applied to those events and fill the estimate histograms
@@ -467,17 +529,16 @@ void event_looper(){
 
             //Now fill with those variables
             if (isFake||isFlip||isSMSS||isSignal){
-                histos.fill(variablesForFilling, weight, crWeight, nJets, nBjets, nGoodLep, nFakeableLep, muCharge_tight, elCharge_tight, isFake, isFlip, isSMSS, isSignal);
+                histos.fill(variablesForFilling, weight, crWeight, nJets, nBjets, nGoodLep, nFakeableLep, muCharge_tight, elCharge_tight, isSSFO, isFake, isFlip, isSMSS, isSignal);
             }
-
-            processed = counter;
 
        }//event loop
 
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<seconds>(stop - start);
 
-        cout << "processed " << processed+1 << " events in " << duration.count() << " seconds!!" << endl;
+	cout << stitchCounter << endl;
+        cout << "processed " << processed << " events in " << duration.count() << " seconds!!" << endl;
 
         histos.write(sample_names[btype], outFile);
     }

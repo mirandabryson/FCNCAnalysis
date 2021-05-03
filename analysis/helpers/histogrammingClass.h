@@ -190,25 +190,25 @@ class makeHistograms{
         categoryHistogram* dilepFO_ge4j_1b_fakes;
         categoryHistogram* dilepFO_ge4j_ge2b_fakes;
 
-        categoryHistogram* dilep_fakeEst_2j_0b_fakes;
-        categoryHistogram* dilep_fakeEst_2j_1b_fakes;
-        categoryHistogram* dilep_fakeEst_2j_ge2b_fakes;
-        categoryHistogram* dilep_fakeEst_3j_0b_fakes;
-        categoryHistogram* dilep_fakeEst_3j_1b_fakes;
-        categoryHistogram* dilep_fakeEst_3j_ge2b_fakes;
-        categoryHistogram* dilep_fakeEst_ge4j_0b_fakes;
-        categoryHistogram* dilep_fakeEst_ge4j_1b_fakes;
-        categoryHistogram* dilep_fakeEst_ge4j_ge2b_fakes;
+        categoryHistogram* fakeEst_from1FOCR_2j_0b_fakes;
+        categoryHistogram* fakeEst_from1FOCR_2j_1b_fakes;
+        categoryHistogram* fakeEst_from1FOCR_2j_ge2b_fakes;
+        categoryHistogram* fakeEst_from1FOCR_3j_0b_fakes;
+        categoryHistogram* fakeEst_from1FOCR_3j_1b_fakes;
+        categoryHistogram* fakeEst_from1FOCR_3j_ge2b_fakes;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_0b_fakes;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_1b_fakes;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_ge2b_fakes;
 
-        categoryHistogram* trilep_fakeEst_2j_0b_fakes;
-        categoryHistogram* trilep_fakeEst_2j_1b_fakes;
-        categoryHistogram* trilep_fakeEst_2j_ge2b_fakes;
-        categoryHistogram* trilep_fakeEst_3j_0b_fakes;
-        categoryHistogram* trilep_fakeEst_3j_1b_fakes;
-        categoryHistogram* trilep_fakeEst_3j_ge2b_fakes;
-        categoryHistogram* trilep_fakeEst_ge4j_0b_fakes;
-        categoryHistogram* trilep_fakeEst_ge4j_1b_fakes;
-        categoryHistogram* trilep_fakeEst_ge4j_ge2b_fakes;
+        categoryHistogram* fakeEst_from2FOCR_2j_0b_fakes;
+        categoryHistogram* fakeEst_from2FOCR_2j_1b_fakes;
+        categoryHistogram* fakeEst_from2FOCR_2j_ge2b_fakes;
+        categoryHistogram* fakeEst_from2FOCR_3j_0b_fakes;
+        categoryHistogram* fakeEst_from2FOCR_3j_1b_fakes;
+        categoryHistogram* fakeEst_from2FOCR_3j_ge2b_fakes;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_0b_fakes;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_1b_fakes;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_ge2b_fakes;
 
 
 
@@ -302,25 +302,25 @@ class makeHistograms{
         categoryHistogram* dilepFO_ge4j_1b_flips;
         categoryHistogram* dilepFO_ge4j_ge2b_flips;
 
-        categoryHistogram* dilep_fakeEst_2j_0b_flips;
-        categoryHistogram* dilep_fakeEst_2j_1b_flips;
-        categoryHistogram* dilep_fakeEst_2j_ge2b_flips;
-        categoryHistogram* dilep_fakeEst_3j_0b_flips;
-        categoryHistogram* dilep_fakeEst_3j_1b_flips;
-        categoryHistogram* dilep_fakeEst_3j_ge2b_flips;
-        categoryHistogram* dilep_fakeEst_ge4j_0b_flips;
-        categoryHistogram* dilep_fakeEst_ge4j_1b_flips;
-        categoryHistogram* dilep_fakeEst_ge4j_ge2b_flips;
+        categoryHistogram* fakeEst_from1FOCR_2j_0b_flips;
+        categoryHistogram* fakeEst_from1FOCR_2j_1b_flips;
+        categoryHistogram* fakeEst_from1FOCR_2j_ge2b_flips;
+        categoryHistogram* fakeEst_from1FOCR_3j_0b_flips;
+        categoryHistogram* fakeEst_from1FOCR_3j_1b_flips;
+        categoryHistogram* fakeEst_from1FOCR_3j_ge2b_flips;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_0b_flips;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_1b_flips;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_ge2b_flips;
 
-        categoryHistogram* trilep_fakeEst_2j_0b_flips;
-        categoryHistogram* trilep_fakeEst_2j_1b_flips;
-        categoryHistogram* trilep_fakeEst_2j_ge2b_flips;
-        categoryHistogram* trilep_fakeEst_3j_0b_flips;
-        categoryHistogram* trilep_fakeEst_3j_1b_flips;
-        categoryHistogram* trilep_fakeEst_3j_ge2b_flips;
-        categoryHistogram* trilep_fakeEst_ge4j_0b_flips;
-        categoryHistogram* trilep_fakeEst_ge4j_1b_flips;
-        categoryHistogram* trilep_fakeEst_ge4j_ge2b_flips;
+        categoryHistogram* fakeEst_from2FOCR_2j_0b_flips;
+        categoryHistogram* fakeEst_from2FOCR_2j_1b_flips;
+        categoryHistogram* fakeEst_from2FOCR_2j_ge2b_flips;
+        categoryHistogram* fakeEst_from2FOCR_3j_0b_flips;
+        categoryHistogram* fakeEst_from2FOCR_3j_1b_flips;
+        categoryHistogram* fakeEst_from2FOCR_3j_ge2b_flips;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_0b_flips;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_1b_flips;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_ge2b_flips;
 
 
         categoryHistogram* trilep_2j_0b_other;
@@ -413,25 +413,25 @@ class makeHistograms{
         categoryHistogram* dilepFO_ge4j_1b_other;
         categoryHistogram* dilepFO_ge4j_ge2b_other;
 
-        categoryHistogram* dilep_fakeEst_2j_0b_other;
-        categoryHistogram* dilep_fakeEst_2j_1b_other;
-        categoryHistogram* dilep_fakeEst_2j_ge2b_other;
-        categoryHistogram* dilep_fakeEst_3j_0b_other;
-        categoryHistogram* dilep_fakeEst_3j_1b_other;
-        categoryHistogram* dilep_fakeEst_3j_ge2b_other;
-        categoryHistogram* dilep_fakeEst_ge4j_0b_other;
-        categoryHistogram* dilep_fakeEst_ge4j_1b_other;
-        categoryHistogram* dilep_fakeEst_ge4j_ge2b_other;
+        categoryHistogram* fakeEst_from1FOCR_2j_0b_other;
+        categoryHistogram* fakeEst_from1FOCR_2j_1b_other;
+        categoryHistogram* fakeEst_from1FOCR_2j_ge2b_other;
+        categoryHistogram* fakeEst_from1FOCR_3j_0b_other;
+        categoryHistogram* fakeEst_from1FOCR_3j_1b_other;
+        categoryHistogram* fakeEst_from1FOCR_3j_ge2b_other;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_0b_other;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_1b_other;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_ge2b_other;
 
-        categoryHistogram* trilep_fakeEst_2j_0b_other;
-        categoryHistogram* trilep_fakeEst_2j_1b_other;
-        categoryHistogram* trilep_fakeEst_2j_ge2b_other;
-        categoryHistogram* trilep_fakeEst_3j_0b_other;
-        categoryHistogram* trilep_fakeEst_3j_1b_other;
-        categoryHistogram* trilep_fakeEst_3j_ge2b_other;
-        categoryHistogram* trilep_fakeEst_ge4j_0b_other;
-        categoryHistogram* trilep_fakeEst_ge4j_1b_other;
-        categoryHistogram* trilep_fakeEst_ge4j_ge2b_other;
+        categoryHistogram* fakeEst_from2FOCR_2j_0b_other;
+        categoryHistogram* fakeEst_from2FOCR_2j_1b_other;
+        categoryHistogram* fakeEst_from2FOCR_2j_ge2b_other;
+        categoryHistogram* fakeEst_from2FOCR_3j_0b_other;
+        categoryHistogram* fakeEst_from2FOCR_3j_1b_other;
+        categoryHistogram* fakeEst_from2FOCR_3j_ge2b_other;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_0b_other;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_1b_other;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_ge2b_other;
 
 
 
@@ -525,25 +525,25 @@ class makeHistograms{
         categoryHistogram* dilepFO_ge4j_1b;
         categoryHistogram* dilepFO_ge4j_ge2b;
 
-        categoryHistogram* dilep_fakeEst_2j_0b;
-        categoryHistogram* dilep_fakeEst_2j_1b;
-        categoryHistogram* dilep_fakeEst_2j_ge2b;
-        categoryHistogram* dilep_fakeEst_3j_0b;
-        categoryHistogram* dilep_fakeEst_3j_1b;
-        categoryHistogram* dilep_fakeEst_3j_ge2b;
-        categoryHistogram* dilep_fakeEst_ge4j_0b;
-        categoryHistogram* dilep_fakeEst_ge4j_1b;
-        categoryHistogram* dilep_fakeEst_ge4j_ge2b;
+        categoryHistogram* fakeEst_from1FOCR_2j_0b;
+        categoryHistogram* fakeEst_from1FOCR_2j_1b;
+        categoryHistogram* fakeEst_from1FOCR_2j_ge2b;
+        categoryHistogram* fakeEst_from1FOCR_3j_0b;
+        categoryHistogram* fakeEst_from1FOCR_3j_1b;
+        categoryHistogram* fakeEst_from1FOCR_3j_ge2b;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_0b;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_1b;
+        categoryHistogram* fakeEst_from1FOCR_ge4j_ge2b;
 
-        categoryHistogram* trilep_fakeEst_2j_0b;
-        categoryHistogram* trilep_fakeEst_2j_1b;
-        categoryHistogram* trilep_fakeEst_2j_ge2b;
-        categoryHistogram* trilep_fakeEst_3j_0b;
-        categoryHistogram* trilep_fakeEst_3j_1b;
-        categoryHistogram* trilep_fakeEst_3j_ge2b;
-        categoryHistogram* trilep_fakeEst_ge4j_0b;
-        categoryHistogram* trilep_fakeEst_ge4j_1b;
-        categoryHistogram* trilep_fakeEst_ge4j_ge2b;
+        categoryHistogram* fakeEst_from2FOCR_2j_0b;
+        categoryHistogram* fakeEst_from2FOCR_2j_1b;
+        categoryHistogram* fakeEst_from2FOCR_2j_ge2b;
+        categoryHistogram* fakeEst_from2FOCR_3j_0b;
+        categoryHistogram* fakeEst_from2FOCR_3j_1b;
+        categoryHistogram* fakeEst_from2FOCR_3j_ge2b;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_0b;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_1b;
+        categoryHistogram* fakeEst_from2FOCR_ge4j_ge2b;
 
 
     public:
@@ -663,25 +663,25 @@ class makeHistograms{
                 dilepFO_ge4j_1b_fakes       = new categoryHistogram("dilepFO","ge4j","1b","fakes");
                 dilepFO_ge4j_ge2b_fakes     = new categoryHistogram("dilepFO","ge4j","ge2b","fakes");
 
-                dilep_fakeEst_2j_0b_fakes        = new categoryHistogram("dilep_fakeEst","2j","0b","fakes");
-                dilep_fakeEst_2j_1b_fakes        = new categoryHistogram("dilep_fakeEst","2j","1b","fakes");
-                dilep_fakeEst_2j_ge2b_fakes      = new categoryHistogram("dilep_fakeEst","2j","ge2b","fakes");
-                dilep_fakeEst_3j_0b_fakes        = new categoryHistogram("dilep_fakeEst","3j","0b","fakes");
-                dilep_fakeEst_3j_1b_fakes        = new categoryHistogram("dilep_fakeEst","3j","1b","fakes");
-                dilep_fakeEst_3j_ge2b_fakes      = new categoryHistogram("dilep_fakeEst","3j","ge2b","fakes");
-                dilep_fakeEst_ge4j_0b_fakes      = new categoryHistogram("dilep_fakeEst","ge4j","0b","fakes");
-                dilep_fakeEst_ge4j_1b_fakes      = new categoryHistogram("dilep_fakeEst","ge4j","1b","fakes");
-                dilep_fakeEst_ge4j_ge2b_fakes    = new categoryHistogram("dilep_fakeEst","ge4j","ge2b","fakes");
+                fakeEst_from1FOCR_2j_0b_fakes        = new categoryHistogram("fakeEst_from1FOCR","2j","0b","fakes");
+                fakeEst_from1FOCR_2j_1b_fakes        = new categoryHistogram("fakeEst_from1FOCR","2j","1b","fakes");
+                fakeEst_from1FOCR_2j_ge2b_fakes      = new categoryHistogram("fakeEst_from1FOCR","2j","ge2b","fakes");
+                fakeEst_from1FOCR_3j_0b_fakes        = new categoryHistogram("fakeEst_from1FOCR","3j","0b","fakes");
+                fakeEst_from1FOCR_3j_1b_fakes        = new categoryHistogram("fakeEst_from1FOCR","3j","1b","fakes");
+                fakeEst_from1FOCR_3j_ge2b_fakes      = new categoryHistogram("fakeEst_from1FOCR","3j","ge2b","fakes");
+                fakeEst_from1FOCR_ge4j_0b_fakes      = new categoryHistogram("fakeEst_from1FOCR","ge4j","0b","fakes");
+                fakeEst_from1FOCR_ge4j_1b_fakes      = new categoryHistogram("fakeEst_from1FOCR","ge4j","1b","fakes");
+                fakeEst_from1FOCR_ge4j_ge2b_fakes    = new categoryHistogram("fakeEst_from1FOCR","ge4j","ge2b","fakes");
 
-                trilep_fakeEst_2j_0b_fakes         = new categoryHistogram("trilep_fakeEst","2j","0b","fakes");
-                trilep_fakeEst_2j_1b_fakes         = new categoryHistogram("trilep_fakeEst","2j","1b","fakes");
-                trilep_fakeEst_2j_ge2b_fakes       = new categoryHistogram("trilep_fakeEst","2j","ge2b","fakes");
-                trilep_fakeEst_3j_0b_fakes         = new categoryHistogram("trilep_fakeEst","3j","0b","fakes");
-                trilep_fakeEst_3j_1b_fakes         = new categoryHistogram("trilep_fakeEst","3j","1b","fakes");
-                trilep_fakeEst_3j_ge2b_fakes       = new categoryHistogram("trilep_fakeEst","3j","ge2b","fakes");
-                trilep_fakeEst_ge4j_0b_fakes       = new categoryHistogram("trilep_fakeEst","ge4j","0b","fakes");
-                trilep_fakeEst_ge4j_1b_fakes       = new categoryHistogram("trilep_fakeEst","ge4j","1b","fakes");
-                trilep_fakeEst_ge4j_ge2b_fakes     = new categoryHistogram("trilep_fakeEst","ge4j","ge2b","fakes");
+                fakeEst_from2FOCR_2j_0b_fakes         = new categoryHistogram("fakeEst_from2FOCR","2j","0b","fakes");
+                fakeEst_from2FOCR_2j_1b_fakes         = new categoryHistogram("fakeEst_from2FOCR","2j","1b","fakes");
+                fakeEst_from2FOCR_2j_ge2b_fakes       = new categoryHistogram("fakeEst_from2FOCR","2j","ge2b","fakes");
+                fakeEst_from2FOCR_3j_0b_fakes         = new categoryHistogram("fakeEst_from2FOCR","3j","0b","fakes");
+                fakeEst_from2FOCR_3j_1b_fakes         = new categoryHistogram("fakeEst_from2FOCR","3j","1b","fakes");
+                fakeEst_from2FOCR_3j_ge2b_fakes       = new categoryHistogram("fakeEst_from2FOCR","3j","ge2b","fakes");
+                fakeEst_from2FOCR_ge4j_0b_fakes       = new categoryHistogram("fakeEst_from2FOCR","ge4j","0b","fakes");
+                fakeEst_from2FOCR_ge4j_1b_fakes       = new categoryHistogram("fakeEst_from2FOCR","ge4j","1b","fakes");
+                fakeEst_from2FOCR_ge4j_ge2b_fakes     = new categoryHistogram("fakeEst_from2FOCR","ge4j","ge2b","fakes");
 
 
 
@@ -797,25 +797,25 @@ class makeHistograms{
                 dilepFO_ge4j_1b_flips       = new categoryHistogram("dilepFO","ge4j","1b","flips");
                 dilepFO_ge4j_ge2b_flips     = new categoryHistogram("dilepFO","ge4j","ge2b","flips");
 
-                dilep_fakeEst_2j_0b_flips        = new categoryHistogram("dilep_fakeEst","2j","0b","flips");
-                dilep_fakeEst_2j_1b_flips        = new categoryHistogram("dilep_fakeEst","2j","1b","flips");
-                dilep_fakeEst_2j_ge2b_flips      = new categoryHistogram("dilep_fakeEst","2j","ge2b","flips");
-                dilep_fakeEst_3j_0b_flips        = new categoryHistogram("dilep_fakeEst","3j","0b","flips");
-                dilep_fakeEst_3j_1b_flips        = new categoryHistogram("dilep_fakeEst","3j","1b","flips");
-                dilep_fakeEst_3j_ge2b_flips      = new categoryHistogram("dilep_fakeEst","3j","ge2b","flips");
-                dilep_fakeEst_ge4j_0b_flips      = new categoryHistogram("dilep_fakeEst","ge4j","0b","flips");
-                dilep_fakeEst_ge4j_1b_flips      = new categoryHistogram("dilep_fakeEst","ge4j","1b","flips");
-                dilep_fakeEst_ge4j_ge2b_flips    = new categoryHistogram("dilep_fakeEst","ge4j","ge2b","flips");
+                fakeEst_from1FOCR_2j_0b_flips        = new categoryHistogram("fakeEst_from1FOCR","2j","0b","flips");
+                fakeEst_from1FOCR_2j_1b_flips        = new categoryHistogram("fakeEst_from1FOCR","2j","1b","flips");
+                fakeEst_from1FOCR_2j_ge2b_flips      = new categoryHistogram("fakeEst_from1FOCR","2j","ge2b","flips");
+                fakeEst_from1FOCR_3j_0b_flips        = new categoryHistogram("fakeEst_from1FOCR","3j","0b","flips");
+                fakeEst_from1FOCR_3j_1b_flips        = new categoryHistogram("fakeEst_from1FOCR","3j","1b","flips");
+                fakeEst_from1FOCR_3j_ge2b_flips      = new categoryHistogram("fakeEst_from1FOCR","3j","ge2b","flips");
+                fakeEst_from1FOCR_ge4j_0b_flips      = new categoryHistogram("fakeEst_from1FOCR","ge4j","0b","flips");
+                fakeEst_from1FOCR_ge4j_1b_flips      = new categoryHistogram("fakeEst_from1FOCR","ge4j","1b","flips");
+                fakeEst_from1FOCR_ge4j_ge2b_flips    = new categoryHistogram("fakeEst_from1FOCR","ge4j","ge2b","flips");
 
-                trilep_fakeEst_2j_0b_flips         = new categoryHistogram("trilep_fakeEst","2j","0b","flips");
-                trilep_fakeEst_2j_1b_flips         = new categoryHistogram("trilep_fakeEst","2j","1b","flips");
-                trilep_fakeEst_2j_ge2b_flips       = new categoryHistogram("trilep_fakeEst","2j","ge2b","flips");
-                trilep_fakeEst_3j_0b_flips         = new categoryHistogram("trilep_fakeEst","3j","0b","flips");
-                trilep_fakeEst_3j_1b_flips         = new categoryHistogram("trilep_fakeEst","3j","1b","flips");
-                trilep_fakeEst_3j_ge2b_flips       = new categoryHistogram("trilep_fakeEst","3j","ge2b","flips");
-                trilep_fakeEst_ge4j_0b_flips       = new categoryHistogram("trilep_fakeEst","ge4j","0b","flips");
-                trilep_fakeEst_ge4j_1b_flips       = new categoryHistogram("trilep_fakeEst","ge4j","1b","flips");
-                trilep_fakeEst_ge4j_ge2b_flips     = new categoryHistogram("trilep_fakeEst","ge4j","ge2b","flips");
+                fakeEst_from2FOCR_2j_0b_flips         = new categoryHistogram("fakeEst_from2FOCR","2j","0b","flips");
+                fakeEst_from2FOCR_2j_1b_flips         = new categoryHistogram("fakeEst_from2FOCR","2j","1b","flips");
+                fakeEst_from2FOCR_2j_ge2b_flips       = new categoryHistogram("fakeEst_from2FOCR","2j","ge2b","flips");
+                fakeEst_from2FOCR_3j_0b_flips         = new categoryHistogram("fakeEst_from2FOCR","3j","0b","flips");
+                fakeEst_from2FOCR_3j_1b_flips         = new categoryHistogram("fakeEst_from2FOCR","3j","1b","flips");
+                fakeEst_from2FOCR_3j_ge2b_flips       = new categoryHistogram("fakeEst_from2FOCR","3j","ge2b","flips");
+                fakeEst_from2FOCR_ge4j_0b_flips       = new categoryHistogram("fakeEst_from2FOCR","ge4j","0b","flips");
+                fakeEst_from2FOCR_ge4j_1b_flips       = new categoryHistogram("fakeEst_from2FOCR","ge4j","1b","flips");
+                fakeEst_from2FOCR_ge4j_ge2b_flips     = new categoryHistogram("fakeEst_from2FOCR","ge4j","ge2b","flips");
 
 
 
@@ -931,25 +931,25 @@ class makeHistograms{
                 dilepFO_ge4j_1b_other       = new categoryHistogram("dilepFO","ge4j","1b","other");
                 dilepFO_ge4j_ge2b_other     = new categoryHistogram("dilepFO","ge4j","ge2b","other");
 
-                dilep_fakeEst_2j_0b_other        = new categoryHistogram("dilep_fakeEst","2j","0b","other");
-                dilep_fakeEst_2j_1b_other        = new categoryHistogram("dilep_fakeEst","2j","1b","other");
-                dilep_fakeEst_2j_ge2b_other      = new categoryHistogram("dilep_fakeEst","2j","ge2b","other");
-                dilep_fakeEst_3j_0b_other        = new categoryHistogram("dilep_fakeEst","3j","0b","other");
-                dilep_fakeEst_3j_1b_other        = new categoryHistogram("dilep_fakeEst","3j","1b","other");
-                dilep_fakeEst_3j_ge2b_other      = new categoryHistogram("dilep_fakeEst","3j","ge2b","other");
-                dilep_fakeEst_ge4j_0b_other      = new categoryHistogram("dilep_fakeEst","ge4j","0b","other");
-                dilep_fakeEst_ge4j_1b_other      = new categoryHistogram("dilep_fakeEst","ge4j","1b","other");
-                dilep_fakeEst_ge4j_ge2b_other    = new categoryHistogram("dilep_fakeEst","ge4j","ge2b","other");
+                fakeEst_from1FOCR_2j_0b_other        = new categoryHistogram("fakeEst_from1FOCR","2j","0b","other");
+                fakeEst_from1FOCR_2j_1b_other        = new categoryHistogram("fakeEst_from1FOCR","2j","1b","other");
+                fakeEst_from1FOCR_2j_ge2b_other      = new categoryHistogram("fakeEst_from1FOCR","2j","ge2b","other");
+                fakeEst_from1FOCR_3j_0b_other        = new categoryHistogram("fakeEst_from1FOCR","3j","0b","other");
+                fakeEst_from1FOCR_3j_1b_other        = new categoryHistogram("fakeEst_from1FOCR","3j","1b","other");
+                fakeEst_from1FOCR_3j_ge2b_other      = new categoryHistogram("fakeEst_from1FOCR","3j","ge2b","other");
+                fakeEst_from1FOCR_ge4j_0b_other      = new categoryHistogram("fakeEst_from1FOCR","ge4j","0b","other");
+                fakeEst_from1FOCR_ge4j_1b_other      = new categoryHistogram("fakeEst_from1FOCR","ge4j","1b","other");
+                fakeEst_from1FOCR_ge4j_ge2b_other    = new categoryHistogram("fakeEst_from1FOCR","ge4j","ge2b","other");
 
-                trilep_fakeEst_2j_0b_other         = new categoryHistogram("trilep_fakeEst","2j","0b","other");
-                trilep_fakeEst_2j_1b_other         = new categoryHistogram("trilep_fakeEst","2j","1b","other");
-                trilep_fakeEst_2j_ge2b_other       = new categoryHistogram("trilep_fakeEst","2j","ge2b","other");
-                trilep_fakeEst_3j_0b_other         = new categoryHistogram("trilep_fakeEst","3j","0b","other");
-                trilep_fakeEst_3j_1b_other         = new categoryHistogram("trilep_fakeEst","3j","1b","other");
-                trilep_fakeEst_3j_ge2b_other       = new categoryHistogram("trilep_fakeEst","3j","ge2b","other");
-                trilep_fakeEst_ge4j_0b_other       = new categoryHistogram("trilep_fakeEst","ge4j","0b","other");
-                trilep_fakeEst_ge4j_1b_other       = new categoryHistogram("trilep_fakeEst","ge4j","1b","other");
-                trilep_fakeEst_ge4j_ge2b_other     = new categoryHistogram("trilep_fakeEst","ge4j","ge2b","other");
+                fakeEst_from2FOCR_2j_0b_other         = new categoryHistogram("fakeEst_from2FOCR","2j","0b","other");
+                fakeEst_from2FOCR_2j_1b_other         = new categoryHistogram("fakeEst_from2FOCR","2j","1b","other");
+                fakeEst_from2FOCR_2j_ge2b_other       = new categoryHistogram("fakeEst_from2FOCR","2j","ge2b","other");
+                fakeEst_from2FOCR_3j_0b_other         = new categoryHistogram("fakeEst_from2FOCR","3j","0b","other");
+                fakeEst_from2FOCR_3j_1b_other         = new categoryHistogram("fakeEst_from2FOCR","3j","1b","other");
+                fakeEst_from2FOCR_3j_ge2b_other       = new categoryHistogram("fakeEst_from2FOCR","3j","ge2b","other");
+                fakeEst_from2FOCR_ge4j_0b_other       = new categoryHistogram("fakeEst_from2FOCR","ge4j","0b","other");
+                fakeEst_from2FOCR_ge4j_1b_other       = new categoryHistogram("fakeEst_from2FOCR","ge4j","1b","other");
+                fakeEst_from2FOCR_ge4j_ge2b_other     = new categoryHistogram("fakeEst_from2FOCR","ge4j","ge2b","other");
 
             }else{
                 //***********************************************************
@@ -1064,31 +1064,31 @@ class makeHistograms{
                 dilepFO_ge4j_1b       = new categoryHistogram("dilepFO","ge4j","1b",category);
                 dilepFO_ge4j_ge2b     = new categoryHistogram("dilepFO","ge4j","ge2b",category);
 
-                dilep_fakeEst_2j_0b        = new categoryHistogram("dilep_fakeEst","2j","0b",category);
-                dilep_fakeEst_2j_1b        = new categoryHistogram("dilep_fakeEst","2j","1b",category);
-                dilep_fakeEst_2j_ge2b      = new categoryHistogram("dilep_fakeEst","2j","ge2b",category);
-                dilep_fakeEst_3j_0b        = new categoryHistogram("dilep_fakeEst","3j","0b",category);
-                dilep_fakeEst_3j_1b        = new categoryHistogram("dilep_fakeEst","3j","1b",category);
-                dilep_fakeEst_3j_ge2b      = new categoryHistogram("dilep_fakeEst","3j","ge2b",category);
-                dilep_fakeEst_ge4j_0b      = new categoryHistogram("dilep_fakeEst","ge4j","0b",category);
-                dilep_fakeEst_ge4j_1b      = new categoryHistogram("dilep_fakeEst","ge4j","1b",category);
-                dilep_fakeEst_ge4j_ge2b    = new categoryHistogram("dilep_fakeEst","ge4j","ge2b",category);
+                fakeEst_from1FOCR_2j_0b        = new categoryHistogram("fakeEst_from1FOCR","2j","0b",category);
+                fakeEst_from1FOCR_2j_1b        = new categoryHistogram("fakeEst_from1FOCR","2j","1b",category);
+                fakeEst_from1FOCR_2j_ge2b      = new categoryHistogram("fakeEst_from1FOCR","2j","ge2b",category);
+                fakeEst_from1FOCR_3j_0b        = new categoryHistogram("fakeEst_from1FOCR","3j","0b",category);
+                fakeEst_from1FOCR_3j_1b        = new categoryHistogram("fakeEst_from1FOCR","3j","1b",category);
+                fakeEst_from1FOCR_3j_ge2b      = new categoryHistogram("fakeEst_from1FOCR","3j","ge2b",category);
+                fakeEst_from1FOCR_ge4j_0b      = new categoryHistogram("fakeEst_from1FOCR","ge4j","0b",category);
+                fakeEst_from1FOCR_ge4j_1b      = new categoryHistogram("fakeEst_from1FOCR","ge4j","1b",category);
+                fakeEst_from1FOCR_ge4j_ge2b    = new categoryHistogram("fakeEst_from1FOCR","ge4j","ge2b",category);
 
-                trilep_fakeEst_2j_0b         = new categoryHistogram("trilep_fakeEst","2j","0b",category);
-                trilep_fakeEst_2j_1b         = new categoryHistogram("trilep_fakeEst","2j","1b",category);
-                trilep_fakeEst_2j_ge2b       = new categoryHistogram("trilep_fakeEst","2j","ge2b",category);
-                trilep_fakeEst_3j_0b         = new categoryHistogram("trilep_fakeEst","3j","0b",category);
-                trilep_fakeEst_3j_1b         = new categoryHistogram("trilep_fakeEst","3j","1b",category);
-                trilep_fakeEst_3j_ge2b       = new categoryHistogram("trilep_fakeEst","3j","ge2b",category);
-                trilep_fakeEst_ge4j_0b       = new categoryHistogram("trilep_fakeEst","ge4j","0b",category);
-                trilep_fakeEst_ge4j_1b       = new categoryHistogram("trilep_fakeEst","ge4j","1b",category);
-                trilep_fakeEst_ge4j_ge2b     = new categoryHistogram("trilep_fakeEst","ge4j","ge2b",category);
+                fakeEst_from2FOCR_2j_0b         = new categoryHistogram("fakeEst_from2FOCR","2j","0b",category);
+                fakeEst_from2FOCR_2j_1b         = new categoryHistogram("fakeEst_from2FOCR","2j","1b",category);
+                fakeEst_from2FOCR_2j_ge2b       = new categoryHistogram("fakeEst_from2FOCR","2j","ge2b",category);
+                fakeEst_from2FOCR_3j_0b         = new categoryHistogram("fakeEst_from2FOCR","3j","0b",category);
+                fakeEst_from2FOCR_3j_1b         = new categoryHistogram("fakeEst_from2FOCR","3j","1b",category);
+                fakeEst_from2FOCR_3j_ge2b       = new categoryHistogram("fakeEst_from2FOCR","3j","ge2b",category);
+                fakeEst_from2FOCR_ge4j_0b       = new categoryHistogram("fakeEst_from2FOCR","ge4j","0b",category);
+                fakeEst_from2FOCR_ge4j_1b       = new categoryHistogram("fakeEst_from2FOCR","ge4j","1b",category);
+                fakeEst_from2FOCR_ge4j_ge2b     = new categoryHistogram("fakeEst_from2FOCR","ge4j","ge2b",category);
 
             }
         }
 
         //methods to fill and save histograms
-        void fill(vector<float> variablesForFilling, float weight, float crWeight, int nJets, int nBjets, int nGoodLep, int nFakeableLep, vector<int> muCharge_tight, vector<int> elCharge_tight, bool isFake, bool isFlip, bool isSMSS, bool isSignal){
+        void fill(vector<float> variablesForFilling, float weight, float crWeight, int nJets, int nBjets, int nGoodLep, int nFakeableLep, vector<int> muCharge_tight, vector<int> elCharge_tight, bool isSSFO, bool isFake, bool isFlip, bool isSMSS, bool isSignal){
             
             if(isFake == 1){
                 if (nJets==2){
@@ -1132,17 +1132,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
@@ -1188,17 +1188,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
@@ -1244,17 +1244,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
@@ -1303,17 +1303,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
@@ -1359,17 +1359,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
@@ -1415,17 +1415,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
@@ -1474,17 +1474,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
@@ -1530,17 +1530,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
@@ -1586,17 +1586,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
@@ -1646,17 +1646,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_0b_flips->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_0b_flips->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
@@ -1702,17 +1702,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_1b_flips->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_1b_flips->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
@@ -1758,17 +1758,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
@@ -1817,17 +1817,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_0b_flips->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_0b_flips->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
@@ -1873,17 +1873,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_1b_flips->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_1b_flips->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
@@ -1929,17 +1929,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
@@ -1988,17 +1988,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_0b_flips->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_0b_flips->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
@@ -2044,17 +2044,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_1b_flips->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_1b_flips->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
@@ -2100,17 +2100,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
@@ -2160,17 +2160,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_0b_other->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_0b_other->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
@@ -2216,17 +2216,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_1b_other->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_1b_other->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
@@ -2272,17 +2272,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
@@ -2331,17 +2331,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_0b_other->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_0b_other->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
@@ -2387,17 +2387,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_1b_other->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_1b_other->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
@@ -2443,17 +2443,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
@@ -2502,17 +2502,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_0b_other->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_0b_other->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
@@ -2558,17 +2558,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_1b_other->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_1b_other->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
@@ -2614,17 +2614,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
@@ -2674,17 +2674,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_0b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_0b->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_0b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_0b->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_0b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_0b->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_0b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_0b->fillHistogram(variablesForFilling, weight);
@@ -2730,17 +2730,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_1b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_1b->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_1b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_1b->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_1b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_1b->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_1b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_1b->fillHistogram(variablesForFilling, weight);
@@ -2786,17 +2786,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_2j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_2j_ge2b->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_2j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_2j_ge2b->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
@@ -2845,17 +2845,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_0b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_0b->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_0b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_0b->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_0b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_0b->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_0b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_0b->fillHistogram(variablesForFilling, weight);
@@ -2901,17 +2901,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_1b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_1b->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_1b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_1b->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_1b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_1b->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_1b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_1b->fillHistogram(variablesForFilling, weight);
@@ -2957,17 +2957,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_3j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_3j_ge2b->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_3j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_3j_ge2b->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
@@ -3016,17 +3016,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_0b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_0b->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_0b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_0b->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
@@ -3072,17 +3072,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_1b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_1b->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_1b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_1b->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
@@ -3128,17 +3128,17 @@ class makeHistograms{
                                 }
                             }
                         }
-                        if (nGoodLep==1 && nFakeableLep==1){
+                        if (nGoodLep==1 && nFakeableLep==1 && isSSFO){
                             if (crWeight != 0){
-                                dilep_fakeEst_ge4j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from1FOCR_ge4j_ge2b->fillHistogram(variablesForFilling, crWeight);
                                 onelepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 onelepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
                             }
                         }
-                        if (nFakeableLep==2){
+                        if (nFakeableLep==2 && isSSFO){
                             if(crWeight != 0){
-                                trilep_fakeEst_ge4j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                fakeEst_from2FOCR_ge4j_ge2b->fillHistogram(variablesForFilling, crWeight);
                                 dilepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
                             }else{
                                 dilepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
@@ -3241,25 +3241,25 @@ class makeHistograms{
                 dilepFO_ge4j_1b_fakes->writeHistogram(outfile);
                 dilepFO_ge4j_ge2b_fakes->writeHistogram(outfile);
 
-                dilep_fakeEst_2j_0b_fakes->writeHistogram(outfile);
-                dilep_fakeEst_2j_1b_fakes->writeHistogram(outfile);
-                dilep_fakeEst_2j_ge2b_fakes->writeHistogram(outfile);
-                dilep_fakeEst_3j_0b_fakes->writeHistogram(outfile);
-                dilep_fakeEst_3j_1b_fakes->writeHistogram(outfile);
-                dilep_fakeEst_3j_ge2b_fakes->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_0b_fakes->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_1b_fakes->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_ge2b_fakes->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_0b_fakes->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_1b_fakes->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_ge2b_fakes->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_0b_fakes->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_1b_fakes->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_ge2b_fakes->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_0b_fakes->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_1b_fakes->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_ge2b_fakes->writeHistogram(outfile);
 
-                trilep_fakeEst_2j_0b_fakes->writeHistogram(outfile);
-                trilep_fakeEst_2j_1b_fakes->writeHistogram(outfile);
-                trilep_fakeEst_2j_ge2b_fakes->writeHistogram(outfile);
-                trilep_fakeEst_3j_0b_fakes->writeHistogram(outfile);
-                trilep_fakeEst_3j_1b_fakes->writeHistogram(outfile);
-                trilep_fakeEst_3j_ge2b_fakes->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_0b_fakes->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_1b_fakes->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_ge2b_fakes->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_0b_fakes->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_1b_fakes->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_ge2b_fakes->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_0b_fakes->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_1b_fakes->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_ge2b_fakes->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_0b_fakes->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_1b_fakes->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_ge2b_fakes->writeHistogram(outfile);
 
 
 
@@ -3353,25 +3353,25 @@ class makeHistograms{
                 dilepFO_ge4j_1b_flips->writeHistogram(outfile);
                 dilepFO_ge4j_ge2b_flips->writeHistogram(outfile);
 
-                dilep_fakeEst_2j_0b_flips->writeHistogram(outfile);
-                dilep_fakeEst_2j_1b_flips->writeHistogram(outfile);
-                dilep_fakeEst_2j_ge2b_flips->writeHistogram(outfile);
-                dilep_fakeEst_3j_0b_flips->writeHistogram(outfile);
-                dilep_fakeEst_3j_1b_flips->writeHistogram(outfile);
-                dilep_fakeEst_3j_ge2b_flips->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_0b_flips->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_1b_flips->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_ge2b_flips->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_0b_flips->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_1b_flips->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_ge2b_flips->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_0b_flips->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_1b_flips->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_ge2b_flips->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_0b_flips->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_1b_flips->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_ge2b_flips->writeHistogram(outfile);
 
-                trilep_fakeEst_2j_0b_flips->writeHistogram(outfile);
-                trilep_fakeEst_2j_1b_flips->writeHistogram(outfile);
-                trilep_fakeEst_2j_ge2b_flips->writeHistogram(outfile);
-                trilep_fakeEst_3j_0b_flips->writeHistogram(outfile);
-                trilep_fakeEst_3j_1b_flips->writeHistogram(outfile);
-                trilep_fakeEst_3j_ge2b_flips->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_0b_flips->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_1b_flips->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_ge2b_flips->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_0b_flips->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_1b_flips->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_ge2b_flips->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_0b_flips->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_1b_flips->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_ge2b_flips->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_0b_flips->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_1b_flips->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_ge2b_flips->writeHistogram(outfile);
 
 
 
@@ -3465,25 +3465,25 @@ class makeHistograms{
                 dilepFO_ge4j_1b_other->writeHistogram(outfile);
                 dilepFO_ge4j_ge2b_other->writeHistogram(outfile);
 
-                dilep_fakeEst_2j_0b_other->writeHistogram(outfile);
-                dilep_fakeEst_2j_1b_other->writeHistogram(outfile);
-                dilep_fakeEst_2j_ge2b_other->writeHistogram(outfile);
-                dilep_fakeEst_3j_0b_other->writeHistogram(outfile);
-                dilep_fakeEst_3j_1b_other->writeHistogram(outfile);
-                dilep_fakeEst_3j_ge2b_other->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_0b_other->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_1b_other->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_ge2b_other->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_0b_other->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_1b_other->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_ge2b_other->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_0b_other->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_1b_other->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_ge2b_other->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_0b_other->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_1b_other->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_ge2b_other->writeHistogram(outfile);
 
-                trilep_fakeEst_2j_0b_other->writeHistogram(outfile);
-                trilep_fakeEst_2j_1b_other->writeHistogram(outfile);
-                trilep_fakeEst_2j_ge2b_other->writeHistogram(outfile);
-                trilep_fakeEst_3j_0b_other->writeHistogram(outfile);
-                trilep_fakeEst_3j_1b_other->writeHistogram(outfile);
-                trilep_fakeEst_3j_ge2b_other->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_0b_other->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_1b_other->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_ge2b_other->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_0b_other->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_1b_other->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_ge2b_other->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_0b_other->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_1b_other->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_ge2b_other->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_0b_other->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_1b_other->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_ge2b_other->writeHistogram(outfile);
 
             }else{
 
@@ -3577,25 +3577,25 @@ class makeHistograms{
                 dilepFO_ge4j_1b->writeHistogram(outfile);
                 dilepFO_ge4j_ge2b->writeHistogram(outfile);
 
-                dilep_fakeEst_2j_0b->writeHistogram(outfile);
-                dilep_fakeEst_2j_1b->writeHistogram(outfile);
-                dilep_fakeEst_2j_ge2b->writeHistogram(outfile);
-                dilep_fakeEst_3j_0b->writeHistogram(outfile);
-                dilep_fakeEst_3j_1b->writeHistogram(outfile);
-                dilep_fakeEst_3j_ge2b->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_0b->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_1b->writeHistogram(outfile);
-                dilep_fakeEst_ge4j_ge2b->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_0b->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_1b->writeHistogram(outfile);
+                fakeEst_from1FOCR_2j_ge2b->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_0b->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_1b->writeHistogram(outfile);
+                fakeEst_from1FOCR_3j_ge2b->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_0b->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_1b->writeHistogram(outfile);
+                fakeEst_from1FOCR_ge4j_ge2b->writeHistogram(outfile);
 
-                trilep_fakeEst_2j_0b->writeHistogram(outfile);
-                trilep_fakeEst_2j_1b->writeHistogram(outfile);
-                trilep_fakeEst_2j_ge2b->writeHistogram(outfile);
-                trilep_fakeEst_3j_0b->writeHistogram(outfile);
-                trilep_fakeEst_3j_1b->writeHistogram(outfile);
-                trilep_fakeEst_3j_ge2b->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_0b->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_1b->writeHistogram(outfile);
-                trilep_fakeEst_ge4j_ge2b->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_0b->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_1b->writeHistogram(outfile);
+                fakeEst_from2FOCR_2j_ge2b->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_0b->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_1b->writeHistogram(outfile);
+                fakeEst_from2FOCR_3j_ge2b->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_0b->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_1b->writeHistogram(outfile);
+                fakeEst_from2FOCR_ge4j_ge2b->writeHistogram(outfile);
 
             }
 
