@@ -269,8 +269,8 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
 
             // if there isn't a good lepton hypothesis
             if (best_hyp_type<0) continue;
-            else {hists.add1d("cutflow","br",chainTitleCh,cutflow_counter,weight); cutflow_couter++;}
-            if (nleps_tight>=2) {hists.add1d("cutflow","br",chainTitleCh,cutflow_counter); cutflow_counter++;}
+            else {hists.fill1d("cutflow","br",chainTitleCh,cutflow_counter,weight); cutflow_couter++;}
+            if (nleps_tight>=2) {hists.fill1d("cutflow","br",chainTitleCh,cutflow_counter); cutflow_counter++;}
 
             sort(best_hyp.begin(),best_hyp.end(),lepsort); // sort hyp leptons by pt (may already be done in getBestHyp)
             Lepton leading_lep = best_hyp[0];
