@@ -245,6 +245,11 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
             double genWeight = nt.Generator_weight();
             weight = (weight*genWeight*lumi)/(abs(genWeight));
 
+            // cutflow counter
+            int cutflow_counter=1;
+            hists.fill1d("cutflow","br",chainTitleCh,cutflow_counter,weight);
+            cutflow_counter++;
+
             // load the leptons
             Leptons leptons = getLeptons();
             Leptons tight_leptons = getTightLeptons();
@@ -257,12 +262,17 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
                           << nleps_tight << " tight leptons." << std::endl;
             }
 
-            // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, TL, OS
+            // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, OS, TL, LL
             std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,false);
             int best_hyp_type = best_hyp_info.first;
             Leptons best_hyp = best_hyp_info.second;
+
+            // if there isn't a good lepton hypothesis
             if (best_hyp_type<0) continue;
-            sort(best_hyp.begin(),best_hyp.end(),lepsort);
+            else {hists.add1d("cutflow","br",chainTitleCh,cutflow_counter,weight); cutflow_couter++;}
+            if (nleps_tight>=2) {hists.add1d("cutflow","br",chainTitleCh,cutflow_counter); cutflow_counter++;}
+
+            sort(best_hyp.begin(),best_hyp.end(),lepsort); // sort hyp leptons by pt (may already be done in getBestHyp)
             Lepton leading_lep = best_hyp[0];
             Lepton trailing_lep = best_hyp[1];
             Lepton third_lep;
