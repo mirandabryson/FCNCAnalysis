@@ -121,7 +121,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     std::string rname = getRegionName(best_hyp_type,jets.size(),bjets.size());
     std::vector<std::string> rnames = {rname};
     std::vector<std::string> brmap = {"ml","mlsf","ss"};
-    if ( brmap.contains(rname) ) rnames.append("br");
+    if ( std::find(brmap.begin(),brmap.end(),rname) != brmap.end() ) rnames.append("br");
     int njets=jets.size();
     int nbjets=bjets.size();
     for (auto name : rnames) {
