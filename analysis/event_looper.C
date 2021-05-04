@@ -189,6 +189,7 @@ void event_looper(){
 
             bool isFlip = 0;
             bool isFake = 0;
+            bool isFake_loose = 0;
             bool isSMSS = 0;
             bool isSignal = 0;
 
@@ -272,16 +273,8 @@ void event_looper(){
 
                     if( sample_names[btype]=="background" ){
                         if( mu.genPartFlav[iMu] != 1 && mu.genPartFlav[iMu] != 15 ){
-                            isFake = 1;
-                        }else if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
-                            isFlip = 1;
-                            //cout << "Mu isFlip" << endl;
-                        }else{
-                            isSMSS = 1;
-                            //cout << "Mu isOther" << endl;
+                            isFake_loose = 1;
                         }
-                    }else{
-                        isSignal = 1;
                     }
 
                     coneCorrPtValue = coneCorrPt(year, mu.pdgid[iMu], mu.pt[iMu], mu.miniIso[iMu], mu.jetRelIso[iMu], mu.jetPtRelv2[iMu] );
@@ -336,20 +329,20 @@ void event_looper(){
 
                     if( sample_names[btype]=="background" ){
                         if( el.genPartFlav[iEl] != 1 && el.genPartFlav[iEl] != 15 ){
-                            isFake = 1;
-                        }else if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
-                            isFlip = 1;
-                        }else{
-                            isSMSS = 1;
+                            isFake_loose = 1;
                         }
-                    }else{
-                        isSignal = 1;
                     }
 
                     coneCorrPtValue = coneCorrPt(year, el.pdgid[iEl], el.pt[iEl], el.miniIso[iEl], el.jetRelIso[iEl], el.jetPtRelv2[iEl] );
                     fakeRateValue = fakeRate(year, el.pdgid[iEl], coneCorrPtValue, el.eta[iEl]);
                     fakeRates.push_back(fakeRateValue);
                 }else continue;
+            }
+
+            //if we found a fake loose lepton then we want the isOther category to be false
+            if (isFake_loose==1){
+                isFake = 1;
+                isSMSS = 0;
             }
 
 
