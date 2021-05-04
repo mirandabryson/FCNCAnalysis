@@ -14,13 +14,17 @@ double getEventWeight (string fileName, string sampleName, bool verbose=false){
     TObjArray *tokens = sName.Tokenize("/");
     unsigned int nentries = tokens->GetEntries();
 
+    TString sTag = ((TObjString*)tokens->At(nentries-3) )->GetString();
+    if (verbose) std::cout << "sTag: " << sTag << std::endl;
+    std::string tag = sTag.Data();
+
     TString sName_short;
     std::string fname;
     if (TString(fileName).Contains("hadoop")) {
         sName_short = ((TObjString*)tokens->At(nentries-2) )->GetString();
         if (verbose) std::cout << "sName: " << sName_short << std::endl;
         string fileEnding = "_n_events.txt";
-        fname = sName_short.Data()+fileEnding;
+        fname = short_to_long(sName_short.Data())+'_'+tag+'_'+fileEnding;
         if (verbose) std::cout << "fname: " << fname << std::endl;
     }
     else if (TString(fileName).Contains("nfs")) {
@@ -28,13 +32,9 @@ double getEventWeight (string fileName, string sampleName, bool verbose=false){
         sName_short = ( (TObjString*)sName_short.Tokenize(".")->At(0) )->GetString();
         if (verbose) std::cout << "sName: " << sName_short << std::endl;
         string fileEnding = "_n_events.txt";
-        fname = short_to_long(sName_short.Data())+fileEnding;
+        fname = short_to_long(sName_short.Data())+'_'+tag+'_'+fileEnding;
         if (verbose) std::cout << "fname: " << fname << std::endl;
     }
-
-    TString sTag = ((TObjString*)tokens->At(nentries-3) )->GetString();
-    if (verbose) std::cout << "sTag: " << sTag << std::endl;
-    std::string tag = sTag.Data();
 
     //get the number of MC events from sample
     ifstream inFile;
