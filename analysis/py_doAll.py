@@ -78,9 +78,9 @@ if __name__ == "__main__":
 
     # for _ in range(10): print "SKIMTEST"
     basedirs = {
-            2016: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format(args.tag),
-            2017: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format(args.tag),
-            2018: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format(args.tag),
+            2016: "/nfs-7/userdata/fgolf/fcnc/{}/".format(args.tag),
+            2017: "/nfs-7/userdata/fgolf/fcnc/{}/".format(args.tag),
+            2018: "/nfs-7/userdata/fgolf/fcnc/{}/".format(args.tag),
             }
 
     outputdir = args.out
