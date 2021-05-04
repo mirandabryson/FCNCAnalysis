@@ -1,11 +1,9 @@
 import glob
 import tqdm
 
-VERSION = "fcnc_v3"
+VERSION = "fcnc_v4"
 BABY_DIR = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}".format(VERSION)
 N_EVENTS_DIR = "./n_events"
-
-sample_dirs = glob.glob(BABY_DIR+"/*")
 
 sample_dirs = glob.glob(BABY_DIR+"/*")
 
