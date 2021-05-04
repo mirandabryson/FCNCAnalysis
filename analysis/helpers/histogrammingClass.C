@@ -32,10 +32,18 @@ void HistContainer::addHist1d(std::string quantity, std::string sample, int nbin
         }
     }
     else {
-            std::string htitle = region+"_"+quantity+"_"+sample;
-            std::string hname = "h_"+region+"_"+quantity+"_"+sample;
+        TString tregion(region);
+        TObjArray* objarray = tregion.Tokenize();
+        std::vector<std::string> regions;
+        for (auto obj : objarray) {
+            regions.push_back( (TString*)obj->Data() );
+        }
+        for (auto name in regions) {
+            std::string htitle = name+"_"+quantity+"_"+sample;
+            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
             TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
             hists1d_[htitle] = hist;
+        }
     }
     return;
 }
@@ -50,10 +58,18 @@ void HistContainer::addHist2d(std::string quantity, std::string sample, int nbin
         }
     }
     else {
-            std::string htitle = region+"_"+quantity+"_"+sample;
-            std::string hname = "h_"+region+"_"+quantity+"_"+sample;
+        TString tregion(region);
+        TObjArray* objarray = tregion.Tokenize();
+        std::vector<std::string> regions;
+        for (auto obj : objarray) {
+            regions.push_back( (TString*)obj->Data() );
+        }
+        for (auto name : region_names_) {
+            std::string htitle = name+"_"+quantity+"_"+sample;
+            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
             TH2F *hist = new TH2F(hname.c_str(),htitle.c_str(),nbinsx,xmin,xmax,nbinsy,ymin,ymax);
             hists2d_[htitle] = hist;
+        }
     }
     return;
 }
