@@ -25,7 +25,7 @@ yields={}
 for proc in procs:
     if proc not in yields: yields[proc] = {}
     for year in years:
-        fname=histdir+proc+'_'+year+'_hists.root'
+        fname=histdir+proc+'_{}_hists.root'.format(year)
         hname=sr_hist_prefix+proc
         hist=getObjFromFile(fname,hname)
         yields[proc:year]=np.array([hist.GetArray().GetArray()])
