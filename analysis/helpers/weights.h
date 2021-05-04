@@ -1,7 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include "./xsecs.h"
-
+j
 using namespace std;
 
 double getEventWeight (string fileName, string sampleName, bool verbose=false){
@@ -14,14 +14,14 @@ double getEventWeight (string fileName, string sampleName, bool verbose=false){
     TObjArray *tokens = sName.Tokenize("/");
     unsigned int nentries = tokens->GetEntries();
 
-    if ("hadoop" in fileName) {
+    if (TString(fileName).Contains("hadoop")) {
         TString sName_short = ((TObjString*)tokens->At(nentries-2) )->GetString();
         if (verbose) std::cout << "sName: " << sName_short << std::endl;
         string fileEnding = "_n_events.txt";
         std::string fname = sName_short.Data()+fileEnding;
         if (verbose) std::cout << "fname: " << fname << std::endl;
     }
-    else if ("nfs" in fileName) {
+    else if (TString(fileName).Contains("nfs")) {
         TString sName_short = ((TObjString*)tokens->At(nentries-1) )->GetString();
         sName_short = ( (TObjString*)sName_short.Tokenize(".")->At(0) )->GetString();
         if (verbose) std::cout << "sName: " << sName_short << std::endl;
