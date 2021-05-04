@@ -14,11 +14,21 @@ double getEventWeight (string fileName, string sampleName, bool verbose=false){
     TObjArray *tokens = sName.Tokenize("/");
     unsigned int nentries = tokens->GetEntries();
 
-    TString sName_short = ((TObjString*)tokens->At(nentries-2) )->GetString();
-    if (verbose) std::cout << "sName: " << sName_short << std::endl;
-    string fileEnding = "_n_events.txt";
-    std::string fname = sName_short.Data()+fileEnding;
-    if (verbose) std::cout << "fname: " << fname << std::endl;
+    if ("hadoop" in fileName) {
+        TString sName_short = ((TObjString*)tokens->At(nentries-2) )->GetString();
+        if (verbose) std::cout << "sName: " << sName_short << std::endl;
+        string fileEnding = "_n_events.txt";
+        std::string fname = sName_short.Data()+fileEnding;
+        if (verbose) std::cout << "fname: " << fname << std::endl;
+    }
+    else if ("nfs" in fileName) {
+        TString sName_short = ((TObjString*)tokens->At(nentries-1) )->GetString();
+        sName_short = ( (TObjString*)sName_short.Tokenize(".")->At(0) )->GetString();
+        if (verbose) std::cout << "sName: " << sName_short << std::endl;
+        string fileEnding = "_n_events.txt";
+        std::string fname = sName_short.Data()+fileEnding;
+        if (verbose) std::cout << "fname: " << fname << std::endl;
+    }
 
     TString sTag = ((TObjString*)tokens->At(nentries-3) )->GetString();
     if (verbose) std::cout << "sTag: " << sTag << std::endl;
