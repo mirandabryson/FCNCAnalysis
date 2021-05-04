@@ -51,6 +51,9 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
     float scaleLumi=1.;
     int nbdtbins = 17;
     int nsrdisc = nbdtbins+1; // this is supposed to be 1 more than nbdtbins (we add in CRZ as a "bin")
+
+    if (!quiet) std::cout << "Running in verbose" << std::endl;
+
 /*
     bool STOP_REQUESTED = false;
 
@@ -224,8 +227,8 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
         TTree *tree = (TTree*)file->Get("Events");
         nt.Init(tree);
 
-        //for ( unsigned int counter = 0; counter < 100; counter++ ){ //for testing only!!
-        for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ //for testing only!!
+        for ( unsigned int counter = 0; counter < 100; counter++ ){ //for testing only!!
+        //for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ //for testing only!!
             nt.GetEntry(counter);
             ++nEventsTotal;
 
