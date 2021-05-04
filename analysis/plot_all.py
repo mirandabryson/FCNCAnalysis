@@ -21,61 +21,19 @@ def remove(rs1,rs2):
 regions = ("br","ml","ss")
 labels = {}
 labels["fcnc"] = {
-
-        # "TOTAL"      : [("SRHH","SRHL","SRLL","SRML","SRLM"), "Region"],
-        # "ht"         : [("br",), r"$H_\mathrm{T}$ (GeV)"],
-        # "met"        : [("br",), r"$p_\mathrm{T}^{\mathrm{miss}}$ (GeV)"],
-        # "mtmin"      : [("br",), r"$m_\mathrm{T}^\mathrm{min}$"],
-        # "njets"      : [("br",), r"$N_\mathrm{jets}$"],
-        # "nbtags"     : [("br",), r"$N_\mathrm{b}$"],
-        # "charge"     : [("br",), r"SS charge"],
-
-        #"TOTAL"      : [("ml","ss"), "Region"],
-        #"category"   : [("sr",), r"ml or ss"],
+        "sr"         : ["br", "SR"],
         "ht"         : [regions, r"$H_\mathrm{T}$ (GeV)"],
         "njets"      : [regions, r"$N_\mathrm{jets}$"],
         "met"        : [regions, r"$p_\mathrm{T}^{\mathrm{miss}}$ (GeV)"],
         "mll"        : [regions, r"$m_{ll}$"],
-        #"mllbig"     : [ssregions, r"$m_{ll}$"],
-        #"mllos"      : [ssregions, r"$m_{ll}$(OS)"],
         "nbjets"     : [regions, r"$N_\mathrm{b}$"],
-        #"type"       : [ssregions, r"$\mu\mu,\mu e,e\mu,ee$"],
-        #"charge"     : [ssregions, r"SS charge"],
-        #"el_charge"  : [ssregions, r"SS el charge"],
-        #"mu_charge"  : [ssregions, r"SS mu charge"],
-        #"dphi"       : [ssregions, r"dphi(l1,l2)"],
         "nleps"      : [regions, r"$N_\mathrm{leps}$"],
         "llpt"       : [regions, r"ordered $p_{T}$(lep1)"],
         "ltpt"       : [regions, r"ordered $p_{T}$(lep2)"],
-        "lleta"       : [regions, r"ordered $\eta$(lep1)"],
-        "lteta"       : [regions, r"ordered $\eta$(lep2)"],
+        "lleta"      : [regions, r"ordered $\eta$(lep1)"],
+        "lteta"      : [regions, r"ordered $\eta$(lep2)"],
         "ljpt"       : [regions, r"ordered $p_{T}$(jet1)"],
         "lbpt"       : [regions, r"ordered $p_{T}$(bjet1)"],
-        #"el_l1pt"    : [ssregions, r"unsorted $p_{T}$(lep1, e)"],
-        #"el_l2pt"    : [ssregions, r"unsorted $p_{T}$(lep2, e)"],
-        #"el_l1eta"   : [ssregions, r"unsorted $\eta $(lep1, e)"],
-        #"el_l2eta"   : [ssregions, r"unsorted $\eta $(lep2, e)"],
-        #"mu_l1pt"    : [ssregions, r"unsorted $p_{T}$(lep1, $\mu$)"],
-        #"mu_l2pt"    : [ssregions, r"unsorted $p_{T}$(lep2, $\mu$)"],
-        #"mu_l1eta"   : [ssregions, r"unsorted $\eta $(lep1, $\mu$)"],
-        #"mu_l2eta"   : [ssregions, r"unsorted $\eta $(lep2, $\mu$)"],
-        #"el_l1phi"   : [ssregions, "el_l1phi"],
-        #"el_l2phi"   : [ssregions, "el_l2phi"],
-        #"mu_l1phi"   : [ssregions, "mu_l1phi"],
-        #"mu_l2phi"   : [ssregions, "mu_l2phi"],
-        #"nvtx"       : [ssregions, r"nvtx"],
-        #"lumiblock"  : [ssregions, "lumiblock"],
-        #"run"        : [ssregions, "run"],
-        #"class"      : [ssregions, r"hypclass"],
-        #"l3pt"       : [ssregions, r"ordered $p_{T}$(lep3)"],
-        #"type3"      : [remove(ssregions,("lm",)), r"$\mu\mu\mu,\mu\mu e,\mu ee,eee$"],
-        #"q3"         : [remove(ssregions,("lm",)), r"lep 3 charge"],
-        #"charge3"    : [remove(ssregions,("lm",)), r"$\pm\pm\pm$, $\pm\pm\mp$"],
-        #"el_l3pt"    : [remove(ssregions,("lm",)), r"unsorted $p_{T}$(lep3, e)"],
-        #"el_l3eta"   : [remove(ssregions,("lm",)), r"unsorted $\eta $(lep3, e)"],
-        #"mu_l3pt"    : [remove(ssregions,("lm",)), r"unsorted $p_{T}$(lep3, $\mu$)"],
-        #"mu_l3eta"   : [remove(ssregions,("lm",)), r"unsorted $\eta $(lep3, $\mu$)"],
-
 }
 
 do_paper_plots_only = False
@@ -99,12 +57,13 @@ if do_paper_plots_only:
 d_label_colors = {}
 d_label_colors["fcnc"] = {
 #        "fakes" : (r"Nonprompt lep.", [0.85, 0.85, 0.85]),
-#        # "fakes_mc" : (r"MC fakes", [0.85, 0.85, 0.85]),
+         "fakes_mc" : (r"MC fakes", [0.85, 0.85, 0.85]),
 #        "flips" : (r"Charge misid.", [0.4, 0.4, 0.4]),
-#        "rares" : (r"Rare", [1.0, 0.4, 1.0]),
+         "flips_mc" : (r"Charge misid.", [0.4, 0.4, 0.4]),
+         "rares" : (r"Rare", [1.0, 0.4, 1.0]),
 #        "tth"   : (r"$t\bar{t}H$", [0.4, 0.4, 0.6]),
 #        "ttvv"  : (r"$t\bar{t}VV$" , [0.4, 0.6, 1.0]),
-        "ttw"   : (r"$t\bar{t}W$", [0.0, 0.4, 0.0]),
+#        "ttw"   : (r"$t\bar{t}W$", [0.0, 0.4, 0.0]),
 #        "ttz"   : (r"$t\bar{t}Z$", [0.4, 0.8, 0.4]),
 #        "xg"    : (r"$X\gamma$" , [0.4, 0.0, 0.8]),
         }
@@ -123,6 +82,8 @@ d_flat_systematics = { }
 d_flat_systematics["fcnc"] = {
         "fakes": 0.40,
         "flips": 0.2,
+        "fakes_mc": 0.40,
+        "flips_mc": 0.2,
         "rares": 0.5,
         "ww": 0.3,
         "ttw": 0.3,
@@ -325,14 +286,14 @@ def worker(info):
             #         ax.axvline(x=21.5, color="blue", lw=1.0)
             #         ax.text(0.18, -0.6,"pulls $\mu,\sigma$ = {:.2f},{:.2f}$".format(mu_pulls,sig_pulls), color="red", ha="center", va="center", fontsize=10.0, transform = ax.transAxes)
 
-        elif region.lower() in ["sr","srdisc"]:
+        elif region.lower() in ["br"]:
             # blind all 2018 and all BDT plots since we will retrain
             # if year == 2018 or (len(files.keys()) > 1) or region.lower in ["srdisc"]:
             #     data._counts *= 0.
             #     data._errors *= 0.
             #     data.set_attr("label", "Data (blind)")
 #            data.convert_to_poisson_errors()
-            if var.lower() in ["total"]:
+            if var.lower() in ["sr"]:
                 xticks = range(1,20)
             if region.lower() in ["srdisc"]:
                 # def ax_main_callback(ax):
@@ -369,23 +330,6 @@ def worker(info):
                         ax.set_xlim([-1,2.6])
                     def ax_ratio_callback(ax):
                         ax.set_xlim([-1,2.6])
-            if var == "TOTAL":
-                if region == "SRLL":
-                    def ax_main_callback(ax):
-                        ax.set_ylim([0.05,ax.get_ylim()[1]*5.5])
-                        ax.set_yscale("log", nonposy='clip'),
-                if region == "SRML":
-                    # mpl_legend_params["fontsize"] = 8
-                    # mpl_legend_params["framealpha"] = 0.4
-                    mpl_legend_params["ncol"] = 3
-                    # mpl_legend_params["labelspacing"] = 0.12
-                    def ax_main_callback(ax):
-                        ax.set_ylim([0.05,ax.get_ylim()[1]*7.5])
-                        ax.set_yscale("log", nonposy='clip'),
-                if region == "SRLM":
-                    def ax_main_callback(ax):
-                        ax.set_ylim([0.05,ax.get_ylim()[1]*4.0])
-                        ax.set_yscale("log", nonposy='clip'),
 
         if len(files.keys()) > 1:
             fname = "{}/run2_{}_{}.pdf".format(outputdir,region,var)
@@ -457,7 +401,7 @@ def worker(info):
                        do_bkg_syst=True,
                        )
 
-        if (region in ["sr","brpostfit","ttwcr","ttzcr"]):
+        if (region in ["br","brpostfit","ttwcr","ttzcr"]):
             fname_tmp = fname.replace(".pdf","_stacked.pdf").replace(".png","_stacked.png")
             plot_stack(bgs=bgs+sigs, data=data, title=title, xlabel=xlabel, ylabel=ylabel, filename=fname_tmp,
                        # cms_type = "Preliminary",
