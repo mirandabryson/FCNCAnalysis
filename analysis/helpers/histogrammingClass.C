@@ -33,7 +33,7 @@ void HistContainer::addHist1d(std::string quantity, std::string sample, int nbin
     }
     else {
         TString tregion(region);
-        TObjArray* objarray = tregion.Tokenize();
+        TObjArray* objarray = tregion.Tokenize(" ");
         std::vector<std::string> regions;
         for (auto obj : *objarray) {
             regions.push_back( (TString*)obj->Data() );
@@ -59,7 +59,7 @@ void HistContainer::addHist2d(std::string quantity, std::string sample, int nbin
     }
     else {
         TString tregion(region);
-        TObjArray* objarray = tregion.Tokenize();
+        TObjArray* objarray = tregion.Tokenize(" ");
         std::vector<std::string> regions;
         for (auto obj : *objarray) {
             regions.push_back( (TString*)obj->Data() );
