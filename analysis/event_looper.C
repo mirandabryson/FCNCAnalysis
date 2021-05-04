@@ -33,7 +33,6 @@ using namespace std::chrono;
 void event_looper(TChain *chain, TString options="", TString outputdir="outputs/"){
     //*************************************************************************//
     //*************************** begin set options ***************************//
-    bool verbose = false;
     bool quiet = options.Contains("quiet");
     bool evaluateBDT = options.Contains("evaluateBDT") && not options.Contains("noBDT");
     bool write_tree = options.Contains("writeTree");
@@ -52,7 +51,7 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
     int nbdtbins = 17;
     int nsrdisc = nbdtbins+1; // this is supposed to be 1 more than nbdtbins (we add in CRZ as a "bin")
 
-    if (!quiet) std::cout << "Running in verbose" << std::endl;
+    if (!quiet) std::cout << "Running in !quiet" << std::endl;
 
 /*
     bool STOP_REQUESTED = false;
@@ -260,7 +259,7 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
             unsigned int nleps_tight = tight_leptons.size();
             unsigned int nleps_loose = loose_leptons.size();
 
-            if (verbose) {
+            if (!quiet) {
                 std::cout << "Event has " << nleps_loose << " loose leptons and "
                           << nleps_tight << " tight leptons." << std::endl;
             }
@@ -281,7 +280,7 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
             Lepton third_lep;
             if (best_hyp.size()>2) third_lep = best_hyp[2];
 
-            if (verbose) {
+            if (!quiet) {
                 std::cout << "best hyp type: " << best_hyp_type << "; lepton ids: " << leading_lep.id()
                                                                 << ", " << trailing_lep.id() << std::endl;
             }
@@ -297,14 +296,14 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
             float ht = 0.;
             for (auto jet : good_jets) ht += jet.pt();
 
-            if (verbose) {
+            if (!quiet) {
                 std::cout << "Event has " << good_jets.size() << " jets and "
                           << good_bjets.size() << " b-tagged jets." << std::endl;
             }
 
             if (njets < 2) continue;
 
-            if (verbose) {
+            if (!quiet) {
                 std::cout << "leading jet pt: " << good_jets[0].pt() << std::endl;
             }
 
@@ -333,10 +332,10 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
      auto stop = high_resolution_clock::now();
      auto duration = duration_cast<seconds>(stop - start);
 
-     if (verbose) cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
+     if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
 
      //write histograms
-     if (verbose) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
+     if (!quiet) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
 
      outFile->cd();
      hists.write();
