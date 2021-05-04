@@ -1,4 +1,4 @@
-std::string short_to_long (st::string sampleName) {
+std::string short_to_long (std::string sampleName) {
     std::map< std::string, std::string > m_short_to_long;
     m_short_to_long["dyjets_m50"] = "DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21-v1_NANOAODSIM";
     m_short_to_long["ttw"] = "TTWJetsToLNu_TuneCP5_13TeV-amcatnloFXFX-madspin-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM";
