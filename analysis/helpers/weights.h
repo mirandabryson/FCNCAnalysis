@@ -24,7 +24,7 @@ double getEventWeight (string fileName, string sampleName, bool verbose=false){
         sName_short = ((TObjString*)tokens->At(nentries-2) )->GetString();
         if (verbose) std::cout << "sName: " << sName_short << std::endl;
         string fileEnding = "_n_events.txt";
-        fname = short_to_long(sName_short.Data())+'_'+tag+'_'+fileEnding;
+        fname = short_to_long(sName_short.Data())+'_'+tag+fileEnding;
         if (verbose) std::cout << "fname: " << fname << std::endl;
     }
     else if (TString(fileName).Contains("nfs")) {
