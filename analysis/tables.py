@@ -28,5 +28,5 @@ for proc in procs:
         fname=histdir+proc+'_'+year+'_hists.root'
         hname=sr_hist_prefix+proc
         hist=getObjFromFile(fname,hname)
-        yields[proc,year]=np.array([hist.GetArray().GetArray()],np.dtype=np.float)
-        print '{} {}:'.format(proc,year), yields[proc,year]
+        yields[proc:year]=np.array([hist.GetArray().GetArray()],np.dtype=np.float)
+        print '{} {}:'.format(proc,year), yields[proc:year]
