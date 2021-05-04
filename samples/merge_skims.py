@@ -4,6 +4,7 @@ import argparse
 from samples_2016 import samples_2016
 from samples_2017 import samples_2017
 from samples_2018 import samples_2018
+from samples import get_sample_path
 
 samples = { 2016 : samples_2016, 2017 : samples_2017, 2018 : samples_2018}
 
@@ -44,7 +45,7 @@ if __name__ == '__main__':
             if len(procs) and sname not in procs: continue
             if sname in exprocs: continue
             ifnames = []
-            ifpath = basedirs[2016] + lname + "/"
+            ifpath = basedirs[year]+get_sample_path(sname,year,args.tag)
             for f in os.listdir(ifpath):
                 if f.endswith('.root'): ifnames.append(f)
             ofpath = outdir+'/{}/{}/'.format(tag,year)
