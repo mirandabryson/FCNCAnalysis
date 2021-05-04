@@ -47,6 +47,7 @@ if __name__ == '__main__':
             if sname in exprocs: continue
             ifnames = []
             ifpath = basedirs[year]+get_sample_path(sname,year,args.tag)+'/'
+            print('ifpath: ',ifpath)
             for f in os.listdir(ifpath):
                 if f.endswith('.root'): ifnames.append(f)
             ofpath = outdir+'/{}/{}/'.format(tag,year)
