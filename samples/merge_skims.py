@@ -43,6 +43,7 @@ if __name__ == '__main__':
     count=0
     for year in years:
         for sname, lname in samples_2016.items():
+            if sname=="data": continue
             if len(procs) and sname not in procs: continue
             if sname in exprocs: continue
             ifnames = []
