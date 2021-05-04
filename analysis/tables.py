@@ -2,8 +2,10 @@ import numpy as np
 import ROOT as r
 r.TH1F.SetDefaultSumw2()
 
-years=[2016,2017,2018]
-procs=['fakes_mc','flips_mc','rares']
+#years=[2016,2017,2018]
+#procs=['fakes_mc','flips_mc','rares']
+years=[2016]
+procs=['fakes_mc']
 
 sr_hist_prefix='h_br_sr_'
 histdir='outputs/'
