@@ -96,7 +96,7 @@ if __name__ == "__main__":
             "fakes": make_obj([
                 basedirs[2016]+get_sample_path("data",2016,args.tag)+"/*.root",
                 basedirs[2016]+get_sample_path("ttw",2016,args.tag)+"/*.root",
-                basedirs[2016]+get_sample_path("ttz_m1-10",2016),args.tag+"/*.root",
+                basedirs[2016]+get_sample_path("ttz_m1-10",2016,args.tag)+"/*.root",
                 basedirs[2016]+get_sample_path("ttz_m10",2016,args.tag)+"/*.root",
                 basedirs[2016]+get_sample_path("tth_nobb",2016,args.tag)+"/*.root",
                 basedirs[2016]+get_sample_path("wz",2016,args.tag)+"/*.root",
