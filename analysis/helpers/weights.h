@@ -28,7 +28,7 @@ double getEventWeight (string fileName, string sampleName, bool verbose=false){
         sName_short = ( (TObjString*)sName_short.Tokenize(".")->At(0) )->GetString();
         if (verbose) std::cout << "sName: " << sName_short << std::endl;
         string fileEnding = "_n_events.txt";
-        fname = sName_short.Data()+fileEnding;
+        fname = short_to_long(sName_short.Data())+fileEnding;
         if (verbose) std::cout << "fname: " << fname << std::endl;
     }
 
