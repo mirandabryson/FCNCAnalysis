@@ -40,8 +40,10 @@ void event_looper(){
                                     };
 
 
-    //auto outFile = new TFile("plots/outputHistos.root", "recreate");
-    auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    auto outFile = new TFile("plots/outputHistos.root", "recreate");
+    //auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    ofstream sampOutFile;
+    sampOutFile.open("plots/backgroundsBySample.txt");
 
     //Load samples
     for(uint btype = 0; btype < sample_names.size(); btype++){
@@ -91,11 +93,11 @@ void event_looper(){
 
         int processed = 0;
         int stitchCounter = 0;
-	//Main for loop
-        //for ( int counter = 0; counter < nEvents; counter++ ){
+        //Main for loop
+        for ( int counter = 0; counter < nEvents; counter++ ){
         //for ( int counter = 0; counter < 100000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
-        for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
+        //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
             processed++;
             //cout << "counter " << counter << endl;
@@ -196,32 +198,30 @@ void event_looper(){
             float flipRateValue = 0;
             vector<float> flipRates;
 
-	    bool stitch = 1;
-	    int w_idx = sName.find("WJets");
-	    int t_idx = sName.find("TTJets");
-	    if ( w_idx!=-1 || t_idx!=-1 ){
-	       for ( uint i = 0; i<nGenPart; i++ ){
-		 if (abs(genParts.pdgid[i])==22 && genParts.statusFlags[i]%2==1 && genParts.pt[i]>15 && abs(genParts.eta[i])<2.6){
-		     stitch = 0;
-		  }
-	       }
-	    }
-	    w_idx = sName.find("WG");
-	    t_idx = sName.find("TTG");
-	    if (w_idx!=-1 || t_idx!=-1){
-	      stitch = 0;
-	      for ( uint i = 0; i<nGenPart; i++ ){
-		if(abs(genParts.pdgid[i])==22 && genParts.statusFlags[i]%2==1 && genParts.pt[i]>15 && abs(genParts.eta[i])<2.6){
-		  stitch = 1;
-		}else if(abs(genParts.pdgid[i])==22 && genParts.statusFlags[i]%2==1 && (genParts.pt[i]<15 || abs(genParts.eta[i])>2.6)){
-		  stitch = 0;
-		}
-	      }
-	    }
-	    if (stitch ==1){
-		stitchCounter++;
-	    }
-	    //cout << stitch << endl;
+            /*bool stitch = 1;
+            int w_idx = sName.find("WJets");
+            int t_idx = sName.find("TTJets");
+            if ( w_idx!=-1 || t_idx!=-1 ){
+                for ( uint i = 0; i<nGenPart; i++ ){
+                    if (abs(genParts.pdgid[i])==22 && genParts.statusFlags[i]%2==1 && genParts.pt[i]>15 && abs(genParts.eta[i])<2.6){
+                        stitch = 0;
+                    }
+                }
+            }
+            w_idx = sName.find("WG");
+            t_idx = sName.find("TTG");
+            if (w_idx!=-1 || t_idx!=-1){
+                stitch = 0;
+                for ( uint i = 0; i<nGenPart; i++ ){
+                    if(abs(genParts.pdgid[i])==22 && genParts.statusFlags[i]%2==1 && genParts.pt[i]>15 && abs(genParts.eta[i])<2.6){
+                        stitch = 1;
+                    }
+                }
+            }
+            if (stitch ==1){
+            stitchCounter++;
+            }*/
+            //cout << stitch << endl;
 
             //loop to count tight/loose muons
             for( uint iMu = 0; iMu < nMuon; iMu++ ){
@@ -532,12 +532,16 @@ void event_looper(){
                 histos.fill(variablesForFilling, weight, crWeight, nJets, nBjets, nGoodLep, nFakeableLep, muCharge_tight, elCharge_tight, isSSFO, isFake, isFlip, isSMSS, isSignal);
             }
 
+            if (sample_names[btype]=="background"){
+                sampOutFile << sName << " " << isFake << " " << isFlip << " " << isSMSS << endl;
+            }
+
        }//event loop
 
         auto stop = high_resolution_clock::now();
         auto duration = duration_cast<seconds>(stop - start);
 
-	cout << stitchCounter << endl;
+        cout << stitchCounter << endl;
         cout << "processed " << processed << " events in " << duration.count() << " seconds!!" << endl;
 
         histos.write(sample_names[btype], outFile);
