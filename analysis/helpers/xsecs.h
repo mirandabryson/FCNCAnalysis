@@ -47,7 +47,7 @@ std::string short_to_long (std::string sampleName) {
     m_short_to_long["tw_dilep"] = "ST_tWll_5f_LO_TuneCP5_PSweights_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM";
     m_short_to_long["ttzz"] = "TTZZ_TuneCP5_13TeV-madgraph-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_102X_upgrade2018_realistic_v21_ext1-v1_NANOAODSIM";
 
-    return m_short_to_long[sampleName]:
+    return m_short_to_long[sampleName];
 }
 
 double getXSec( string sampleName ){
