@@ -26,7 +26,7 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--out", help="output directory", default="outputs")
     parser.add_argument("-e", "--extra_options", help="quoted string of extra options", default="")
     parser.add_argument(      "--plot_kwargs", help="""kwargs to pass to plotter e.g., '{"show_mcfakes": True,}'""", default="")
-    parser.add_argument("-t", "--tag", help="tag for bookkeeping and output directory location", default="v3.08_allyears_tmp")
+    parser.add_argument("-t", "--tag", help="tag for bookkeeping and output directory location", default="fcnc_v4")
 
     parser.add_argument("-y", "--year", help="year, if you only want to run one", default="")
     parser.add_argument(      "--proc", help="process, if you only want to run one/some. accepts wildcards if quoted.", default="", type=str)
@@ -78,9 +78,9 @@ if __name__ == "__main__":
 
     # for _ in range(10): print "SKIMTEST"
     basedirs = {
-            2016: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v3/",
-            2017: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v3/",
-            2018: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/fcnc_v3/",
+            2016: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format(args.tag),
+            2017: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format(args.tag),
+            2018: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format(args.tag),
             }
 
     outputdir = args.out
