@@ -1,4 +1,5 @@
 import os
+import pwd
 import time
 import argparse
 from samples_2016 import samples_2016
@@ -34,7 +35,7 @@ if __name__ == '__main__':
         2017: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format(tag),
         2018: "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}/".format(tag),
     }
-    outdir = basedirs[2016]
+    outdir = '/nfs-7/userdata/{}/fcnc/'.format(pwd.getpwuid(os.getuid())[0])
     if args.out != "": outdir = args.out
     procs = [x.strip() for x in args.proc.strip().split()]
     exprocs = [x.strip() for x in args.excludeproc.strip().split()]
