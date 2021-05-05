@@ -143,6 +143,10 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     int nbjets=bjets.size();
     int nleps=leps.size();
     for (auto name : rnames) {
+        if (name=="br") {
+            counter_++;
+            std::count << "Filled br histograms for " << counter_ << " time" << std::endl;
+        }
         fill1d("njets",name,sample,njets,weight);
         fill1d("nbjets",name,sample,nbjets,weight);
         fill1d("nleps",name,sample,nleps,weight);
