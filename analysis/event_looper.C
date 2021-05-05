@@ -53,8 +53,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     int nbdtbins = 17;
     int nsrdisc = nbdtbins+1; // this is supposed to be 1 more than nbdtbins (we add in CRZ as a "bin")
 
-    if (!quiet) std::cout << "Running in !quiet" << std::endl;
-
 /*
     bool STOP_REQUESTED = false;
 
