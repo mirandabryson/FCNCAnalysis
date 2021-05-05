@@ -227,8 +227,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
         nt.Init(tree);
 
         for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ //for testing only!!
-            if (nevts>0 && nEventsTotal>=nevts) break; 
             nt.GetEntry(counter);
+            if (nevts>0 && nEventsTotal>=nevts) break;
             ++nEventsTotal;
 
             if (!quiet) bar.progress(nEventsTotal, nEventsChain);
@@ -310,17 +310,17 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             // now let's check if there are additional requirements we need to make
             bool is_fake = false;
             bool is_flip = false;
-            if (doFakes && !isData) {
+            if (doFakes && !isData && doTruthFake) {
                 int nfakes=0;
                 for ( auto lep : best_hyp ) {if (lep.isFake()) nfakes++;}
                 if (nfakes>0) is_fake=true;
-                if (is_fake) continue;
+                if (!is_fake) continue;
             }
-            if (doFlips && !isData) {
+            if (doFlips && !isData && doTruthFlip) {
                 int nflips=0;
                 for ( auto lep : best_hyp ) {if (lep.isFlip()) nflips++;}
                 if (best_hyp.size() == 2 && nflips==1) is_flip=true;
-                if (is_flip) continue;
+                if (!is_flip) continue;
             }
 
             // if we've reached here we've passed the baseline selection
