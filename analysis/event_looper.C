@@ -228,7 +228,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
         for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ //for testing only!!
             nt.GetEntry(counter);
-            if (nevts>0 && nEventsTotal>=nevts) break;
+            if (nevts>0 && nEventsTotal>=unsigned int(nevts)) break;
             ++nEventsTotal;
 
             if (!quiet) bar.progress(nEventsTotal, nEventsChain);
