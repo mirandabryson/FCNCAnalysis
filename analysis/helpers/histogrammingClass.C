@@ -139,6 +139,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     std::vector<std::string> rnames = {rname};
     std::vector<std::string> brmap = {"ml","ss"};
     if ( rname=="ml" || rname=="ss") rnames.push_back("br");
+    std::cout << "# SRs: " << rnames.size() << std::endl;
     int njets=jets.size();
     int nbjets=bjets.size();
     int nleps=leps.size();
