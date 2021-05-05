@@ -39,6 +39,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     bool minPtFake18 = options.Contains("minPtFake18");
     bool new2016FRBins = options.Contains("new2016FRBins");
     bool doStitch = options.Contains("doStitch");
+    bool doTruthFake = options.Contains("doTruthFake");
+    bool doTruthFlip = options.Contains("doTruthFlip");
     bool isData = 0;
     bool doFlips = 0;
     int doFakes = 0;
