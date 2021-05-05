@@ -263,7 +263,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 std::cout << "Event has " << nleps_loose << " loose leptons and "
                           << nleps_tight << " tight leptons." << std::endl;
                 for (auto lep: leptons) {
-                    std::cout << "pdgId: " << lep.pdgId() << ", pt: " << lep.pt() << ", eta: " << lep.eta()
+                    std::cout << "pdgId: " << lep.id() << ", pt: " << lep.pt() << ", eta: " << lep.eta()
                               << ", loose: " << lep.is_loose() << ", tight: " << lep.is_tight() << std::endl;
                 }
             }
