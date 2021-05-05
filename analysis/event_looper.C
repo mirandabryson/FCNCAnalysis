@@ -262,6 +262,10 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             if (!quiet) {
                 std::cout << "Event has " << nleps_loose << " loose leptons and "
                           << nleps_tight << " tight leptons." << std::endl;
+                for (auto lep: leptons) {
+                    std::cout << "pdgId: " << lep.pdgId() << ", pt: " << lep.pt() << ", eta: " << lep.eta()
+                              << ", loose: " << lep.is_loose() << ", tight: " << lep.is_tight() << std::endl;
+                }
             }
 
             // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, OS, TL, LL
