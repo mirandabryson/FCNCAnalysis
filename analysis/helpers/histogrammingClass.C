@@ -80,8 +80,8 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("nleps",sample,5,-0.5,4.5);
     addHist1d("llpt",sample,100,0,200);
     addHist1d("ltpt",sample,100,0,200);
-    addHist1d("lleta",sample,100,-5,-5);
-    addHist1d("lteta",sample,100,-5,-5);
+    addHist1d("lleta",sample,100,-5.,-5.);
+    addHist1d("lteta",sample,100,-5.,-5.);
     addHist1d("mll",sample,100,0,200);
     addHist1d("ljpt",sample,50,0,500);
     addHist1d("lbpt",sample,50,0,500);
@@ -138,13 +138,14 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     std::cout << "SR: " << rname << std::endl;
     std::vector<std::string> rnames = {rname};
     std::vector<std::string> brmap = {"ml","ss"};
-    if ( std::find(brmap.begin(),brmap.end(),rname) != brmap.end() ) rnames.push_back("br");
+    if ( rname=="ml" || rname=="ss") rnames.push_back("br");
     int njets=jets.size();
     int nbjets=bjets.size();
+    int nleps=leps.size();
     for (auto name : rnames) {
         fill1d("njets",name,sample,njets,weight);
         fill1d("nbjets",name,sample,nbjets,weight);
-        fill1d("nleps",name,sample,leps.size(),weight);
+        fill1d("nleps",name,sample,nleps,weight);
         fill1d("llpt",name,sample,leps[0].pt(),weight);
         fill1d("ltpt",name,sample,leps[1].pt(),weight);
         fill1d("lleta",name,sample,leps[0].eta(),weight);
