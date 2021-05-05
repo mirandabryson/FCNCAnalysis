@@ -30,7 +30,7 @@
 using namespace std;
 using namespace std::chrono;
 
-void event_looper(TChain *chain, TString options="", TString outputdir="outputs/"){
+void event_looper(TChain *chain, TString options="", int nevts=-1, TString outputdir="outputs/"){
     //*************************************************************************//
     //*************************** begin set options ***************************//
     bool quiet = options.Contains("quiet");
@@ -226,8 +226,8 @@ void event_looper(TChain *chain, TString options="", TString outputdir="outputs/
         TTree *tree = (TTree*)file->Get("Events");
         nt.Init(tree);
 
-        for ( unsigned int counter = 0; counter < 100; counter++ ){ //for testing only!!
-        //for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ //for testing only!!
+        for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ //for testing only!!
+            if (nevts>0 && nEventsTotal>=nevts) break; 
             nt.GetEntry(counter);
             ++nEventsTotal;
 

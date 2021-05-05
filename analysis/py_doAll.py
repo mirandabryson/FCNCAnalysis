@@ -35,6 +35,7 @@ if __name__ == "__main__":
     parser.add_argument(      "--slim", help="smaller subset of processes", action="store_true")
     parser.add_argument(      "--ncpu", help="number of cpus", default=25, type=int)
     parser.add_argument(      "--maxprocs", help="maximum number of chains", default=-1, type=int)
+    parser.add_argument(      "--nevts", help="maximum number of events", default=-1, type=int)
 
     parser.add_argument("-n", "--noloop", help="skip looping/scanchain", action="store_true")
     parser.add_argument("-s", "--shapes", help="make shape hists and copy to limit directory tag folder", action="store_true")
@@ -333,7 +334,7 @@ if __name__ == "__main__":
         ch, options, outputdir = info
         t0 = time.time()
         print ch.GetTitle(),options,outputdir
-        ret = r.event_looper(ch,options,outputdir)
+        ret = r.event_looper(ch,options,args.nevts,outputdir)
         t1 = time.time()
         return index, [ret, ch.GetTitle(), t1-t0]
 
