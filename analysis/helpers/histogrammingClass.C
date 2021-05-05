@@ -135,8 +135,9 @@ float get_sum_pt(Jets  &jets) {
 void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, float weight) {
     // fill 1d histograms first
     std::string rname = getRegionName(best_hyp_type,jets.size(),bjets.size());
+    std::cout << rname << std::endl;
     std::vector<std::string> rnames = {rname};
-    std::vector<std::string> brmap = {"ml","mlsf","ss"};
+    std::vector<std::string> brmap = {"ml","ss"};
     if ( std::find(brmap.begin(),brmap.end(),rname) != brmap.end() ) rnames.push_back("br");
     int njets=jets.size();
     int nbjets=bjets.size();
