@@ -265,7 +265,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             }
 
             // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, OS, TL, LL
-            std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,false);
+            std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,!quiet);
             int best_hyp_type = best_hyp_info.first;
             Leptons best_hyp = best_hyp_info.second;
             if (!quiet) std::cout << "best hyp type: " << best_hyp_type << std::endl;
