@@ -268,6 +268,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,false);
             int best_hyp_type = best_hyp_info.first;
             Leptons best_hyp = best_hyp_info.second;
+            if (!quiet) std::cout << "best hyp type: " << best_hyp_type << std::endl;
 
             // if there isn't a good lepton hypothesis
             if (best_hyp_type<0) continue;
