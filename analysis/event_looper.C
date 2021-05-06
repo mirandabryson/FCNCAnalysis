@@ -35,13 +35,13 @@ void event_looper(){
     string babyVersion = "fcnc_v3";
     string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/"+babyVersion+"/";
     vector< string > sample_names = {   "background", //for testing, removing background
-                                        "signal_hut",
-                                        "signal_hct"
+                                        //"signal_hut",
+                                        //"signal_hct"
                                     };
 
 
-    auto outFile = new TFile("plots/outputHistos.root", "recreate");
-    //auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
+    //auto outFile = new TFile("plots/outputHistos.root", "recreate");
+    auto outFile = new TFile("plots/outputHistos_test.root", "recreate");//for testing only!!
     ofstream sampOutFile;
     sampOutFile.open("plots/backgroundsBySample.txt");
 
@@ -87,6 +87,7 @@ void event_looper(){
         
         //make all histograms
         makeHistograms histos(sample_names[btype]);
+        makeSampleHistos sampleHistos(sample_names[btype]);
         cout << "defined histograms" << endl;
         
         auto start = high_resolution_clock::now();
@@ -94,8 +95,8 @@ void event_looper(){
         int processed = 0;
         int stitchCounter = 0;
         //Main for loop
-        for ( int counter = 0; counter < nEvents; counter++ ){
-        //for ( int counter = 0; counter < 100000; counter++ ){ //for testing only!!
+        //for ( int counter = 0; counter < nEvents; counter++ ){
+        for ( int counter = 0; counter < 100000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
@@ -188,6 +189,8 @@ void event_looper(){
             GenPart genParts(chain, nGenPart, year);
 
             bool isFlip = 0;
+            bool isFake_mu = 0;
+            bool isFake_el = 0;
             bool isFake = 0;
             bool isFake_loose = 0;
             bool isSMSS = 0;
@@ -248,13 +251,7 @@ void event_looper(){
                     }
                     if( sample_names[btype]=="background" ){
                         if( mu.genPartFlav[iMu] != 1 && mu.genPartFlav[iMu] != 15 ){
-                            isFake = 1;
-                        }else if( mu.pdgid[iMu]*-1 == genParts.pdgid[mu.genPartIdx[iMu]] ){
-                            isFlip = 1;
-                            //cout << "Mu isFlip" << endl;
-                        }else{
-                            isSMSS = 1;
-                            //cout << "Mu isOther" << endl;
+                            isFake_mu = 1;
                         }
                     }else{
                         isSignal = 1;
@@ -306,11 +303,9 @@ void event_looper(){
                     }
                     if( sample_names[btype]=="background" ){
                         if( el.genPartFlav[iEl] != 1 && el.genPartFlav[iEl] != 15 ){
-                            isFake = 1;
+                            isFake_el = 1;
                         }else if( el.pdgid[iEl]*-1 == genParts.pdgid[el.genPartIdx[iEl]] ){
                             isFlip = 1;
-                        }else{
-                            isSMSS = 1;
                         }
                     }else{
                         isSignal = 1;
@@ -339,10 +334,16 @@ void event_looper(){
                 }else continue;
             }
 
-            //if we found a fake loose lepton then we want the isOther category to be false
-            if (isFake_loose==1){
-                isFake = 1;
-                isSMSS = 0;
+
+            //background categorization 
+            if( sample_names[btype]=="background" ){
+                if (isFake_mu || isFake_el || isFake_loose){
+                    //if we found a fake muon, electron, or loose lepton, then fake event
+                    isFake = 1;
+                }else if (!isFlip){
+                    //isFlip is set only in electron loop, so if it's not a flip, then it has to be other
+                    isSMSS = 1;
+                }
             }
 
 
@@ -524,10 +525,15 @@ void event_looper(){
             if (isFake||isFlip||isSMSS||isSignal){
                 histos.fill(variablesForFilling, weight, crWeight, nJets, nBjets, nGoodLep, nFakeableLep, muCharge_tight, elCharge_tight, isSSFO, isFake, isFlip, isSMSS, isSignal);
             }
-
-            if (sample_names[btype]=="background"){
-                sampOutFile << sName << " " << isFake << " " << isFlip << " " << isSMSS << endl;
+            if(isTrilep||isSS_SFdilep||isSS_OFdilep){
+                cout << isFake << " " << isFlip << " " << isSMSS << " " << isSignal << endl;
+                vector<int> sampleHistoVars = {isFake, isFlip, isSMSS, nGoodLep, nJets, nBjets};
+                sampleHistos.fillHistos(sName,sampleHistoVars, weight);
             }
+
+            //if (sample_names[btype]=="background"){
+            //    sampOutFile << sName << " " << isFake << " " << isFlip << " " << isSMSS << endl;
+            //}
 
        }//event loop
 
@@ -538,6 +544,7 @@ void event_looper(){
         cout << "processed " << processed << " events in " << duration.count() << " seconds!!" << endl;
 
         histos.write(sample_names[btype], outFile);
+        sampleHistos.writeHistos(outFile);
     }
 
     //write histograms
