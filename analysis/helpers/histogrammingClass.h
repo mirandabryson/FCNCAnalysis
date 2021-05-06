@@ -102,11 +102,11 @@ class sampleHistogram{
         TH1F* h_srCategories;
         TH1F* h_backgroundTypes;
     public:
-        sampleHistogram(string sampleName){
-            h_srCategories = new TH1F( ("h_srYields_"+sampleName).c_str(), "SR_Yields", 0, 18, 18 );
-            h_backgroundTypes = new TH1F( ("h_backgroundTypes_"+sampleName).c_str(),"backgroundCategories", 0, 3, 3 );
+        sampleHistogram(string sampleName, string category){
+            h_srCategories = new TH1F( ("h_srYields_"+sampleName+"_"+category).c_str(), "SR_Yields", 20, 0, 20 );
+            h_backgroundTypes = new TH1F( ("h_backgroundTypes_"+sampleName+"_"+category).c_str(),"backgroundCategories", 5, 0, 5 );
         }
-        void fillBackgroundTypes(vector<bool>variables){
+        void fillBackgroundTypes(vector<bool>variables, float weight){
             bool isFake = variables[0];
             bool isFlip = variables[1];
             bool isOther = variables[2];
@@ -116,9 +116,10 @@ class sampleHistogram{
             if(isFlip) bin = 1;
             if(isOther) bin = 2;
 
-            h_backgroundTypes->AddBinContent(bin);
+            h_backgroundTypes->AddBinContent(bin, weight);
         }
-        void fillSRCategories(int numLep, int numJet, int numB){
+        void fillSRCategories(int numLep, int numJet, int numB, float weight){
+            int bin = 20;
             if(numLep>2){
                 if(numJet==2){
                     if(numB==0){
@@ -172,7 +173,7 @@ class sampleHistogram{
                     }
                 }
             }//close lepton number check
-            h_srCategories->AddBinContent(bin)
+            h_srCategories->AddBinContent(bin, weight);
         }
         void writeHistograms(TFile* &outfile){
             if(outfile->IsOpen()){
@@ -196,8 +197,8 @@ class makeSampleHistos{
         sampleHistogram* ST_tWll_5f_LO;
         sampleHistogram* TTGamma_Dilept;
         sampleHistogram* TTZToLLNuNu_M10;
-        sampleHistogram* TTZToLL_M-1to10;
-        sampleHistogram* DYJetsToLL_M-10to50;
+        sampleHistogram* TTZToLL_M1to10;
+        sampleHistogram* DYJetsToLL_M10to50;
         sampleHistogram* DYJetsToLL_M50;
         sampleHistogram* ZGToLLG_01J_5f;
         sampleHistogram* ZZTo4L;
@@ -227,66 +228,66 @@ class makeSampleHistos{
         sampleHistogram* TTZH;
         sampleHistogram* TTZZ;
         sampleHistogram* WGToLNuG_01J_5f;
-        sampleHistogram* WpWpJJ_EWK-QCD;
+        sampleHistogram* WpWpJJ_EWKQCD;
         sampleHistogram* VHToNonbb_M125;
         sampleHistogram* tZq_ll_4f_ckm_NLO;
         sampleHistogram* ttHToNonbb_M125;
     public:
-        makeSampleHistos(){
-            TTGamma_SingleLept = new sampleHistogram("TTGamma_SingleLept");
-            TGJets = new sampleHistogram("TGJets");
-            TTWJetsToLNu = new sampleHistogram("TTWJetsToLNu");
-            WJetsToLNu = new sampleHistogram("WJetsToLNu");
-            ST_tWll_5f_LO = new sampleHistogram("ST_tWll_5f_LO");
-            TTGamma_Dilept = new sampleHistogram("TTGamma_Dilept");
-            TTZToLLNuNu_M10 = new sampleHistogram("TTZToLLNuNu_M10");
-            TTZToLL_M-1to10 = new sampleHistogram("TTZToLL_M-1to10");
-            DYJetsToLL_M-10to50 = new sampleHistogram("DYJetsToLL_M-10to50");
-            DYJetsToLL_M50 = new sampleHistogram("DYJetsToLL_M50");
-            ZGToLLG_01J_5f = new sampleHistogram("ZGToLLG_01J_5f");
-            ZZTo4L = new sampleHistogram("ZZTo4L");
-            ZZZ = new sampleHistogram("ZZZ");
-            GluGluHToZZTo4L = new sampleHistogram("GluGluHToZZTo4L");
-            GluGluToContinToZZTo2e2mu = new sampleHistogram("GluGluToContinToZZTo2e2mu");
-            GluGluToContinToZZTo2e2tau = new sampleHistogram("GluGluToContinToZZTo2e2tau");
-            GluGluToContinToZZTo2mu2tau = new sampleHistogram("GluGluToContinToZZTo2mu2tau");
-            GluGluToContinToZZTo4e = new sampleHistogram("GluGluToContinToZZTo4e");
-            GluGluToContinToZZTo4mu = new sampleHistogram("GluGluToContinToZZTo4mu");
-            GluGluToContinToZZTo4tau = new sampleHistogram("GluGluToContinToZZTo4tau");
-            WWG = new sampleHistogram("WWG");
-            WWTo2L2Nu_DoubleScattering = new sampleHistogram("WWTo2L2Nu_DoubleScattering");
-            WWW_4F = new sampleHistogram("WWW_4F");
-            WWZ = new sampleHistogram("WWZ");
-            WZG = new sampleHistogram("WZG");
-            WZTo3LNu = new sampleHistogram("WZTo3LNu");
-            WZZ = new sampleHistogram("WZZ");
-            TTJets = new sampleHistogram("TTJets");
-            TTHH = new sampleHistogram("TTHH");
-            TTTJ = new sampleHistogram("TTTJ");
-            TTTT = new sampleHistogram("TTTT");
-            TTTW = new sampleHistogram("TTTW");
-            TTWH = new sampleHistogram("TTWH");
-            TTWW = new sampleHistogram("TTWW");
-            TTWZ = new sampleHistogram("TTWZ");
-            TTZH = new sampleHistogram("TTZH");
-            TTZZ = new sampleHistogram("TTZZ");
-            WGToLNuG_01J_5f = new sampleHistogram("WGToLNuG_01J_5f");
-            WpWpJJ_EWK-QCD = new sampleHistogram("WpWpJJ_EWK-QCD");
-            VHToNonbb_M125 = new sampleHistogram("VHToNonbb_M125");
-            tZq_ll_4f_ckm_NLO = new sampleHistogram("tZq_ll_4f_ckm_NLO");
-            ttHToNonbb_M125 = new sampleHistogram("ttHToNonbb_M125");
+        makeSampleHistos(string category){
+            TTGamma_SingleLept          = new sampleHistogram("TTGamma_SingleLept", category);
+            TGJets                      = new sampleHistogram("TGJets", category);
+            TTWJetsToLNu                = new sampleHistogram("TTWJetsToLNu", category);
+            WJetsToLNu                  = new sampleHistogram("WJetsToLNu", category);
+            ST_tWll_5f_LO               = new sampleHistogram("ST_tWll_5f_LO", category);
+            TTGamma_Dilept              = new sampleHistogram("TTGamma_Dilept", category);
+            TTZToLLNuNu_M10             = new sampleHistogram("TTZToLLNuNu_M10", category);
+            TTZToLL_M1to10              = new sampleHistogram("TTZToLL_M1to10", category);
+            DYJetsToLL_M10to50          = new sampleHistogram("DYJetsToLL_M10to50", category);
+            DYJetsToLL_M50              = new sampleHistogram("DYJetsToLL_M50", category);
+            ZGToLLG_01J_5f              = new sampleHistogram("ZGToLLG_01J_5f", category);
+            ZZTo4L                      = new sampleHistogram("ZZTo4L", category);
+            ZZZ                         = new sampleHistogram("ZZZ", category);
+            GluGluHToZZTo4L             = new sampleHistogram("GluGluHToZZTo4L", category);
+            GluGluToContinToZZTo2e2mu   = new sampleHistogram("GluGluToContinToZZTo2e2mu", category);
+            GluGluToContinToZZTo2e2tau  = new sampleHistogram("GluGluToContinToZZTo2e2tau", category);
+            GluGluToContinToZZTo2mu2tau = new sampleHistogram("GluGluToContinToZZTo2mu2tau", category);
+            GluGluToContinToZZTo4e      = new sampleHistogram("GluGluToContinToZZTo4e", category);
+            GluGluToContinToZZTo4mu     = new sampleHistogram("GluGluToContinToZZTo4mu", category);
+            GluGluToContinToZZTo4tau    = new sampleHistogram("GluGluToContinToZZTo4tau", category);
+            WWG                         = new sampleHistogram("WWG", category);
+            WWTo2L2Nu_DoubleScattering  = new sampleHistogram("WWTo2L2Nu_DoubleScattering", category);
+            WWW_4F                      = new sampleHistogram("WWW_4F", category);
+            WWZ                         = new sampleHistogram("WWZ", category);
+            WZG                         = new sampleHistogram("WZG", category);
+            WZTo3LNu                    = new sampleHistogram("WZTo3LNu", category);
+            WZZ                         = new sampleHistogram("WZZ", category);
+            TTJets                      = new sampleHistogram("TTJets", category);
+            TTHH                        = new sampleHistogram("TTHH", category);
+            TTTJ                        = new sampleHistogram("TTTJ", category);
+            TTTT                        = new sampleHistogram("TTTT", category);
+            TTTW                        = new sampleHistogram("TTTW", category);
+            TTWH                        = new sampleHistogram("TTWH", category);
+            TTWW                        = new sampleHistogram("TTWW", category);
+            TTWZ                        = new sampleHistogram("TTWZ", category);
+            TTZH                        = new sampleHistogram("TTZH", category);
+            TTZZ                        = new sampleHistogram("TTZZ", category);
+            WGToLNuG_01J_5f             = new sampleHistogram("WGToLNuG_01J_5f", category);
+            WpWpJJ_EWKQCD               = new sampleHistogram("WpWpJJ_EWKQCD", category);
+            VHToNonbb_M125              = new sampleHistogram("VHToNonbb_M125", category);
+            tZq_ll_4f_ckm_NLO           = new sampleHistogram("tZq_ll_4f_ckm_NLO", category);
+            ttHToNonbb_M125             = new sampleHistogram("ttHToNonbb_M125", category);
         }
-        void fillHistos(string sampleName, vector<int>variables, bool isSRYield){
+        void fillHistos(string sampleName, vector<int>variables, float weight){
             int TTGamma_SingleLept_idx = sampleName.find("TTGamma_SingleLept");
             int TGJets_idx = sampleName.find("TGJets");
             int TTWJetsToLNu_idx = sampleName.find("TTWJetsToLNu");
             int WJetsToLNu_idx = sampleName.find("WJetsToLNu");
             int ST_tWll_5f_LO_idx = sampleName.find("ST_tWll_5f_LO");
             int TTGamma_Dilept_idx = sampleName.find("TTGamma_Dilept");
-            int TTZToLLNuNu_M10_idx = sampleName.find("TTZToLLNuNu_M10");
-            int TTZToLL_M-1to10_idx = sampleName.find("TTZToLL_M-1to10");
-            int DYJetsToLL_M-10to50_idx = sampleName.find("DYJetsToLL_M-10to50");
-            int DYJetsToLL_M50_idx = sampleName.find("DYJetsToLL_M50");
+            int TTZToLLNuNu_M10_idx = sampleName.find("TTZToLLNuNu_M-10");
+            int TTZToLL_M1to10_idx = sampleName.find("TTZToLL_M-1to10");
+            int DYJetsToLL_M10to50_idx = sampleName.find("DYJetsToLL_M-10to50");
+            int DYJetsToLL_M50_idx = sampleName.find("DYJetsToLL_M-50");
             int ZGToLLG_01J_5f_idx = sampleName.find("ZGToLLG_01J_5f");
             int ZZTo4L_idx = sampleName.find("ZZTo4L");
             int ZZZ_idx = sampleName.find("ZZZ");
@@ -315,269 +316,142 @@ class makeSampleHistos{
             int TTZH_idx = sampleName.find("TTZH");
             int TTZZ_idx = sampleName.find("TTZZ");
             int WGToLNuG_01J_5f_idx = sampleName.find("WGToLNuG_01J_5f");
-            int WpWpJJ_EWK-QCD_idx = sampleName.find("WpWpJJ_EWK-QCD");
+            int WpWpJJ_EWKQCD_idx = sampleName.find("WpWpJJ_EWK-QCD");
             int VHToNonbb_M125_idx = sampleName.find("VHToNonbb_M125");
             int tZq_ll_4f_ckm_NLO_idx = sampleName.find("tZq_ll_4f_ckm_NLO");
             int ttHToNonbb_M125_idx = sampleName.find("ttHToNonbb_M125");
 
-            if(isSRYield){
-                int nLep = variables[0];
-                int nJet = variables[1];
-                int nBs = variables[2];
-            }
+            vector<bool> bkgTypeVars = {bool(variables[0]),bool(variables[1]),bool(variables[2])};
+            int nLep = variables[3];
+            int nJet = variables[4];
+            int nBs = variables[5];
 
             if(TTGamma_SingleLept_idx!=-1){
-                if(isSRYield){
-                    TTGamma_SingleLept->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTGamma_SingleLept->fillBackgroundTypes(variables);
-                }
+                TTGamma_SingleLept->fillSRCategories(nLep, nJet, nBs, weight);
+                TTGamma_SingleLept->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TGJets_idx!=-1){
-                if(isSRYield){
-                    TGJets->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TGJets->fillBackgroundTypes(variables);
-                }
+                TGJets->fillSRCategories(nLep, nJet, nBs, weight);
+                TGJets->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTWJetsToLNu_idx!=-1){
-                if(isSRYield){
-                    TTWJetsToLNu->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTWJetsToLNu->fillBackgroundTypes(variables);
-                }
+                TTWJetsToLNu->fillSRCategories(nLep, nJet, nBs, weight);
+                TTWJetsToLNu->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(WJetsToLNu_idx!=-1){
-                if(isSRYield){
-                    WJetsToLNu->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    WJetsToLNu->fillBackgroundTypes(variables);
-                }
+                WJetsToLNu->fillSRCategories(nLep, nJet, nBs, weight);
+                WJetsToLNu->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(ST_tWll_5f_LO_idx!=-1){
-                if(isSRYield){
-                    ST_tWll_5f_LO->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    ST_tWll_5f_LO->fillBackgroundTypes(variables);
-                }
+                ST_tWll_5f_LO->fillSRCategories(nLep, nJet, nBs, weight);
+                ST_tWll_5f_LO->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTGamma_Dilept_idx!=-1){
-                if(isSRYield){
-                    TTGamma_Dilept->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTGamma_Dilept->fillBackgroundTypes(variables);
-                }
+                TTGamma_Dilept->fillSRCategories(nLep, nJet, nBs, weight);
+                TTGamma_Dilept->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTZToLLNuNu_M10_idx!=-1){
-                if(isSRYield){
-                    TTZToLLNuNu_M10->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTZToLLNuNu_M10->fillBackgroundTypes(variables);
-                }
-            }else if(TTZToLL_M-1to10_idx!=-1){
-                if(isSRYield){
-                    TTZToLL_M-1to10->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTZToLL_M-1to10->fillBackgroundTypes(variables);
-                }
-            }else if(DYJetsToLL_M-10to50_idx!=-1){
-                if(isSRYield){
-                    DYJetsToLL_M-10to50->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    DYJetsToLL_M-10to50->fillBackgroundTypes(variables);
-                }
+                TTZToLLNuNu_M10->fillSRCategories(nLep, nJet, nBs, weight);
+                TTZToLLNuNu_M10->fillBackgroundTypes(bkgTypeVars, weight);
+            }else if(TTZToLL_M1to10_idx!=-1){
+                TTZToLL_M1to10->fillSRCategories(nLep, nJet, nBs, weight);
+                TTZToLL_M1to10->fillBackgroundTypes(bkgTypeVars, weight);
+            }else if(DYJetsToLL_M10to50_idx!=-1){
+                DYJetsToLL_M10to50->fillSRCategories(nLep, nJet, nBs, weight);
+                DYJetsToLL_M10to50->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(DYJetsToLL_M50_idx!=-1){
-                if(isSRYield){
-                    DYJetsToLL_M50->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    DYJetsToLL_M50->fillBackgroundTypes(variables);
-                }
+                DYJetsToLL_M50->fillSRCategories(nLep, nJet, nBs, weight);
+                DYJetsToLL_M50->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(ZGToLLG_01J_5f_idx!=-1){
-                if(isSRYield){
-                    ZGToLLG_01J_5f->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    ZGToLLG_01J_5f->fillBackgroundTypes(variables);
-                }
+                ZGToLLG_01J_5f->fillSRCategories(nLep, nJet, nBs, weight);
+                ZGToLLG_01J_5f->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(ZZTo4L_idx!=-1){
-                if(isSRYield){
-                    ZZTo4L->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    ZZTo4L->fillBackgroundTypes(variables);
-                }
+                ZZTo4L->fillSRCategories(nLep, nJet, nBs, weight);
+                ZZTo4L->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(ZZZ_idx!=-1){
-                if(isSRYield){
-                    ZZZ->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    ZZZ->fillBackgroundTypes(variables);
-                }
+                ZZZ->fillSRCategories(nLep, nJet, nBs, weight);
+                ZZZ->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(GluGluHToZZTo4L_idx!=-1){
-                if(isSRYield){
-                    GluGluHToZZTo4L->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    GluGluHToZZTo4L->fillBackgroundTypes(variables);
-                }
+                GluGluHToZZTo4L->fillSRCategories(nLep, nJet, nBs, weight);
+                GluGluHToZZTo4L->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(GluGluToContinToZZTo2e2mu_idx!=-1){
-                if(isSRYield){
-                    GluGluToContinToZZTo2e2mu->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    GluGluToContinToZZTo2e2mu->fillBackgroundTypes(variables);
-                }
+                GluGluToContinToZZTo2e2mu->fillSRCategories(nLep, nJet, nBs, weight);
+                GluGluToContinToZZTo2e2mu->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(GluGluToContinToZZTo2e2tau_idx!=-1){
-                if(isSRYield){
-                    GluGluToContinToZZTo2e2tau->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    GluGluToContinToZZTo2e2tau->fillBackgroundTypes(variables);
-                }
+                GluGluToContinToZZTo2e2tau->fillSRCategories(nLep, nJet, nBs, weight);
+                GluGluToContinToZZTo2e2tau->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(GluGluToContinToZZTo2mu2tau_idx!=-1){
-                if(isSRYield){
-                    GluGluToContinToZZTo2mu2tau->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    GluGluToContinToZZTo2mu2tau->fillBackgroundTypes(variables);
-                }
+                GluGluToContinToZZTo2mu2tau->fillSRCategories(nLep, nJet, nBs, weight);
+                GluGluToContinToZZTo2mu2tau->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(GluGluToContinToZZTo4e_idx!=-1){
-                if(isSRYield){
-                    GluGluToContinToZZTo4e->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    GluGluToContinToZZTo4e->fillBackgroundTypes(variables);
-                }
+                GluGluToContinToZZTo4e->fillSRCategories(nLep, nJet, nBs, weight);
+                GluGluToContinToZZTo4e->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(GluGluToContinToZZTo4mu_idx!=-1){
-                if(isSRYield){
-                    GluGluToContinToZZTo4mu->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    GluGluToContinToZZTo4mu->fillBackgroundTypes(variables);
-                }
+                GluGluToContinToZZTo4mu->fillSRCategories(nLep, nJet, nBs, weight);
+                GluGluToContinToZZTo4mu->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(GluGluToContinToZZTo4tau_idx!=-1){
-                if(isSRYield){
-                    GluGluToContinToZZTo4tau->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    GluGluToContinToZZTo4tau->fillBackgroundTypes(variables);
-                }
+                GluGluToContinToZZTo4tau->fillSRCategories(nLep, nJet, nBs, weight);
+                GluGluToContinToZZTo4tau->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(WWG_idx!=-1){
-                if(isSRYield){
-                    WWG->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    WWG->fillBackgroundTypes(variables);
-                }
+                WWG->fillSRCategories(nLep, nJet, nBs, weight);
+                WWG->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(WWTo2L2Nu_DoubleScattering_idx!=-1){
-                if(isSRYield){
-                    WWTo2L2Nu_DoubleScattering->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    WWTo2L2Nu_DoubleScattering->fillBackgroundTypes(variables);
-                }
+                WWTo2L2Nu_DoubleScattering->fillSRCategories(nLep, nJet, nBs, weight);
+                WWTo2L2Nu_DoubleScattering->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(WWW_4F_idx!=-1){
-                if(isSRYield){
-                    WWW_4F->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    WWW_4F->fillBackgroundTypes(variables);
-                }
+                WWW_4F->fillSRCategories(nLep, nJet, nBs, weight);
+                WWW_4F->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(WWZ_idx!=-1){
-                if(isSRYield){
-                    WWZ->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    WWZ->fillBackgroundTypes(variables);
-                }
+                WWZ->fillSRCategories(nLep, nJet, nBs, weight);
+                WWZ->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(WZG_idx!=-1){
-                if(isSRYield){
-                    WZG->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    WZG->fillBackgroundTypes(variables);
-                }
+                WZG->fillSRCategories(nLep, nJet, nBs, weight);
+                WZG->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(WZTo3LNu_idx!=-1){
-                if(isSRYield){
-                    WZTo3LNu->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    WZTo3LNu->fillBackgroundTypes(variables);
-                }
+                WZTo3LNu->fillSRCategories(nLep, nJet, nBs, weight);
+                WZTo3LNu->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(WZZ_idx!=-1){
-                if(isSRYield){
-                    WZZ->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    WZZ->fillBackgroundTypes(variables);
-                }
+                WZZ->fillSRCategories(nLep, nJet, nBs, weight);
+                WZZ->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTJets_idx!=-1){
-                if(isSRYield){
-                    TTJets->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTJets->fillBackgroundTypes(variables);
-                }
+                TTJets->fillSRCategories(nLep, nJet, nBs, weight);
+                TTJets->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTHH_idx!=-1){
-                if(isSRYield){
-                    TTHH->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTHH->fillBackgroundTypes(variables);
-                }
+                TTHH->fillSRCategories(nLep, nJet, nBs, weight);
+                TTHH->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTTJ_idx!=-1){
-                if(isSRYield){
-                    TTTJ->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTTJ->fillBackgroundTypes(variables);
-                }
+                TTTJ->fillSRCategories(nLep, nJet, nBs, weight);
+                TTTJ->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTTT_idx!=-1){
-                if(isSRYield){
-                    TTTT->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTTT->fillBackgroundTypes(variables);
-                }
+                TTTT->fillSRCategories(nLep, nJet, nBs, weight);
+                TTTT->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTTW_idx!=-1){
-                if(isSRYield){
-                    TTTW->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTTW->fillBackgroundTypes(variables);
-                }
+                TTTW->fillSRCategories(nLep, nJet, nBs, weight);
+                TTTW->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTWH_idx!=-1){
-                if(isSRYield){
-                    TTWH->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTWH->fillBackgroundTypes(variables);
-                }
+                TTWH->fillSRCategories(nLep, nJet, nBs, weight);
+                TTWH->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTWW_idx!=-1){
-                if(isSRYield){
-                    TTWW->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTWW->fillBackgroundTypes(variables);
-                }
+                TTWW->fillSRCategories(nLep, nJet, nBs, weight);
+                TTWW->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTWZ_idx!=-1){
-                if(isSRYield){
-                    TTWZ->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTWZ->fillBackgroundTypes(variables);
-                }
+                TTWZ->fillSRCategories(nLep, nJet, nBs, weight);
+                TTWZ->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTZH_idx!=-1){
-                if(isSRYield){
-                    TTZH->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTZH->fillBackgroundTypes(variables);
-                }
+                TTZH->fillSRCategories(nLep, nJet, nBs, weight);
+                TTZH->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(TTZZ_idx!=-1){
-                if(isSRYield){
-                    TTZZ->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    TTZZ->fillBackgroundTypes(variables);
-                }
+                TTZZ->fillSRCategories(nLep, nJet, nBs, weight);
+                TTZZ->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(WGToLNuG_01J_5f_idx!=-1){
-                if(isSRYield){
-                    WGToLNuG_01J_5f->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    WGToLNuG_01J_5f->fillBackgroundTypes(variables);
-                }
-            }else if(WpWpJJ_EWK-QCD_idx!=-1){
-                if(isSRYield){
-                    WpWpJJ_EWK-QCD->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    WpWpJJ_EWK-QCD->fillBackgroundTypes(variables);
-                }
+                WGToLNuG_01J_5f->fillSRCategories(nLep, nJet, nBs, weight);
+                WGToLNuG_01J_5f->fillBackgroundTypes(bkgTypeVars, weight);
+            }else if(WpWpJJ_EWKQCD_idx!=-1){
+                WpWpJJ_EWKQCD->fillSRCategories(nLep, nJet, nBs, weight);
+                WpWpJJ_EWKQCD->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(VHToNonbb_M125_idx!=-1){
-                if(isSRYield){
-                    VHToNonbb_M125->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    VHToNonbb_M125->fillBackgroundTypes(variables);
-                }
+                VHToNonbb_M125->fillSRCategories(nLep, nJet, nBs, weight);
+                VHToNonbb_M125->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(tZq_ll_4f_ckm_NLO_idx!=-1){
-                if(isSRYield){
-                    tZq_ll_4f_ckm_NLO->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    tZq_ll_4f_ckm_NLO->fillBackgroundTypes(variables);
-                }
+                tZq_ll_4f_ckm_NLO->fillSRCategories(nLep, nJet, nBs, weight);
+                tZq_ll_4f_ckm_NLO->fillBackgroundTypes(bkgTypeVars, weight);
             }else if(ttHToNonbb_M125_idx!=-1){
-                if(isSRYield){
-                    ttHToNonbb_M125->fillSRCategories(nLep, nJet, nBs);
-                }else{
-                    ttHToNonbb_M125->fillBackgroundTypes(variables);
-                }
+                ttHToNonbb_M125->fillSRCategories(nLep, nJet, nBs, weight);
+                ttHToNonbb_M125->fillBackgroundTypes(bkgTypeVars, weight);
             }
         }
         void writeHistos(TFile* &outfile){
@@ -588,12 +462,12 @@ class makeSampleHistos{
             ST_tWll_5f_LO->writeHistograms(outfile);
             TTGamma_Dilept->writeHistograms(outfile);
             TTZToLLNuNu_M10->writeHistograms(outfile);
-            TTZToLL_M-1to10->writeHistograms(outfile);
-            DYJetsToLL_M-10to50->writeHistograms(outfile);
+            TTZToLL_M1to10->writeHistograms(outfile);
+            DYJetsToLL_M10to50->writeHistograms(outfile);
             DYJetsToLL_M50->writeHistograms(outfile);
             ZGToLLG_01J_5f->writeHistograms(outfile);
             ZZTo4L->writeHistograms(outfile);
-            ZZZ_TuneCP5->writeHistograms(outfile);
+            ZZZ->writeHistograms(outfile);
             GluGluHToZZTo4L->writeHistograms(outfile);
             GluGluToContinToZZTo2e2mu->writeHistograms(outfile);
             GluGluToContinToZZTo2e2tau->writeHistograms(outfile);
@@ -619,7 +493,7 @@ class makeSampleHistos{
             TTZH->writeHistograms(outfile);
             TTZZ->writeHistograms(outfile);
             WGToLNuG_01J_5f->writeHistograms(outfile);
-            WpWpJJ_EWK-QCD->writeHistograms(outfile);
+            WpWpJJ_EWKQCD->writeHistograms(outfile);
             VHToNonbb_M125->writeHistograms(outfile);
             tZq_ll_4f_ckm_NLO->writeHistograms(outfile);
             ttHToNonbb_M125->writeHistograms(outfile);

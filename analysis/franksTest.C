@@ -1,3 +1,5 @@
+//duplicate of event_looper.C with edits to specifically run over frank's ttjets sample and to print event info
+
 //Basic looper to categorize FCNC events
 //Compile and run with root -l event_looper.C+
 //March 2021
@@ -28,15 +30,17 @@
 using namespace std;
 using namespace std::chrono;
 
-void event_looper(){
+void franksTest(){
     //global variables
     int year = 2018;
     double lumi = 137;
     string babyVersion = "fcnc_v4";
     string inputDir = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/"+babyVersion+"/";
-    vector< string > sample_names = {   "background", //for testing, removing background
+    /*vector< string > sample_names = {   "background", //for testing, removing background
                                         //"signal_hut",
                                         //"signal_hct"
+                                    };*/
+    vector< string > sample_names = {   "franksTest",
                                     };
 
 
@@ -48,9 +52,14 @@ void event_looper(){
     //for(uint btype = 0; btype < 2; btype++){ //for testing only!!!
         TChain* chain = new TChain("Events");
         vector<string> samples = loadSamples ( year, sample_names[btype],babyVersion );
-        for ( uint s = 0; s < samples.size(); s++ ){
+        /*for ( uint s = 0; s < samples.size(); s++ ){
             string pathname = inputDir+samples[s];
             string name = inputDir+samples[s]+"/output_*.root";
+            chain->Add(name.c_str());
+        }*/
+        //use this for loop for franksTest
+        for ( uint s = 0; s < samples.size(); s++ ){
+            string name = samples[s];
             chain->Add(name.c_str());
         }
         /*//check we've got all the output files
@@ -67,6 +76,8 @@ void event_looper(){
         cout << "found " << nEvents << " " << sample_names[btype] << " events" << endl;
 
         //event variables
+        uint run = 0;
+        uint lumiBlock = 0;
         uint nMuon = 0;
         uint nElectron = 0;
         uint nJet = 0;
@@ -75,6 +86,8 @@ void event_looper(){
         float MET_phi = 0;
         float genWeight = 0;
 
+        chain->SetBranchAddress("run", &run);
+        chain->SetBranchAddress("luminosityBlock", &lumiBlock);
         chain->SetBranchAddress("nMuon", &nMuon);
         chain->SetBranchAddress("nElectron", &nElectron);
         chain->SetBranchAddress("nJet", &nJet);
@@ -93,11 +106,11 @@ void event_looper(){
         int processed = 0;
         int stitchCounter = 0;
         //Main for loop
-        for ( int counter = 0; counter < nEvents; counter++ ){
+        //for ( int counter = 0; counter < nEvents; counter++ ){
         //for ( int counter = 0; counter < 100000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 10000; counter++ ){ //for testing only!!
         //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
-        //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
+        for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
             processed++;
             //cout << "counter " << counter << endl;
             if ( counter%100000==0 ){
@@ -139,12 +152,14 @@ void event_looper(){
                 cout << sName << endl;
             }
             //get event weight based on sample!
-            double weight = getEventWeight( sName, inputDir, babyVersion );
-            /*cout << weight << endl;
+            //for franksTest, comment out weighting, instead make weight 1
+            double weight = 1;
+            /*double weight = getEventWeight( sName, inputDir, babyVersion );
+            cout << weight << endl;
             cout << genWeight << endl;
-            cout << lumi << endl;*/
+            cout << lumi << endl;
             weight = (weight*genWeight*lumi)/(abs(genWeight));
-            /*cout << weight << endl;
+            cout << weight << endl;
             cout << "***************" << endl;*/
 
             //Define physics objects
@@ -192,13 +207,24 @@ void event_looper(){
             }*/
             //cout << stitch << endl;
 
+
+            vector<vector<float>> lep_info;
             //loop to count tight/loose muons
             for( uint iMu = 0; iMu < nMuon; iMu++ ){
+                vector<float> mu_vec;
 
                 //check if meets basic object requirements
                 bool mu_isGood = isGoodMuon( mu.dxy[iMu], mu.dz[iMu], mu.sip3d[iMu], mu.tightCharge[iMu], mu.mediumId[iMu], mu.chargeQuality[iMu] );
                 int mu_isoType = isoType( year, mu.pdgid[iMu], mu.miniIso[iMu], mu.jetRelIso[iMu], mu.jetPtRelv2[iMu] );
-
+                bool mu_isTight = isTightLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType );
+                bool mu_isLoose = isLooseLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType );
+                mu_vec.push_back(mu.pdgid[iMu]);
+                mu_vec.push_back(mu.pt[iMu]);
+                mu_vec.push_back(mu.eta[iMu]);
+                mu_vec.push_back(mu_isLoose);
+                mu_vec.push_back(mu_isTight);
+                lep_info.push_back(mu_vec);
+                mu_vec.clear();
                 //check for tight or loose
                 if ( isTightLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType ) ){
                     nGoodLep += 1;
@@ -223,6 +249,7 @@ void event_looper(){
                     }
                     flipRateValue = GetFlipWeight(mu.pt[iMu],mu.eta[iMu],mu.pdgid[iMu]);
                     flipRates.push_back(flipRateValue);
+
                 }else if ( isLooseLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType ) ){
                     nFakeableLep += 1;
                     muCharge_loose.push_back(mu.charge[iMu]);
@@ -246,11 +273,20 @@ void event_looper(){
             }
             //loop to count tight/loose electrons
             for( uint iEl = 0; iEl < nElectron; iEl++ ){
+                vector<float> el_vec;
 
                 //check if meets basic object requirements
                 bool el_isGood = isGoodElectron( el.dxy[iEl], el.dz[iEl], el.sip3d[iEl], el.tightCharge[iEl], el.lostHits[iEl], el.convVeto[iEl] );
                 int el_isoType = isoType( year, el.pdgid[iEl], el.miniIso[iEl], el.jetRelIso[iEl], el.jetPtRelv2[iEl] );
-
+                bool el_isTight =  (isTightLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "tight" ) );
+                bool el_isLoose = (isLooseLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) );
+                el_vec.push_back(el.pdgid[iEl]);
+                el_vec.push_back(el.pt[iEl]);
+                el_vec.push_back(el.eta[iEl]);
+                el_vec.push_back(el_isLoose);
+                el_vec.push_back(el_isTight);
+                lep_info.push_back(el_vec);
+                el_vec.clear();
                 //check for tight or loose
                 if ( isTightLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "tight" ) ){
                     nGoodLep += 1;
@@ -312,7 +348,54 @@ void event_looper(){
             }
 
 
-            if ( !((nFakeableLep==0 && nGoodLep>1) || (nFakeableLep>0 && nGoodLep<2)) ){
+            int category = 0;
+            if(isFake) category = 1;
+            if(isFlip) category = 2;
+            if(isSMSS) category = 3;
+
+            //for franksTest, rm nlepton requirement here and replace with same but without if/else
+            //loop to count good jets and b-tagged jets
+            for ( uint iJet = 0; iJet < nJet; iJet++ ){
+                if ( isGoodJet(jet.pt[iJet], jet.eta[iJet]) ){
+                    //next two for loops to clean jets
+                    bool isGood = 1;
+                    for (uint iMu = 0; iMu < nMuon; iMu++ ){
+                        bool mu_isGood = isGoodMuon( mu.dxy[iMu], mu.dz[iMu], mu.sip3d[iMu], mu.tightCharge[iMu], mu.mediumId[iMu], mu.chargeQuality[iMu] );
+                        int mu_isoType = isoType( year, mu.pdgid[iMu], mu.miniIso[iMu], mu.jetRelIso[iMu], mu.jetPtRelv2[iMu] );
+                        if ( isTightLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType ) || isLooseLepton( mu.pdgid[iMu], mu.pt[iMu], mu.eta[iMu], mu_isGood, mu_isoType ) ){
+                            if ( deltaR( jet.eta[iJet], jet.phi[iJet], mu.eta[iMu], mu.phi[iMu] ) < 0.4 ){
+                                isGood = 0;
+                            }else continue;
+                        }else continue;
+                    }
+                    for (uint iEl = 0; iEl < nElectron; iEl++ ){
+                        bool el_isGood = isGoodElectron( el.dxy[iEl], el.dz[iEl], el.sip3d[iEl], el.tightCharge[iEl], el.lostHits[iEl], el.convVeto[iEl] );
+                        int el_isoType = isoType( year, el.pdgid[iEl], el.miniIso[iEl], el.jetRelIso[iEl], el.jetPtRelv2[iEl] );
+                        if ( ( isTightLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "tight" ) ) || ( isLooseLepton( el.pdgid[iEl], el.pt[iEl], el.eta[iEl], el_isGood, el_isoType ) && electronID( year, el.eta[iEl], el.pt[iEl], el.mva[iEl], "loose" ) ) ){
+                            if ( deltaR( jet.eta[iJet], jet.phi[iJet], el.eta[iEl], el.phi[iEl] ) < 0.4 ){
+                                isGood = 0;
+                            }else continue;
+                        }else continue;
+                    }
+
+                    if ( isGood == 1 ){
+                        nJets += 1;
+                        if (jet.pt[iJet]>leadJet_pt){
+                            leadJet_pt=jet.pt[iJet];
+                        }
+                        jetHT = jetHT + jet.pt[iJet];
+                        if ( jet.btag_score[iJet] > 0.2770 ){
+                            nBjets += 1;
+                            if(jet.pt[iJet]>leadB_pt){
+                                leadB_pt = jet.pt[iJet];
+                                leadB_mass = jet.mass[iJet];
+                                MT_leadb_MET = mt( MET, MET_phi, jet.pt[iJet], jet.phi[iJet] );
+                            }
+                        }else continue;
+                    }else continue;
+                }else continue;
+            }
+/*            if ( !((nFakeableLep==0 && nGoodLep>1) || (nFakeableLep>0 && nGoodLep<2)) ){
                 continue;
             }else{
                 //loop to count good jets and b-tagged jets
@@ -357,7 +440,7 @@ void event_looper(){
                     }else continue;
                 }
 
-            }
+            }*/
 
 
             //Lepton classification
@@ -428,6 +511,7 @@ void event_looper(){
                 }
             }
 
+
             //define a weight for CR events.
             //this will be applied to those events and fill the estimate histograms
             float crWeight = 0;
@@ -453,7 +537,52 @@ void event_looper(){
                 crWeight = weight * flipWeight;
             }
 
+            //hyp_type for franksTest
+            int hyp_type = 0;
+            //1 for mass resonance veto
+            //2 for trilep
+            //3 for 2tight, 1loose
+            //4 for ss2l
+            //5 for os2l
+            //6 for 1tight, 1loose
+            //7 for 2loose
 
+            if (nGoodLep>=3){
+                hyp_type = 2;
+            }else if (nGoodLep == 2 && nFakeableLep ==1){
+                hyp_type = 3;
+            }else if (nGoodLep == 2 && nFakeableLep == 0){
+                if (muCharge_tight.size() == 2){
+                    if (muCharge_tight[0]*muCharge_tight[1]>0){
+                        hyp_type = 4;
+                    }else{ 
+                        hyp_type = 5;
+                    }
+                }else if (elCharge_tight.size() == 2) {
+                    if (elCharge_tight[0]*elCharge_tight[1]>0){
+                        hyp_type = 4;
+                    }else{
+                        hyp_type = 5;
+                    }
+                }else if (muCharge_tight.size() == 1) {
+                    if (muCharge_tight[0]*elCharge_tight[0]>0){
+                        hyp_type = 4;
+                    }else{
+                        hyp_type = 5;
+                    }
+                }
+            }else if (nGoodLep==1 && nFakeableLep==1){
+                hyp_type = 6;
+            }else if (nGoodLep == 0 && nFakeableLep==2){
+                hyp_type = 7;
+            }
+
+            //print for franksTest
+            cout << run << "," << lumiBlock << "," << event << "," << hyp_type << ",";
+            for (uint i = 0; i < lep_info.size(); i++){
+                cout << lep_info[i][0] << "," << lep_info[i][1] << "," << lep_info[i][2] << "," << lep_info[i][3] << "," << lep_info[i][4] << ",";
+            }
+            cout << nJets << "," << nBjets << "," << category << endl;
             
             //organize into signature types
             vector<float> variablesForFilling;

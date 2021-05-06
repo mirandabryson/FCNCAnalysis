@@ -14,6 +14,8 @@ filename = sys.argv[-1]
 #sFile = ROOT.TFile.Open(signalFile)
 print("loaded files")
 
+numDecimalPlaces = 4
+
 # useful functions 
 def makeTableHeader(selectionHeaders, processes):
     #cBreak = " & "
@@ -85,26 +87,26 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
                 else:
                     error = h.GetBinError(b)
                     totBackError = totBackError + pow(h.GetBinError(b),2)
-        #line = line + cBreak + str(round(totYield,2)) + " $\pm$ " + str(round(error,2))
-        line.append(round(totYield,5))
-        line.append(round(error,5))
-    #line = line + cBreak + str(round(totBack,2)) + " \\\\"
-    line.append(round(totBack,5))
+        #line = line + cBreak + str(round(totYield,numDecimalPlaces)) + " $\pm$ " + str(round(error,numDecimalPlaces))
+        line.append(round(totYield,numDecimalPlaces))
+        line.append(round(error,numDecimalPlaces))
+    #line = line + cBreak + str(round(totBack,numDecimalPlaces)) + " \\\\"
+    line.append(round(totBack,numDecimalPlaces))
     totBackError = np.sqrt(totBackError)
-    line.append(round(totBackError,5))
+    line.append(round(totBackError,numDecimalPlaces))
     
-    line.append(round(totSig,5))
-    #line.append(round(totSig_noWeight,2))
+    line.append(round(totSig,numDecimalPlaces))
+    #line.append(round(totSig_noWeight,numDecimalPlaces))
     totSigError = np.sqrt(totSigError)
-    line.append(round(totSigError,5))
+    line.append(round(totSigError,numDecimalPlaces))
     
     if totBack == 0:
         line.append(0)
         line.append(0)
     else:
-        line.append(round(totSig/totBack,5))
+        line.append(round(totSig/totBack,numDecimalPlaces))
         totSoverBError = (totSig/totBack)*np.sqrt(pow(totSigError/totSig,2)+pow(totBackError/totBack,2))
-        line.append(round(totSoverBError,5))
+        line.append(round(totSoverBError,numDecimalPlaces))
     return line
 
 def makeTable(lines, outdir):
@@ -170,8 +172,8 @@ leptonSelections = ["trilep",
                     "dilepFO",
                     "SS_SF_flipEst",
                     "SS_OF_flipEst",
-                    "dilep_fakeEst",
-                    "trilep_fakeEst"
+                    "fakeEst_from1FOCR",
+                    "fakeEst_from2FOCR"
                    ]
 
 jetSelections = ["2j",
@@ -262,7 +264,135 @@ for var in plottedVariables:
     #makeTable(tableLines, outdir)
     header = makeTableHeader(headers,processes)
     df = pd.DataFrame(allLines, columns=header)
+    #print(df)
+    SR_df = df[df["nLeptons"]=="3l"]
+    #now we need to add the SF and OF dilepton cases
+    nJets = ["2", "3", "+4"]
+    nBjets = ["0", "1", "+2"]
+    #print(SR_df)
+    for j in nJets:
+        for b in nBjets:
+            sf_df = df.loc[  (df["nLeptons"]=="SS SF 2l") & (df["nJets"]==j) & (df["nBtags"]==b)  ]
+            sf_idx = df.index[  (df["nLeptons"]=="SS SF 2l") & (df["nJets"]==j) & (df["nBtags"]==b)  ].tolist()
+            of_df = df.loc[  (df["nLeptons"]=="SS OF 2l") & (df["nJets"]==j) & (df["nBtags"]==b)  ]
+            of_idx = df.index[  (df["nLeptons"]=="SS OF 2l") & (df["nJets"]==j) & (df["nBtags"]==b)  ].tolist()
+
+            data = [["SS2l",
+                    j,
+                    b,
+                    (sf_df["signal hut"].values[0]+of_df["signal hut"].values[0]),
+                    round(( np.sqrt( (sf_df["signal hut error"].values[0]**2)+(of_df["signal hut error"].values[0]**2) ) ), 2),
+                    (sf_df["signal hct"].values[0]+of_df["signal hct"].values[0]),
+                    round(( np.sqrt( (sf_df["signal hct error"].values[0]**2)+(of_df["signal hct error"].values[0]**2) ) ), 2),
+                    (sf_df["other"].values[0]+of_df["other"].values[0]),
+                    round(( np.sqrt( (sf_df["other error"].values[0]**2)+(of_df["other error"].values[0]**2) ) ), 2),
+                    (sf_df["fakes"].values[0]+of_df["fakes"].values[0]),
+                    round(( np.sqrt( (sf_df["fakes error"].values[0]**2)+(of_df["fakes error"].values[0]**2) ) ), 2),
+                    (sf_df["flips"].values[0]+of_df["flips"].values[0]),
+                    round(( np.sqrt( (sf_df["flips error"].values[0]**2)+(of_df["flips error"].values[0]**2) ) ), 2),
+                    (sf_df["total background"].values[0]+of_df["total background"].values[0]),
+                    round(( np.sqrt( (sf_df["tot back error"].values[0]**2)+(of_df["tot back error"].values[0]**2) ) ), 2),
+                    (sf_df["total signal"].values[0]+of_df["total signal"].values[0]),
+                    round(( np.sqrt( (sf_df["tot sig error"].values[0]**2)+(of_df["tot sig error"].values[0]**2) ) ), 2),
+                    (sf_df["S/B"].values[0]+of_df["S/B"].values[0]),
+                    round(( np.sqrt( (sf_df["S/B error"].values[0]**2)+(of_df["S/B error"].values[0]**2) ) ), 2)
+                    ]]
+            new_ss_df = pd.DataFrame( data, columns = df.columns )
+            
+            SR_df = SR_df.append(new_ss_df, ignore_index=True)
+            #print(SR_df)
+    SR_df.at["Total", "fakes"] = SR_df["fakes"].sum()
+    SR_df.at["Total", "fakes error"] = np.sqrt(SR_df["fakes error"].pow(2).sum())
+    SR_df.loc["Total", "flips"] = SR_df["flips"].sum()
+    SR_df.at["Total", "flips error"] = np.sqrt(SR_df["flips error"].pow(2).sum())
+    SR_df.loc["Total", "other"] = SR_df["other"].sum()
+    SR_df.at["Total", "other error"] = np.sqrt(SR_df["other error"].pow(2).sum())
+    SR_df.loc["Total", "signal hut"] = SR_df["signal hut"].sum()
+    SR_df.at["Total", "signal hut error"] = np.sqrt(SR_df["signal hut error"].pow(2).sum())
+    SR_df.loc["Total", "signal hct"] = SR_df["signal hct"].sum()
+    SR_df.at["Total", "signal hct error"] = np.sqrt(SR_df["signal hct error"].pow(2).sum())
+    SR_df.loc["Total", "total background"] = SR_df["total background"].sum()
+    SR_df.at["Total", "tot back error"] = np.sqrt(SR_df["tot back error"].pow(2).sum())
+    SR_df.loc["Total", "total signal"] = SR_df["total signal"].sum()
+    SR_df.at["Total", "tot sig error"] = np.sqrt(SR_df["tot sig error"].pow(2).sum())
+    SR_df = SR_df.fillna("")
+    print(SR_df)
+    print("*********************************************")
+
+    """flipCR_df = df[df["nLeptons"]=="OS SF 2l"]
+    for j in nJets:
+        for b in nBjets:
+            sf_df = df.loc[  (df["nLeptons"]=="OS SF 2l") & (df["nJets"]==j) & (df["nBtags"]==b)  ]
+            sf_idx = df.index[  (df["nLeptons"]=="OS SF 2l") & (df["nJets"]==j) & (df["nBtags"]==b)  ].tolist()
+            of_df = df.loc[  (df["nLeptons"]=="OS OF 2l") & (df["nJets"]==j) & (df["nBtags"]==b)  ]
+            of_idx = df.index[  (df["nLeptons"]=="OS OF 2l") & (df["nJets"]==j) & (df["nBtags"]==b)  ].tolist()
+
+            data = [["OS2l",
+                    j,
+                    b,
+                    (sf_df["signal hut"].values[0]+of_df["signal hut"].values[0]),
+                    round(( np.sqrt( (sf_df["signal hut error"].values[0]**2)+(of_df["signal hut error"].values[0]**2) ) ), 2),
+                    (sf_df["signal hct"].values[0]+of_df["signal hct"].values[0]),
+                    round(( np.sqrt( (sf_df["signal hct error"].values[0]**2)+(of_df["signal hct error"].values[0]**2) ) ), 2),
+                    (sf_df["other"].values[0]+of_df["other"].values[0]),
+                    round(( np.sqrt( (sf_df["other error"].values[0]**2)+(of_df["other error"].values[0]**2) ) ), 2),
+                    (sf_df["fakes"].values[0]+of_df["fakes"].values[0]),
+                    round(( np.sqrt( (sf_df["fakes error"].values[0]**2)+(of_df["fakes error"].values[0]**2) ) ), 2),
+                    (sf_df["flips"].values[0]+of_df["flips"].values[0]),
+                    round(( np.sqrt( (sf_df["flips error"].values[0]**2)+(of_df["flips error"].values[0]**2) ) ), 2),
+                    (sf_df["total background"].values[0]+of_df["total background"].values[0]),
+                    round(( np.sqrt( (sf_df["tot back error"].values[0]**2)+(of_df["tot back error"].values[0]**2) ) ), 2),
+                    (sf_df["total signal"].values[0]+of_df["total signal"].values[0]),
+                    round(( np.sqrt( (sf_df["tot sig error"].values[0]**2)+(of_df["tot sig error"].values[0]**2) ) ), 2),
+                    (sf_df["S/B"].values[0]+of_df["S/B"].values[0]),
+                    round(( np.sqrt( (sf_df["S/B error"].values[0]**2)+(of_df["S/B error"].values[0]**2) ) ), 2)
+                    ]]
+            new_ss_df = pd.DataFrame( data, columns = df.columns )
+            
+            flipCR_df = flipCR_df.drop([sf_idx[0]], axis=0)
+            flipCR_df = flipCR_df.append(new_ss_df)
+    print(flipCR_df)
+    print("*********************************************")
+
+    flipEst_df = df[df["nLeptons"]=="SS SF flipEst"]
+    for j in nJets:
+        for b in nBjets:
+            sf_df = df.loc[  (df["nLeptons"]=="SS SF flipEst") & (df["nJets"]==j) & (df["nBtags"]==b)  ]
+            sf_idx = df.index[  (df["nLeptons"]=="SS SF flipEst") & (df["nJets"]==j) & (df["nBtags"]==b)  ].tolist()
+            of_df = df.loc[  (df["nLeptons"]=="SS OF flipEst") & (df["nJets"]==j) & (df["nBtags"]==b)  ]
+            of_idx = df.index[  (df["nLeptons"]=="SS OF flipEst") & (df["nJets"]==j) & (df["nBtags"]==b)  ].tolist()
+
+            data = [["SS2lEstimate",
+                    j,
+                    b,
+                    (sf_df["signal hut"].values[0]+of_df["signal hut"].values[0]),
+                    round(( np.sqrt( (sf_df["signal hut error"].values[0]**2)+(of_df["signal hut error"].values[0]**2) ) ), 2),
+                    (sf_df["signal hct"].values[0]+of_df["signal hct"].values[0]),
+                    round(( np.sqrt( (sf_df["signal hct error"].values[0]**2)+(of_df["signal hct error"].values[0]**2) ) ), 2),
+                    (sf_df["other"].values[0]+of_df["other"].values[0]),
+                    round(( np.sqrt( (sf_df["other error"].values[0]**2)+(of_df["other error"].values[0]**2) ) ), 2),
+                    (sf_df["fakes"].values[0]+of_df["fakes"].values[0]),
+                    round(( np.sqrt( (sf_df["fakes error"].values[0]**2)+(of_df["fakes error"].values[0]**2) ) ), 2),
+                    (sf_df["flips"].values[0]+of_df["flips"].values[0]),
+                    round(( np.sqrt( (sf_df["flips error"].values[0]**2)+(of_df["flips error"].values[0]**2) ) ), 2),
+                    (sf_df["total background"].values[0]+of_df["total background"].values[0]),
+                    round(( np.sqrt( (sf_df["tot back error"].values[0]**2)+(of_df["tot back error"].values[0]**2) ) ), 2),
+                    (sf_df["total signal"].values[0]+of_df["total signal"].values[0]),
+                    round(( np.sqrt( (sf_df["tot sig error"].values[0]**2)+(of_df["tot sig error"].values[0]**2) ) ), 2),
+                    (sf_df["S/B"].values[0]+of_df["S/B"].values[0]),
+                    round(( np.sqrt( (sf_df["S/B error"].values[0]**2)+(of_df["S/B error"].values[0]**2) ) ), 2)
+                    ]]
+            new_ss_df = pd.DataFrame( data, columns = df.columns )
+            
+            flipEst_df = flipEst_df.drop([sf_idx[0]], axis=0)
+            flipEst_df = flipEst_df.append(new_ss_df)
+    print(flipEst_df)
+    print("*********************************************")
+"""
+
+    #print(df)
     
+    #save one big table
     outText = open(outdir+"tables/yieldsTable.txt","w")
     outText.write(df.to_csv(index=False))
     outText.close()
@@ -279,6 +409,27 @@ for var in plottedVariables:
     #outFile.write("\\footnotesize \n")
     outFile.write("\\centering \n")
     outFile.write(df.to_latex())
+    #outFile.write("\end{preview} \n")
+    outFile.write("\end{document} \n")
+    #outFile.write("\end{document}")
+    #outFile.write("\n")
+    outFile.close()
+    #print(df.to_latex())
+
+
+    #save just sr yields
+    outFile = open(outdir+"tables/SRYieldsTable.tex","w")
+    outFile.write("\documentclass[oneside]{report} \n")
+    outFile.write("\usepackage[a1paper]{geometry}")
+    outFile.write("\usepackage{graphicx,xspace,amssymb,amsmath,colordvi,colortbl,verbatim,multicol} \n")
+    #outFile.write("\usepackage{multirow, rotating} \n")
+    #outFile.write("\usepackage[active,tightpage]{preview} \n")
+    outFile.write("\\renewcommand{\\arraystretch}{1.1} \n")
+    outFile.write("\\begin{document} \n")
+    #outFile.write("\begin{preview} \n")
+    #outFile.write("\\footnotesize \n")
+    outFile.write("\\centering \n")
+    outFile.write(SR_df.to_latex())
     #outFile.write("\end{preview} \n")
     outFile.write("\end{document} \n")
     #outFile.write("\end{document}")

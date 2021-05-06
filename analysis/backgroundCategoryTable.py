@@ -10,78 +10,102 @@ import sys
 import pandas as pd
 
 #hardcoded variables other users should customize
-outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/"
+outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/backgroundCategoryTables"
 
 #load input file
 filename = sys.argv[-1]
 
-#first, we load the txt output from the tableMaker.py script into a dataframe
-#we will manipulate these data, save it into a different dataframe, and print to an output file
-df = pd.read_csv(filename, delimiter=" ")
-print("filled df")
-#print(df)
+#useful functions
+def getObjFromFile(fname, hname):
+    f = ROOT.TFile(fname)
+    assert not f.IsZombie()
+    f.cd()
+    htmp = f.Get(hname)
+    if not htmp:  return htmp
+    ROOT.gDirectory.cd('PyROOT:/')
+    res = htmp.Clone()
+    f.Close()
+    return res
 
 #break into background categories
 samples = [
-"TTGamma_SingleLept",
-"TGJets",
-"TTWJetsToLNu",
-"WJetsToLNu",
-"ST_tWll_5f_LO",
-"TTGamma_Dilept",
-"TTZToLLNuNu_M-10",
-"TTZToLL_M-1to10",
-"DYJetsToLL_M-10to50",
-"DYJetsToLL_M-50",
-"ZGToLLG_01J_5f",
-"ZZTo4L",
-"ZZZ",
-"GluGluHToZZTo4L_M125",
-"GluGluToContinToZZTo2e2mu",
-"GluGluToContinToZZTo2e2tau",
-"GluGluToContinToZZTo2mu2tau",
-"GluGluToContinToZZTo4e",
-"GluGluToContinToZZTo4mu",
-"GluGluToContinToZZTo4tau",
-"WWG",
-"WWTo2L2Nu_DoubleScattering",
-"WWW_4F",
-"WWZ",
-"WZG",
-"WZTo3LNu",
-"WZZ",
-"TTJets",
-"TTHH",
-"TTTJ",
-"TTTT",
-"TTTW",
-"TTWH",
-"TTWW",
-"TTWZ",
-"TTZH",
-"TTZZ",
-"WGToLNuG_01J_5f",
-"WpWpJJ_EWK-QCD",
-"VHToNonbb_M125",
-"tZq_ll_4f_ckm_NLO",
-"ttHToNonbb_M125"
+    "TTGamma_SingleLept",
+    "TGJets",
+    "TTWJetsToLNu",
+    "WJetsToLNu",
+    "ST_tWll_5f_LO",
+    "TTGamma_Dilept",
+    "TTZToLLNuNu_M10",
+    "TTZToLL_M1to10",
+    "DYJetsToLL_M10to50",
+    "DYJetsToLL_M50",
+    "ZGToLLG_01J_5f",
+    "ZZTo4L",
+    "ZZZ",
+    "GluGluHToZZTo4L",
+    "GluGluToContinToZZTo2e2mu",
+    "GluGluToContinToZZTo2e2tau",
+    "GluGluToContinToZZTo2mu2tau",
+    "GluGluToContinToZZTo4e",
+    "GluGluToContinToZZTo4mu",
+    "GluGluToContinToZZTo4tau",
+    "WWG",
+    "WWTo2L2Nu_DoubleScattering",
+    "WWW_4F",
+    "WWZ",
+    "WZG",
+    "WZTo3LNu",
+    "WZZ",
+    "TTJets",
+    "TTHH",
+    "TTTJ",
+    "TTTT",
+    "TTTW",
+    "TTWH",
+    "TTWW",
+    "TTWZ",
+    "TTZH",
+    "TTZZ",
+    "WGToLNuG_01J_5f",
+    "WpWpJJ_EWKQCD",
+    "VHToNonbb_M125",
+    "tZq_ll_4f_ckm_NLO",
+    "ttHToNonbb_M125"
 ]
 
-for s in samples:
-    sample_df = df[df["sampleName"].str.contains(s)]
-    sample_idx = df.index[ df["sampleName"].str.contains(s) ].tolist()
-    for row in sample_df.index:
-        if (sample_df["isFake"][row] == 1) and (sample_df["isOther"][row] == 1):
-            sample_df["isOther"][row] = 0
-    #print(sample_df)
-    row = [[s, sample_df["isFake"].sum(), sample_df["isFlip"].sum(), sample_df["isOther"].sum()]]
-    new_row = pd.DataFrame(row, columns=df.columns)
-    #print(new_row)
-    df = df.drop(sample_idx, axis=0)
-    df = df.append(new_row, ignore_index = True)
-print df
 
-outFile = open("./backgroundCategories.tex","w")
+columns = ["sample", "fakes", "fakes error", "flips", "flips error", "other", "other error"]
+
+df = pd.DataFrame()
+
+for s in samples:
+    print(s)
+    histoName = "h_backgroundTypes_" + s + "_background"
+    hist = getObjFromFile(filename,histoName)
+    isFakeYld = hist.GetBinContent(0)
+    isFlipYld = hist.GetBinContent(1)
+    isOtherYld = hist.GetBinContent(2)
+    isFakeErr = hist.GetBinError(0)
+    isFlipErr = hist.GetBinError(1)
+    isOtherErr = hist.GetBinError(2)
+    #print(isFakeYld, isFlipYld, isOtherYld)
+    row = [[s, isFakeYld, isFakeErr, isFlipYld, isFlipErr, isOtherYld, isOtherErr]]
+    new_row = pd.DataFrame(row, columns=columns)
+    df = df.append(new_row, ignore_index = True)
+
+isFakeYld = df["fakes"].sum()
+isFakeErr = np.sqrt(df["fakes error"].pow(2).sum())
+isFlipYld = df["flips"].sum()
+isFlipErr = np.sqrt(df["flips error"].pow(2).sum())
+isOtherYld = df["other"].sum()
+isOtherErr = np.sqrt(df["other error"].pow(2).sum())
+totRow = pd.DataFrame([["Total", isFakeYld, isFakeErr, isFlipYld, isFlipErr, isOtherYld, isOtherErr]], columns = columns)
+df = df.append(totRow, ignore_index = True)
+df = df.fillna("")
+print(df)
+
+
+outFile = open(outdir+"/backgroundCategories.tex","w")
 outFile.write("\documentclass[oneside]{report} \n")
 outFile.write("\usepackage[a1paper]{geometry}")
 outFile.write("\usepackage{graphicx,xspace,amssymb,amsmath,colordvi,colortbl,verbatim,multicol} \n")
@@ -91,3 +115,4 @@ outFile.write("\\centering \n")
 outFile.write(df.to_latex())
 outFile.write("\end{document} \n")
 outFile.close()
+
