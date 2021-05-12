@@ -6,6 +6,8 @@ from samples_2016 import samples_2016
 from samples_2017 import samples_2017
 from samples_2018 import samples_2018
 from samples import get_sample_path
+import sys
+sys.path.append('../../nanoAOD-tools/scripts/')
 
 samples = { 2016 : samples_2016, 2017 : samples_2017, 2018 : samples_2018}
 
@@ -55,7 +57,7 @@ if __name__ == '__main__':
                 os.system('mkdir -p {}'.format(ofpath))
             ofname = ofpath+'%s.root' % (sname)
             ifnames_long = [ifpath+ f for f in ifnames]
-            command='hadd -fk %s %s' % (ofname, ' '.join(ifnames_long))
+            command='haddnano.py %s %s' % (ofname, ' '.join(ifnames_long))
             if args.verbosity: print command
             count += 1
             if not dryrun:
