@@ -42,6 +42,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--plots", help="make plots and copy to the limit directory tag folder", action="store_true")
     parser.add_argument("-f", "--fastsim", help="include fastsim scans", action="store_true")
     parser.add_argument("-v", "--verbosity", help="verbosity level (0 = default,1,2)", default=0, type=int)
+    parser.add_argument(      "--debug", help="print debug info to file deubg/<sample>.log", action="store_true")
 
     args = parser.parse_args()
 
@@ -79,9 +80,9 @@ if __name__ == "__main__":
 
     # for _ in range(10): print "SKIMTEST"
     basedirs = {
-            2016: "/nfs-7/userdata/fgolf/fcnc/{}/2016/".format(args.tag),
-            2017: "/nfs-7/userdata/fgolf/fcnc/{}/2017/".format(args.tag),
-            2018: "/nfs-7/userdata/fgolf/fcnc/{}/2018/".format(args.tag),
+            2016: "/nfs-7/userdata/ksalyer/fcnc/{}/2016/".format(args.tag),
+            2017: "/nfs-7/userdata/ksalyer/fcnc/{}/2017/".format(args.tag),
+            2018: "/nfs-7/userdata/ksalyer/fcnc/{}/2018/".format(args.tag),
             }
 
     outputdir = args.out
@@ -124,6 +125,9 @@ if __name__ == "__main__":
                 basedirs[2016]+get_sample_path("ww", 2016,args.tag) + ".root",
                 basedirs[2016]+get_sample_path("ttjets", 2016,args.tag) + ".root",
                 ], options=options[2016]+"doTruthFlip doStitch"),
+            "ttjets": make_obj([
+                basedirs[2016]+get_sample_path("ttjets", 2016,args.tag) + ".root",
+                ], options=options[2016]),
             "ttw": make_obj(basedirs[2016]+get_sample_path("ttw",2016,args.tag)+".root", options=options[2016]),
             "tth": make_obj(basedirs[2016]+get_sample_path("tth_nobb",2016,args.tag)+".root", options=options[2016]),
             "ttz": make_obj([
@@ -282,6 +286,9 @@ if __name__ == "__main__":
                 basedirs[2018] + get_sample_path("ww", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
                 ], options=options[2018] + "doTruthFlip doStitch"),
+            "ttjets": make_obj([
+                basedirs[2018]+get_sample_path("ttjets", 2018,args.tag) + ".root",
+                ], options=options[2016]),
             "ttw": make_obj(basedirs[2018] + get_sample_path("ttw", 2018,args.tag) + ".root", options=options[2018]),
             "tth": make_obj(basedirs[2018] + get_sample_path("tth_nobb", 2018,args.tag) + ".root", options=options[2018]),
             "ttz": make_obj([
@@ -326,14 +333,13 @@ if __name__ == "__main__":
     }
 
     if args.verbosity>=1:
-        print basedirs[2016]+get_sample_path("ttw",2016,args.tag)+"/*.root"
+        print basedirs[2016]+get_sample_path("ttw",2016,args.tag)+".root"
 
     do_slim = args.slim
 
     def run_chain((index,info)):
         ch, options, outputdir = info
         t0 = time.time()
-        print ch.GetTitle(),options,outputdir
         ret = r.event_looper(ch,options,args.nevts,outputdir)
         t1 = time.time()
         return index, [ret, ch.GetTitle(), t1-t0]
@@ -356,13 +362,15 @@ if __name__ == "__main__":
                 opts = opts.replace("quiet","")
             if args.year and args.proc and "*" not in args.proc:  # if one process, show the progress bar
                 opts = opts.replace("quiet","")
+            if args.verbosity == 0:
+                opts += " quiet"
+            if args.debug:
+                opts += " printDebugFile"
             # Change chain titles to proc so that we output the right root file name
             obj["ch"].SetTitle("{}".format(proc))
             to_run.append([obj["ch"], opts, outputdir])
             if args.verbosity >= 2:
                 print "Adding:", obj["ch"].GetTitle(), opts, outputdir, year
-
-    print "Running on {} chains".format(len(to_run))
 
     if args.maxprocs > 0:
         print "Actually, you specified a maximum of {} chains, so taking the first ones".format(args.maxprocs)
@@ -391,7 +399,6 @@ if __name__ == "__main__":
 
     procnames = list(set([x[0].GetTitle() for x in to_run]))
     fcnc_procnames = [pn for pn in procnames if "fcnc" in pn]
-    print procnames
 
     if not args.noloop:
         def callback(ret):

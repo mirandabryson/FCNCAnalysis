@@ -4,6 +4,7 @@
 //Kaitlin Salyer
 
 #include <iostream>
+#include <fstream>
 #include <cstdlib>
 #include <chrono>
 #include <dirent.h>
@@ -30,6 +31,28 @@
 using namespace std;
 using namespace std::chrono;
 
+void print_debug (ofstream& outfile, int hyp_type, Leptons leptons, Jets jets, Jets bjets, int category) {
+/*
+    outfile << hyp_type << ",";
+    for (auto lepton : leptons) {
+        outfile << lepton.id() << "," << lepton.pt() << "," << lepton.eta() << "," << lepton.is_loose() << "," << lepton.is_tight() << ",";
+    }
+    outfile << jets.size() << "," << bjets.size() << ",";
+*/
+    //int category=3;
+    //if (is_fake) category=1;
+    //if (is_flip) category=2;
+    outfile << category << ","; 
+
+    int nloose = 0;
+    int ntight = 0;
+    for (auto lepton : leptons) {if (lepton.is_loose()) nloose++; if (lepton.is_tight()) ntight++;}
+    outfile << nloose << ","  << ntight << "," << hyp_type << "," << jets.size() << "," << bjets.size() << std::endl;
+    for (auto lepton: leptons) {outfile << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << ", " << lepton.genPartFlav() << ", " << lepton.isFlip() << ", " << lepton.mcid() << ", " << lepton.id() << std::endl;}
+    //for (auto jet : jets) {outfile << "\tJ " << jet.pt() << ", " << jet.eta() << "," << jet.isBtag() << std::endl;}
+    //for (auto bjet : bjets) {if (bjet.pt()>40.) continue; outfile << "\tJ " << bjet.pt() << ", " << bjet.eta() << "," << bjet.isBtag() << std::endl;}
+}
+
 void event_looper(TChain *chain, TString options="", int nevts=-1, TString outputdir="outputs/"){
     //*************************************************************************//
     //*************************** begin set options ***************************//
@@ -52,6 +75,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     float scaleLumi=1.;
     int nbdtbins = 17;
     int nsrdisc = nbdtbins+1; // this is supposed to be 1 more than nbdtbins (we add in CRZ as a "bin")
+    bool print_debug_file = options.Contains("printDebugFile");
+    ofstream debug_file;
 
 /*
     bool STOP_REQUESTED = false;
@@ -167,6 +192,10 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
     TString chainTitle = chain->GetTitle();
     const char* chainTitleCh = chainTitle.Data();
+    if (print_debug_file) {
+        debug_file.open(Form("debug/%s.log",chainTitleCh));
+        debug_file << "run,lumi,evt,cat,nloose,ntight,hyp_type,njets,nbjets" << std::endl;
+    }
     if (!quiet) std::cout << "Working on " << chainTitle << std::endl;
 
     bool isFakes = (chainTitle=="fakes") || (chainTitle=="fakes_mc");
@@ -243,7 +272,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             }
 
             //get event weight based on sample!
-            double weight = getEventWeight( file->GetName(), chainTitle.Data() );
+            //double weight = getEventWeight( file->GetName(), chainTitle.Data() );
+            double weight = 1.;
             double genWeight = nt.Generator_weight();
             weight = (weight*genWeight*lumi)/(abs(genWeight));
 
@@ -271,13 +301,20 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, OS, TL, LL
             std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,!quiet);
             int best_hyp_type = best_hyp_info.first;
+            /*
+            if (best_hyp_type < 0 && print_debug_file) {
+                debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",";
+                debug_file << " ," << loose_leptons.size() << "," << tight_leptons.size();
+                debug_file << std::endl;
+                for (auto lepton: loose_leptons) {debug_file << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << std::endl;}
+                debug_file << std::endl;
+                continue;
+            }
+            */
+            if (best_hyp_type < 0) continue;
+            std::cout << "best_hyp_type: " << best_hyp_type << std::endl;
             Leptons best_hyp = best_hyp_info.second;
             if (!quiet) std::cout << "best hyp type: " << best_hyp_type << std::endl;
-
-            // if there isn't a good lepton hypothesis
-            if (best_hyp_type<0) continue;
-            else {hists.fill1d("cutflow","br",chainTitleCh,cutflow_counter,weight); cutflow_counter++;}
-            if (nleps_tight>=2) {hists.fill1d("cutflow","br",chainTitleCh,cutflow_counter); cutflow_counter++;}
 
             sort(best_hyp.begin(),best_hyp.end(),lepsort); // sort hyp leptons by pt (may already be done in getBestHyp)
             Lepton leading_lep = best_hyp[0];
@@ -290,6 +327,24 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                                                                 << ", " << trailing_lep.id() << std::endl;
             }
 
+            // now let's check if there are additional requirements we need to make
+            bool is_fake = false;
+            bool is_flip = false;
+            bool is_os = false;
+            bool is_rare = false;
+            int nfakes=0;
+            int nflips=0;
+            for ( auto lep : best_hyp ) {if (lep.isFake()) nfakes++;}
+            for ( auto lep : best_hyp ) {if (lep.isFlip() && lep.absid()==11) nflips++;}
+            if (nfakes>0) is_fake=true;
+            if (best_hyp.size() == 2 && nflips==1) is_flip=true;
+            if (best_hyp.size() == 2 && best_hyp[0].charge()*best_hyp[1].charge()<0) is_os=true;
+            if (!is_fake && (best_hyp.size()>2 || (best_hyp.size()==2 && !is_flip && best_hyp[0].charge()*best_hyp[1].charge()>0))) is_rare = true;
+            int category=4;
+            if (is_flip) category=2;
+            if (is_rare) category=3;
+            if (is_fake) category=1;
+
             // get jets and bjets
             std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
             Jets good_jets = good_jets_and_bjets.first;
@@ -300,6 +355,17 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             sort(good_bjets.begin(),good_bjets.end(),jetptsort);
             float ht = 0.;
             for (auto jet : good_jets) ht += jet.pt();
+
+            if (print_debug_file) {
+                debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",";
+                print_debug(debug_file,best_hyp_type,best_hyp,good_jets,good_bjets,category);
+                //debug_file << std::endl;
+            }
+
+            // if there isn't a good lepton hypothesis
+            if (best_hyp_type<0) continue;
+            else {hists.fill1d("cutflow","br",chainTitleCh,cutflow_counter,weight); cutflow_counter++;}
+            if (nleps_tight>=2) {hists.fill1d("cutflow","br",chainTitleCh,cutflow_counter); cutflow_counter++;}
 
             if (!quiet) {
                 std::cout << "Event has " << good_jets.size() << " jets and "
@@ -312,21 +378,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 std::cout << "leading jet pt: " << good_jets[0].pt() << std::endl;
             }
 
-            // now let's check if there are additional requirements we need to make
-            bool is_fake = false;
-            bool is_flip = false;
-            if (doFakes && !isData && doTruthFake) {
-                int nfakes=0;
-                for ( auto lep : best_hyp ) {if (lep.isFake()) nfakes++;}
-                if (nfakes>0) is_fake=true;
-                if (!is_fake) continue;
-            }
-            if (doFlips && !isData && doTruthFlip) {
-                int nflips=0;
-                for ( auto lep : best_hyp ) {if (lep.isFlip()) nflips++;}
-                if (best_hyp.size() == 2 && nflips==1) is_flip=true;
-                if (!is_flip) continue;
-            }
+            if (doFakes && !isData && doTruthFake && !is_fake) continue;
+            if (doFlips && !isData && doTruthFlip && !is_flip) continue;
 
             // if we've reached here we've passed the baseline selection
             // fill histograms
@@ -336,6 +389,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
      auto stop = high_resolution_clock::now();
      auto duration = duration_cast<seconds>(stop - start);
+     if (debug_file.is_open()) debug_file.close();
 
      if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
 

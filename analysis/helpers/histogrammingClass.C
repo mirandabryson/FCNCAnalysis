@@ -112,7 +112,9 @@ void HistContainer::fill1d(std::string region, std::string quantity, std::string
     std::map<std::string,TH1F*>::iterator it1d;
     for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {
         if (it1d->first.find(sample)==std::string::npos)  continue;
-        if (it1d->first.find(quantity)!=std::string::npos) it1d->second->Fill(value,weight);
+        if (it1d->first.find(quantity)==std::string::npos) continue;
+        it1d->second->Fill(value,weight);
+        //std::cout << "Filling hist " << quantity << " with value " << value << " and weight " << weight << std::endl;
     }
 }
 
@@ -135,19 +137,20 @@ float get_sum_pt(Jets  &jets) {
 void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, float weight) {
     // fill 1d histograms first
     std::string rname = getRegionName(best_hyp_type,jets.size(),bjets.size());
-    std::cout << "SR: " << rname << std::endl;
+    //std::cout << "SR: " << rname << std::endl;
     std::vector<std::string> rnames = {rname};
     std::vector<std::string> brmap = {"ml","ss"};
     if ( rname=="ml" || rname=="ss") rnames.push_back("br");
-    std::cout << "# SRs: " << rnames.size() << std::endl;
+    //std::cout << "# SRs: " << rnames.size() << std::endl;
     int njets=jets.size();
     int nbjets=bjets.size();
     int nleps=leps.size();
     for (auto name : rnames) {
         if (name=="br") {
             counter_++;
-            std::cout << "Filled br histograms for " << counter_ << " time" << std::endl;
+            //std::cout << "Filled br histograms for " << counter_ << " time" << std::endl;
         }
+        //std::cout << "Filling histograms for region " << name << std::endl;
         fill1d("njets",name,sample,njets,weight);
         fill1d("nbjets",name,sample,nbjets,weight);
         fill1d("nleps",name,sample,nleps,weight);
