@@ -46,8 +46,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     excludeprocs = args.excludeproc.strip().split(',')
-
-    print('args.excludeproc: ',excludeprocs)
+    myprocs = args.proc.strip().split(',')
 
     plot_kwargs = {} if not args.plot_kwargs else ast.literal_eval(args.plot_kwargs)
 
@@ -116,11 +115,12 @@ if __name__ == "__main__":
             # "fakes_mc": make_obj(basedirs[2016]+get_sample_path("TTBAR*",2016)+".root", options=options[2016]+ " doFakesMC "),
             "fakes_mc": make_obj([
                 basedirs[2016]+get_sample_path("ttjets",2016,args.tag)+".root",
-                basedirs[2016]+get_sample_path("wjets_ht100-200",2016,args.tag)+".root",
-                basedirs[2016]+get_sample_path("wjets_ht200-400",2016,args.tag)+".root",
-                basedirs[2016]+get_sample_path("wjets_ht400-600",2016,args.tag)+".root",
-                basedirs[2016]+get_sample_path("wjets_ht600-800",2016,args.tag)+".root",
-                basedirs[2016]+get_sample_path("wjets_ht800-1200",2016,args.tag)+".root",
+                basedirs[2016]+get_sample_path("wjets",2016,args.tag)+".root",
+                #basedirs[2016]+get_sample_path("wjets_ht100-200",2016,args.tag)+".root",
+                #basedirs[2016]+get_sample_path("wjets_ht200-400",2016,args.tag)+".root",
+                #basedirs[2016]+get_sample_path("wjets_ht400-600",2016,args.tag)+".root",
+                #basedirs[2016]+get_sample_path("wjets_ht600-800",2016,args.tag)+".root",
+                #basedirs[2016]+get_sample_path("wjets_ht800-1200",2016,args.tag)+".root",
                 ] , options=options[2016]+ " doTruthFake doStitch "),
             "flips_mc": make_obj([
                 basedirs[2016]+get_sample_path("dyjets_m10-50",2016,args.tag)+".root",
@@ -191,11 +191,12 @@ if __name__ == "__main__":
             # "fakes_mc": make_obj(basedirs[2017]+get_sample_path("TTBAR*",2017,args.tag)+".root", options=options[2017]+ " doFakesMC "),
             "fakes_mc": make_obj([
                 basedirs[2017]+get_sample_path("ttjets",2017,args.tag)+".root",
-                basedirs[2017]+get_sample_path("wjets_ht100-200",2017,args.tag)+".root",
-                basedirs[2017]+get_sample_path("wjets_ht200-400",2017,args.tag)+".root",
-                basedirs[2017]+get_sample_path("wjets_ht400-600",2017,args.tag)+".root",
-                basedirs[2017]+get_sample_path("wjets_ht600-800",2017,args.tag)+".root",
-                basedirs[2017]+get_sample_path("wjets_ht800-1200",2017,args.tag)+".root",
+                basedirs[2017]+get_sample_path("wjets",2017,args.tag)+".root",
+                #basedirs[2017]+get_sample_path("wjets_ht100-200",2017,args.tag)+".root",
+                #basedirs[2017]+get_sample_path("wjets_ht200-400",2017,args.tag)+".root",
+                #basedirs[2017]+get_sample_path("wjets_ht400-600",2017,args.tag)+".root",
+                #basedirs[2017]+get_sample_path("wjets_ht600-800",2017,args.tag)+".root",
+                #basedirs[2017]+get_sample_path("wjets_ht800-1200",2017,args.tag)+".root",
                 ] , options=options[2017]+ " doTruthFake doStitch "),
             "flips_mc": make_obj([
                 basedirs[2017]+get_sample_path("dyjets_m10-50",2017,args.tag)+".root",
@@ -277,11 +278,12 @@ if __name__ == "__main__":
             # "fakes_mc": make_obj(basedirs[2018]+get_sample_path("TTBAR*",2018,args.tag)+".root", options=options[2018]+ " doFakesMC "),
             "fakes_mc": make_obj([
                 basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("wjets_ht100-200", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("wjets_ht200-400", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("wjets_ht400-600", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("wjets_ht600-800", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("wjets_ht800-1200", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wjets", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("wjets_ht100-200", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("wjets_ht200-400", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("wjets_ht400-600", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("wjets_ht600-800", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("wjets_ht800-1200", 2018,args.tag) + ".root",
                 ], options=options[2018] + " doTruthFake doStitch "),
             "flips_mc": make_obj([
                 basedirs[2018] + get_sample_path("dyjets_m10-50", 2018,args.tag) + ".root",
@@ -357,16 +359,14 @@ if __name__ == "__main__":
         if (args.year) and (year != args.year): continue
         for proc in chs[year].keys():
             # if (len(args.proc) > 0) and (proc != args.proc): continue
-            if (len(args.proc) > 0) and not fnmatch.fnmatch(proc,args.proc): continue
-            if (len(excludeprocs) > 0) and len(fnmatch.filter(excludeprocs,proc))>0: 
-                print 'excluding process ', proc
-                continue
+            if (len(myprocs) > 0) and len(fnmatch.filter(myprocs,proc))==0: continue
+            if (len(excludeprocs) > 0) and len(fnmatch.filter(excludeprocs,proc))>0: continue
             if args.skip_already_done and (proc in already_done): continue
             obj = chs[year][proc]
             opts = obj["options"]
             if args.verbosity >= 1:
                 opts = opts.replace("quiet","")
-            if args.year and args.proc and "*" not in args.proc:  # if one process, show the progress bar
+            if args.year and len(myprocs)==1 and len(fnmatch.filter(myprocs,'*'))==0:  # if one process, show the progress bar
                 opts = opts.replace("quiet","")
             if args.verbosity == 0:
                 opts += " quiet"
