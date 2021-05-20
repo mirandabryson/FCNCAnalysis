@@ -45,6 +45,9 @@ if __name__ == "__main__":
     parser.add_argument(      "--debug", help="print debug info to file deubg/<sample>.log", action="store_true")
 
     args = parser.parse_args()
+    excludeprocs = args.excludeproc.strip().split(',')
+
+    print('args.excludeproc: ',excludeprocs)
 
     plot_kwargs = {} if not args.plot_kwargs else ast.literal_eval(args.plot_kwargs)
 
@@ -352,11 +355,14 @@ if __name__ == "__main__":
         print "Skipping up to {} processes (e.g., {}, ...)".format(len(already_done),already_done[0])
     for year in years_to_consider:
         if (args.year) and (year != args.year): continue
-        for proc,obj in chs[year].items():
+        for proc in chs[year].keys():
             # if (len(args.proc) > 0) and (proc != args.proc): continue
             if (len(args.proc) > 0) and not fnmatch.fnmatch(proc,args.proc): continue
-            if (len(args.excludeproc) > 0) and fnmatch.fnmatch(proc,args.excludeproc): continue
+            if (len(excludeprocs) > 0) and len(fnmatch.filter(excludeprocs,proc))>0: 
+                print 'excluding process ', proc
+                continue
             if args.skip_already_done and (proc in already_done): continue
+            obj = chs[year][proc]
             opts = obj["options"]
             if args.verbosity >= 1:
                 opts = opts.replace("quiet","")
