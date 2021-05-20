@@ -1,7 +1,7 @@
 #include "histogrammingClass.h"
 
 std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
-    std::vector<std::string> rnames = {"br","mr","ml","mlsf","ss","os","sf","df"};
+    std::vector<std::string> rnames = {"br","mr","ml","mlsf","ss","os","sf","df","mldf"};
     std::vector<std::string> jnames = {"0j","1j","2j","3j","ge4j"};
     std::vector<std::string> bnames = {"0j","1j","ge2j"};
     //return rnames[hyp_type]+"_"+jnames[std::min(njets,4)]+"_"+bnames[std::min(nbjets,2)];
