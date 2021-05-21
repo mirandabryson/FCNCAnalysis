@@ -5,20 +5,20 @@ class categoryHistogram{
     private:
         TH1F* h_nJet;
         TH1F* h_nBJet;
-        TH1F* h_nGoodLeps;
+        TH1F* h_nTightLeps;
         TH1F* h_leadLepPt;
         TH1F* h_leadLepEta;
         TH1F* h_leadLepMass;
         TH1F* h_leadLepMiniIso;
-        TH1F* h_leadLepPtRel;
-        TH1F* h_leadLepPtRatio;
+        //TH1F* h_leadLepPtRel;
+        //TH1F* h_leadLepPtRatio;
         TH1F* h_leadJetPt;
-        TH1F* h_leadBPt;
-        TH1F* h_leadBMass;
+        //TH1F* h_leadBPt;
+        //TH1F* h_leadBMass;
         TH1F* h_jetHT;
         TH1F* h_MET;
-        TH1F* h_minMT;
-        TH1F* h_MT_b_MET;
+        //TH1F* h_minMT;
+        //TH1F* h_MT_b_MET;
 
     public:
         /*int nJet;
@@ -32,20 +32,20 @@ class categoryHistogram{
         categoryHistogram(string numLep, string numJet, string numB, string sampleName){
             h_nJet = new TH1F( ("h_nJet_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "nJets", 7, -0.5, 6.5 );
             h_nBJet = new TH1F( ("h_nBJet_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "nBjets", 4, -0.5, 3.5 );
-            h_nGoodLeps = new TH1F( ("h_nGoodLeps_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "nGoodLeps", 6, -0.5, 5.5 );
+            h_nTightLeps = new TH1F( ("h_nTightLeps_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "nTightLeps", 6, -0.5, 5.5 );
             h_leadLepPt = new TH1F( ("h_leadLepPt_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadLepPt", 50, 0, 500 );
             h_leadLepEta = new TH1F( ("h_leadLepEta_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadLepEta", 20, -5, 5 );
             h_leadLepMass = new TH1F( ("h_leadLepMass_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadLepMass", 500, 0, 1 );
             h_leadLepMiniIso = new TH1F( ("h_leadLepMiniIso_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadLepMiniIso", 10, 0, 0.5 );
-            h_leadLepPtRel = new TH1F( ("h_leadLepPtRel_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadLepPtRel", 50, 0, 10 );
-            h_leadLepPtRatio = new TH1F( ("h_leadLepPtRatio_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadLepPtRatio", 50, 0, 5 );
+            //h_leadLepPtRel = new TH1F( ("h_leadLepPtRel_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadLepPtRel", 50, 0, 10 );
+            //h_leadLepPtRatio = new TH1F( ("h_leadLepPtRatio_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadLepPtRatio", 50, 0, 5 );
             h_leadJetPt = new TH1F( ("h_leadJetPt_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadJetPt", 50, 0, 500 );
-            h_leadBPt = new TH1F( ("h_leadBPt_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadBPt", 50, 0, 500 );
-            h_leadBMass = new TH1F( ("h_leadBMass_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadBMass", 50, 0, 500 );
+            //h_leadBPt = new TH1F( ("h_leadBPt_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadBPt", 50, 0, 500 );
+            //h_leadBMass = new TH1F( ("h_leadBMass_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadBMass", 50, 0, 500 );
             h_jetHT = new TH1F( ("h_jetHT_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "jetHT", 100, 0, 1000 );
             h_MET = new TH1F( ("h_MET_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "MET", 50, 0, 500 );
-            h_minMT = new TH1F( ("h_minMT_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "minMT", 50, 0, 500 );
-            h_MT_b_MET = new TH1F( ("h_MT_b_MET_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "MT_b_MET", 50, 0, 500 );
+            //h_minMT = new TH1F( ("h_minMT_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "minMT", 50, 0, 500 );
+            //h_MT_b_MET = new TH1F( ("h_MT_b_MET_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "MT_b_MET", 50, 0, 500 );
         } 
         categoryHistogram(){} 
 
@@ -53,40 +53,40 @@ class categoryHistogram{
         void fillHistogram(vector<float> variables, float weight){
             h_nJet->Fill(variables[0], weight);
             h_nBJet->Fill(variables[1], weight);
-            h_nGoodLeps->Fill(variables[2], weight);
+            h_nTightLeps->Fill(variables[2], weight);
             h_leadLepPt->Fill(variables[3], weight);
             h_leadLepEta->Fill(variables[4], weight);
             h_leadLepMass->Fill(variables[5], weight);
             h_leadLepMiniIso->Fill(variables[6], weight);
-            h_leadLepPtRel->Fill(variables[7], weight);
-            h_leadLepPtRatio->Fill(variables[8], weight);
-            h_leadJetPt->Fill(variables[9], weight);
-            h_leadBPt->Fill(variables[10], weight);
-            h_leadBMass->Fill(variables[11], weight);
-            h_jetHT->Fill(variables[12], weight);
-            h_MET->Fill(variables[13], weight);
-            h_minMT->Fill(variables[14], weight);
-            h_MT_b_MET->Fill(variables[15], weight);
+            //h_leadLepPtRel->Fill(variables[7], weight);
+            //h_leadLepPtRatio->Fill(variables[8], weight);
+            h_leadJetPt->Fill(variables[7], weight);
+            //h_leadBPt->Fill(variables[10], weight);
+            //h_leadBMass->Fill(variables[11], weight);
+            h_jetHT->Fill(variables[8], weight);
+            h_MET->Fill(variables[9], weight);
+            //h_minMT->Fill(variables[14], weight);
+            //h_MT_b_MET->Fill(variables[15], weight);
         }
 
         void writeHistogram(TFile* &outfile){
             if (outfile->IsOpen()){
                 h_nJet->Write();
                 h_nBJet->Write();
-                h_nGoodLeps->Write();
+                h_nTightLeps->Write();
                 h_leadLepPt->Write();
                 h_leadLepEta->Write();
                 h_leadLepMass->Write();
                 h_leadLepMiniIso->Write();
-                h_leadLepPtRel->Write();
-                h_leadLepPtRatio->Write();
+                //h_leadLepPtRel->Write();
+                //h_leadLepPtRatio->Write();
                 h_leadJetPt->Write();
-                h_leadBPt->Write();
-                h_leadBMass->Write();
+                //h_leadBPt->Write();
+                //h_leadBMass->Write();
                 h_jetHT->Write();
                 h_MET->Write();
-                h_minMT->Write();
-                h_MT_b_MET->Write();
+                //h_minMT->Write();
+                //h_MT_b_MET->Write();
             }
         }
 
@@ -103,20 +103,20 @@ class sampleHistogram{
         TH1F* h_backgroundTypes;
     public:
         sampleHistogram(string sampleName, string category){
-            h_srCategories = new TH1F( ("h_srYields_"+sampleName+"_"+category).c_str(), "SR_Yields", 20, 0, 20 );
-            h_backgroundTypes = new TH1F( ("h_backgroundTypes_"+sampleName+"_"+category).c_str(),"backgroundCategories", 5, 0, 5 );
+            h_srCategories = new TH1F( ("h_srYields_"+sampleName+"_"+category).c_str(), "SR_Yields", 18, 0, 18 );
+            h_backgroundTypes = new TH1F( ("h_backgroundTypes_"+sampleName+"_"+category).c_str(),"backgroundCategories", 3, 0, 3 );
         }
         void fillBackgroundTypes(vector<bool>variables, float weight){
             bool isFake = variables[0];
             bool isFlip = variables[1];
             bool isOther = variables[2];
 
-            int bin = 5;
+            int bin = 4;
             if(isFake) bin = 0;
             if(isFlip) bin = 1;
             if(isOther) bin = 2;
 
-            h_backgroundTypes->AddBinContent(bin, weight);
+            h_backgroundTypes->Fill(bin, weight);
         }
         void fillSRCategories(int numLep, int numJet, int numB, float weight){
             int bin = 20;
@@ -1494,12 +1494,1366 @@ class makeHistograms{
         }
 
         //methods to fill and save histograms
-        void fill(vector<float> variablesForFilling, float weight, float crWeight, int nJets, int nBjets, int nGoodLep, int nFakeableLep, vector<int> muCharge_tight, vector<int> elCharge_tight, bool isSSFO, bool isFake, bool isFlip, bool isSMSS, bool isSignal){
+        void fill(vector<float> variablesForFilling, 
+                  float weight, 
+                  float crWeight, 
+                  int nJets, 
+                  int nBjets, 
+                  //int nGoodLep, 
+                  //int nFakeableLep, 
+                  //vector<int> muCharge_tight, 
+                  //vector<int> elCharge_tight, 
+                  bool isSSFO, 
+                  bool isFake, 
+                  bool isFlip, 
+                  bool isSMSS, 
+                  bool isSignal, 
+                  bool isTrilep, 
+                  bool isSS_SFdilep, 
+                  bool isSS_OFdilep, 
+                  bool isOS_SFdilep, 
+                  bool isOS_OFdilep, 
+                  bool isOneLepFO, 
+                  bool isDilepFO
+                  //ULong64_t eventNum
+                  ){
             
             if(isFake == 1){
                 if (nJets==2){
                     if (nBjets==0){
-                        if (nGoodLep>=3){
+                        if(isTrilep){
+                            trilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }else if (nJets==3){
+                    if (nBjets==0){
+                        if(isTrilep){
+                            trilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }else if (nJets>=4){
+                    if (nBjets==0){
+                        if(isTrilep){
+                            trilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_0b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_0b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_1b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_1b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_ge2b_fakes->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }
+            }else if(isFlip == 1){
+                if (nJets==2){
+                    if (nBjets==0){
+                        if(isTrilep){
+                            trilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }else if (nJets==3){
+                    if (nBjets==0){
+                        if(isTrilep){
+                            trilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }else if (nJets>=4){
+                    if (nBjets==0){
+                        if(isTrilep){
+                            trilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_0b_flips->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_0b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_1b_flips->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_1b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_ge2b_flips->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_ge2b_flips->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }
+            }else if(isSMSS == 1){
+                if (nJets==2){
+                    if (nBjets==0){
+                        if(isTrilep){
+                            trilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }else if (nJets==3){
+                    if (nBjets==0){
+                        if(isTrilep){
+                            trilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }else if (nJets>=4){
+                    if (nBjets==0){
+                        if(isTrilep){
+                            trilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_0b_other->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_0b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_1b_other->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_1b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_ge2b_other->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_ge2b_other->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }
+            }else if(isSignal == 1){
+                if (nJets==2){
+                    if (nBjets==0){
+                        if(isTrilep){
+                            trilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_0b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_0b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_0b->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_0b->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_1b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_1b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_1b->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_1b->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_2j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_2j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_2j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_2j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_2j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }else if (nJets==3){
+                    if (nBjets==0){
+                        if(isTrilep){
+                            trilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_0b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_0b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_0b->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_0b->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_1b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_1b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_1b->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_1b->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_3j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_3j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_3j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_3j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_3j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }else if (nJets>=4){
+                    if (nBjets==0){
+                        if(isTrilep){
+                            trilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_0b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_0b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_0b->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_0b->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_0b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets==1){
+                        if(isTrilep){
+                            trilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_1b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_1b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_1b->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_1b->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_1b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }else if (nBjets>=2){
+                        if(isTrilep){
+                            trilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                        }else if(isSS_SFdilep){
+                            SS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_SFdilep){
+                            if(crWeight!=0){
+                                SS_SF_flipEst_ge4j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isSS_OFdilep){
+                            SS_OF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                        }else if(isOS_OFdilep){
+                            if (crWeight != 0){
+                                SS_SF_flipEst_ge4j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                OS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                OS_SF_dilep_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if(isOneLepFO && isSSFO){
+                            if (crWeight != 0){
+                                fakeEst_from1FOCR_ge4j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                onelepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                onelepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }else if (isDilepFO && isSSFO){
+                            if(crWeight != 0){
+                                fakeEst_from2FOCR_ge4j_ge2b->fillHistogram(variablesForFilling, crWeight);
+                                dilepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }else{
+                                dilepFO_ge4j_ge2b->fillHistogram(variablesForFilling, weight);
+                            }
+                        }
+                    }
+                }
+            } 
+
+
+
+
+
+
+                        /*if (nGoodLep>=3){
                             trilep_2j_0b_fakes->fillHistogram(variablesForFilling, weight);
                         }
                         if (nGoodLep == 2){
@@ -3552,7 +4906,7 @@ class makeHistograms{
                         }
                     }
                 }//njets>=4
-            }
+            }*/
         }//function close
 
         void write(string sampleName, TFile* &outfile){

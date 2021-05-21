@@ -4,46 +4,39 @@
 
 using namespace std;
 
-double getEventWeight ( string sampleName, string inputDir, string tag ){
+double getEventWeight ( string sampleName, string inputDir, string tag, int year ){
     
     double eventWeight;
 
     //get name of txt file with number MC events
     sampleName.erase(0, inputDir.length());
-    //cout << sampleName << endl;
-    int sampleEnd = sampleName.find("/output");
+    //cout << "first call: " << sampleName << endl;
+    int sampleEnd = sampleName.find(".root");
     string endToRemove = sampleName.substr(sampleEnd);
     sampleName.erase(sampleEnd,endToRemove.length());
-    //cout << sampleName << endl;
+    string xsec_sampleName = sampleName;
+    //cout << "second call: " << sampleName << endl;
 
     string fileEnding = "_n_events.txt";
     sampleName = sampleName+fileEnding;
-    //cout << sampleName << endl;
+    //cout << "third call: " << sampleName << endl;
 
     //get the number of MC events from sample
     ifstream inFile;
-    inFile.open("./n_events/"+sampleName);
+    inFile.open("./n_events/"+to_string(year)+"/"+sampleName);
 
     int lineToGet = 2;
     string numEvents;
     for ( int i = 0; i < lineToGet; i++ ){
         std::getline(inFile, numEvents);
-        //cout << "line " << i << ": "<< numEvents << endl;
+       //cout << "line " << i << ": "<< numEvents << endl;
     }
 
     double nEvents = stod(numEvents);
     //cout << "num effective events: " << nEvents << endl;
 
-
-    //get name of sample for xsec map
-    tag.pop_back();
-    int sampleEnd_xsec = sampleName.find(tag);
-    string endToRemove_xsec = sampleName.substr(sampleEnd_xsec);
-    sampleName.erase(sampleEnd_xsec,endToRemove_xsec.length());
-    sampleName.pop_back();
-
     //get xsec
-    double xsecWeight = 1000 * getXSec(sampleName);
+    double xsecWeight = 1000 * getXSec(xsec_sampleName);
     
     //calculate weight
     eventWeight = xsecWeight/nEvents;
