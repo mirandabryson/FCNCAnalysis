@@ -8,6 +8,7 @@ std::vector<string> loadSamples ( int year, string type, string version ){
             //samples.push_back("/nfs-7/userdata/fgolf/fcnc/fcnc_v4/2016/ttw.root");
             //samples.push_back("/nfs-7/userdata/fgolf/fcnc/fcnc_v4/2018/ttjets.root");
             samples.push_back("/nfs-7/userdata/ksalyer/fcnc/fcnc_v6_SRonly_5may2021/2018/ttjets.root");
+            //samples.push_back("/nfs-7/userdata/ksalyer/fcnc/fcnc_v6_SRonly_5may2021/2018/signal_hct_top.root");
 
         }else if (type == "data"){
 
@@ -30,6 +31,7 @@ std::vector<string> loadSamples ( int year, string type, string version ){
 
             samples.push_back("signal_hut_atop.root");
             samples.push_back("signal_hut_top.root");
+            
             //samples.push_back("TT_FCNC-TtoHJ_aTleptonic_HToWWZZtautau_eta_hut_TuneCP5-MadGraph5-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_tauDecays_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_"+version);
             //samples.push_back("TT_FCNC-aTtoHJ_Tleptonic_HToWWZZtautau_eta_hut_TuneCP5-MadGraph5-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_tauDecays_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_"+version);
         
@@ -37,6 +39,7 @@ std::vector<string> loadSamples ( int year, string type, string version ){
 
             samples.push_back("signal_hct_atop.root");
             samples.push_back("signal_hct_top.root");
+            
             //samples.push_back("TT_FCNC-TtoHJ_aTleptonic_HToWWZZtautau_eta_hct_TuneCP5-MadGraph5-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_tauDecays_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_"+version);
             //samples.push_back("TT_FCNC-aTtoHJ_Tleptonic_HToWWZZtautau_eta_hct_TuneCP5-MadGraph5-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_tauDecays_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_"+version);
         
