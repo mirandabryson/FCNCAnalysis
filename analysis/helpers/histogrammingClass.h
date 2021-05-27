@@ -12,10 +12,10 @@ class categoryHistogram{
         TH1F* h_leadLepMiniIso;
         //TH1F* h_leadLepPtRel;
         //TH1F* h_leadLepPtRatio;
-        TH1F* h_leadJetPt;
+        //TH1F* h_leadJetPt;
         //TH1F* h_leadBPt;
         //TH1F* h_leadBMass;
-        TH1F* h_jetHT;
+        //TH1F* h_jetHT;
         TH1F* h_MET;
         //TH1F* h_minMT;
         //TH1F* h_MT_b_MET;
@@ -39,10 +39,10 @@ class categoryHistogram{
             h_leadLepMiniIso = new TH1F( ("h_leadLepMiniIso_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadLepMiniIso", 10, 0, 0.5 );
             //h_leadLepPtRel = new TH1F( ("h_leadLepPtRel_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadLepPtRel", 50, 0, 10 );
             //h_leadLepPtRatio = new TH1F( ("h_leadLepPtRatio_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadLepPtRatio", 50, 0, 5 );
-            h_leadJetPt = new TH1F( ("h_leadJetPt_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadJetPt", 50, 0, 500 );
+            //h_leadJetPt = new TH1F( ("h_leadJetPt_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadJetPt", 50, 0, 500 );
             //h_leadBPt = new TH1F( ("h_leadBPt_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadBPt", 50, 0, 500 );
             //h_leadBMass = new TH1F( ("h_leadBMass_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "leadBMass", 50, 0, 500 );
-            h_jetHT = new TH1F( ("h_jetHT_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "jetHT", 100, 0, 1000 );
+            //h_jetHT = new TH1F( ("h_jetHT_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "jetHT", 100, 0, 1000 );
             h_MET = new TH1F( ("h_MET_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "MET", 50, 0, 500 );
             //h_minMT = new TH1F( ("h_minMT_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "minMT", 50, 0, 500 );
             //h_MT_b_MET = new TH1F( ("h_MT_b_MET_"+numLep+"_"+numJet+"_"+numB+"_"+sampleName).c_str(), "MT_b_MET", 50, 0, 500 );
@@ -60,11 +60,11 @@ class categoryHistogram{
             h_leadLepMiniIso->Fill(variables[6], weight);
             //h_leadLepPtRel->Fill(variables[7], weight);
             //h_leadLepPtRatio->Fill(variables[8], weight);
-            h_leadJetPt->Fill(variables[7], weight);
+            //h_leadJetPt->Fill(variables[9], weight);
             //h_leadBPt->Fill(variables[10], weight);
             //h_leadBMass->Fill(variables[11], weight);
-            h_jetHT->Fill(variables[8], weight);
-            h_MET->Fill(variables[9], weight);
+            //h_jetHT->Fill(variables[12], weight);
+            h_MET->Fill(variables[7], weight);
             //h_minMT->Fill(variables[14], weight);
             //h_MT_b_MET->Fill(variables[15], weight);
         }
@@ -80,10 +80,10 @@ class categoryHistogram{
                 h_leadLepMiniIso->Write();
                 //h_leadLepPtRel->Write();
                 //h_leadLepPtRatio->Write();
-                h_leadJetPt->Write();
+                //h_leadJetPt->Write();
                 //h_leadBPt->Write();
                 //h_leadBMass->Write();
-                h_jetHT->Write();
+                //h_jetHT->Write();
                 h_MET->Write();
                 //h_minMT->Write();
                 //h_MT_b_MET->Write();

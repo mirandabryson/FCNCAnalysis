@@ -14,7 +14,7 @@ filename = sys.argv[-1]
 #sFile = ROOT.TFile.Open(signalFile)
 print("loaded files")
 
-numDecimalPlaces = 4
+numDecimalPlaces = 6
 
 # useful functions 
 def makeTableHeader(selectionHeaders, processes):
@@ -69,7 +69,10 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
         numBins = h.GetNbinsX()
         totYield = 0
         error = 0
-        for b in range(numBins):
+        overflowBins = 0
+        if "ge2b" in h.GetName():
+            overflowBins = 2
+        for b in range(numBins+overflowBins):
             if "signal" in p:
                 totYield = totYield+(0.01*h.GetBinContent(b))
                 #totYield = totYield+(h.GetBinContent(b))
@@ -79,14 +82,28 @@ def makeTableRow(hist, nJets, nBs, nLeps, processes):
             else:
                 totYield = totYield+h.GetBinContent(b)
                 totBack = totBack + h.GetBinContent(b)
-            if h.GetBinContent(b) != 0:
-                if "signal" in p:
-                    error = 0.01*h.GetBinError(b)
-                    #error = h.GetBinError(b)
-                    totSigError = totSigError + pow(error,2)
-                else:
-                    error = h.GetBinError(b)
-                    totBackError = totBackError + pow(h.GetBinError(b),2)
+        if "signal" in p:
+            error = 0.01*np.sqrt(h.GetSumw2())
+            error = [e for i, e in enumerate(error) if e != 0]
+            if error:
+                error = error[0]
+            if not error:
+                error = 0.0
+            sumW2 = 0
+            for i in range(len(h.GetSumw2())):
+                sumW2 = sumW2 + h.GetSumw2()[i]
+            totSigError = totSigError + 0.01*sumW2
+        else: 
+            error = np.sqrt(h.GetSumw2())
+            error = [e for i, e in enumerate(error) if e != 0]
+            if error:
+                error = error[0]
+            if not error:
+                error = 0.0
+            sumW2 = 0
+            for i in range(len(h.GetSumw2())):
+                sumW2 = sumW2 + h.GetSumw2()[i]
+            totBackError = totBackError + 0.01*sumW2
         #line = line + cBreak + str(round(totYield,numDecimalPlaces)) + " $\pm$ " + str(round(error,numDecimalPlaces))
         line.append(round(totYield,numDecimalPlaces))
         line.append(round(error,numDecimalPlaces))
@@ -266,6 +283,7 @@ for var in plottedVariables:
     df = pd.DataFrame(allLines, columns=header)
     #print(df)
     SR_df = df[df["nLeptons"]=="3l"]
+    SR_df = SR_df.round(2)
     #now we need to add the SF and OF dilepton cases
     nJets = ["2", "3", "+4"]
     nBjets = ["0", "1", "+2"]
@@ -280,41 +298,44 @@ for var in plottedVariables:
             data = [["SS2l",
                     j,
                     b,
-                    (sf_df["signal hut"].values[0]+of_df["signal hut"].values[0]),
+                    round((sf_df["signal hut"].values[0]+of_df["signal hut"].values[0]), 2),
                     round(( np.sqrt( (sf_df["signal hut error"].values[0]**2)+(of_df["signal hut error"].values[0]**2) ) ), 2),
-                    (sf_df["signal hct"].values[0]+of_df["signal hct"].values[0]),
+                    round((sf_df["signal hct"].values[0]+of_df["signal hct"].values[0]), 2),
                     round(( np.sqrt( (sf_df["signal hct error"].values[0]**2)+(of_df["signal hct error"].values[0]**2) ) ), 2),
-                    (sf_df["other"].values[0]+of_df["other"].values[0]),
+                    round((sf_df["other"].values[0]+of_df["other"].values[0]), 2),
                     round(( np.sqrt( (sf_df["other error"].values[0]**2)+(of_df["other error"].values[0]**2) ) ), 2),
-                    (sf_df["fakes"].values[0]+of_df["fakes"].values[0]),
+                    round((sf_df["fakes"].values[0]+of_df["fakes"].values[0]), 2),
                     round(( np.sqrt( (sf_df["fakes error"].values[0]**2)+(of_df["fakes error"].values[0]**2) ) ), 2),
-                    (sf_df["flips"].values[0]+of_df["flips"].values[0]),
+                    round((sf_df["flips"].values[0]+of_df["flips"].values[0]), 2),
                     round(( np.sqrt( (sf_df["flips error"].values[0]**2)+(of_df["flips error"].values[0]**2) ) ), 2),
-                    (sf_df["total background"].values[0]+of_df["total background"].values[0]),
+                    round((sf_df["total background"].values[0]+of_df["total background"].values[0]), 2),
                     round(( np.sqrt( (sf_df["tot back error"].values[0]**2)+(of_df["tot back error"].values[0]**2) ) ), 2),
-                    (sf_df["total signal"].values[0]+of_df["total signal"].values[0]),
+                    round((sf_df["total signal"].values[0]+of_df["total signal"].values[0]), 2),
                     round(( np.sqrt( (sf_df["tot sig error"].values[0]**2)+(of_df["tot sig error"].values[0]**2) ) ), 2),
-                    (sf_df["S/B"].values[0]+of_df["S/B"].values[0]),
+                    round((sf_df["S/B"].values[0]+of_df["S/B"].values[0]), 2),
                     round(( np.sqrt( (sf_df["S/B error"].values[0]**2)+(of_df["S/B error"].values[0]**2) ) ), 2)
                     ]]
             new_ss_df = pd.DataFrame( data, columns = df.columns )
             
             SR_df = SR_df.append(new_ss_df, ignore_index=True)
             #print(SR_df)
+    print SR_df
     SR_df.at["Total", "fakes"] = SR_df["fakes"].sum()
-    SR_df.at["Total", "fakes error"] = np.sqrt(SR_df["fakes error"].pow(2).sum())
+    SR_df.at["Total", "fakes error"] = round(np.sqrt(SR_df["fakes error"].pow(2).sum()),2)
     SR_df.loc["Total", "flips"] = SR_df["flips"].sum()
-    SR_df.at["Total", "flips error"] = np.sqrt(SR_df["flips error"].pow(2).sum())
+    SR_df.at["Total", "flips error"] = round(np.sqrt(SR_df["flips error"].pow(2).sum()),2)
     SR_df.loc["Total", "other"] = SR_df["other"].sum()
-    SR_df.at["Total", "other error"] = np.sqrt(SR_df["other error"].pow(2).sum())
+    SR_df.at["Total", "other error"] = round(np.sqrt(SR_df["other error"].pow(2).sum()),2)
     SR_df.loc["Total", "signal hut"] = SR_df["signal hut"].sum()
-    SR_df.at["Total", "signal hut error"] = np.sqrt(SR_df["signal hut error"].pow(2).sum())
+    SR_df.at["Total", "signal hut error"] = round(np.sqrt(SR_df["signal hut error"].pow(2).sum()),2)
     SR_df.loc["Total", "signal hct"] = SR_df["signal hct"].sum()
-    SR_df.at["Total", "signal hct error"] = np.sqrt(SR_df["signal hct error"].pow(2).sum())
+    SR_df.at["Total", "signal hct error"] = round(np.sqrt(SR_df["signal hct error"].pow(2).sum()),2)
     SR_df.loc["Total", "total background"] = SR_df["total background"].sum()
-    SR_df.at["Total", "tot back error"] = np.sqrt(SR_df["tot back error"].pow(2).sum())
+    SR_df.at["Total", "tot back error"] = round(np.sqrt(SR_df["tot back error"].pow(2).sum()),2)
     SR_df.loc["Total", "total signal"] = SR_df["total signal"].sum()
-    SR_df.at["Total", "tot sig error"] = np.sqrt(SR_df["tot sig error"].pow(2).sum())
+    SR_df.at["Total", "tot sig error"] = round(np.sqrt(SR_df["tot sig error"].pow(2).sum()),2)
+    SR_df.round(3)
+    print(SR_df)
     SR_df = SR_df.fillna("")
     print(SR_df)
     print("*********************************************")
@@ -390,8 +411,6 @@ for var in plottedVariables:
     print("*********************************************")
 """
 
-    #print(df)
-    
     #save one big table
     outText = open(outdir+"tables/yieldsTable.txt","w")
     outText.write(df.to_csv(index=False))
