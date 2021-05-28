@@ -44,7 +44,7 @@ std::vector<string> loadSamples ( int year, string type, string version ){
             //samples.push_back("TT_FCNC-aTtoHJ_Tleptonic_HToWWZZtautau_eta_hct_TuneCP5-MadGraph5-pythia8_RunIIAutumn18NanoAODv7-Nano02Apr2020_tauDecays_102X_upgrade2018_realistic_v21-v1_NANOAODSIM_"+version);
         
         }else if ( type == "background" ){
-            /*samples.push_back("ttg_1lep.root");
+            samples.push_back("ttg_1lep.root");
             samples.push_back("tg.root");
             samples.push_back("ttw.root");
 
@@ -71,11 +71,11 @@ std::vector<string> loadSamples ( int year, string type, string version ){
             samples.push_back("wwz.root");
             samples.push_back("wzg.root");
             samples.push_back("wz.root");
-            samples.push_back("wzz.root");*/
+            samples.push_back("wzz.root");
 
             samples.push_back("ttjets.root");
 
-            /*samples.push_back("tthh.root");
+            samples.push_back("tthh.root");
             samples.push_back("tttj.root");
             samples.push_back("tttt.root");
             samples.push_back("tttw.root");
@@ -91,7 +91,7 @@ std::vector<string> loadSamples ( int year, string type, string version ){
  
             samples.push_back("vh_nobb.root");
             samples.push_back("tzq.root");
-            samples.push_back("tth_nobb.root");*/
+            samples.push_back("tth_nobb.root");
 
         }
 

@@ -111,7 +111,7 @@ void franksTest(){
             //for ( int counter = 0; counter < nEvents; counter++ ){
             //for ( int counter = 0; counter < 100000; counter++ ){ //for testing only!!
             //for ( int counter = 0; counter < 300000; counter++ ){ //for testing only!!
-            for ( int counter = 0; counter < 1000; counter++ ){ //for testing only!!
+            for ( int counter = 0; counter < 5000; counter++ ){ //for testing only!!
             //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
             //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
                 processed++;

@@ -106,6 +106,7 @@ int main(void){
                 outfileName = outdir+"signal/"+outfileName+"_outputHistos.root";
             }else{outfileName = outdir+outfileName+"_outputHistos.root";}
             auto outFile = new TFile(outfileName.c_str(), "recreate");
+            cout << "writing to " << outfileName << endl;
 
             //make all histograms
             makeHistograms histos(sample_names[btype]);
@@ -113,10 +114,10 @@ int main(void){
             cout << "defined histograms" << endl;
             
             //Main for loop
-            //for ( int counter = 0; counter < nEvents; counter++ ){
+            for ( int counter = 0; counter < nEvents; counter++ ){
             //for ( int counter = 0; counter < 100000; counter++ ){ //for testing only!!
             //for ( int counter = 0; counter < 300000; counter++ ){ //for testing only!!
-            for ( int counter = 0; counter < 1000; counter++ ){ //for testing only!!
+            //for ( int counter = 0; counter < 5000; counter++ ){ //for testing only!!
             //for ( int counter = 0; counter < 100; counter++ ){ //for testing only!!
             //for ( int counter = 0; counter < 10; counter++ ){ //for testing only!!
                 processed++;
@@ -209,7 +210,7 @@ int main(void){
                 }
 
                 //for debugging purposes, set stitch =1
-                stitch = 1;
+                //stitch = 1;
 
                 if (stitch != 1){ continue; }
 
@@ -280,6 +281,8 @@ int main(void){
 
                 //background categorization
                 if(sample_names[btype]=="background"){
+                    //flips should only happen in dilepton events
+                    if (!(nTight==2&&nLoose==2&&isFlip)){isFlip=0;}
                     if(!(isFake||isFlip)){
                         if (looseCharges.size()==2 && (looseCharges[0]*looseCharges[1]<0)){
                             isSMOS=1;
