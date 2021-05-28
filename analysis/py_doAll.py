@@ -9,7 +9,8 @@ import operator
 import glob
 import ast
 import time
-sys.path.append('/home/users/fgolf/fcnc/current/samples/')
+#sys.path.append('/home/users/fgolf/fcnc/current/samples/')
+sys.path.append('/home/users/ksalyer/FranksFCNC/ana/samples/')
 import samples
 from samples import get_sample_path
 
@@ -47,6 +48,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     excludeprocs = args.excludeproc.strip().split(',')
     myprocs = args.proc.strip().split(',')
+    print len(myprocs)
 
     plot_kwargs = {} if not args.plot_kwargs else ast.literal_eval(args.plot_kwargs)
 
@@ -108,10 +110,14 @@ if __name__ == "__main__":
                 ] , options=options[2016]+" doFakes doData "),
             "flips": make_obj(basedirs[2016]+get_sample_path("data",2016,args.tag)+".root", options=options[2016]+" doFlips doData "),
             "data": make_obj(basedirs[2016]+get_sample_path("data",2016,args.tag)+".root", options=options[2016] + " doData "),
-            "signal_tuh": make_obj(basedirs[2016]+get_sample_path("signal_hut_atop",2016,args.tag)+".root", options=options[2016]),
-            "signal_tuh": make_obj(basedirs[2016]+get_sample_path("signal_hut_top",2016,args.tag)+".root", options=options[2016]),
-            "signal_tch": make_obj(basedirs[2016]+get_sample_path("signal_hct_atop",2016,args.tag)+".root", options=options[2016]),
-            "signal_tuh": make_obj(basedirs[2016]+get_sample_path("signal_hct_top",2016,args.tag)+".root", options=options[2016]),
+            "signal_tuh": make_obj([
+                basedirs[2016]+get_sample_path("signal_hut_atop",2016,args.tag)+".root",
+                basedirs[2016]+get_sample_path("signal_hut_top",2016,args.tag)+".root",
+                ] , options=options[2016]),
+            "signal_tch": make_obj([
+                basedirs[2016]+get_sample_path("signal_hct_atop",2016,args.tag)+".root",
+                basedirs[2016]+get_sample_path("signal_hct_top",2016,args.tag)+".root",
+                ] , options=options[2016]),
             # "fakes_mc": make_obj(basedirs[2016]+get_sample_path("TTBAR*",2016)+".root", options=options[2016]+ " doFakesMC "),
             "fakes_mc": make_obj([
                 basedirs[2016]+get_sample_path("ttjets",2016,args.tag)+".root",
@@ -184,11 +190,14 @@ if __name__ == "__main__":
                 ] , options=options[2017]+" doFakes doData "),
             "flips": make_obj(basedirs[2017]+get_sample_path("data",2017,args.tag)+".root", options=options[2017]+" doFlips doData "),
             "data": make_obj(basedirs[2017]+get_sample_path("data",2017,args.tag)+".root", options=options[2017] + " doData "),
-            "signal_tuh": make_obj(basedirs[2017]+get_sample_path("signal_hut_atop",2017,args.tag)+".root", options=options[2017]),
-            "signal_tuh": make_obj(basedirs[2017]+get_sample_path("signal_hut_top",2017,args.tag)+".root", options=options[2017]),
-            "signal_tch": make_obj(basedirs[2017]+get_sample_path("signal_hct_atop",2017,args.tag)+".root", options=options[2017]),
-            "signal_tuh": make_obj(basedirs[2017]+get_sample_path("signal_hct_top",2017,args.tag)+".root", options=options[2017]),
-            # "fakes_mc": make_obj(basedirs[2017]+get_sample_path("TTBAR*",2017,args.tag)+".root", options=options[2017]+ " doFakesMC "),
+            "signal_tuh": make_obj([
+                basedirs[2017]+get_sample_path("signal_hut_atop",2017,args.tag)+".root",
+                basedirs[2017]+get_sample_path("signal_hut_top",2017,args.tag)+".root",
+                ] , options=options[2017]),
+            "signal_tch": make_obj([
+                basedirs[2017]+get_sample_path("signal_hct_atop",2017,args.tag)+".root",
+                basedirs[2017]+get_sample_path("signal_hct_top",2017,args.tag)+".root",
+                ] , options=options[2017]),           # "fakes_mc": make_obj(basedirs[2017]+get_sample_path("TTBAR*",2017,args.tag)+".root", options=options[2017]+ " doFakesMC "),
             "fakes_mc": make_obj([
                 basedirs[2017]+get_sample_path("ttjets",2017,args.tag)+".root",
                 basedirs[2017]+get_sample_path("wjets",2017,args.tag)+".root",
@@ -267,55 +276,37 @@ if __name__ == "__main__":
                               options=options[2018] + " doFlips doData "),
             "data": make_obj(basedirs[2018] + get_sample_path("data", 2018,args.tag) + ".root",
                              options=options[2018] + " doData "),
-            "signal_tuh": make_obj(basedirs[2018] + get_sample_path("signal_hut_atop", 2018,args.tag) + ".root",
-                                   options=options[2018]),
-            "signal_tuh": make_obj(basedirs[2018] + get_sample_path("signal_hut_top", 2018,args.tag) + ".root",
-                                   options=options[2018]),
-            "signal_tch": make_obj(basedirs[2018] + get_sample_path("signal_hct_atop", 2018,args.tag) + ".root",
-                                   options=options[2018]),
-            "signal_tuh": make_obj(basedirs[2018] + get_sample_path("signal_hct_top", 2018,args.tag) + ".root",
-                                   options=options[2018]),
+            "signal_tuh": make_obj([
+                basedirs[2018]+get_sample_path("signal_hut_atop",2018,args.tag)+".root",
+                basedirs[2018]+get_sample_path("signal_hut_top",2018,args.tag)+".root",
+                ] , options=options[2018]),
+            "signal_tch": make_obj([
+                basedirs[2018]+get_sample_path("signal_hct_atop",2018,args.tag)+".root",
+                basedirs[2018]+get_sample_path("signal_hct_top",2018,args.tag)+".root",
+                ] , options=options[2018]),
             # "fakes_mc": make_obj(basedirs[2018]+get_sample_path("TTBAR*",2018,args.tag)+".root", options=options[2018]+ " doFakesMC "),
             "fakes_mc": make_obj([
+                basedirs[2018] + get_sample_path("ttg_1lep", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttw", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("wjets", 2018,args.tag) + ".root",
-                #basedirs[2018] + get_sample_path("wjets_ht100-200", 2018,args.tag) + ".root",
-                #basedirs[2018] + get_sample_path("wjets_ht200-400", 2018,args.tag) + ".root",
-                #basedirs[2018] + get_sample_path("wjets_ht400-600", 2018,args.tag) + ".root",
-                #basedirs[2018] + get_sample_path("wjets_ht600-800", 2018,args.tag) + ".root",
-                #basedirs[2018] + get_sample_path("wjets_ht800-1200", 2018,args.tag) + ".root",
-                ], options=options[2018] + " doTruthFake doStitch "),
-            "flips_mc": make_obj([
-                basedirs[2018] + get_sample_path("dyjets_m10-50", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("dyjets_m50", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("ww", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
-                ], options=options[2018] + "doTruthFlip doStitch"),
-            "ttjets": make_obj([
-                basedirs[2018]+get_sample_path("ttjets", 2018,args.tag) + ".root",
-                ], options=options[2016]),
-            "ttw": make_obj(basedirs[2018] + get_sample_path("ttw", 2018,args.tag) + ".root", options=options[2018]),
-            "tth": make_obj(basedirs[2018] + get_sample_path("tth_nobb", 2018,args.tag) + ".root", options=options[2018]),
-            "ttz": make_obj([
-                basedirs[2018] + get_sample_path("ttz_m1-10", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("ttz_m10", 2018,args.tag) + ".root",
-                ], options=options[2018]),
-            "xg": make_obj([
-                basedirs[2018] + get_sample_path("tg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tw_dilep", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("ttg_dilep", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("ttg_1lep", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("wg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttz_m10", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttz_m1-10", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("zg", 2018,args.tag) + ".root",
-                ], options=options[2018] + " doXgamma "),
-            "ttvv": make_obj([
                 basedirs[2018] + get_sample_path("tthh", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("ttwh", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("ttww", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("ttwz", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("ttzh", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("ttzz", 2018,args.tag) + ".root",
-                ], options=options[2018]),
-            "rares": make_obj([
+                basedirs[2018] + get_sample_path("wg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tth_nobb", 2018,args.tag) + ".root",
+
+                basedirs[2018] + get_sample_path("dyjets_m10-50", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("dyjets_m50", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ww", 2018,args.tag) + ".root",
+
                 basedirs[2018] + get_sample_path("ggh", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("qqww", 2018,args.tag) + ".root",
                 #basedirs[2018] + get_sample_path("twz", 2018,args.tag) + ".root",
@@ -333,7 +324,176 @@ if __name__ == "__main__":
                 basedirs[2018] + get_sample_path("tttj", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("tttw", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("tttt", 2018,args.tag) + ".root",
+
+                #basedirs[2018] + get_sample_path("wjets_ht100-200", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("wjets_ht200-400", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("wjets_ht400-600", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("wjets_ht600-800", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("wjets_ht800-1200", 2018,args.tag) + ".root",
+                ], options=options[2018] + " doTruthFake doStitch "),
+            "flips_mc": make_obj([
+                #basedirs[2018] + get_sample_path("dyjets_m10-50", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("dyjets_m50", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("ww", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("tw_dilep", 2018,args.tag) + ".root",
+
+                basedirs[2018] + get_sample_path("ttg_1lep", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttw", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wjets", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tw_dilep", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttg_dilep", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttz_m10", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttz_m1-10", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("zg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tthh", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttwz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttzh", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttzz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tth_nobb", 2018,args.tag) + ".root",
+
+                basedirs[2018] + get_sample_path("dyjets_m10-50", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("dyjets_m50", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ww", 2018,args.tag) + ".root",
+
+                basedirs[2018] + get_sample_path("ggh", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("qqww", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("twz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tzq", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("vh_nobb", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("ww_dps", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("www", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wwz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wzg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wwg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wzz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("zz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("zzz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tttj", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tttw", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tttt", 2018,args.tag) + ".root",
+
+                ], options=options[2018] + "doTruthFlip doStitch"),
+            "ttjets": make_obj([
+                basedirs[2018]+get_sample_path("ttjets", 2018,args.tag) + ".root",
+                ], options=options[2018]),
+            "wjets": make_obj([
+                basedirs[2018]+get_sample_path("wjets", 2018,args.tag) + ".root",
+                ], options=options[2018]),
+            "tw_dilep": make_obj(basedirs[2018] + get_sample_path("tw_dilep", 2018,args.tag) + ".root", options=options[2018]),
+            "ttw": make_obj(basedirs[2018] + get_sample_path("ttw", 2018,args.tag) + ".root", options=options[2018]),
+            "tth": make_obj(basedirs[2018] + get_sample_path("tth_nobb", 2018,args.tag) + ".root", options=options[2018]),
+            "ttz": make_obj([
+                basedirs[2018] + get_sample_path("ttz_m1-10", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttz_m10", 2018,args.tag) + ".root",
+                ], options=options[2018]),
+            "ttz_m1_10": make_obj(basedirs[2018] + get_sample_path("ttz_m1-10", 2018,args.tag) + ".root", options=options[2018]),
+            "ttz_m10": make_obj(basedirs[2018] + get_sample_path("ttz_m10", 2018,args.tag) + ".root", options=options[2018]),
+            "xg": make_obj([
+                basedirs[2018] + get_sample_path("tg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttg_dilep", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttg_1lep", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("zg", 2018,args.tag) + ".root",
+                ], options=options[2018] + " doXgamma "),
+            "tg": make_obj(basedirs[2018] + get_sample_path("tg", 2018,args.tag) + ".root", options=options[2018] + " doXgamma "),
+            "ttg_dilep": make_obj(basedirs[2018] + get_sample_path("ttg_dilep", 2018,args.tag) + ".root", options=options[2018] + " doXgamma "),
+            "ttg_1lep": make_obj(basedirs[2018] + get_sample_path("ttg_1lep", 2018,args.tag) + ".root", options=options[2018] + " doXgamma "),
+            "wg": make_obj(basedirs[2018] + get_sample_path("wg", 2018,args.tag) + ".root", options=options[2018] + " doXgamma "),
+            "zg": make_obj(basedirs[2018] + get_sample_path("zg", 2018,args.tag) + ".root", options=options[2018] + " doXgamma "),
+            "tthh": make_obj(basedirs[2018] + get_sample_path("tthh", 2018,args.tag) + ".root", options=options[2018]),
+            "ttwh": make_obj(basedirs[2018] + get_sample_path("ttwh", 2018,args.tag) + ".root", options=options[2018]),
+            "ttww": make_obj(basedirs[2018] + get_sample_path("ttww", 2018,args.tag) + ".root", options=options[2018]),
+            "ttwz": make_obj(basedirs[2018] + get_sample_path("ttwz", 2018,args.tag) + ".root", options=options[2018]),
+            "ttzh": make_obj(basedirs[2018] + get_sample_path("ttzh", 2018,args.tag) + ".root", options=options[2018]),
+            "ttzz": make_obj(basedirs[2018] + get_sample_path("ttzz", 2018,args.tag) + ".root", options=options[2018]),
+            "ttvv": make_obj([
+                basedirs[2018] + get_sample_path("tthh", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttwh", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttww", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttwz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttzh", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttzz", 2018,args.tag) + ".root",
+                ], options=options[2018]),
+            "rares": make_obj([
+                
+                basedirs[2018] + get_sample_path("ttg_1lep", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttw", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wjets", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tw_dilep", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttg_dilep", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttz_m10", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttz_m1-10", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("zg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tthh", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttwz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttzh", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttzz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tth_nobb", 2018,args.tag) + ".root",
+
+                basedirs[2018] + get_sample_path("dyjets_m10-50", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("dyjets_m50", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ww", 2018,args.tag) + ".root",
+
+                basedirs[2018] + get_sample_path("ggh", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("qqww", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("twz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tzq", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("vh_nobb", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("ww_dps", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("www", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wwz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wzg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wwg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wzz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("zz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("zzz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tttj", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tttw", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tttt", 2018,args.tag) + ".root",
+
+                """basedirs[2018] + get_sample_path("ggh", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("qqww", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("twz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tzq", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("vh_nobb", 2018,args.tag) + ".root",
+                #basedirs[2018] + get_sample_path("ww_dps", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("www", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wwz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wzg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wwg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("wzz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("zz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("zzz", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tttj", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tttw", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tttt", 2018,args.tag) + ".root","""
             ], options=options[2018]),
+            "ggh": make_obj(basedirs[2018] + get_sample_path("ggh", 2018,args.tag) + ".root", options=options[2018]),
+            "qqww": make_obj(basedirs[2018] + get_sample_path("qqww", 2018,args.tag) + ".root", options=options[2018]),
+            "tzq": make_obj(basedirs[2018] + get_sample_path("tzq", 2018,args.tag) + ".root", options=options[2018]),
+            "vh_nobb": make_obj(basedirs[2018] + get_sample_path("vh_nobb", 2018,args.tag) + ".root", options=options[2018]),
+            "www": make_obj(basedirs[2018] + get_sample_path("www", 2018,args.tag) + ".root", options=options[2018]),
+            "wwz": make_obj(basedirs[2018] + get_sample_path("wwz", 2018,args.tag) + ".root", options=options[2018]),
+            "wz": make_obj(basedirs[2018] + get_sample_path("wz", 2018,args.tag) + ".root", options=options[2018]),
+            "wzg": make_obj(basedirs[2018] + get_sample_path("wzg", 2018,args.tag) + ".root", options=options[2018]),
+            "wwg": make_obj(basedirs[2018] + get_sample_path("wwg", 2018,args.tag) + ".root", options=options[2018]),
+            "wzz": make_obj(basedirs[2018] + get_sample_path("wzz", 2018,args.tag) + ".root",options=options[2018]),
+            "zz": make_obj(basedirs[2018] + get_sample_path("zz", 2018,args.tag) + ".root",options=options[2018]),
+            "zzz": make_obj(basedirs[2018] + get_sample_path("zzz", 2018,args.tag) + ".root",options=options[2018]),
+            "tttj": make_obj(basedirs[2018] + get_sample_path("tttj", 2018,args.tag) + ".root",options=options[2018]),
+            "tttw": make_obj(basedirs[2018] + get_sample_path("tttw", 2018,args.tag) + ".root",options=options[2018]),
+            "tttt": make_obj(basedirs[2018] + get_sample_path("tttt", 2018,args.tag) + ".root",options=options[2018]),
+
        }
     }
 
@@ -357,6 +517,7 @@ if __name__ == "__main__":
         print "Skipping up to {} processes (e.g., {}, ...)".format(len(already_done),already_done[0])
     for year in years_to_consider:
         if (args.year) and (year != args.year): continue
+        print(chs[year].keys())
         for proc in chs[year].keys():
             # if (len(args.proc) > 0) and (proc != args.proc): continue
             if (len(myprocs) > 0) and len(fnmatch.filter(myprocs,proc))==0: continue

@@ -108,11 +108,12 @@ void HistContainer::write() {
     return;
 }
 
-void HistContainer::fill1d(std::string region, std::string quantity, std::string sample, float value, float weight) {
+void HistContainer::fill1d(std::string quantity, std::string region, std::string sample, float value, float weight) {
     std::map<std::string,TH1F*>::iterator it1d;
     for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {
         if (it1d->first.find(sample)==std::string::npos)  continue;
         if (it1d->first.find(quantity)==std::string::npos) continue;
+        if (it1d->first.find(region)==std::string::npos) continue;
         it1d->second->Fill(value,weight);
         //std::cout << "Filling hist " << quantity << " with value " << value << " and weight " << weight << std::endl;
     }

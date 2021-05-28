@@ -48,7 +48,7 @@ void print_debug (ofstream& outfile, int hyp_type, Leptons leptons, Jets jets, J
     int ntight = 0;
     for (auto lepton : leptons) {if (lepton.is_loose()) nloose++; if (lepton.is_tight()) ntight++;}
     outfile << nloose << ","  << ntight << "," << hyp_type << "," << jets.size() << "," << bjets.size() << std::endl;
-    for (auto lepton: leptons) {outfile << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << ", " << lepton.genPartFlav() << ", " << lepton.isFlip() << ", " << lepton.mcid() << ", " << lepton.id() << std::endl;}
+    //for (auto lepton: leptons) {outfile << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << ", " << lepton.genPartFlav() << ", " << lepton.isFake() << ", " << lepton.isFlip() << ", " << lepton.mcid() << ", " << lepton.id() << std::endl;}
     //for (auto jet : jets) {outfile << "\tJ " << jet.pt() << ", " << jet.eta() << "," << jet.isBtag() << std::endl;}
     //for (auto bjet : bjets) {if (bjet.pt()>40.) continue; outfile << "\tJ " << bjet.pt() << ", " << bjet.eta() << "," << bjet.isBtag() << std::endl;}
 }
@@ -201,6 +201,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     bool isFakes = (chainTitle=="fakes") || (chainTitle=="fakes_mc");
     bool isFlips = (chainTitle=="flips") || (chainTitle=="flips_mc");
     bool isRares = (chainTitle=="rares");
+    bool isSignal = (chainTitle=="signal_tch") || (chainTitle=="signal_tuh");
     bool istt = (chainTitle=="ttjets") || (chainTitle=="fakes_mc") || (chainTitle=="fakes_mc_unw");
     bool isttH = (chainTitle=="tth");
     bool istttt = (chainTitle=="tttt");
@@ -216,7 +217,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
     //*************************************************************************//
     //************************** setup good run list **************************//
-    std::string goodrun_path = "/home/users/fgolf/fcnc/current/samples/goodRunList/";
+    std::string goodrun_path = "/home/users/ksalyer/FranksFCNC/ana/samples/goodRunList/";
     std::map<int, std::string> goodrun_file = {
         {2016, "goldenJson_2016rereco_36p46ifb.txt"},
         {2017, "Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_v1_snt.txt"},
@@ -256,9 +257,13 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
         nt.Init(tree);
 
         for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ //for testing only!!
+
             nt.GetEntry(counter);
             if ( nevts>0 && nEventsTotal>=nevts ) break;
             ++nEventsTotal;
+
+            if (nt.event() == 356199504 || nt.event() == 333032626 || nt.event() == 400671596){quiet=0;}
+            else{quiet=1;}
 
             if (!quiet) bar.progress(nEventsTotal, nEventsChain);
 
@@ -274,8 +279,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             //get event weight based on sample!
             //double weight = getEventWeight( file->GetName(), chainTitle.Data() );
             double weight = 1.;
-            double genWeight = nt.Generator_weight();
-            weight = (weight*genWeight*lumi)/(abs(genWeight));
+            //double genWeight = nt.Generator_weight();
+            //weight = (weight*genWeight*lumi)/(abs(genWeight));
 
             // cutflow counter
             int cutflow_counter=1;
@@ -312,7 +317,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             }
             */
             if (best_hyp_type < 0) continue;
-            std::cout << "best_hyp_type: " << best_hyp_type << std::endl;
+            if(!quiet) {std::cout << "best_hyp_type: " << best_hyp_type << std::endl;}
             Leptons best_hyp = best_hyp_info.second;
             if (!quiet) std::cout << "best hyp type: " << best_hyp_type << std::endl;
 
@@ -383,7 +388,16 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
             // if we've reached here we've passed the baseline selection
             // fill histograms
-            hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
+            if (category == 1){
+                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
+            }else if (category == 2){
+                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
+            }else if (category == 3){
+                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
+            }
+            if (isSignal){
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
+            }
         }//loop over events
      } // loop over files
 
@@ -395,7 +409,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
      //write histograms
      if (!quiet) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
-
      outFile->cd();
      hists.write();
      outFile->Close();
