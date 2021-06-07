@@ -480,12 +480,69 @@ float muonQCDMCFakeRateError_IsoTrigs(float pt, float eta) {
    return 0.;
 }
 
+/*float fakeRate(int id, float pt, float eta) { 
+    if (abs(id)==11) return electronFakeRate_IsoTrigs(pt,eta);
+    else if (abs(id)==13) return muonFakeRate_IsoTrigs(pt,eta);
+    else return 0.;
+}*/
 
-float fakeRate(int id, float pt, float eta, float ht, bool isLL) { 
+//TESTING!!!!!
+float fakeRate(int id, float pt, float eta, bool isData) { 
+   if (isData){
+      if (abs(id)==11) return electronFakeRate_IsoTrigs(pt,eta);
+      else if (abs(id)==13) return muonFakeRate_IsoTrigs(pt,eta);
+      else return 0.;
+   }else {
+      if (abs(id)==11) return electronQCDMCFakeRate_IsoTrigs(pt,eta);
+      else if (abs(id)==13) return muonQCDMCFakeRate_IsoTrigs(pt,eta);
+      else return 0.;
+   }
+}
+/*float fakeRate(int id, float pt, float eta) { 
+    if (abs(id)==11) return 0.1;
+    else if (abs(id)==13) return 0.1;
+    else return 0.;
+}*/
+
+/*
+float fakeRateError(int id, float pt, float eta, float ht, bool isLL) { 
+    if (abs(id)==11) return (isLL ? electronFakeRateError(pt,eta) : electronFakeRateError_IsoTrigs(pt,eta));
+    else if (abs(id)==13) return (isLL ? muonFakeRateError(pt,eta) : muonFakeRateError_IsoTrigs(pt,eta));
+    else return 0.;
+}
+
+float alternativeFakeRate(int id, float pt, float eta, float ht, bool isLL) { 
+    if (abs(id)==11) return (isLL ? electronAlternativeFakeRate(pt,eta) : electronAlternativeFakeRate_IsoTrigs(pt,eta));
+    else if (abs(id)==13) return (isLL ? muonAlternativeFakeRate(pt,eta) : muonAlternativeFakeRate_IsoTrigs(pt,eta));
+    else return 0.;
+}
+
+float qcdMCFakeRate(int id, float pt, float eta, float ht, bool isLL) { 
+    if (abs(id)==11) return (isLL ? electronQCDMCFakeRate(pt,eta) : electronQCDMCFakeRate_IsoTrigs(pt,eta));
+    else if (abs(id)==13) return (isLL ? muonQCDMCFakeRate(pt,eta) : muonQCDMCFakeRate_IsoTrigs(pt,eta));
+    else return 0.;
+}
+
+float qcdMCFakeRateError(int id, float pt, float eta, float ht, bool isLL) { 
+    if (abs(id)==11) return (isLL ? electronQCDMCFakeRateError(pt,eta) : electronQCDMCFakeRateError_IsoTrigs(pt,eta));
+    else if (abs(id)==13) return (isLL ? muonQCDMCFakeRateError(pt,eta) : muonQCDMCFakeRateError_IsoTrigs(pt,eta));
+    else return 0.;
+}
+*/
+
+
+
+
+
+
+
+
+//COMMENTING OUT ORIGINAL CODE BECAUSE FCNC LOOPER DOESN'T RECOGNIZE ANA_T TYPE
+/*float fakeRate(int id, float pt, float eta, float ht, bool isLL) { 
     if (abs(id)==11) return (isLL ? electronFakeRate(pt,eta) : electronFakeRate_IsoTrigs(pt,eta));
     else if (abs(id)==13) return (isLL ? muonFakeRate(pt,eta) : muonFakeRate_IsoTrigs(pt,eta));
     else return 0.;
-}
+}*/
 
 float fakeRateError(int id, float pt, float eta, float ht, bool isLL) { 
     if (abs(id)==11) return (isLL ? electronFakeRateError(pt,eta) : electronFakeRateError_IsoTrigs(pt,eta));

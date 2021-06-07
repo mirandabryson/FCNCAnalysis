@@ -59,11 +59,12 @@ double getEventWeight (string fileName, string sampleName, bool verbose=false){
     //sampleName.pop_back();
 
     //get xsec
-    double xsecWeight = 1000 * getXSec(sampleName);
+    double xsecWeight = 1000 * getXSec(short_to_long(sName_short.Data()));
     if (verbose) cout << "xsecWeight: " << xsecWeight << std::endl;
     
     //calculate weight
     eventWeight = xsecWeight/nEvents;
+    if (verbose) cout << "scale1fb: " << eventWeight << std::endl;
 
     return eventWeight;
 }//close function

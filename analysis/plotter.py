@@ -3,13 +3,12 @@ import time
 import numpy as np
 import sys
 
-# Load histograms
-filename = sys.argv[-1]
-#backgroundFile = sys.argv[-2]
-#signalFile = sys.argv[-1]
-#bFile = ROOT.TFile.Open(backgroundFile)
-#sFile = ROOT.TFile.Open(signalFile)
-print("loaded files")
+# File Inputs
+#indir = "./outputs/v6BabyPlots/"
+indir = "./outputs/v8Data_triggers_nelnmu/"
+year = 2018
+sigScale = 0.01
+
 
 # useful functions   
 def saveFig(hist, histColors, legendNames, hist_name, outdir):
@@ -24,6 +23,8 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
     h_stack = ROOT.THStack( "h_stack", hist_name )
     h_signal_hut = ROOT.TH1F()
     h_signal_hct = ROOT.TH1F()
+    h_data = ROOT.TH1F()
+    h_sumBkg = ROOT.TH1F()
     legend = ROOT.TLegend( 0.7, 0.7, 0.89, 0.89 )
 
     counter = 0
@@ -31,28 +32,48 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
     hut_max = 0
     back_max = 0
 
+    counter = 0
     for h, c, l in zip(hist, histColors, legendNames):
-        if l == "signal_hut":
+        if l == "signal_tuh":
             h.SetLineColor(c)
             h_signal_hut = h.Clone()
             h_signal_hut.SetStats(0)
             h_signal_hut.SetLineWidth(2)
+            h_signal_hut.Scale(sigScale)
+            #h_signal_hut.Sumw2()
             legend.AddEntry(h_signal_hut, l)
             hut_max = h_signal_hut.GetMaximum()
         
-        elif l == "signal_hct":
+        elif l == "signal_tch":
             h.SetLineColor(c)
             h_signal_hct = h.Clone()
             h_signal_hct.SetStats(0)
             h_signal_hct.SetLineWidth(2)
+            h_signal_hct.Scale(sigScale)
+            #h_signal_hct.Sumw2()
             legend.AddEntry(h_signal_hct, l)
             hct_max = h_signal_hct.GetMaximum()
 
-        else:
+        elif l == "data":
             h.SetLineColor(c)
+            h_data = h.Clone()
+            h_data.SetStats(0)
+            h_data.SetMarkerStyle(ROOT.kFullDotLarge)
+            h_data.SetMarkerSize(1)
+            #h_data.SetLineWidth(1)
+            #h_data.Sumw2()
+            legend.AddEntry(h_data, l)
+
+        else:
+            if counter==0: h_sumBkg = h.Clone()
+            else: h_sumBkg.Add(h)
+            h.SetLineColor(ROOT.kGray+2)
+            h.SetLineWidth(2)
             h.SetFillColor(c)
+            #h.Sumw2()
             h_stack.Add(h)
             legend.AddEntry(h, l)
+        counter+=1
 
         
         """h.SetLineColor(c)
@@ -67,25 +88,42 @@ def saveFig(hist, histColors, legendNames, hist_name, outdir):
     back_max = h_stack.GetMaximum()
     #print(backgrYMax)
     if (back_max>hut_max and back_max>hct_max):
-        h_stack.Draw("hist")
-        h_signal_hut.Draw("hist same")
-        h_signal_hct.Draw("hist same")
+        h_stack.Draw("hist e1")
+        h_signal_hut.Draw("hist same e1")
+        h_signal_hct.Draw("hist same e1")
+        h_data.Draw("hist same p e1")
     elif (hut_max>hct_max and hut_max>back_max):
-        h_signal_hut.Draw("hist")
+        h_data.Draw("hist")
+        h_signal_hut.Draw("hist same")
         h_stack.Draw("hist same")
         h_signal_hut.Draw("hist same")
         h_signal_hct.Draw("hist same")
+        h_data.Draw("hist same")
     elif (hct_max>hut_max and hct_max>back_max):
+        h_data.Draw("hist same")
         h_signal_hct.Draw("hist")
         h_stack.Draw("hist same")
         h_signal_hct.Draw("hist same")
         h_signal_hut.Draw("hist same")
+        h_data.Draw("hist same")
 
     legend.Draw()
 
+    #now make ratio plot
+    '''can.cd()
+    pad2 = ROOT.TPad("pad2", "pad2", 0, 0.05, 1, 0.3)
+    pad2.Draw()
+    pad2.cd()
+    h_ratio = ROOT.TH1F()
+    h_ratio = h_sumBkg.Clone()
+    #h_ratio.Sumw2()
+    h_ratio.SetStats(0)
+    h_ratio.Divide(h_data)
+    h_ratio.Draw("ep")'''
 
     can.SaveAs(outdir+"pdfs/"+hist_name+".pdf")
     can.SaveAs(outdir+"pngs/"+hist_name+".png")
+
 
 def addHistos(hist, histNames, legendNames, histName, nBins, xmin, xmax):
     
@@ -113,114 +151,59 @@ def getObjFromFile(fname, hname):
 outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots/"
 #outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/plots/"
 
-processTypes = ["fakes",
-                "flips",
-                "other",
-                "signal_hut",
-                "signal_hct"
+processTypes = ["flips_mc",
+                "fakes_mc",
+                "rares",
+                "signal_tuh",
+                "signal_tch",
+                "data"
                 ]
 
 processColors = [ROOT.kPink+7,
-                 ROOT.kTeal-5,
                  ROOT.kOrange+7,
+                 ROOT.kTeal-5,
                  ROOT.kGreen+2,
-                 ROOT.kGreen+3
-                ]
-"""processTypes = ["signal_hut",
-                "signal_hct",
-                "rareSM",
-                "wjets",
-                "DY",
-                "ttX",
-                "multiboson",
-                "ttjets"
-                ]
-processColors = [ROOT.kGreen+2,
                  ROOT.kGreen+3,
-                 ROOT.kPink+7,
-                 ROOT.kTeal-5,
-                 ROOT.kOrange+7,
-                 ROOT.kViolet-5,
-                 ROOT.kRed,
-                 ROOT.kBlue
-                ]"""
+                 ROOT.kBlack
+                ]
 
-leptonSelections = ["trilep",
-                    "SS_SF_dilep",
-                    "SS_OF_dilep",
-                    "OS_SF_dilep",
-                    "OS_OF_dilep",
-                    "onelepFO",
-                    "dilepFO"
+leptonSelections = ["sf",
+                    "df",
+                    "mlsf",
+                    "mldf",
                    ]
 
-jetSelections = ["2j",
-                 "3j",
-                 "ge4j"
-                 ]
 
-bJetSelections = ["0b",
-                  "1b",
-                  "ge2b"
-                  ]
-
-plottedVariables = [["nJet", 7, -0.5, 6.5],
-                    ["nBJet", 4, -0.5, 3.5], 
-                    #["nGoodLeps", 6, -0.5, 5.5],
-                    #["leadLepPt", 50, 0, 500],
-                    #["leadLepEta", 20, -5, 5],
-                    #["leadLepMass", 50, 0, 500],
-                    #["leadLepMiniIso", 50, 0, 5],
-                    #["leadLepPtRel", 50, 0, 10],
-                    #["leadLepPtRatio", 50, 0, 5],
-                    #["leadJetPt", 50, 0, 500],
-                    #["leadBPt", 50, 0, 500],
-                    #["leadBMass", 50, 0, 500],
-                    #["jetHT", 50, 0, 500],
-                    #["MET", 50, 0, 500],
-                    #["minMT", 50, 0, 500],
-                    #["MT_b_MET", 50, 0, 500]
+plottedVariables = [["njets", 0],
+                    ["nbjets", 0], 
+                    ["nleps", 0], 
+                    ["neles", 0], 
+                    ["nmus", 0], 
+                    ["ljpt", 5], 
+                    ["tjpt", 5], 
+                    ["llpt", 5], 
+                    ["ltpt", 5], 
+                    ["lleta", 4], 
+                    ["lteta", 4], 
+                    ["llminiiso", 0], 
+                    ["ltminiiso", 0], 
                    ]
 
 for var in plottedVariables:
     v = var[0]
-    nbins = var[1]
-    xmin = var[2]
-    xmax = var[3]
+    rebinval = var[1]
     #print(nbins, xmin, xmax)
     for l in leptonSelections:
-        jHistos = []
-        jHistoNames = []
-        for j in jetSelections:
-            bHistos = []
-            bHistoNames = []
-            for b in bJetSelections:
-                histosToPlot = []
-                for p in processTypes:
-                    histoName = "h_"+v+"_"+l+"_"+j+"_"+b+"_"+p
-                    print(histoName)
-                    #hist = inFile.Get(histoName)
-                    hist = getObjFromFile(filename,histoName)
-                    #hist.SetAxisRange(xmin,xmax)
-                    #hist.Rebin(nbins)
-                    histosToPlot.append(hist)
-                    if v == "nJet":
-                        jHistos.append(hist)
-                        jHistoNames.append(histoName)
-                        #print("nJet", histoName)
-                    if v == "nBJet":
-                        bHistos.append(hist)
-                        bHistoNames.append(histoName)
-                        #print("btag", histoName)
-                #print(len(histosToPlot))
-                histFileName = "h_"+v+"_"+l+"_"+j+"_"+b
-                saveFig(histosToPlot, processColors, processTypes, histFileName, outdir)
-                #print('saved those histos')
-            if v == "nBJet":
-                histFileName = "h_"+v+"_"+l+"_"+j
-                bHistosAdded = addHistos(bHistos, bHistoNames, processTypes, histFileName, nbins, xmin, xmax)
-                saveFig(bHistosAdded, processColors, processTypes, histFileName, outdir)
-        if v == "nJet":
-            histFileName = "h_"+v+"_"+l
-            jHistosAdded = addHistos(jHistos, jHistoNames, processTypes, histFileName, nbins, xmin, xmax)
-            saveFig(jHistosAdded, processColors, processTypes, histFileName, outdir)
+        histosToPlot = []
+        for p in processTypes:
+            histoName = "h_"+l+"_"+v+"_"+p
+            print(histoName)
+            filename = indir+p+"_"+str(year)+"_hists.root"
+            print filename
+            hist = getObjFromFile(filename,histoName)
+            print "got ", histoName, " from ", filename
+            if rebinval > 0: hist.Rebin(rebinval)
+            histosToPlot.append(hist)
+            histFileName = l+"_"+v
+        saveFig(histosToPlot, processColors, processTypes, histFileName, outdir)
+            

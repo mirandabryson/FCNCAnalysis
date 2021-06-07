@@ -1,5 +1,6 @@
 namespace y2016{
-# include "fr_values/2016_fake_rates.h"
+//# include "fr_values/2016_fake_rates.h"
+# include "../misc/year_2016/fake_rates.h"
 }
 namespace y2017{
 # include "fr_values/2017_fake_rates.h"

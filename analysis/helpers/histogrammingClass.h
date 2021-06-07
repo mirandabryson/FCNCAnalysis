@@ -23,9 +23,9 @@ class HistContainer {
         void loadHists(std::string sample);
         void sumw2();
         void write();
-        void fill1d(std::string quantity, std::string region, std::string sample, float value, float weight=1.);
+        void fill1d(std::string quantity, std::string region, std::string sample, float value, float weight=1., int srFakes=0, int crFakes=0);
         void fill2d(std::string quantity, std::string region, std::string sample, float xvalue, float yvalue, float weight=1.);
-        void fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, float weight=1.);
+        void fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, float weight=1., float crWeight=1., int srFakes=0, int crFakes=0);
 };
 
 #endif

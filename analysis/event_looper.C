@@ -20,8 +20,10 @@
 #include <signal.h>
 #include "./helpers/weights.h"
 #include "./helpers/histogrammingClass.h"
+#include "./helpers/flip_weights.h"
 #include "./helpers/tqdm.h"
 #include "../../NanoTools/NanoCORE/SSSelections.h"
+#include "../../NanoTools/NanoCORE/IsolationTools.h"
 #include "../../NanoTools/NanoCORE/Nano.h"
 #include "../../NanoTools/NanoCORE/Config.h"
 #include "../../NanoTools/NanoCORE/Tools/goodrun.h"
@@ -231,6 +233,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
     HistContainer hists;
     hists.loadHists(chainTitleCh);
+    HistContainer genFakeHists;
+    genFakeHists.loadHists("genFakes");
 
         //nEvents in chain
     unsigned int nEventsTotal = 0;
@@ -262,9 +266,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             if ( nevts>0 && nEventsTotal>=nevts ) break;
             ++nEventsTotal;
 
-            if (nt.event() == 356199504 || nt.event() == 333032626 || nt.event() == 400671596){quiet=0;}
-            else{quiet=1;}
-
             if (!quiet) bar.progress(nEventsTotal, nEventsChain);
 
             // filter lumi blocks not in the good run list
@@ -277,10 +278,14 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             }
 
             //get event weight based on sample!
-            //double weight = getEventWeight( file->GetName(), chainTitle.Data() );
             double weight = 1.;
-            //double genWeight = nt.Generator_weight();
-            //weight = (weight*genWeight*lumi)/(abs(genWeight));
+            if (!isData){
+                weight = getEventWeight( file->GetName(), chainTitle.Data() );
+                //double weight = 1.;
+                double genWeight = nt.Generator_weight();
+                weight = (weight*genWeight*lumi)/(abs(genWeight));
+            }else {weight = 1.;}
+
 
             // cutflow counter
             int cutflow_counter=1;
@@ -327,6 +332,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             Lepton third_lep;
             if (best_hyp.size()>2) third_lep = best_hyp[2];
 
+
             if (!quiet) {
                 std::cout << "best hyp type: " << best_hyp_type << "; lepton ids: " << leading_lep.id()
                                                                 << ", " << trailing_lep.id() << std::endl;
@@ -339,12 +345,21 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             bool is_rare = false;
             int nfakes=0;
             int nflips=0;
-            for ( auto lep : best_hyp ) {if (lep.isFake()) nfakes++;}
-            for ( auto lep : best_hyp ) {if (lep.isFlip() && lep.absid()==11) nflips++;}
-            if (nfakes>0) is_fake=true;
-            if (best_hyp.size() == 2 && nflips==1) is_flip=true;
-            if (best_hyp.size() == 2 && best_hyp[0].charge()*best_hyp[1].charge()<0) is_os=true;
-            if (!is_fake && (best_hyp.size()>2 || (best_hyp.size()==2 && !is_flip && best_hyp[0].charge()*best_hyp[1].charge()>0))) is_rare = true;
+            int srFakes=0;
+            int crFakes=0;
+            if(!isData){
+                for ( auto lep : best_hyp ) {if (lep.isFake()) nfakes++;}
+                for ( auto lep : best_hyp ) {if (lep.idlevel()==SS::IDLevel::IDtight && lep.isFake()) srFakes++;}
+                for ( auto lep : best_hyp ) {if (lep.idlevel()==SS::IDLevel::IDfakable && lep.isFake()) crFakes++;}
+                //cout << srFakes << endl;
+                //cout << crFakes << endl;
+                //cout << "***********" << endl;
+                for ( auto lep : best_hyp ) {if (lep.isFlip() && lep.absid()==11) nflips++;}
+                if (nfakes>0) is_fake=true;
+                if (best_hyp.size() == 2 && nflips==1) is_flip=true;
+                if (best_hyp.size() == 2 && best_hyp[0].charge()*best_hyp[1].charge()<0) is_os=true;
+                if (!is_fake && (best_hyp.size()>2 || (best_hyp.size()==2 && !is_flip && best_hyp[0].charge()*best_hyp[1].charge()>0))) is_rare = true;
+            }
             int category=4;
             if (is_flip) category=2;
             if (is_rare) category=3;
@@ -367,6 +382,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 //debug_file << std::endl;
             }
 
+
             // if there isn't a good lepton hypothesis
             if (best_hyp_type<0) continue;
             else {hists.fill1d("cutflow","br",chainTitleCh,cutflow_counter,weight); cutflow_counter++;}
@@ -385,18 +401,88 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
             if (doFakes && !isData && doTruthFake && !is_fake) continue;
             if (doFlips && !isData && doTruthFlip && !is_flip) continue;
+            if (isData){
+                if (nt.year()==2016){
+                    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
+                         nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()||
+                         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+                }else if (nt.year()==2017){
+                    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
+                         nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
+                         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
+                         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+                }else if (nt.year()==2018){
+                    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
+                         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
+                         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+                }
+            }
+
+            //calculate control region weights for background estimates
+            //we calculate the weight
+            float crWeight = 0;
+            //start with fake rate weight
+            if (best_hyp_type==3||best_hyp_type>=6){
+                float fakeWeight = 1;
+                // FIX ME: MOVE TO SSSELECTIONS
+                for (auto lep : loose_leptons){
+                    if (lep.idlevel()==SS::IDLevel::IDtight) continue;
+                    float ptrel_cut = 0;
+                    float miniIso_cut = 0;
+                    float ptRatio_cut = 0;
+                    if (nt.year() == 2016){
+                        if(lep.absid()==11){
+                            ptrel_cut = 7.2;
+                            miniIso_cut = 0.12;
+                            ptRatio_cut = 0.80;
+                        }else if(lep.absid()==13){
+                            ptrel_cut = 7.2;
+                            miniIso_cut = 0.12;
+                            ptRatio_cut = 0.76;
+                        }
+                    }else{
+                        if(lep.absid()==11){
+                            ptrel_cut = 8.0;
+                            miniIso_cut = 0.07;
+                            ptRatio_cut = 0.78;
+                        }else if(lep.absid()==13){
+                            ptrel_cut = 6.8;
+                            miniIso_cut = 0.11;
+                            ptRatio_cut = 0.74;
+                        }
+                    }
+                    float coneCorrPtValue = coneCorrPt(lep.id(), lep.idx(), miniIso_cut, ptRatio_cut, ptrel_cut);
+                    float fakeRateValue = fakeRate(year, lep.id(), coneCorrPtValue, lep.eta(), isData);
+                    fakeWeight = fakeWeight * (fakeRateValue/(1-fakeRateValue));
+                }
+                crWeight = weight * fakeWeight;
+            }
+            //now, we move to the flip weight
+            if (best_hyp_type==5){
+                float flipWeight = 0;
+                for (auto lep : loose_leptons){
+                    float flipRateValue = GetFlipWeight(lep.pt(),lep.eta(),lep.id());
+                    flipWeight = flipWeight + (flipRateValue/(1-flipRateValue));
+                }
+                crWeight = weight * flipWeight;
+            }
 
             // if we've reached here we've passed the baseline selection
             // fill histograms
             if (category == 1){
-                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
+                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight, srFakes, crFakes);
+                genFakeHists.fill("genFakes",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight, srFakes, crFakes);
             }else if (category == 2){
-                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
+                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight, srFakes, crFakes);
             }else if (category == 3){
-                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
+                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight, srFakes, crFakes);
             }
-            if (isSignal){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight);
+            if (isSignal||isData){
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight, srFakes, crFakes);
             }
         }//loop over events
      } // loop over files
@@ -411,5 +497,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
      if (!quiet) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
      outFile->cd();
      hists.write();
+     if (outFile->GetName() == "fakes_mc"){genFakeHists.write();}
      outFile->Close();
 }
