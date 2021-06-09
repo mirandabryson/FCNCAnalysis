@@ -38,8 +38,8 @@ float isrWeight(int year, int nisrmatch, int sample) {
 }
 
 
-float leptonScaleFactor(int year, int id, float pt, float eta, float ht, ana_t ana) { 
-    if (ana == SSANA and year == 2016) return y2016::leptonScaleFactor_legacy(id, pt, eta, ht);
+float leptonScaleFactor(int year, int id, float pt, float eta, float ht) {//, ana_t ana) { 
+    //if (ana == SSANA and year == 2016) return y2016::leptonScaleFactor_legacy(id, pt, eta, ht);
     if (year == 2016) return y2016::leptonScaleFactor(id, pt, eta, ht);
     else if (year == 2017) return y2017::leptonScaleFactor(id, pt, eta, ht);
     else if (year == 2018) return y2018::leptonScaleFactor(id, pt, eta, ht);
@@ -64,11 +64,11 @@ float leptonScaleFactorError(int year, int id, float pt, float eta, float ht, an
     else return 0.;
 }
 
-float triggerScaleFactor(int year, int pdgId1, int pdgId2, float pt1, float pt2, float eta1, float eta2, float ht, ana_t ana, int syst=0) { 
+float triggerScaleFactor(int year, int pdgId1, int pdgId2, float pt1, float pt2, float eta1, float eta2, float ht, int syst=0) {//ana_t ana, int syst=0) { 
     // 0 - central, +1 and -1 for up and down variations
     // For 3 lepton events, don't scale, and take a 2% uncertainty
-    if (ana == FTANA and year == 2016 and syst==0) return y2016::triggerScaleFactor(pdgId1, pdgId2, pt1, pt2, eta1, eta2, ht);
-    if (syst == 2) syst = 0; // to bypass the above;
+    //if (ana == FTANA and year == 2016 and syst==0) return y2016::triggerScaleFactor(pdgId1, pdgId2, pt1, pt2, eta1, eta2, ht);
+    //if (syst == 2) syst = 0; // to bypass the above;
     return yrun2::TriggerWeight(pdgId1, pt1, eta1, pdgId2, pt2, eta2, ht, year, true, syst);
 }
 

@@ -194,10 +194,10 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
     TString chainTitle = chain->GetTitle();
     const char* chainTitleCh = chainTitle.Data();
-    if (print_debug_file) {
+    /*if (print_debug_file) {
         debug_file.open(Form("debug/%s.log",chainTitleCh));
         debug_file << "run,lumi,evt,cat,nloose,ntight,hyp_type,njets,nbjets" << std::endl;
-    }
+    }*/
     if (!quiet) std::cout << "Working on " << chainTitle << std::endl;
 
     bool isFakes = (chainTitle=="fakes") || (chainTitle=="fakes_mc");
@@ -233,10 +233,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
     HistContainer hists;
     hists.loadHists(chainTitleCh);
-    HistContainer genFakeHists;
-    genFakeHists.loadHists("genFakes");
 
-        //nEvents in chain
+    //nEvents in chain
     unsigned int nEventsTotal = 0;
     unsigned int nEventsChain = chain->GetEntries();
 
@@ -260,7 +258,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
         TTree *tree = (TTree*)file->Get("Events");
         nt.Init(tree);
 
-        for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ //for testing only!!
+        for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ 
+        //for ( unsigned int counter = 0; counter < 1000; counter++ ){ //for testing only!!
 
             nt.GetEntry(counter);
             if ( nevts>0 && nEventsTotal>=nevts ) break;
@@ -345,15 +344,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             bool is_rare = false;
             int nfakes=0;
             int nflips=0;
-            int srFakes=0;
-            int crFakes=0;
             if(!isData){
                 for ( auto lep : best_hyp ) {if (lep.isFake()) nfakes++;}
-                for ( auto lep : best_hyp ) {if (lep.idlevel()==SS::IDLevel::IDtight && lep.isFake()) srFakes++;}
-                for ( auto lep : best_hyp ) {if (lep.idlevel()==SS::IDLevel::IDfakable && lep.isFake()) crFakes++;}
-                //cout << srFakes << endl;
-                //cout << crFakes << endl;
-                //cout << "***********" << endl;
                 for ( auto lep : best_hyp ) {if (lep.isFlip() && lep.absid()==11) nflips++;}
                 if (nfakes>0) is_fake=true;
                 if (best_hyp.size() == 2 && nflips==1) is_flip=true;
@@ -361,9 +353,13 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 if (!is_fake && (best_hyp.size()>2 || (best_hyp.size()==2 && !is_flip && best_hyp[0].charge()*best_hyp[1].charge()>0))) is_rare = true;
             }
             int category=4;
+            //cout << category << endl;
             if (is_flip) category=2;
+            //cout << category << endl;
             if (is_rare) category=3;
+            //cout << category << endl;
             if (is_fake) category=1;
+            //cout << category << endl;
 
             // get jets and bjets
             std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
@@ -376,11 +372,24 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             float ht = 0.;
             for (auto jet : good_jets) ht += jet.pt();
 
-            if (print_debug_file) {
+            if (!isData){
+                for ( auto lep : best_hyp ) {
+                    weight = weight * leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht);
+                }
+                //weight = weight * getTruePUw(nt.year(), nt.Pileup_nPU(), 0);
+                //only apply trigger scale factors to dilepton events
+                if (best_hyp.size()==2){
+                    weight = weight * triggerScaleFactor(nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0);
+                }
+
+            }
+
+
+            /*if (print_debug_file) {
                 debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",";
                 print_debug(debug_file,best_hyp_type,best_hyp,good_jets,good_bjets,category);
                 //debug_file << std::endl;
-            }
+            }*/
 
 
             // if there isn't a good lepton hypothesis
@@ -473,17 +482,36 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
             // if we've reached here we've passed the baseline selection
             // fill histograms
-            if (category == 1){
-                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight, srFakes, crFakes);
-                genFakeHists.fill("genFakes",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight, srFakes, crFakes);
-            }else if (category == 2){
-                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight, srFakes, crFakes);
-            }else if (category == 3){
-                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight, srFakes, crFakes);
+            if (category == 1 && !(isSignal||isData)){
+                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
+                if (print_debug_file) {
+                    debug_file.open(Form("debug/%s.log",chainTitleCh));
+                    debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",fake"<< endl;
+                }
+                //cout << "filled fakes histos for event " << nt.event() << endl;
+            }else if (category == 2 && !(isSignal||isData)){
+                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
+                if (print_debug_file) {
+                    debug_file.open(Form("debug/%s.log",chainTitleCh));
+                    debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",flip"<< endl;
+                }
+                //cout << "filled flips histos for event " << nt.event() << endl;
+            }else if (category == 3 && !(isSignal||isData)){
+                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
+                if (print_debug_file) {
+                    debug_file.open(Form("debug/%s.log",chainTitleCh));
+                    debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",rare"<<endl;
+                }
+                //cout << "filled rares histos for event " << nt.event() << endl;
+            }else if (isSignal||isData){
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
+                if (print_debug_file) {
+                    debug_file.open(Form("debug/%s.log",chainTitleCh));
+                    debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",sig or data"<<endl;
+                }
+                //cout << "filled signal/data histos for event " << nt.event() << endl;
             }
-            if (isSignal||isData){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight, srFakes, crFakes);
-            }
+            //cout << "**********" << endl;
         }//loop over events
      } // loop over files
 
@@ -497,6 +525,5 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
      if (!quiet) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
      outFile->cd();
      hists.write();
-     if (outFile->GetName() == "fakes_mc"){genFakeHists.write();}
      outFile->Close();
 }

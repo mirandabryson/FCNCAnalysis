@@ -115,7 +115,7 @@ void HistContainer::write() {
     return;
 }
 
-void HistContainer::fill1d(std::string quantity, std::string region, std::string sample, float value, float weight, int srFakes, int crFakes) {
+void HistContainer::fill1d(std::string quantity, std::string region, std::string sample, float value, float weight) {
     std::map<std::string,TH1F*>::iterator it1d;
     //cout << quantity << " " << region << " " << sample << endl;
     for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {
@@ -125,15 +125,7 @@ void HistContainer::fill1d(std::string quantity, std::string region, std::string
         if (it1d->first.find(region)==std::string::npos) continue;
         if (region.find("est")==std::string::npos && it1d->first.find("est")!=std::string::npos) continue;
         if (region.find("ml")==std::string::npos && it1d->first.find("ml")!=std::string::npos) continue;
-        if (sample == "genFakes"){
-            if (srFakes>0 && (region == "ml" || region == "ss")){
-                it1d->second->Fill(value,weight);
-            }else if (crFakes>0 && (region.find("sf")!=std::string::npos||region.find("df")!=std::string::npos)){
-                it1d->second->Fill(value,weight);
-            }
-        }else{
-            it1d->second->Fill(value,weight);
-        }
+        it1d->second->Fill(value,weight);
         //cout << "filled " << it1d->first << endl;
         /*if (region == "br"){
             std::cout << "Filling hist " << quantity << " with value " << value << " and weight " << weight << std::endl;
@@ -157,7 +149,7 @@ float get_sum_pt(Jets  &jets) {
     return ret;
 }
 
-void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, float weight, float crWeight, int srFakes, int crFakes) {
+void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, float weight, float crWeight) {
     float fillWeight = 0;
     // fill 1d histograms first
     std::string rname = getRegionName(best_hyp_type,jets.size(),bjets.size());
@@ -188,35 +180,35 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         if ( name.find("est")==std::string::npos ) fillWeight = weight;
         else fillWeight = crWeight;
         //std::cout << "Filling histograms for region " << name << std::endl;
-        fill1d("njets",name,sample,njets,fillWeight,srFakes,crFakes);
-        fill1d("nbjets",name,sample,nbjets,fillWeight,srFakes,crFakes);
-        fill1d("nleps",name,sample,nleps,fillWeight,srFakes,crFakes);
-        fill1d("neles",name,sample,neles,fillWeight,srFakes,crFakes);
-        fill1d("nmus",name,sample,nmus,fillWeight,srFakes,crFakes);
-        fill1d("llpt",name,sample,leps[0].pt(),fillWeight,srFakes,crFakes);
-        fill1d("ltpt",name,sample,leps[1].pt(),fillWeight,srFakes,crFakes);
-        fill1d("lleta",name,sample,leps[0].eta(),fillWeight,srFakes,crFakes);
-        fill1d("lteta",name,sample,leps[1].eta(),fillWeight,srFakes,crFakes);
-        fill1d("llminiiso",name,sample,leps[0].miniIso(),fillWeight,srFakes,crFakes);
-        fill1d("ltminiiso",name,sample,leps[1].miniIso(),fillWeight,srFakes,crFakes);
-        fill1d("ljpt",name,sample,jets[0].pt(),fillWeight,srFakes,crFakes);
-        fill1d("tjpt",name,sample,jets[1].pt(),fillWeight,srFakes,crFakes);
-        fill1d("met",name,sample,met,fillWeight,srFakes,crFakes);
-        if (nbjets>0) fill1d("lbpt",name,sample,bjets[0].pt(),fillWeight,srFakes,crFakes);
+        fill1d("njets",name,sample,njets,fillWeight);
+        fill1d("nbjets",name,sample,nbjets,fillWeight);
+        fill1d("nleps",name,sample,nleps,fillWeight);
+        fill1d("neles",name,sample,neles,fillWeight);
+        fill1d("nmus",name,sample,nmus,fillWeight);
+        fill1d("llpt",name,sample,leps[0].pt(),fillWeight);
+        fill1d("ltpt",name,sample,leps[1].pt(),fillWeight);
+        fill1d("lleta",name,sample,leps[0].eta(),fillWeight);
+        fill1d("lteta",name,sample,leps[1].eta(),fillWeight);
+        fill1d("llminiiso",name,sample,leps[0].miniIso(),fillWeight);
+        fill1d("ltminiiso",name,sample,leps[1].miniIso(),fillWeight);
+        fill1d("ljpt",name,sample,jets[0].pt(),fillWeight);
+        fill1d("tjpt",name,sample,jets[1].pt(),fillWeight);
+        fill1d("met",name,sample,met,fillWeight);
+        if (nbjets>0) fill1d("lbpt",name,sample,bjets[0].pt(),fillWeight);
         float ht = get_sum_pt(jets);
-        fill1d("ht",name,sample,ht,fillWeight,srFakes,crFakes);
+        fill1d("ht",name,sample,ht,fillWeight);
         for (unsigned int idx1=0; idx1<leps.size();idx1++) {
             for (unsigned int idx2=idx1+1; idx2<leps.size();idx2++) {
                 float mass = (leps[idx1].p4()+leps[idx2].p4()).M();
-                fill1d("mll",name,sample,mass,fillWeight,srFakes,crFakes);
+                fill1d("mll",name,sample,mass,fillWeight);
             }
         }
         if (name == "br") {
             int sr = getSR(best_hyp_type,njets,nbjets);
             if (sr>=0)
-                fill1d("sr",name,sample,sr,fillWeight,srFakes,crFakes);
+                fill1d("sr",name,sample,sr,fillWeight);
             int cutflow_counter=4;
-            fill1d("cutflow",name,sample,cutflow_counter,fillWeight,srFakes,crFakes);
+            fill1d("cutflow",name,sample,cutflow_counter,fillWeight);
         }
     } // end loop over regions
 
