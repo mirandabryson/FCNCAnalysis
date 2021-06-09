@@ -3,7 +3,8 @@
 bool debug = false;
 
 TFile *myf; // NJA
-TString rfilepath = Form("%s/analysis/misc/year_run2/triggeffcymapsRA5_Run2_ALL.root",getenv("ANABASE"));
+//TString rfilepath = Form("%s/analysis/misc/year_run2/triggeffcymapsRA5_Run2_ALL.root",getenv("ANABASE"));
+TString rfilepath = "/home/users/ksalyer/FranksFCNC/ana/misc/year_run2/triggeffcymapsRA5_Run2_ALL.root";
 std::map<TString,TH2D*> hists;
 
 double LegEffcyorSF(TString legname, double pt, double eta, TString year, bool issf, int systfluc){
@@ -127,6 +128,7 @@ double TriggerWeight(int pdgid1, double pt1, double eta1, int pdgid2, double pt2
 
     if (!myf) { // NJA
         myf = new TFile(rfilepath,"read");
+        if (!myf){std::cout << "might want to check the rfilepath in /misc/year_run2/trigeffandsf.h" << endl;}
     }
 
     bool islowlow = pt1<25 && pt2<25 ;

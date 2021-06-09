@@ -194,10 +194,10 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
     TString chainTitle = chain->GetTitle();
     const char* chainTitleCh = chainTitle.Data();
-    /*if (print_debug_file) {
+    if (print_debug_file) {
         debug_file.open(Form("debug/%s.log",chainTitleCh));
         debug_file << "run,lumi,evt,cat,nloose,ntight,hyp_type,njets,nbjets" << std::endl;
-    }*/
+    }
     if (!quiet) std::cout << "Working on " << chainTitle << std::endl;
 
     bool isFakes = (chainTitle=="fakes") || (chainTitle=="fakes_mc");
@@ -353,13 +353,9 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 if (!is_fake && (best_hyp.size()>2 || (best_hyp.size()==2 && !is_flip && best_hyp[0].charge()*best_hyp[1].charge()>0))) is_rare = true;
             }
             int category=4;
-            //cout << category << endl;
             if (is_flip) category=2;
-            //cout << category << endl;
             if (is_rare) category=3;
-            //cout << category << endl;
             if (is_fake) category=1;
-            //cout << category << endl;
 
             // get jets and bjets
             std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
@@ -385,11 +381,11 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             }
 
 
-            /*if (print_debug_file) {
+            if (print_debug_file) {
                 debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",";
                 print_debug(debug_file,best_hyp_type,best_hyp,good_jets,good_bjets,category);
                 //debug_file << std::endl;
-            }*/
+            }
 
 
             // if there isn't a good lepton hypothesis
@@ -484,32 +480,12 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             // fill histograms
             if (category == 1 && !(isSignal||isData)){
                 hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
-                if (print_debug_file) {
-                    debug_file.open(Form("debug/%s.log",chainTitleCh));
-                    debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",fake"<< endl;
-                }
-                //cout << "filled fakes histos for event " << nt.event() << endl;
             }else if (category == 2 && !(isSignal||isData)){
                 hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
-                if (print_debug_file) {
-                    debug_file.open(Form("debug/%s.log",chainTitleCh));
-                    debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",flip"<< endl;
-                }
-                //cout << "filled flips histos for event " << nt.event() << endl;
             }else if (category == 3 && !(isSignal||isData)){
                 hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
-                if (print_debug_file) {
-                    debug_file.open(Form("debug/%s.log",chainTitleCh));
-                    debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",rare"<<endl;
-                }
-                //cout << "filled rares histos for event " << nt.event() << endl;
             }else if (isSignal||isData){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
-                if (print_debug_file) {
-                    debug_file.open(Form("debug/%s.log",chainTitleCh));
-                    debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",sig or data"<<endl;
-                }
-                //cout << "filled signal/data histos for event " << nt.event() << endl;
             }
             //cout << "**********" << endl;
         }//loop over events
