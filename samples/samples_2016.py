@@ -13,6 +13,8 @@ samples_2016 = {
     "tthh" : "TTHH_TuneCUETP8M2T4_13TeV-madgraph-pythia8_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8_ext1-v1_NANOAODSIM",
     "tth_nobb" : "ttHToNonbb_M125_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1_NANOAODSIM",
     "ttjets" : "TTJets_TuneCUETP8M2T4_13TeV-amcatnloFXFX-pythia8_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1_NANOAODSIM",
+    "tt1lep" : "TTToSemilepton_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1_NANOAODSIM",
+    "tt2lep" : "TTTo2L2Nu_TuneCUETP8M2_ttHtranche3_13TeV-powheg-pythia8_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1_NANOAODSIM",
     "tttj" : "TTTJ_TuneCUETP8M2T4_13TeV-madgraph-pythia8_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8_ext1-v1_NANOAODSIM",
     "tttt" : "TTTT_TuneCUETP8M2T4_PSweights_13TeV-amcatnlo-pythia8_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1_NANOAODSIM",
     "tttw" : "TTTW_TuneCUETP8M2T4_13TeV-madgraph-pythia8_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8_ext1-v1_NANOAODSIM",
@@ -44,5 +46,8 @@ samples_2016 = {
     "zg" : "ZGTo2LG_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8_ext1-v1_NANOAODSIM",
     "zz" : "ZZTo4L_13TeV_powheg_pythia8_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1_NANOAODSIM",
     "zzz" : "ZZZ_TuneCUETP8M1_13TeV-amcatnlo-pythia8_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1_NANOAODSIM",
-    #"data" : "",
+    "data" : "",
+    "eg_data" : "DoubleEG_Run2016B-02Apr2020_ver2-v1_NANOAOD DoubleEG_Run2016C-02Apr2020-v1_NANOAOD DoubleEG_Run2016D-02Apr2020-v1_NANOAOD DoubleEG_Run2016E-02Apr2020-v1_NANOAOD DoubleEG_Run2016F-02Apr2020-v1_NANOAOD DoubleEG_Run2016G-02Apr2020-v1_NANOAOD DoubleEG_Run2016H-02Apr2020-v1_NANOAOD",
+    "double_muon_data" : "DoubleMuon_Run2016B-02Apr2020_ver2-v1_NANOAOD DoubleMuon_Run2016C-02Apr2020-v1_NANOAOD DoubleMuon_Run2016D-02Apr2020-v1_NANOAOD DoubleMuon_Run2016E-02Apr2020-v1_NANOAOD DoubleMuon_Run2016F-02Apr2020-v1_NANOAOD DoubleMuon_Run2016G-02Apr2020-v1_NANOAOD DoubleMuon_Run2016H-02Apr2020-v1_NANOAOD",
+    "muon_eg_data" : "MuonEG_Run2016B-02Apr2020_ver2-v1_NANOAOD MuonEG_Run2016C-02Apr2020-v1_NANOAOD MuonEG_Run2016D-02Apr2020-v1_NANOAOD MuonEG_Run2016E-02Apr2020-v2_NANOAOD MuonEG_Run2016F-02Apr2020-v1_NANOAOD MuonEG_Run2016G-02Apr2020-v1_NANOAOD MuonEG_Run2016H-02Apr2020-v1_NANOAOD",
 }
