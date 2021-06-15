@@ -10,12 +10,15 @@ from yahist import Hist1D, Hist2D
 f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/fakes_mc_2018_hists.root')
 
 #path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/'
-path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/'
+#path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun10_remergedBabies/'
+path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun14_allMC_estimate/'
 
-regions =   ["sf",
-             "df",
-             "mlsf",
-             "mldf",
+regions =   [#"sf",
+             #"df",
+             #"mlsf",
+             #"mldf",
+             "ss",
+             "ml",
             ]
 variables = [   ["njets", 1],
                 ["nbjets", 1],
@@ -29,9 +32,12 @@ variables = [   ["njets", 1],
                 #["lleta", 4],
                 #["lteta", 4],
                 ["llminiiso", 1],
-                ["ltminiiso", 1]
+                ["ltminiiso", 1],
+                ['met', 1]
             ]
-years = ["2018"]
+years = ["2016","2017","2018"]
+#years = ["2018"]
+blind = True
 
 
 def get_yahist(hist, rebin=1, overflow=True):
@@ -76,16 +82,26 @@ for y in years:
         for var in variables:
             v = var[0]
             rebinVal = var[1]
-            histName = 'h_'+r+'_'+v
+            histName = 'h_'+r+'_'+v+'_'+y
             print (histName)
-            hists = {
-                'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
-                'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
-                'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
-                'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
-                'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
-                'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
-            }
+            if blind and (r == 'ss' or r == 'ml'):
+                hists = {
+                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
+                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
+                }
+            else:
+                hists = {
+                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
+                    'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
+                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
+                }
+
 
             my_histos = { x:get_yahist(hists[x], rebin=rebinVal, overflow=True) for x in hists.keys() }
 
@@ -104,18 +120,21 @@ for y in years:
 
             total_mc = get_total(my_histos, keys)
 
-            ratio = my_histos['data'].divide(total_mc, )
+            if not (blind and (r == 'ss' or r == 'ml')): ratio = my_histos['data'].divide(total_mc, )
 
 
             #f, ax = plt.subplots()
 
             fig, (ax, rax) = plt.subplots(2,1,figsize=(10,10), gridspec_kw={"height_ratios": (3, 1), "hspace": 0.05}, sharex=True)
 
+            if y == "2016": luminosity = 35.9
+            if y == "2017": luminosity = 41.5
+            if y == "2018": luminosity = 59.71
             hep.cms.label(
                 "Preliminary",
                 data=True,
                 #year=2018,
-                lumi=60.0,
+                lumi=luminosity,
                 loc=0,
                 ax=ax,
             )
@@ -130,15 +149,16 @@ for y in years:
                 color=[ my_histos[x].color for x in keys ],
                 ax=ax)
 
-            hep.histplot(
-                my_histos['data'].counts,
-                my_histos['data'].edges,
-                w2=my_histos['data'].errors,
-                histtype="errorbar",
-                stack=False,
-                label='%s (%.0f)'%('Observation', sum(my_histos['data'].counts)),
-                color='black',
-                ax=ax)
+            if not (blind and (r == 'ss' or r == 'ml')):
+                hep.histplot(
+                    my_histos['data'].counts,
+                    my_histos['data'].edges,
+                    w2=my_histos['data'].errors,
+                    histtype="errorbar",
+                    stack=False,
+                    label='%s (%.0f)'%('Observation', sum(my_histos['data'].counts)),
+                    color='black',
+                    ax=ax)
 
             hep.histplot(
                 [my_histos['tch'].counts/100, my_histos['tuh'].counts/100],
@@ -150,16 +170,18 @@ for y in years:
                 color=['#525B76','#6A4C93'],
                 ax=ax)
 
-            hep.histplot(
-                ratio.counts,
-                ratio.edges,
-                w2=ratio.errors,
-                histtype="errorbar",
-                color='black',
-                ax=rax)
+            if not (blind and (r == 'ss' or r == 'ml')):
+                hep.histplot(
+                    ratio.counts,
+                    ratio.edges,
+                    w2=ratio.errors,
+                    histtype="errorbar",
+                    color='black',
+                    ax=rax)
 
             rax.set_ylim(0,1.99)
-            rax.set_xlabel(r'$p_T\ (lead.\ lep.)\ (GeV)$')
+            #rax.set_xlabel(r'$p_T\ (lead.\ lep.)\ (GeV)$')
+            rax.set_xlabel(v)
             rax.set_ylabel(r'Data/Sim.')
             ax.set_ylabel(r'Events')
             ax.set_yscale('log')

@@ -28,6 +28,8 @@
 #include "../../NanoTools/NanoCORE/Config.h"
 #include "../../NanoTools/NanoCORE/Tools/goodrun.h"
 #include "../../NanoTools/NanoCORE/Tools/dorky.h"
+#include "../../NanoTools/NanoCORE/Tools/btagsf/BTagCalibrationStandalone.h"
+#include "../../NanoTools/NanoCORE/Tools/btagsf/BTagCalibrationStandalone.cc"
 #include "../misc/common_utils.h"
 
 using namespace std;
@@ -106,6 +108,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
     int year_for_output = year;
     float lumi = getLumi(year);
+    //cout << lumi << endl;
 
     float min_pt_fake = minPtFake18 ? 18. : -1;
 
@@ -279,10 +282,13 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             //get event weight based on sample!
             double weight = 1.;
             if (!isData){
-                weight = getEventWeight( file->GetName(), chainTitle.Data() );
+                weight = getEventWeight( file->GetName(), chainTitle.Data(), nt.year() );
+                //cout << "scale1fb: " << weight << endl;
                 //double weight = 1.;
                 double genWeight = nt.Generator_weight();
+                //cout << "genWeight: " << genWeight << endl;
                 weight = (weight*genWeight*lumi)/(abs(genWeight));
+                //cout << "weight: " << weight << endl;
             }else {weight = 1.;}
 
 
@@ -357,6 +363,31 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             if (is_rare) category=3;
             if (is_fake) category=1;
 
+            //for fake validation: gen matching for best_hyp leptons
+            bool isVR_CR = 0;
+            bool isVR_SR = 0;
+            if (!isData){
+                int nPromptTight = 0;
+                int nNonPromptTight = 0;
+                int nPromptLoose = 0;
+                int nNonPromptLoose = 0;
+                for ( auto lep : loose_leptons){
+                    if (lep.idlevel()==SS::IDLevel::IDtight && (lep.genPartFlav()==1 || lep.genPartFlav()==15)){nPromptTight++;}
+                    if (lep.idlevel()==SS::IDLevel::IDtight && !(lep.genPartFlav()==1 || lep.genPartFlav()==15)){nNonPromptTight++;}
+                    if (lep.idlevel()==SS::IDLevel::IDfakable && (lep.genPartFlav()==1 || lep.genPartFlav()==15)){nPromptLoose++;}
+                    if (lep.idlevel()==SS::IDLevel::IDfakable && !(lep.genPartFlav()==1 || lep.genPartFlav()==15)){nNonPromptLoose++;}
+                }
+
+                if(best_hyp.size()==2){
+                    if ((nPromptTight==1&&nNonPromptTight==1)||(nNonPromptTight==2)){isVR_SR=1;}
+                    if ((nPromptTight==1&&nNonPromptLoose==1)||(nNonPromptLoose==2)){isVR_CR=1;}
+                }
+                if(best_hyp.size()==3){
+                    if ((nPromptTight==2&&nNonPromptTight==1)||(nPromptTight==1&&nNonPromptTight==2)){isVR_SR=1;}
+                    if ((nPromptTight==2&&nNonPromptLoose==1)||(nPromptTight==1&&nNonPromptLoose==2)){isVR_CR=1;}
+                }
+            }
+
             // get jets and bjets
             std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
             Jets good_jets = good_jets_and_bjets.first;
@@ -368,15 +399,51 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             float ht = 0.;
             for (auto jet : good_jets) ht += jet.pt();
 
+
+            //apply SFs to MC events
             if (!isData){
+                //apply lepton SFs to hypothesis leptons
                 for ( auto lep : best_hyp ) {
                     weight = weight * leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht);
                 }
+
+                //apply PU weight
                 //weight = weight * getTruePUw(nt.year(), nt.Pileup_nPU(), 0);
+
                 //only apply trigger scale factors to dilepton events
                 if (best_hyp.size()==2){
                     weight = weight * triggerScaleFactor(nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0);
                 }
+
+                //applying b-tag SFs
+                //first need to select right path for SF location
+                /*string csv_path;
+                if (nt.year() == 2016) {
+                    csv_path = "./NanoCORE/Tools/btagsf/csv/DeepJet_2016LegacySF_V1.csv";
+                }
+                else if (nt.year() == 2017) {
+                    csv_path = "./NanoCORE/Tools/btagsf/csv/DeepJet_94XSF_V4_B_F.csv";
+                }
+                else if (nt.year() == 2018) {
+                    csv_path = "./NanoCORE/Tools/btagsf/csv/DeepJet_102XSF_V3.csv";
+                }
+                else {
+                    throw std::runtime_error("ControlTree::INIT: Error - invalid year");
+                }
+                // CSV object
+                deepjet_csv = BTagCalibration("csvv1", csv_path);
+                // Tight reader
+                deepjet_medium_reader = BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central");
+                deepjet_medium_reader.load(deepjet_csv, BTagEntry::FLAV_B, "comb");
+
+                //apply SFs to all cleaned bjets in event
+                for ( auto bjet : good_bjets ){
+                    float sf = deepjet_medium_reader.eval(  BTagEntry::FLAV_B,
+                                                            bjet.eta(),
+                                                            bjet.pt(),
+                                                            btag.bdisc());
+                    if (sf>0.) {weight = weight * sf;}
+                }*/
 
             }
 
@@ -466,6 +533,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 }
                 crWeight = weight * fakeWeight;
             }
+
             //now, we move to the flip weight
             if (best_hyp_type==5){
                 float flipWeight = 0;
@@ -479,13 +547,13 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             // if we've reached here we've passed the baseline selection
             // fill histograms
             if (category == 1 && !(isSignal||isData)){
-                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
+                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,weight,crWeight);
             }else if (category == 2 && !(isSignal||isData)){
-                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
+                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,weight,crWeight);
             }else if (category == 3 && !(isSignal||isData)){
-                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
+                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,weight,crWeight);
             }else if (isSignal||isData){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),weight,crWeight);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,weight,crWeight);
             }
             //cout << "**********" << endl;
         }//loop over events

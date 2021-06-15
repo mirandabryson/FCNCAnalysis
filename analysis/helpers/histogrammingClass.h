@@ -15,6 +15,7 @@ class HistContainer {
         std::vector<std::string> getRegionNames();
         std::string getRegionName(int hyp_type, int njets, int  nbjets);
         int getSR(int hyp_type, int njets, int nbjets);
+        int getCRbin(int nleps, int njets, int nbjets);
         int counter_;
     public:
         HistContainer () : counter_(0) {region_names_=getRegionNames();}
@@ -25,7 +26,7 @@ class HistContainer {
         void write();
         void fill1d(std::string quantity, std::string region, std::string sample, float value, float weight=1.);
         void fill2d(std::string quantity, std::string region, std::string sample, float xvalue, float yvalue, float weight=1.);
-        void fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, float weight=1., float crWeight=1.);
+        void fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, bool isVR_SR, bool isVR_CR, float weight=1., float crWeight=1.);
 };
 
 #endif

@@ -4,7 +4,7 @@
 
 using namespace std;
 
-double getEventWeight (string fileName, string sampleName, bool verbose=false){
+double getEventWeight (string fileName, string sampleName, int year, bool verbose=false){
     if (verbose) std::cout << "sampleName: " << fileName << std::endl;
     
     double eventWeight;
@@ -24,7 +24,7 @@ double getEventWeight (string fileName, string sampleName, bool verbose=false){
         sName_short = ((TObjString*)tokens->At(nentries-2) )->GetString();
         if (verbose) std::cout << "sName: " << sName_short << std::endl;
         string fileEnding = "_n_events.txt";
-        fname = short_to_long(sName_short.Data())+'_'+tag+fileEnding;
+        fname = short_to_long(sName_short.Data(), year)+'_'+tag+fileEnding;
         if (verbose) std::cout << "fname: " << fname << std::endl;
     }
     else if (TString(fileName).Contains("nfs")) {
@@ -32,7 +32,7 @@ double getEventWeight (string fileName, string sampleName, bool verbose=false){
         sName_short = ( (TObjString*)sName_short.Tokenize(".")->At(0) )->GetString();
         if (verbose) std::cout << "sName: " << sName_short << std::endl;
         string fileEnding = "_n_events.txt";
-        fname = short_to_long(sName_short.Data())+'_'+tag+fileEnding;
+        fname = short_to_long(sName_short.Data(), year)+'_'+tag+fileEnding;
         if (verbose) std::cout << "fname: " << fname << std::endl;
     }
 
@@ -59,7 +59,7 @@ double getEventWeight (string fileName, string sampleName, bool verbose=false){
     //sampleName.pop_back();
 
     //get xsec
-    double xsecWeight = 1000 * getXSec(short_to_long(sName_short.Data()));
+    double xsecWeight = 1000 * getXSec(sName_short.Data());
     if (verbose) cout << "xsecWeight: " << xsecWeight << std::endl;
     
     //calculate weight

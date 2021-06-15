@@ -886,12 +886,12 @@ float muonQCDMCFakeRateError_IsoTrigs_legacy(float pt, float eta) {
 //TESTING!!!!!
 float fakeRate(int id, float pt, float eta, bool isData) { 
    if (isData){
-      if (abs(id)==11) return electronFakeRate_IsoTrigs(pt,eta);
-      else if (abs(id)==13) return muonFakeRate_IsoTrigs(pt,eta);
+      if (abs(id)==11) return electronFakeRate_IsoTrigs_legacy(pt,eta);
+      else if (abs(id)==13) return muonFakeRate_IsoTrigs_legacy(pt,eta);
       else return 0.;
    }else {
-      if (abs(id)==11) return electronQCDMCFakeRate_IsoTrigs(pt,eta);
-      else if (abs(id)==13) return muonQCDMCFakeRate_IsoTrigs(pt,eta);
+      if (abs(id)==11) return electronQCDMCFakeRate_IsoTrigs_legacy(pt,eta);
+      else if (abs(id)==13) return muonQCDMCFakeRate_IsoTrigs_legacy(pt,eta);
       else return 0.;
    }
 }

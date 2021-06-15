@@ -9,7 +9,11 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 }
 
 std::vector<std::string> HistContainer::getRegionNames() {
-    std::vector<std::string> rnames = {"br","mr","ml","mlsf","ss","os","sf","df","mldf","osest","mlsfest","sfest","mldfest","dfest"};
+    std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
+                                        "osest","mlsfest","sfest","mldfest","dfest",
+                                        "vrcr_mlsf","vrcr_sf","vrcr_mldf","vrcr_df",
+                                        "vrcr_mlsfest","vrcr_sfest","vrcr_mldfest","vrcr_dfest",
+                                        "vrsr_ml","vrsr_ss"};
     return rnames;
 }
 
@@ -19,6 +23,15 @@ int HistContainer::getSR(int hyp_type, int njets, int nbjets) {
     int offset=(std::min(njets,4)-1)+3*std::min(nbjets,2);
     int loffset=0;
     if (hyp_type==2) loffset=9;
+    return loffset+offset;
+}
+
+int HistContainer::getCRbin(int nleps, int njets, int nbjets) {
+    //if ( !(hyp_type==2 || hyp_type==4) ) return -1;
+    int ret=0;
+    int offset=(std::min(njets,4)-1)+3*std::min(nbjets,2);
+    int loffset=0;
+    if (nleps==3) loffset=9;
     return loffset+offset;
 }
 
@@ -96,6 +109,9 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("met",sample,20,0,400);
     //addHist1d("cutflow",sample,4,0.5,4.5);//,"br");
     addHist1d("sr",sample,18,0.5,18.5);//,"br");
+    addHist1d("fakecr",sample,18,0.5,18.5);//,"br");
+    addHist1d("vrsr",sample,18,0.5,18.5);//,"br");
+    addHist1d("vrcr",sample,18,0.5,18.5);//,"br");
     return;
 }
 
@@ -125,9 +141,10 @@ void HistContainer::fill1d(std::string quantity, std::string region, std::string
         if (it1d->first.find(region)==std::string::npos) continue;
         if (region.find("est")==std::string::npos && it1d->first.find("est")!=std::string::npos) continue;
         if (region.find("ml")==std::string::npos && it1d->first.find("ml")!=std::string::npos) continue;
+        if (region.find("vr")==std::string::npos && it1d->first.find("vr")!=std::string::npos) continue;
         it1d->second->Fill(value,weight);
-        //cout << "filled " << it1d->first << endl;
-        /*if (region == "br"){
+        //cout << "filled " << it1d->first << " for event " << nt.event() << endl;
+        /*if (region.find("vrcr")!=std::string::npos){
             std::cout << "Filling hist " << quantity << " with value " << value << " and weight " << weight << std::endl;
         }*/
     }
@@ -149,8 +166,9 @@ float get_sum_pt(Jets  &jets) {
     return ret;
 }
 
-void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, float weight, float crWeight) {
+void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, bool isVR_SR, bool isVR_CR, float weight, float crWeight) {
     float fillWeight = 0;
+    bool fillFakeCR = false;
     // fill 1d histograms first
     std::string rname = getRegionName(best_hyp_type,jets.size(),bjets.size());
     //std::cout << "SR: " << rname << std::endl;
@@ -162,6 +180,9 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     if ( rname=="sf" ) rnames.push_back("sfest");
     if ( rname=="df" ) rnames.push_back("dfest");
     if ( rname=="mldf" ) rnames.push_back("mldfest");
+    if ( rname=="sf"||rname=="df"||rname=="mlsf"||rname=="mldf" ) {fillFakeCR = true;}
+    //if ( rname=="vrcr_sf"||rname=="vrcr_df"||rname=="vrcr_mlsf"||rname=="vrcr_mldf" ) {fillFakeVRCR = true;}
+    //if ( rname=="vrsr_sf"||rname=="vrsr_df"||rname=="vrsr_mlsf"||rname=="vrsr_mldf" ) {fillFakeVRSR = true;}
     //std::cout << "# SRs: " << rnames.size() << std::endl;
     int njets=jets.size();
     int nbjets=bjets.size();
@@ -210,6 +231,13 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             int cutflow_counter=4;
             fill1d("cutflow",name,sample,cutflow_counter,fillWeight);
         }
+        int cr = getCRbin(nleps, njets, nbjets);
+        if( fillFakeCR ){
+            fill1d("fakecr",name,sample,cr,fillWeight);
+            if (isVR_CR){fill1d("vrcr","vrcr_"+name,sample,cr,fillWeight);}
+        }
+        if (isVR_SR){fill1d("vrsr","vrsr_"+name,sample,cr,fillWeight);}
+
     } // end loop over regions
 
     // now fill 2d histograms
