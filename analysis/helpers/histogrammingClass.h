@@ -20,6 +20,7 @@ class HistContainer {
     public:
         HistContainer () : counter_(0) {region_names_=getRegionNames();}
         void addHist1d(std::string quantity, std::string sample, int nbins, float min, float max, std::string region="");
+        void addHist1d(std::string quantity, std::string sample, int nbins, float bins[], std::string region="");
         void addHist2d(std::string quantity, std::string sample, int nbinsx, float xmin, float xmax, int nbinsy, float ymin, float ymax, std::string region="");
         void loadHists(std::string sample);
         void sumw2();

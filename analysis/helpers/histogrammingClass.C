@@ -63,6 +63,34 @@ void HistContainer::addHist1d(std::string quantity, std::string sample, int nbin
     return;
 }
 
+void HistContainer::addHist1d(std::string quantity, std::string sample, int nbins, float bins[], std::string region) {
+    if (region=="") {
+        for (auto name : region_names_) {
+            std::string htitle = name+"_"+quantity+"_"+sample;
+            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
+            TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,bins);
+            hists1d_[htitle] = hist;
+        }
+    }
+    else {
+        TString tregion(region);
+        TObjArray* objarray = tregion.Tokenize(" ");
+        std::vector<std::string> regions;
+        for (auto obj : *objarray) {
+            regions.push_back( ((TString*)obj)->Data() );
+        }
+        for (auto name : regions) {
+            cout << name << endl;
+            std::string htitle = name+"_"+quantity+"_"+sample;
+            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
+            TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,bins);
+            hists1d_[htitle] = hist;
+            cout << htitle << "  " << hname << endl;
+        }
+    }
+    return;
+}
+
 void HistContainer::addHist2d(std::string quantity, std::string sample, int nbinsx, float xmin, float xmax, int nbinsy, float ymin, float ymax, std::string region) {
     if (region=="") {
         for (auto name : region_names_) {
@@ -112,6 +140,12 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("fakecr",sample,18,0.5,18.5);//,"br");
     addHist1d("vrsr",sample,18,0.5,18.5);//,"br");
     addHist1d("vrcr",sample,18,0.5,18.5);//,"br");
+    addHist1d("bEff_b_num",sample,10,{20,30,50,70,100,140,200,300,600,1000});
+    addHist1d("bEff_c_num",sample,10,{20,30,50,70,100,140,200,300,600,1000});
+    addHist1d("bEff_l_num",sample,10,{20,30,50,70,100,140,200,300,600,1000});
+    addHist1d("bEff_b_den",sample,10,{20,30,50,70,100,140,200,300,600,1000});
+    addHist1d("bEff_c_den",sample,10,{20,30,50,70,100,140,200,300,600,1000});
+    addHist1d("bEff_l_den",sample,10,{20,30,50,70,100,140,200,300,600,1000});
     return;
 }
 
@@ -223,6 +257,16 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
                 float mass = (leps[idx1].p4()+leps[idx2].p4()).M();
                 fill1d("mll",name,sample,mass,fillWeight);
             }
+        }
+        for (auto bjet: bjets) {
+            if (bjet.hadronFlavor()==5){fill1d("bEff_b_num",name,sample,bjet.pt(),fillWeight);}
+            else if (bjet.hadronFlavor()==4){fill1d("bEff_c_num",name,sample,bjet.pt(),fillWeight);}
+            else if (bjet.hadronFlavor()==0){fill1d("bEff_l_num",name,sample,bjet.pt(),fillWeight);}
+        }
+        for (auto jet: jets) {
+            if (jet.hadronFlavor()==5){fill1d("bEff_b_den",name,sample,jet.pt(),fillWeight);}
+            else if (jet.hadronFlavor()==4){fill1d("bEff_c_den",name,sample,jet.pt(),fillWeight);}
+            else if (jet.hadronFlavor()==0){fill1d("bEff_l_den",name,sample,jet.pt(),fillWeight);}
         }
         if (name == "br") {
             int sr = getSR(best_hyp_type,njets,nbjets);
