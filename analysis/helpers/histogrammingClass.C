@@ -317,7 +317,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         }
         //fill flip estimation plots
         if( name=="os"||name=="osest" ){
-            if(name=="os"){fill1d("flipcr",name,sample,cr,fillWeight);}
+            fill1d("flipcr",name,sample,cr,fillWeight);
             //if (isVR_CR_flip){fill1d("vrcr","vrcr_"+name,sample,cr,fillWeight);}
             if (isVR_CR_flip && fillWeight==weight){fill1d("vrcr_flip","vrcr_flip",sample,cr,fillWeight);}
             if (isVR_CR_flip && fillWeight==crWeight){fill1d("vrcrest_flip","vrcrest_flip",sample,cr,fillWeight);}

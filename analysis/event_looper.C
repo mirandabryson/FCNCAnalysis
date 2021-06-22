@@ -422,7 +422,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                             else if (nNonPromptLoose[0]==13 && nNonPromptLoose[1]==13){isMM=1;}
                         }
                     }
-                    //Fixme
                     //flip categorization
                     if(nTightNotFlip.size()==2 && nTightNotFlip[0]!=nTightNotFlip[1]){isVR_CR_flip=1;}
                     if(nTightNotFlip.size()==1 && nTightFlip==1 && nTightNotFlip[0]==nTightFlip[0]){isVR_SR_flip=1;}
@@ -452,10 +451,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                             else if (nNonPromptLoose[0]==13 && nNonPromptLoose[1]==13){isMM=1;}
                         }
                     }
-                    //Fixme
-                    //flip categorization
-                    //if(nTightNotFlip.size()==2 && nTightNotFlip[0]!=nTightNotFlip[1]){isVR_CR_flip=1;}
-                    //if(nTightNotFlip.size()==1 && nTightFlip==1 && nTightNotFlip[0]==nTightFlip[0]){isVR_SR_flip=1;}
                 }
             }
 
