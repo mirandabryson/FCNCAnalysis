@@ -363,14 +363,17 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             if (is_fake) category=1;
 
             //for fake validation: gen matching for best_hyp leptons
-            bool isVR_CR = 0;
-            bool isVR_SR = 0;
+            bool isVR_CR_fake = 0;
+            bool isVR_SR_fake = 0;
             bool isEE = 0;
             bool isMM = 0;
             bool isEM = 0;
             bool isME = 0;
             bool isEFake = 0;
             bool isMFake = 0;
+            //for flip validation: gen matching for best_hyp leptons
+            bool isVR_CR_flip = 0;
+            bool isVR_SR_flip = 0;
             if (!isData){
                 vector<int> nPromptTight;
                 vector<int> nNonPromptTight;
@@ -382,10 +385,17 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                     if (lep.idlevel()==SS::IDLevel::IDfakable && (lep.genPartFlav()==1 || lep.genPartFlav()==15)){nPromptLoose.push_back(lep.absid());}
                     if (lep.idlevel()==SS::IDLevel::IDfakable && !(lep.genPartFlav()==1 || lep.genPartFlav()==15)){nNonPromptLoose.push_back(lep.absid());}
                 }
+                vector<int> nTightNotFlip;
+                vector<int> nTightFlip;
+                for ( auto lep : tight_leptons ){
+                    if (lep.idlevel()==SS::IDLevel::IDtight && !lep.isFlip()){nTightNotFlip.push_back(nt.charge())}
+                    if (lep.idlevel()==SS::IDLevel::IDtight && lep.isFlip()){nTightFlip.push_back(nt.charge())}
+                }
 
                 if(best_hyp.size()==2){
+                    //fake categorization
                     if ((nPromptTight.size()==1&&nNonPromptTight.size()==1)||(nNonPromptTight.size()==2)){
-                        isVR_SR=1;
+                        isVR_SR_fake=1;
                         if (nPromptTight.size()==1){
                             if (nPromptTight[0]==11 && nNonPromptTight[0]==11){isEE=1;}
                             else if (nPromptTight[0]==11 && nNonPromptTight[0]==13){isEM=1;}
@@ -399,7 +409,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                         }
                     }
                     if ((nPromptTight.size()==1&&nNonPromptLoose.size()==1)||(nNonPromptLoose.size()==2)){
-                        isVR_CR=1;
+                        isVR_CR_fake=1;
                         if (nPromptTight.size()==1){
                             if (nPromptTight[0]==11 && nNonPromptLoose[0]==11){isEE=1;}
                             else if (nPromptTight[0]==11 && nNonPromptLoose[0]==13){isEM=1;}
@@ -412,10 +422,14 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                             else if (nNonPromptLoose[0]==13 && nNonPromptLoose[1]==13){isMM=1;}
                         }
                     }
+                    //Fixme
+                    //flip categorization
+                    if(nTightNotFlip.size()==2 && nTightNotFlip[0]!=nTightNotFlip[1]){isVR_CR_flip=1;}
+                    if(nTightNotFlip.size()==1 && nTightFlip==1 && nTightNotFlip[0]==nTightFlip[0]){isVR_SR_flip=1;}
                 }
                 if(best_hyp.size()==3){
                     if ((nPromptTight.size()==2&&nNonPromptTight.size()==1)||(nPromptTight.size()==1&&nNonPromptTight.size()==2)){
-                        isVR_SR=1;
+                        isVR_SR_fake=1;
                         if (nNonPromptTight.size()==1){
                             if (nNonPromptTight[0]==11){isEFake=1;}
                             else if (nNonPromptTight[0]==13){isMFake=1;}
@@ -427,7 +441,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                         }
                     }
                     if ((nPromptTight.size()==2&&nNonPromptLoose.size()==1)||(nPromptTight.size()==1&&nNonPromptLoose.size()==2)){
-                        isVR_CR=1;
+                        isVR_CR_fake=1;
                         if (nNonPromptLoose.size()==1){
                             if (nNonPromptLoose[0]==11){isEFake=1;}
                             else if (nNonPromptLoose[0]==13){isMFake=1;}
@@ -438,6 +452,10 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                             else if (nNonPromptLoose[0]==13 && nNonPromptLoose[1]==13){isMM=1;}
                         }
                     }
+                    //Fixme
+                    //flip categorization
+                    //if(nTightNotFlip.size()==2 && nTightNotFlip[0]!=nTightNotFlip[1]){isVR_CR_flip=1;}
+                    //if(nTightNotFlip.size()==1 && nTightFlip==1 && nTightNotFlip[0]==nTightFlip[0]){isVR_SR_flip=1;}
                 }
             }
 
@@ -461,7 +479,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 }
 
                 //apply PU weight
-                //weight = weight * getTruePUw(nt.year(), nt.Pileup_nPU(), 0);
                 weight = weight * nt.puWeight();
 
                 //only apply trigger scale factors to dilepton events
@@ -471,35 +488,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
                 //applying b-tag SFs
                 weight = weight * getBSF(nt.year(),good_jets,good_bjets);
-                //first need to select right path for SF location
-                // string csv_path;
-                // if (nt.year() == 2016) {
-                //     csv_path = "../../NanoTools/NanoCORE/Tools/btagsf/csv/DeepJet_2016LegacySF_V1.csv";
-                // }
-                // else if (nt.year() == 2017) {
-                //     csv_path = "../../NanoTools/NanoCORE/Tools/btagsf/csv/DeepJet_94XSF_V4_B_F.csv";
-                // }
-                // else if (nt.year() == 2018) {
-                //     csv_path = "../../NanoTools/NanoCORE/Tools/btagsf/csv/DeepJet_102XSF_V3.csv";
-                // }
-                // else {
-                //     throw std::runtime_error("ControlTree::INIT: Error - invalid year");
-                // }
-                // // CSV object
-                // BTagCalibration deepjet_csv = BTagCalibration("csvv1", csv_path);
-                // // Medium reader
-                // BTagCalibrationReader deepjet_medium_reader = BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central");
-                // deepjet_medium_reader.load(deepjet_csv, BTagEntry::FLAV_B, "comb");
-
-                // //apply SFs to all cleaned bjets in event
-                // for ( auto bjet : good_bjets ){
-                //     float sf = deepjet_medium_reader.eval(  BTagEntry::FLAV_B,
-                //                                             bjet.eta(),
-                //                                             bjet.pt(),
-                //                                             bjet.bdisc());
-                //     if (sf>0.) {weight = weight * sf;}
-                // }
-
             }
 
 
@@ -600,16 +588,16 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             // if we've reached here we've passed the baseline selection
             // fill histograms
             if (chainTitle == "ttjets"){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }
             if (category == 1 && !(isSignal||isData)){
-                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
+                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }else if (category == 2 && !(isSignal||isData)){
-                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
+                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }else if (category == 3 && !(isSignal||isData)){
-                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
+                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }else if (isSignal||isData){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }
             //cout << "**********" << endl;
         }//loop over events
