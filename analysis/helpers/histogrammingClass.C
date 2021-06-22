@@ -11,9 +11,10 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 std::vector<std::string> HistContainer::getRegionNames() {
     std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
                                         "osest","mlsfest","sfest","mldfest","dfest",
-                                        "vrcr_mlsf","vrcr_sf","vrcr_mldf","vrcr_df",
-                                        "vrcr_mlsfest","vrcr_sfest","vrcr_mldfest","vrcr_dfest",
-                                        "vrsr_ml","vrsr_ss"};
+                                        //"vrcr_mlsf","vrcr_sf","vrcr_mldf","vrcr_df",
+                                        //"vrcr_mlsfest","vrcr_sfest","vrcr_mldfest","vrcr_dfest",
+                                        //"vrsr_ml","vrsr_ss",
+                                        "vrcr","vrcrest","vrsr"};
     return rnames;
 }
 
@@ -52,40 +53,12 @@ void HistContainer::addHist1d(std::string quantity, std::string sample, int nbin
             regions.push_back( ((TString*)obj)->Data() );
         }
         for (auto name : regions) {
-            cout << name << endl;
+            //cout << name << endl;
             std::string htitle = name+"_"+quantity+"_"+sample;
             std::string hname = "h_"+name+"_"+quantity+"_"+sample;
             TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
             hists1d_[htitle] = hist;
-            cout << htitle << "  " << hname << endl;
-        }
-    }
-    return;
-}
-
-void HistContainer::addHist1d(std::string quantity, std::string sample, int nbins, float bins[], std::string region) {
-    if (region=="") {
-        for (auto name : region_names_) {
-            std::string htitle = name+"_"+quantity+"_"+sample;
-            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
-            TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,bins);
-            hists1d_[htitle] = hist;
-        }
-    }
-    else {
-        TString tregion(region);
-        TObjArray* objarray = tregion.Tokenize(" ");
-        std::vector<std::string> regions;
-        for (auto obj : *objarray) {
-            regions.push_back( ((TString*)obj)->Data() );
-        }
-        for (auto name : regions) {
-            cout << name << endl;
-            std::string htitle = name+"_"+quantity+"_"+sample;
-            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
-            TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,bins);
-            hists1d_[htitle] = hist;
-            cout << htitle << "  " << hname << endl;
+            //cout << htitle << "  " << hname << endl;
         }
     }
     return;
@@ -138,14 +111,29 @@ void HistContainer::loadHists(std::string sample) {
     //addHist1d("cutflow",sample,4,0.5,4.5);//,"br");
     addHist1d("sr",sample,18,0.5,18.5);//,"br");
     addHist1d("fakecr",sample,18,0.5,18.5);//,"br");
-    addHist1d("vrsr",sample,18,0.5,18.5);//,"br");
-    addHist1d("vrcr",sample,18,0.5,18.5);//,"br");
-    addHist1d("bEff_b_num",sample,10,{20,30,50,70,100,140,200,300,600,1000});
-    addHist1d("bEff_c_num",sample,10,{20,30,50,70,100,140,200,300,600,1000});
-    addHist1d("bEff_l_num",sample,10,{20,30,50,70,100,140,200,300,600,1000});
-    addHist1d("bEff_b_den",sample,10,{20,30,50,70,100,140,200,300,600,1000});
-    addHist1d("bEff_c_den",sample,10,{20,30,50,70,100,140,200,300,600,1000});
-    addHist1d("bEff_l_den",sample,10,{20,30,50,70,100,140,200,300,600,1000});
+    //addHist1d("vrsr",sample,18,0.5,18.5);//,"br");
+    //addHist1d("vrcr",sample,18,0.5,18.5);//,"br");
+    addHist1d("vrsr",sample,18,0.5,18.5,"vrsr");
+    addHist1d("vrcr",sample,18,0.5,18.5,"vrcr");
+    addHist1d("vrcrest",sample,18,0.5,18.5,"vrcrest");
+    addHist1d("vrsr_ee",sample,18,0.5,18.5,"vrsr");
+    addHist1d("vrcr_ee",sample,18,0.5,18.5,"vrcr");
+    addHist1d("vrcrest_ee",sample,18,0.5,18.5,"vrcrest");
+    addHist1d("vrsr_mm",sample,18,0.5,18.5,"vrsr");
+    addHist1d("vrcr_mm",sample,18,0.5,18.5,"vrcr");
+    addHist1d("vrcrest_mm",sample,18,0.5,18.5,"vrcrest");
+    addHist1d("vrsr_em",sample,18,0.5,18.5,"vrsr");
+    addHist1d("vrcr_em",sample,18,0.5,18.5,"vrcr");
+    addHist1d("vrcrest_em",sample,18,0.5,18.5,"vrcrest");
+    addHist1d("vrsr_me",sample,18,0.5,18.5,"vrsr");
+    addHist1d("vrcr_me",sample,18,0.5,18.5,"vrcr");
+    addHist1d("vrcrest_me",sample,18,0.5,18.5,"vrcrest");
+    addHist1d("bEff_b_num",sample,100,0,1000);
+    addHist1d("bEff_c_num",sample,100,0,1000);
+    addHist1d("bEff_l_num",sample,100,0,1000);
+    addHist1d("bEff_b_den",sample,100,0,1000);
+    addHist1d("bEff_c_den",sample,100,0,1000);
+    addHist1d("bEff_l_den",sample,100,0,1000);
     return;
 }
 
@@ -200,7 +188,7 @@ float get_sum_pt(Jets  &jets) {
     return ret;
 }
 
-void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, bool isVR_SR, bool isVR_CR, float weight, float crWeight) {
+void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, bool isVR_SR, bool isVR_CR, bool isEE, bool isEM, bool isME, bool isMM, bool isEFake, bool isMFake, float weight, float crWeight) {
     float fillWeight = 0;
     bool fillFakeCR = false;
     // fill 1d histograms first
@@ -259,9 +247,18 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             }
         }
         for (auto bjet: bjets) {
-            if (bjet.hadronFlavor()==5){fill1d("bEff_b_num",name,sample,bjet.pt(),fillWeight);}
-            else if (bjet.hadronFlavor()==4){fill1d("bEff_c_num",name,sample,bjet.pt(),fillWeight);}
-            else if (bjet.hadronFlavor()==0){fill1d("bEff_l_num",name,sample,bjet.pt(),fillWeight);}
+            if (bjet.hadronFlavor()==5){
+                fill1d("bEff_b_num",name,sample,bjet.pt(),fillWeight);
+                if (bjet.pt()<40){fill1d("bEff_b_den",name,sample,bjet.pt(),fillWeight);}
+            }
+            else if (bjet.hadronFlavor()==4){
+                fill1d("bEff_c_num",name,sample,bjet.pt(),fillWeight);
+                if (bjet.pt()<40){fill1d("bEff_c_den",name,sample,bjet.pt(),fillWeight);}
+            }
+            else if (bjet.hadronFlavor()==0){
+                fill1d("bEff_l_num",name,sample,bjet.pt(),fillWeight);
+                if (bjet.pt()<40){fill1d("bEff_l_den",name,sample,bjet.pt(),fillWeight);}
+            }
         }
         for (auto jet: jets) {
             if (jet.hadronFlavor()==5){fill1d("bEff_b_den",name,sample,jet.pt(),fillWeight);}
@@ -279,8 +276,50 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         if( fillFakeCR ){
             fill1d("fakecr",name,sample,cr,fillWeight);
             if (isVR_CR){fill1d("vrcr","vrcr_"+name,sample,cr,fillWeight);}
+            if (isVR_CR && fillWeight==weight){fill1d("vrcr","vrcr",sample,cr,fillWeight);}
+            if (isVR_CR && fillWeight==crWeight){
+                if (name=="dfest"||name=="mldfest"){
+                    fillWeight = -1*fillWeight;
+                    fill1d("vrcrest","vrcrest",sample,cr,fillWeight);
+                }else{fill1d("vrcrest","vrcrest",sample,cr,fillWeight);}
+            }
+            if ((isEE||isEFake) && isVR_CR && fillWeight==weight){fill1d("vrcr_ee","vrcr",sample,cr,fillWeight);}
+            if ((isEE||isEFake) && isVR_CR && fillWeight==crWeight){
+                if (name=="dfest"||name=="mldfest"){
+                    fillWeight = -1*fillWeight;
+                    fill1d("vrcrest_ee","vrcrest",sample,cr,fillWeight);
+                }else{fill1d("vrcrest_ee","vrcrest",sample,cr,fillWeight);}
+            }
+            if ((isEM||isMFake) && isVR_CR && fillWeight==weight){fill1d("vrcr_em","vrcr",sample,cr,fillWeight);}
+            if ((isEM||isMFake) && isVR_CR && fillWeight==crWeight){
+                if (name=="dfest"||name=="mldfest"){
+                    fillWeight = -1*fillWeight;
+                    fill1d("vrcrest_em","vrcrest",sample,cr,fillWeight);
+                }else{fill1d("vrcrest_em","vrcrest",sample,cr,fillWeight);}
+            }
+            if ((isME||isEFake) && isVR_CR && fillWeight==weight){fill1d("vrcr_me","vrcr",sample,cr,fillWeight);}
+            if ((isME||isEFake) && isVR_CR && fillWeight==crWeight){
+                if (name=="dfest"||name=="mldfest"){
+                    fillWeight = -1*fillWeight;
+                    fill1d("vrcrest_me","vrcrest",sample,cr,fillWeight);
+                }else{fill1d("vrcrest_me","vrcrest",sample,cr,fillWeight);}
+            }
+            if ((isMM||isMFake) && isVR_CR && fillWeight==weight){fill1d("vrcr_mm","vrcr",sample,cr,fillWeight);}
+            if ((isMM||isMFake) && isVR_CR && fillWeight==crWeight){
+                if (name=="dfest"||name=="mldfest"){
+                    fillWeight = -1*fillWeight;
+                    fill1d("vrcrest_mm","vrcrest",sample,cr,fillWeight);
+                }else{fill1d("vrcrest_mm","vrcrest",sample,cr,fillWeight);}
+            }
         }
-        if (isVR_SR){fill1d("vrsr","vrsr_"+name,sample,cr,fillWeight);}
+        if (isVR_SR){fill1d("vrsr","vrsr_"+name,sample,cr,fillWeight);} 
+        if(name == "ss" || name == "ml"){
+            if (isVR_SR){fill1d("vrsr","vrsr",sample,cr,fillWeight);}
+            if (isVR_SR && (isEE||(nleps==3&&isEFake))){fill1d("vrsr_ee","vrsr",sample,cr,fillWeight);}
+            if (isVR_SR && (isEM||(nleps==3&&isMFake))){fill1d("vrsr_em","vrsr",sample,cr,fillWeight);}
+            if (isVR_SR && (isME||(nleps==3&&isEFake))){fill1d("vrsr_me","vrsr",sample,cr,fillWeight);}
+            if (isVR_SR && (isMM||(nleps==3&&isMFake))){fill1d("vrsr_mm","vrsr",sample,cr,fillWeight);}
+        }
 
     } // end loop over regions
 

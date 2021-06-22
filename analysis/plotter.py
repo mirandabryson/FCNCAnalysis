@@ -13,27 +13,36 @@ f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyP
 #path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun10_remergedBabies/'
 path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun14_allMC_estimate/'
 
-regions =   [#"sf",
-             #"df",
-             #"mlsf",
-             #"mldf",
+regions =   ["sf",
+             "df",
+             "mlsf",
+             "mldf",
              "ss",
              "ml",
+             "vrsr_ss",
+             "vrsr_ml",
+             "vrcr_sf",
+             "vrcr_df",
+             "vrcr_mlsf",
+             "vrcr_mldf"
             ]
-variables = [   ["njets", 1],
-                ["nbjets", 1],
-                ["nleps", 1],
-                ["neles", 1],
-                ["nmus", 1],
-                ["ljpt", 5],
-                ["tjpt", 5],
-                ["llpt", 5],
-                ["ltpt", 5],
+variables = [   ["njets", 1, r'$N_{jets}$'],
+                ["nbjets", 1, r'$N_{b-jets}$'],
+                ["nleps", 1, r'$N_{leptons}$'],
+                ["neles", 1, r'$N_{electrons}$'],
+                ["nmus", 1, r'$N_{muons}$'],
+                ["ljpt", 5, r'$p_T\ (lead.\ jet)\ (GeV)$'],
+                ["tjpt", 5, r'$p_T\ (sublead.\ jet)\ (GeV)$'],
+                ["llpt", 5, r'$p_T\ (lead.\ lep.)\ (GeV)$'],
+                ["ltpt", 5, r'$p_T\ (sublead.\ lep.)\ (GeV)$'],
                 #["lleta", 4],
                 #["lteta", 4],
-                ["llminiiso", 1],
-                ["ltminiiso", 1],
-                ['met', 1]
+                ["llminiiso", 1, r'$miniIso\ (lead.\ lep.)\ (GeV)$'],
+                ["ltminiiso", 1, r'$miniIso\ (sublead.\ lep.)\ (GeV)$'],
+                ['met', 1, r'$MET\ (GeV)$'],
+                #['vrsr', 1, r'$VRSR$'],
+                #['vrcr', 1, r'$VRCR$']
+                #['vrcr', 1, r'$VRCR$']
             ]
 years = ["2016","2017","2018"]
 #years = ["2018"]
@@ -82,6 +91,7 @@ for y in years:
         for var in variables:
             v = var[0]
             rebinVal = var[1]
+            vname = var[2]
             histName = 'h_'+r+'_'+v+'_'+y
             print (histName)
             if blind and (r == 'ss' or r == 'ml'):
@@ -121,6 +131,9 @@ for y in years:
             total_mc = get_total(my_histos, keys)
 
             if not (blind and (r == 'ss' or r == 'ml')): ratio = my_histos['data'].divide(total_mc, )
+            else:
+                ratio_tch = my_histos['tch'].divide(total_mc, )
+                ratio_tuh = my_histos['tuh'].divide(total_mc, )
 
 
             #f, ax = plt.subplots()
@@ -153,7 +166,7 @@ for y in years:
                 hep.histplot(
                     my_histos['data'].counts,
                     my_histos['data'].edges,
-                    w2=my_histos['data'].errors,
+                    yerr=my_histos['data'].errors,
                     histtype="errorbar",
                     stack=False,
                     label='%s (%.0f)'%('Observation', sum(my_histos['data'].counts)),
@@ -174,15 +187,25 @@ for y in years:
                 hep.histplot(
                     ratio.counts,
                     ratio.edges,
-                    w2=ratio.errors,
+                    yerr=my_histos['data'].errors/total_mc
                     histtype="errorbar",
                     color='black',
                     ax=rax)
+            else:
+                hep.histplot(
+                    [ratio_tch.counts/100, ratio_tuh.counts/100],
+                    ratio_tch.edges,
+                    w2=[ratio_tch.errors/100, ratio_tuh.errors/100],
+                    histtype="errorbar",
+                    color=['#525B76','#6A4C93'],
+                    ax=rax)
+
 
             rax.set_ylim(0,1.99)
             #rax.set_xlabel(r'$p_T\ (lead.\ lep.)\ (GeV)$')
-            rax.set_xlabel(v)
-            rax.set_ylabel(r'Data/Sim.')
+            rax.set_xlabel(vname)
+            if not (blind and (r == 'ss' or r == 'ml')): rax.set_ylabel(r'Data/Sim.')
+            else: rax.set_ylabel(r'Sig./Back.')
             ax.set_ylabel(r'Events')
             ax.set_yscale('log')
             ax.set_ylim(0.1,1e5)

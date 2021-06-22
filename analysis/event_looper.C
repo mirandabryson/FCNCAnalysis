@@ -53,8 +53,8 @@ void print_debug (ofstream& outfile, int hyp_type, Leptons leptons, Jets jets, J
     for (auto lepton : leptons) {if (lepton.is_loose()) nloose++; if (lepton.is_tight()) ntight++;}
     outfile << nloose << ","  << ntight << "," << hyp_type << "," << jets.size() << "," << bjets.size() << std::endl;
     //for (auto lepton: leptons) {outfile << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << ", " << lepton.genPartFlav() << ", " << lepton.isFake() << ", " << lepton.isFlip() << ", " << lepton.mcid() << ", " << lepton.id() << std::endl;}
-    //for (auto jet : jets) {outfile << "\tJ " << jet.pt() << ", " << jet.eta() << "," << jet.isBtag() << std::endl;}
-    //for (auto bjet : bjets) {if (bjet.pt()>40.) continue; outfile << "\tJ " << bjet.pt() << ", " << bjet.eta() << "," << bjet.isBtag() << std::endl;}
+    for (auto jet : jets) {outfile << "\tJ " << jet.pt() << ", " << jet.eta() << "," << jet.isBtag() << std::endl;}
+    for (auto bjet : bjets) {if (bjet.pt()>40.) continue; outfile << "\tJ " << bjet.pt() << ", " << bjet.eta() << "," << bjet.isBtag() << std::endl;}
 }
 
 void event_looper(TChain *chain, TString options="", int nevts=-1, TString outputdir="outputs/"){
@@ -232,7 +232,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
     auto outFileName = outputdir+"/"+chainTitle+"_"+TString(std::to_string(year).c_str())+"_hists.root";
     std::cout << "Will write histograms to " << outFileName.Data() << std::endl;
-    auto outFile = new TFile(outFileName.Data(), "recreate");//for testing only!!
 
     HistContainer hists;
     hists.loadHists(chainTitleCh);
@@ -316,7 +315,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, OS, TL, LL
             std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,!quiet);
             int best_hyp_type = best_hyp_info.first;
-            /*
+            
             if (best_hyp_type < 0 && print_debug_file) {
                 debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",";
                 debug_file << " ," << loose_leptons.size() << "," << tight_leptons.size();
@@ -325,7 +324,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 debug_file << std::endl;
                 continue;
             }
-            */
+            
             if (best_hyp_type < 0) continue;
             if(!quiet) {std::cout << "best_hyp_type: " << best_hyp_type << std::endl;}
             Leptons best_hyp = best_hyp_info.second;
@@ -366,25 +365,79 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             //for fake validation: gen matching for best_hyp leptons
             bool isVR_CR = 0;
             bool isVR_SR = 0;
+            bool isEE = 0;
+            bool isMM = 0;
+            bool isEM = 0;
+            bool isME = 0;
+            bool isEFake = 0;
+            bool isMFake = 0;
             if (!isData){
-                int nPromptTight = 0;
-                int nNonPromptTight = 0;
-                int nPromptLoose = 0;
-                int nNonPromptLoose = 0;
+                vector<int> nPromptTight;
+                vector<int> nNonPromptTight;
+                vector<int> nPromptLoose;
+                vector<int> nNonPromptLoose;
                 for ( auto lep : loose_leptons){
-                    if (lep.idlevel()==SS::IDLevel::IDtight && (lep.genPartFlav()==1 || lep.genPartFlav()==15)){nPromptTight++;}
-                    if (lep.idlevel()==SS::IDLevel::IDtight && !(lep.genPartFlav()==1 || lep.genPartFlav()==15)){nNonPromptTight++;}
-                    if (lep.idlevel()==SS::IDLevel::IDfakable && (lep.genPartFlav()==1 || lep.genPartFlav()==15)){nPromptLoose++;}
-                    if (lep.idlevel()==SS::IDLevel::IDfakable && !(lep.genPartFlav()==1 || lep.genPartFlav()==15)){nNonPromptLoose++;}
+                    if (lep.idlevel()==SS::IDLevel::IDtight && (lep.genPartFlav()==1 || lep.genPartFlav()==15)){nPromptTight.push_back(lep.absid());}
+                    if (lep.idlevel()==SS::IDLevel::IDtight && !(lep.genPartFlav()==1 || lep.genPartFlav()==15)){nNonPromptTight.push_back(lep.absid());}
+                    if (lep.idlevel()==SS::IDLevel::IDfakable && (lep.genPartFlav()==1 || lep.genPartFlav()==15)){nPromptLoose.push_back(lep.absid());}
+                    if (lep.idlevel()==SS::IDLevel::IDfakable && !(lep.genPartFlav()==1 || lep.genPartFlav()==15)){nNonPromptLoose.push_back(lep.absid());}
                 }
 
                 if(best_hyp.size()==2){
-                    if ((nPromptTight==1&&nNonPromptTight==1)||(nNonPromptTight==2)){isVR_SR=1;}
-                    if ((nPromptTight==1&&nNonPromptLoose==1)||(nNonPromptLoose==2)){isVR_CR=1;}
+                    if ((nPromptTight.size()==1&&nNonPromptTight.size()==1)||(nNonPromptTight.size()==2)){
+                        isVR_SR=1;
+                        if (nPromptTight.size()==1){
+                            if (nPromptTight[0]==11 && nNonPromptTight[0]==11){isEE=1;}
+                            else if (nPromptTight[0]==11 && nNonPromptTight[0]==13){isEM=1;}
+                            else if (nPromptTight[0]==13 && nNonPromptTight[0]==11){isME=1;}
+                            else if (nPromptTight[0]==13 && nNonPromptTight[0]==13){isMM=1;}
+                        }else{
+                            if (nNonPromptTight[0]==11 && nNonPromptTight[1]==11){isEE=1;}
+                            else if (nNonPromptTight[0]==11 && nNonPromptTight[1]==13){isEM=1;}
+                            else if (nNonPromptTight[0]==13 && nNonPromptTight[1]==11){isME=1;}
+                            else if (nNonPromptTight[0]==13 && nNonPromptTight[1]==13){isMM=1;}
+                        }
+                    }
+                    if ((nPromptTight.size()==1&&nNonPromptLoose.size()==1)||(nNonPromptLoose.size()==2)){
+                        isVR_CR=1;
+                        if (nPromptTight.size()==1){
+                            if (nPromptTight[0]==11 && nNonPromptLoose[0]==11){isEE=1;}
+                            else if (nPromptTight[0]==11 && nNonPromptLoose[0]==13){isEM=1;}
+                            else if (nPromptTight[0]==13 && nNonPromptLoose[0]==11){isME=1;}
+                            else if (nPromptTight[0]==13 && nNonPromptLoose[0]==13){isMM=1;}
+                        }else{
+                            if (nNonPromptLoose[0]==11 && nNonPromptLoose[1]==11){isEE=1;}
+                            else if (nNonPromptLoose[0]==11 && nNonPromptLoose[1]==13){isEM=1;}
+                            else if (nNonPromptLoose[0]==13 && nNonPromptLoose[1]==11){isME=1;}
+                            else if (nNonPromptLoose[0]==13 && nNonPromptLoose[1]==13){isMM=1;}
+                        }
+                    }
                 }
                 if(best_hyp.size()==3){
-                    if ((nPromptTight==2&&nNonPromptTight==1)||(nPromptTight==1&&nNonPromptTight==2)){isVR_SR=1;}
-                    if ((nPromptTight==2&&nNonPromptLoose==1)||(nPromptTight==1&&nNonPromptLoose==2)){isVR_CR=1;}
+                    if ((nPromptTight.size()==2&&nNonPromptTight.size()==1)||(nPromptTight.size()==1&&nNonPromptTight.size()==2)){
+                        isVR_SR=1;
+                        if (nNonPromptTight.size()==1){
+                            if (nNonPromptTight[0]==11){isEFake=1;}
+                            else if (nNonPromptTight[0]==13){isMFake=1;}
+                        }else{
+                            if (nNonPromptTight[0]==11 && nNonPromptTight[1]==11){isEE=1;}
+                            else if (nNonPromptTight[0]==11 && nNonPromptTight[1]==13){isEM=1;}
+                            else if (nNonPromptTight[0]==13 && nNonPromptTight[1]==11){isME=1;}
+                            else if (nNonPromptTight[0]==13 && nNonPromptTight[1]==13){isMM=1;}
+                        }
+                    }
+                    if ((nPromptTight.size()==2&&nNonPromptLoose.size()==1)||(nPromptTight.size()==1&&nNonPromptLoose.size()==2)){
+                        isVR_CR=1;
+                        if (nNonPromptLoose.size()==1){
+                            if (nNonPromptLoose[0]==11){isEFake=1;}
+                            else if (nNonPromptLoose[0]==13){isMFake=1;}
+                        }else{
+                            if (nNonPromptLoose[0]==11 && nNonPromptLoose[1]==11){isEE=1;}
+                            else if (nNonPromptLoose[0]==11 && nNonPromptLoose[1]==13){isEM=1;}
+                            else if (nNonPromptLoose[0]==13 && nNonPromptLoose[1]==11){isME=1;}
+                            else if (nNonPromptLoose[0]==13 && nNonPromptLoose[1]==13){isMM=1;}
+                        }
+                    }
                 }
             }
 
@@ -409,6 +462,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
                 //apply PU weight
                 //weight = weight * getTruePUw(nt.year(), nt.Pileup_nPU(), 0);
+                weight = weight * nt.puWeight();
 
                 //only apply trigger scale factors to dilepton events
                 if (best_hyp.size()==2){
@@ -416,34 +470,35 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 }
 
                 //applying b-tag SFs
+                weight = weight * getBSF(nt.year(),good_jets,good_bjets);
                 //first need to select right path for SF location
-                /*string csv_path;
-                if (nt.year() == 2016) {
-                    csv_path = "./NanoCORE/Tools/btagsf/csv/DeepJet_2016LegacySF_V1.csv";
-                }
-                else if (nt.year() == 2017) {
-                    csv_path = "./NanoCORE/Tools/btagsf/csv/DeepJet_94XSF_V4_B_F.csv";
-                }
-                else if (nt.year() == 2018) {
-                    csv_path = "./NanoCORE/Tools/btagsf/csv/DeepJet_102XSF_V3.csv";
-                }
-                else {
-                    throw std::runtime_error("ControlTree::INIT: Error - invalid year");
-                }
-                // CSV object
-                deepjet_csv = BTagCalibration("csvv1", csv_path);
-                // Tight reader
-                deepjet_medium_reader = BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central");
-                deepjet_medium_reader.load(deepjet_csv, BTagEntry::FLAV_B, "comb");
+                // string csv_path;
+                // if (nt.year() == 2016) {
+                //     csv_path = "../../NanoTools/NanoCORE/Tools/btagsf/csv/DeepJet_2016LegacySF_V1.csv";
+                // }
+                // else if (nt.year() == 2017) {
+                //     csv_path = "../../NanoTools/NanoCORE/Tools/btagsf/csv/DeepJet_94XSF_V4_B_F.csv";
+                // }
+                // else if (nt.year() == 2018) {
+                //     csv_path = "../../NanoTools/NanoCORE/Tools/btagsf/csv/DeepJet_102XSF_V3.csv";
+                // }
+                // else {
+                //     throw std::runtime_error("ControlTree::INIT: Error - invalid year");
+                // }
+                // // CSV object
+                // BTagCalibration deepjet_csv = BTagCalibration("csvv1", csv_path);
+                // // Medium reader
+                // BTagCalibrationReader deepjet_medium_reader = BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central");
+                // deepjet_medium_reader.load(deepjet_csv, BTagEntry::FLAV_B, "comb");
 
-                //apply SFs to all cleaned bjets in event
-                for ( auto bjet : good_bjets ){
-                    float sf = deepjet_medium_reader.eval(  BTagEntry::FLAV_B,
-                                                            bjet.eta(),
-                                                            bjet.pt(),
-                                                            btag.bdisc());
-                    if (sf>0.) {weight = weight * sf;}
-                }*/
+                // //apply SFs to all cleaned bjets in event
+                // for ( auto bjet : good_bjets ){
+                //     float sf = deepjet_medium_reader.eval(  BTagEntry::FLAV_B,
+                //                                             bjet.eta(),
+                //                                             bjet.pt(),
+                //                                             bjet.bdisc());
+                //     if (sf>0.) {weight = weight * sf;}
+                // }
 
             }
 
@@ -473,27 +528,25 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
             if (doFakes && !isData && doTruthFake && !is_fake) continue;
             if (doFlips && !isData && doTruthFlip && !is_flip) continue;
-            if (isData){
-                if (nt.year()==2016){
-                    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
-                         nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()||
-                         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-                         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-                         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
-                }else if (nt.year()==2017){
-                    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
-                         nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
-                         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
-                         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-                         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
-                }else if (nt.year()==2018){
-                    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
-                         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
-                         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-                         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
-                }
+            if (nt.year()==2016){
+                if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
+                     nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()||
+                     nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                     nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+            }else if (nt.year()==2017){
+                if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
+                     nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
+                     nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
+                     nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+            }else if (nt.year()==2018){
+                if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
+                     nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
+                     nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
             }
-
+            
             //calculate control region weights for background estimates
             //we calculate the weight
             float crWeight = 0;
@@ -546,17 +599,21 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
             // if we've reached here we've passed the baseline selection
             // fill histograms
+            if (chainTitle == "ttjets"){
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
+            }
             if (category == 1 && !(isSignal||isData)){
-                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,weight,crWeight);
+                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }else if (category == 2 && !(isSignal||isData)){
-                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,weight,crWeight);
+                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }else if (category == 3 && !(isSignal||isData)){
-                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,weight,crWeight);
+                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }else if (isSignal||isData){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,weight,crWeight);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR,isVR_CR,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }
             //cout << "**********" << endl;
         }//loop over events
+        file->Close();
      } // loop over files
 
      auto stop = high_resolution_clock::now();
@@ -566,6 +623,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
      if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
 
      //write histograms
+     auto outFile = new TFile(outFileName.Data(), "recreate");
      if (!quiet) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
      outFile->cd();
      hists.write();

@@ -148,4 +148,11 @@ float getLumi(int year) {
     else return 0.;
 }
 
+float getBSF(int year, Jets &jets, Jets &bjets){
+    if (year == 2016) return y2016::getBSF(year, jets, bjets);
+    else if (year == 2017) return y2017::getBSF(year, jets, bjets);
+    else if (year == 2018) return y2018::getBSF(year, jets, bjets);
+    else {throw std::runtime_error("ControlTree::INIT: Error - invalid year");}
+}
+
 #endif

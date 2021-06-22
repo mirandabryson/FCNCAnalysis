@@ -191,7 +191,7 @@ double getXSec( string sampleName ){
     xsecs["ttz_m1-10"] = 0.0493;
     xsecs["ttzz"] = 0.001982;
     xsecs["dyjets_m10-50"] = 18610;
-    xsecs["dyjet_m50"] = 6020.85;
+    xsecs["dyjets_m50"] = 6020.85;
     xsecs["vh_nobb"] = 2.1360;
     xsecs["tzq"] = 0.0758;
     xsecs["tth_nobb"] = 0.2710;

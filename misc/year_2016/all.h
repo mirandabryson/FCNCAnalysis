@@ -13,6 +13,7 @@ namespace newbins {
 #include "isr_weights.h"
 #include "fastsim_trigger_eff.h"
 #include "fastsim_lepton_sf.h"
+#include "bTagSF.h"
 float getLumi() { return 35.922; }
 }
 
