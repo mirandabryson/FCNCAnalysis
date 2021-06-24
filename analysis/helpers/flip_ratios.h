@@ -1,6 +1,9 @@
 #include <vector>
+#include <map>
 
-double GetFlipRatio(int pt_bin, int eta_bin ){
+using namespace std;
+
+double GetFlipRatio( int pt_bin, int eta_bin ){
   map< double, std::vector<double> > flip_ratio_map;
   
   flip_ratio_map[40]  = {0.0000098685, 0.0000432454, 0.000334417}  ;
@@ -10,8 +13,8 @@ double GetFlipRatio(int pt_bin, int eta_bin ){
   flip_ratio_map[200] = {0.0000300963, 0.000146605, 0.00118509}    ;
   flip_ratio_map[300] = {0.000076572, 0.000227187, 0.00201814}     ;
   
-  double flip_ratio = flip_ratio_map[pt_bin][eta_bin];
+  double flip_ratios = flip_ratio_map[pt_bin][eta_bin];
   
-  return flip_ratio;
+  return flip_ratios;
   
 }

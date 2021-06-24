@@ -1,226 +1,221 @@
-import ROOT
-import time
 import numpy as np
-import sys
 
-# Load histograms
-filename = sys.argv[-1]
-#backgroundFile = sys.argv[-2]
-#signalFile = sys.argv[-1]
-#bFile = ROOT.TFile.Open(backgroundFile)
-#sFile = ROOT.TFile.Open(signalFile)
-print("loaded files")
+import uproot3
+import matplotlib.pyplot as plt
+import mplhep as hep
+plt.style.use(hep.style.CMS)
 
-# useful functions   
-def saveFig(hist, histColors, legendNames, hist_name, outdir):
-    can = ROOT.TCanvas( "c_"+hist_name, "canvas", 800, 800 )
+from yahist import Hist1D, Hist2D
 
-    pad1 = ROOT.TPad( "pad1", "pad1", 0, 0.3, 1, 1.0 )
-    pad1.Draw()
+f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/fakes_mc_2018_hists.root')
 
-    pad1.cd()
-    pad1.SetLogy()
+#path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/'
+#path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun10_remergedBabies/'
+path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun14_allMC_estimate/'
 
-    h_stack = ROOT.THStack( "h_stack", hist_name )
-    h_signal_hut = ROOT.TH1F()
-    h_signal_hct = ROOT.TH1F()
-    legend = ROOT.TLegend( 0.7, 0.7, 0.89, 0.89 )
+regions =   ["sf",
+             "df",
+             "mlsf",
+             "mldf",
+             "ss",
+             "ml",
+             "vrsr_ss",
+             "vrsr_ml",
+             "vrcr_sf",
+             "vrcr_df",
+             "vrcr_mlsf",
+             "vrcr_mldf"
+            ]
+variables = [   ["njets", 1, r'$N_{jets}$'],
+                ["nbjets", 1, r'$N_{b-jets}$'],
+                ["nleps", 1, r'$N_{leptons}$'],
+                ["neles", 1, r'$N_{electrons}$'],
+                ["nmus", 1, r'$N_{muons}$'],
+                ["ljpt", 5, r'$p_T\ (lead.\ jet)\ (GeV)$'],
+                ["tjpt", 5, r'$p_T\ (sublead.\ jet)\ (GeV)$'],
+                ["llpt", 5, r'$p_T\ (lead.\ lep.)\ (GeV)$'],
+                ["ltpt", 5, r'$p_T\ (sublead.\ lep.)\ (GeV)$'],
+                #["lleta", 4],
+                #["lteta", 4],
+                ["llminiiso", 1, r'$miniIso\ (lead.\ lep.)\ (GeV)$'],
+                ["ltminiiso", 1, r'$miniIso\ (sublead.\ lep.)\ (GeV)$'],
+                ['met', 1, r'$MET\ (GeV)$'],
+                #['vrsr', 1, r'$VRSR$'],
+                #['vrcr', 1, r'$VRCR$']
+                #['vrcr', 1, r'$VRCR$']
+            ]
+years = ["2016","2017","2018"]
+#years = ["2018"]
+blind = True
 
-    counter = 0
-    hct_max = 0
-    hut_max = 0
-    back_max = 0
 
-    for h, c, l in zip(hist, histColors, legendNames):
-        if l == "signal_hut":
-            h.SetLineColor(c)
-            h_signal_hut = h.Clone()
-            h_signal_hut.SetStats(0)
-            h_signal_hut.SetLineWidth(2)
-            legend.AddEntry(h_signal_hut, l)
-            hut_max = h_signal_hut.GetMaximum()
-        
-        elif l == "signal_hct":
-            h.SetLineColor(c)
-            h_signal_hct = h.Clone()
-            h_signal_hct.SetStats(0)
-            h_signal_hct.SetLineWidth(2)
-            legend.AddEntry(h_signal_hct, l)
-            hct_max = h_signal_hct.GetMaximum()
-
-        else:
-            h.SetLineColor(c)
-            h.SetFillColor(c)
-            h_stack.Add(h)
-            legend.AddEntry(h, l)
-
-        
-        """h.SetLineColor(c)
-        h.SetLineWidth(2)
-        if counter == 0:
-            h.DrawNormalized()
-        else:
-            h.DrawNormalized("same")
-        legend.AddEntry(h, l)
-        counter += 1"""
+def get_yahist(hist, rebin=1, overflow=True):
+    counts = hist.allvalues
+    edges = hist.alledges
+    w2 = hist.allvariances
+    if overflow:
+        counts[1] += counts[0]
+        counts[-2] += counts[-1]
+        w2[1] += w2[1]
+        w2[-2] += w2[-1]
+        counts = np.array(counts[1:-1])
+        edges = np.array(edges[1:-1])
+        w2 = np.array(w2[1:-1])
     
-    back_max = h_stack.GetMaximum()
-    #print(backgrYMax)
-    if (back_max>hut_max and back_max>hct_max):
-        h_stack.Draw("hist")
-        h_signal_hut.Draw("hist same")
-        h_signal_hct.Draw("hist same")
-    elif (hut_max>hct_max and hut_max>back_max):
-        h_signal_hut.Draw("hist")
-        h_stack.Draw("hist same")
-        h_signal_hut.Draw("hist same")
-        h_signal_hct.Draw("hist same")
-    elif (hct_max>hut_max and hct_max>back_max):
-        h_signal_hct.Draw("hist")
-        h_stack.Draw("hist same")
-        h_signal_hct.Draw("hist same")
-        h_signal_hut.Draw("hist same")
+    tmp_hist = Hist1D.from_bincounts(counts, edges, np.sqrt(w2), )
+    tmp_hist = tmp_hist.rebin(rebin)
+    return tmp_hist
 
-    legend.Draw()
-
-
-    can.SaveAs(outdir+"pdfs/"+hist_name+".pdf")
-    can.SaveAs(outdir+"pngs/"+hist_name+".png")
-
-def addHistos(hist, histNames, legendNames, histName, nBins, xmin, xmax):
+def get_total(histos, keys):
+    tmp = Hist1D.from_bincounts(np.zeros(len(histos[keys[0]].counts)), histos[keys[0]].edges, )
+    for key in keys:
+        tmp += histos[key]
     
-    listOfAddedHistos = []
-    for s in legendNames:
-        h_combined = ROOT.TH1F("h_combined"+s+histName, histName, nBins, xmin, xmax)
-        for h, n in zip(hist, histNames):
-            if s in n:
-                h_combined.Add(h)
-        listOfAddedHistos.append(h_combined)
-    return listOfAddedHistos
+    return tmp
 
-def getObjFromFile(fname, hname):
-    f = ROOT.TFile(fname)
-    assert not f.IsZombie()
-    f.cd()
-    htmp = f.Get(hname)
-    if not htmp:  return htmp
-    ROOT.gDirectory.cd('PyROOT:/')
-    res = htmp.Clone()
-    f.Close()
-    return res
+def add_uncertainty(hist, ax, ratio=False):
+    opts = {'step': 'post', 'label': 'Uncertainty', 'hatch': '///',
+                    'facecolor': 'none', 'edgecolor': (0, 0, 0, .5), 'linewidth': 0, 'zorder':10.}
+    
+    if ratio:
+        down = np.ones(len(hist.counts)) - hist.errors/hist.counts
+        up = np.ones(len(hist.counts)) + hist.errors/hist.counts
+    else:
+        down = hist.counts-hist.errors
+        up = hist.counts+hist.errors
+    ax.fill_between(x=hist.edges, y1=np.r_[down, down[-1]], y2=np.r_[up, up[-1]], **opts)
 
-# main loop
-outdir = "/home/users/ksalyer/public_html/dump/FCNC_plots/"
-#outdir = "/home/users/ksalyer/FCNCAnalysis/analysis/plots/"
 
-processTypes = ["fakes",
-                "flips",
-                "other",
-                "signal_hut",
-                "signal_hct"
-                ]
+for y in years:
+    for r in regions:
+        for var in variables:
+            v = var[0]
+            rebinVal = var[1]
+            vname = var[2]
+            histName = 'h_'+r+'_'+v+'_'+y
+            print (histName)
+            if blind and (r == 'ss' or r == 'ml'):
+                hists = {
+                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
+                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
+                }
+            else:
+                hists = {
+                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
+                    'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
+                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
+                }
 
-processColors = [ROOT.kPink+7,
-                 ROOT.kTeal-5,
-                 ROOT.kOrange+7,
-                 ROOT.kGreen+2,
-                 ROOT.kGreen+3
-                ]
-"""processTypes = ["signal_hut",
-                "signal_hct",
-                "rareSM",
-                "wjets",
-                "DY",
-                "ttX",
-                "multiboson",
-                "ttjets"
-                ]
-processColors = [ROOT.kGreen+2,
-                 ROOT.kGreen+3,
-                 ROOT.kPink+7,
-                 ROOT.kTeal-5,
-                 ROOT.kOrange+7,
-                 ROOT.kViolet-5,
-                 ROOT.kRed,
-                 ROOT.kBlue
-                ]"""
 
-leptonSelections = ["trilep",
-                    "SS_SF_dilep",
-                    "SS_OF_dilep",
-                    "OS_SF_dilep",
-                    "OS_OF_dilep",
-                    "onelepFO",
-                    "dilepFO"
-                   ]
+            my_histos = { x:get_yahist(hists[x], rebin=rebinVal, overflow=True) for x in hists.keys() }
 
-jetSelections = ["2j",
-                 "3j",
-                 "ge4j"
-                 ]
+            my_histos['fakes'].label = 'Nonprompt'
+            my_histos['fakes'].color = '#FF595E'
 
-bJetSelections = ["0b",
-                  "1b",
-                  "ge2b"
-                  ]
+            my_histos['flips'].label = 'Charge flip'
+            my_histos['flips'].color = '#FFCA3A'
 
-plottedVariables = [["nJet", 7, -0.5, 6.5],
-                    ["nBJet", 4, -0.5, 3.5], 
-                    #["nGoodLeps", 6, -0.5, 5.5],
-                    #["leadLepPt", 50, 0, 500],
-                    #["leadLepEta", 20, -5, 5],
-                    #["leadLepMass", 50, 0, 500],
-                    #["leadLepMiniIso", 50, 0, 5],
-                    #["leadLepPtRel", 50, 0, 10],
-                    #["leadLepPtRatio", 50, 0, 5],
-                    #["leadJetPt", 50, 0, 500],
-                    #["leadBPt", 50, 0, 500],
-                    #["leadBMass", 50, 0, 500],
-                    #["jetHT", 50, 0, 500],
-                    #["MET", 50, 0, 500],
-                    #["minMT", 50, 0, 500],
-                    #["MT_b_MET", 50, 0, 500]
-                   ]
+            my_histos['rares'].label = 'Other'
+            my_histos['rares'].color = '#8AC926'
 
-for var in plottedVariables:
-    v = var[0]
-    nbins = var[1]
-    xmin = var[2]
-    xmax = var[3]
-    #print(nbins, xmin, xmax)
-    for l in leptonSelections:
-        jHistos = []
-        jHistoNames = []
-        for j in jetSelections:
-            bHistos = []
-            bHistoNames = []
-            for b in bJetSelections:
-                histosToPlot = []
-                for p in processTypes:
-                    histoName = "h_"+v+"_"+l+"_"+j+"_"+b+"_"+p
-                    print(histoName)
-                    #hist = inFile.Get(histoName)
-                    hist = getObjFromFile(filename,histoName)
-                    #hist.SetAxisRange(xmin,xmax)
-                    #hist.Rebin(nbins)
-                    histosToPlot.append(hist)
-                    if v == "nJet":
-                        jHistos.append(hist)
-                        jHistoNames.append(histoName)
-                        #print("nJet", histoName)
-                    if v == "nBJet":
-                        bHistos.append(hist)
-                        bHistoNames.append(histoName)
-                        #print("btag", histoName)
-                #print(len(histosToPlot))
-                histFileName = "h_"+v+"_"+l+"_"+j+"_"+b
-                saveFig(histosToPlot, processColors, processTypes, histFileName, outdir)
-                #print('saved those histos')
-            if v == "nBJet":
-                histFileName = "h_"+v+"_"+l+"_"+j
-                bHistosAdded = addHistos(bHistos, bHistoNames, processTypes, histFileName, nbins, xmin, xmax)
-                saveFig(bHistosAdded, processColors, processTypes, histFileName, outdir)
-        if v == "nJet":
-            histFileName = "h_"+v+"_"+l
-            jHistosAdded = addHistos(jHistos, jHistoNames, processTypes, histFileName, nbins, xmin, xmax)
-            saveFig(jHistosAdded, processColors, processTypes, histFileName, outdir)
+            keys = ['rares', 'flips', 'fakes']
+
+            signals = ['tch', 'tuh']
+
+            total_mc = get_total(my_histos, keys)
+
+            if not (blind and (r == 'ss' or r == 'ml')): ratio = my_histos['data'].divide(total_mc, )
+            else:
+                ratio_tch = my_histos['tch'].divide(total_mc, )
+                ratio_tuh = my_histos['tuh'].divide(total_mc, )
+
+
+            #f, ax = plt.subplots()
+
+            fig, (ax, rax) = plt.subplots(2,1,figsize=(10,10), gridspec_kw={"height_ratios": (3, 1), "hspace": 0.05}, sharex=True)
+
+            if y == "2016": luminosity = 35.9
+            if y == "2017": luminosity = 41.5
+            if y == "2018": luminosity = 59.71
+            hep.cms.label(
+                "Preliminary",
+                data=True,
+                #year=2018,
+                lumi=luminosity,
+                loc=0,
+                ax=ax,
+            )
+
+            hep.histplot(
+                [ my_histos[x].counts for x in keys ],
+                my_histos['fakes'].edges,
+                w2=[ my_histos[x].errors for x in keys ],
+                histtype="fill",
+                stack=True,
+                label=['%s (%.0f)'%(my_histos[x].label, sum(my_histos[x].counts)) for x in keys],
+                color=[ my_histos[x].color for x in keys ],
+                ax=ax)
+
+            if not (blind and (r == 'ss' or r == 'ml')):
+                hep.histplot(
+                    my_histos['data'].counts,
+                    my_histos['data'].edges,
+                    yerr=my_histos['data'].errors,
+                    histtype="errorbar",
+                    stack=False,
+                    label='%s (%.0f)'%('Observation', sum(my_histos['data'].counts)),
+                    color='black',
+                    ax=ax)
+
+            hep.histplot(
+                [my_histos['tch'].counts/100, my_histos['tuh'].counts/100],
+                my_histos['tch'].edges,
+                w2=[my_histos['tch'].errors/100, my_histos['tuh'].errors/100],
+                histtype="step",
+                stack=False,
+                label=[r'$B(t\to Hc)=0.01$', r'$B(t\to Hu)=0.01$'],
+                color=['#525B76','#6A4C93'],
+                ax=ax)
+
+            if not (blind and (r == 'ss' or r == 'ml')):
+                hep.histplot(
+                    ratio.counts,
+                    ratio.edges,
+                    yerr=my_histos['data'].errors/total_mc
+                    histtype="errorbar",
+                    color='black',
+                    ax=rax)
+            else:
+                hep.histplot(
+                    [ratio_tch.counts/100, ratio_tuh.counts/100],
+                    ratio_tch.edges,
+                    w2=[ratio_tch.errors/100, ratio_tuh.errors/100],
+                    histtype="errorbar",
+                    color=['#525B76','#6A4C93'],
+                    ax=rax)
+
+
+            rax.set_ylim(0,1.99)
+            #rax.set_xlabel(r'$p_T\ (lead.\ lep.)\ (GeV)$')
+            rax.set_xlabel(vname)
+            if not (blind and (r == 'ss' or r == 'ml')): rax.set_ylabel(r'Data/Sim.')
+            else: rax.set_ylabel(r'Sig./Back.')
+            ax.set_ylabel(r'Events')
+            ax.set_yscale('log')
+            ax.set_ylim(0.1,1e5)
+
+            add_uncertainty(total_mc, rax, ratio=True)
+            add_uncertainty(total_mc, ax)
+
+            ax.legend()
+
+            #plt.show()
+
+            fig.savefig('/home/users/ksalyer/public_html/dump/FCNC_plots/'+histName+'.png')
+            fig.savefig('/home/users/ksalyer/public_html/dump/FCNC_plots/'+histName+'.pdf')

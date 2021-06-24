@@ -1,0 +1,10 @@
+*.d
+*.so
+*.o
+*.pcm
+*.DS_Store
+*.gdb_history
+*.idea
+*.pyc
+*.log
+*.tmp
