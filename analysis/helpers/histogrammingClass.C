@@ -240,25 +240,6 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
                 fill1d("mll",name,sample,mass,fillWeight);
             }
         }
-        for (auto bjet: bjets) {
-            if (bjet.hadronFlavor()==5){
-                fill1d("bEff_b_num",name,sample,bjet.pt(),fillWeight);
-                if (bjet.pt()<40){fill1d("bEff_b_den",name,sample,bjet.pt(),fillWeight);}
-            }
-            else if (bjet.hadronFlavor()==4){
-                fill1d("bEff_c_num",name,sample,bjet.pt(),fillWeight);
-                if (bjet.pt()<40){fill1d("bEff_c_den",name,sample,bjet.pt(),fillWeight);}
-            }
-            else if (bjet.hadronFlavor()==0){
-                fill1d("bEff_l_num",name,sample,bjet.pt(),fillWeight);
-                if (bjet.pt()<40){fill1d("bEff_l_den",name,sample,bjet.pt(),fillWeight);}
-            }
-        }
-        for (auto jet: jets) {
-            if (jet.hadronFlavor()==5){fill1d("bEff_b_den",name,sample,jet.pt(),fillWeight);}
-            else if (jet.hadronFlavor()==4){fill1d("bEff_c_den",name,sample,jet.pt(),fillWeight);}
-            else if (jet.hadronFlavor()==0){fill1d("bEff_l_den",name,sample,jet.pt(),fillWeight);}
-        }
         if (name == "br") {
             int sr = getSR(best_hyp_type,njets,nbjets);
             if (sr>=0)

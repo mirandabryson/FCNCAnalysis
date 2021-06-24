@@ -40,7 +40,7 @@ float isrWeight(int year, int nisrmatch, int sample) {
 
 float leptonScaleFactor(int year, int id, float pt, float eta, float ht) {//, ana_t ana) { 
     //if (ana == SSANA and year == 2016) return y2016::leptonScaleFactor_legacy(id, pt, eta, ht);
-    if (year == 2016) return y2016::leptonScaleFactor(id, pt, eta, ht);
+    if (year == 2016) return y2016::leptonScaleFactor_legacy(id, pt, eta, ht);
     else if (year == 2017) return y2017::leptonScaleFactor(id, pt, eta, ht);
     else if (year == 2018) return y2018::leptonScaleFactor(id, pt, eta, ht);
     else return 0.;
@@ -81,8 +81,8 @@ float fastsim_triggerScaleFactor(int year, int pdgId1, int pdgId2, float pt1, fl
     // return 1.0;
 }
 
-float flipRate(int year, float pt, float eta, ana_t ana) { 
-    if (ana == SSANA and year == 2016) return y2016::flipRate_legacy(pt, eta);
+float flipRate(int year, float pt, float eta){//, ana_t ana) { 
+    //if (ana == SSANA and year == 2016) return y2016::flipRate_legacy(pt, eta);
     if (year == 2016) return y2016::flipRate(pt, eta);
     else if (year == 2017) return y2017::flipRate(pt, eta);
     else if (year == 2018) return y2018::flipRate(pt, eta);
@@ -148,10 +148,10 @@ float getLumi(int year) {
     else return 0.;
 }
 
-float getBSF(int year, Jets &jets, Jets &bjets){
-    if (year == 2016) return y2016::getBSF(year, jets, bjets);
-    else if (year == 2017) return y2017::getBSF(year, jets, bjets);
-    else if (year == 2018) return y2018::getBSF(year, jets, bjets);
+float getBSF(int year, Jets &jets, Jets &bjets, TFile* &effFile, BTagCalibrationReader &deepjet_reader){
+    if (year == 2016) return y2016::getBSF(year, jets, bjets, effFile, deepjet_reader);
+    else if (year == 2017) return y2017::getBSF(year, jets, bjets, effFile, deepjet_reader);
+    else if (year == 2018) return y2018::getBSF(year, jets, bjets, effFile, deepjet_reader);
     else {throw std::runtime_error("ControlTree::INIT: Error - invalid year");}
 }
 

@@ -1,7 +1,5 @@
-float getBtagEffFromFile(float pt, int mcFlavour){
-    //TFile* f_btag_eff = new TFile("../../NanoTools/cpp/2018_eff.root");
-    TFile* f_btag_eff = new TFile("./outputs/2018_bEff.root");
-
+float getBtagEffFromFile(float pt, int mcFlavour, TFile* &f_btag_eff){
+    
     TH2D* h_btag_eff_b_temp    = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_med_Eff_b");
     TH2D* h_btag_eff_c_temp    = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_med_Eff_c");
     TH2D* h_btag_eff_udsg_temp = (TH2D*) f_btag_eff->Get("h2_BTaggingEff_med_Eff_udsg");
@@ -33,28 +31,20 @@ float getBtagEffFromFile(float pt, int mcFlavour){
     int binx = h->GetXaxis()->FindBin(pt_cutoff);
     //int biny = h->GetYaxis()->FindBin(fabs(eta));
     return h->GetBinContent(binx);//,biny);
+    //f_btag_eff->Close();
 }
 
-float getBSF(int year, Jets &jets, Jets &bjets){
-
+float getBSF(int year, Jets &jets, Jets &bjets, TFile* &effFile, BTagCalibrationReader &deepjet_medium_reader){
     float weight = 1.;
     float btag_data = 1.;
     float btag_mc = 1.;
-    //string csv_path = "../../NanoTools/NanoCORE/Tools/btagsf/csv/DeepJet_102XSF_V3.csv";
-    string csv_path = "../../NanoTools/NanoCORE/Tools/btagsf/csv/DeepJet_102XSF_WP_V1.csv";
-    // CSV object
-    BTagCalibration deepjet_csv = BTagCalibration("csvv1", csv_path);
-    // Medium reader
-    BTagCalibrationReader deepjet_medium_reader = BTagCalibrationReader(BTagEntry::OP_MEDIUM, "central");
-    deepjet_medium_reader.load(deepjet_csv, BTagEntry::FLAV_B, "comb");
-    deepjet_medium_reader.load(deepjet_csv, BTagEntry::FLAV_C, "comb");
-    deepjet_medium_reader.load(deepjet_csv, BTagEntry::FLAV_UDSG, "incl");
+
     for ( auto bjet : bjets ){
         float sf = deepjet_medium_reader.eval(  BTagEntry::FLAV_B,
                                                 bjet.eta(),
                                                 bjet.pt(),
                                                 bjet.bdisc());
-        float eff = getBtagEffFromFile(bjet.pt(), bjet.hadronFlavor());
+        float eff = getBtagEffFromFile(bjet.pt(), bjet.hadronFlavor(), effFile);
 
         btag_data *= sf * eff;
         btag_mc *= eff;
@@ -67,7 +57,7 @@ float getBSF(int year, Jets &jets, Jets &bjets){
                                                 jet.eta(),
                                                 jet.pt(),
                                                 jet.bdisc());
-        float eff = getBtagEffFromFile(jet.pt(), jet.hadronFlavor());
+        float eff = getBtagEffFromFile(jet.pt(), jet.hadronFlavor(), effFile);
 
         btag_data *= (1 - (sf * eff));
         btag_mc *= (1 - eff);
