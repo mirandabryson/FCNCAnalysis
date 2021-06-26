@@ -7,10 +7,10 @@ r.TH1F.SetDefaultSumw2()
 pd.set_option('display.float_format', lambda x: '%.5f' % x)
 
 years=[2016,2017,2018]
-#procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
+procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
 sigWeight = 0.01
 #years=[2017,2018]
-procs=['flips_mc']
+#procs=['flips_mc']
 blind = True
 
 doSRTable = 0
@@ -25,7 +25,7 @@ br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
 #histdir=basepath+'outputs/jun14_allMC_estimate/'
-histdir=basepath+'outputs/'
+histdir=basepath+'outputs/jun25_OSbabies/'
 outdir=basepath+'outputs/'
 #files = glob.glob(histdir)
 
