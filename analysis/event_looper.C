@@ -605,22 +605,24 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             //apply SFs to MC events
             if (!isData){
                 //apply lepton SFs to hypothesis leptons
-                for ( auto lep : best_hyp ) {
-                    weight = weight * leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht);
-                }
+                for ( auto lep : best_hyp ) {weight = weight * leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht);}
 
                 //apply PU weight
                 weight = weight * nt.puWeight();
 
                 //only apply trigger scale factors to dilepton events
-                if (best_hyp.size()==2){
-                    weight = weight * triggerScaleFactor(nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0);
-                }
+                if (best_hyp.size()==2){weight = weight * triggerScaleFactor(nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0);}
 
                 //applying b-tag SFs
                 if (nt.year() == 2016){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016);}
                 else if (nt.year() == 2017){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017);}
                 else if (nt.year() == 2018){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018);}
+            }
+            if(isnan(weight)||isinf(weight)){
+                cout << "found a wrong weight!!!!!" << endl;
+                cout << nt.event() << endl;
+                cout << "final weight: " << weight << endl;
+                cout << "******************" << endl;
             }
             if (debugPrints){std::cout << "passed sfs for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
@@ -732,9 +734,9 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             
             // if we've reached here we've passed the baseline selection
             // fill histograms
-            if (chainTitle == "ttjets"){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
-            }
+            //if (chainTitle == "ttjets"){
+            hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
+            //}
             if (category == 1 && !(isSignal||isData)){
                 hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }else if (category == 2 && !(isSignal||isData)){

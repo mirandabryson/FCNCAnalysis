@@ -1,6 +1,6 @@
 float getBtagEffFromFile(float pt, int mcFlavour, std::map<std::string, TH1D*> effMap){
     
-    float pt_cutoff = std::max(20.,std::min(1000.,double(pt)));
+    float pt_cutoff = std::max(20.,std::min(999.,double(pt)));
     TH1D* h(0);
     if (abs(mcFlavour) == 5) {h = effMap["btag"];}
     else if (abs(mcFlavour) == 4) {h = effMap["ctag"];}
@@ -30,9 +30,10 @@ float getBSF(int year, Jets &jets, Jets &bjets, std::map<std::string, TH1D*> eff
         BTagEntry::JetFlavor flavor = BTagEntry::FLAV_UDSG;
         if (jet.hadronFlavor()==5) flavor = BTagEntry::FLAV_B;
         if (jet.hadronFlavor()==4) flavor = BTagEntry::FLAV_C;
+        float pt_cutoff = std::max(20.,std::min(999.,double(jet.pt())));
         float sf = deepjet_medium_reader.eval(  flavor,
                                                 jet.eta(),
-                                                jet.pt(),
+                                                pt_cutoff,
                                                 jet.bdisc());
         float eff = getBtagEffFromFile(jet.pt(), jet.hadronFlavor(), effMap);
 
