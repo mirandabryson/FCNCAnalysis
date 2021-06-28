@@ -21,6 +21,7 @@
 #include "./helpers/weights.h"
 #include "./helpers/histogrammingClass.h"
 //#include "./helpers/flip_weights.h"
+#include "./helpers/BDT/booster.h"
 #include "./helpers/tqdm.h"
 #include "../../NanoTools/NanoCORE/SSSelections.h"
 #include "../../NanoTools/NanoCORE/IsolationTools.h"
@@ -266,7 +267,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     hists.loadHists(chainTitleCh);
 
     //nEvents in chain
-    unsigned int nEventsTotal = 0;
+    int nEventsTotal = 0;
     unsigned int nEventsChain = chain->GetEntries();
 
     //Set up iterator
@@ -306,7 +307,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 duplicate_removal::DorkyEventIdentifier id( nt.run(), nt.event(), nt.luminosityBlock() );
                 if ( duplicate_removal::is_duplicate(id) ) continue;
             }
-
             //get event weight based on sample!
             double weight = 1.;
             if (!isData){
@@ -345,6 +345,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, OS, TL, LL
             std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,!quiet);
             int best_hyp_type = best_hyp_info.first;
+//#include "gROOT.h"
             
             if (best_hyp_type < 0 && print_debug_file) {
                 debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",";
@@ -506,7 +507,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 }
 
                 //apply PU weight
-                weight = weight * nt.puWeight();
+                //weight = weight * nt.puWeight();
 
                 //only apply trigger scale factors to dilepton events
                 if (best_hyp.size()==2){
@@ -527,6 +528,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 //debug_file << std::endl;
             }
 
+            
+            std::cout << get_BDT_score(best_hyp) << endl; 
 
             // if there isn't a good lepton hypothesis
             if (best_hyp_type<0) continue;
@@ -546,24 +549,24 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
             if (doFakes && !isData && doTruthFake && !is_fake) continue;
             if (doFlips && !isData && doTruthFlip && !is_flip) continue;
-            if (nt.year()==2016){
-                if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
-                     nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()||
-                     nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-                     nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
-            }else if (nt.year()==2017){
-                if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
-                     nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
-                     nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
-                     nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
-            }else if (nt.year()==2018){
-                if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
-                     nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
-                     nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
-            }
+            //if (nt.year()==2016){
+            //    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
+            //         nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()||
+            //         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+            //         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+            //         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+            //}else if (nt.year()==2017){
+            //    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
+            //         nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
+            //         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
+            //         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+            //         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+            //}else if (nt.year()==2018){
+            //    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
+            //         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
+            //         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+            //         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+            //}
             if(debugPrints){std::cout << "passed triggers for event " << nt.event() << endl;}
             
             //calculate control region weights for background estimates
