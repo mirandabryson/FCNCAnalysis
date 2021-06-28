@@ -4,7 +4,7 @@
 #include "../../../../NanoTools/NanoCORE/Nano.h"
 
 using namespace std;
-Float_t get_BDT_score(Leptons ordered_leptons){
+Float_t get_BDT_score(Leptons ordered_leptons, std::map<std::string, Float_t> BDT_params){
     unique_ptr<TMVA::Reader> FCNC_booster;
     Float_t event = 1.0;
     Float_t MET_pt = nt.MET_pt();
@@ -26,8 +26,8 @@ Float_t get_BDT_score(Leptons ordered_leptons){
     FCNC_booster.reset( new TMVA::Reader( "!Color:Silent" ) );
     // NOTE: you must add the booster variables in the same order
     // that they are organized in the xml file
-    FCNC_booster->AddVariable("Most_Forward_pt", &default_pt);
-    FCNC_booster->AddVariable("HT", &default_pt);
+    FCNC_booster->AddVariable("Most_Forward_pt", &(BDT_params["Most_Forward_pt"]));
+    FCNC_booster->AddVariable("HT", &(BDT_params["HT"]));
     FCNC_booster->AddVariable("LeadLep_eta", &LeadLep_eta);
     FCNC_booster->AddVariable("LeadLep_pt", &LeadLep_pt);
     FCNC_booster->AddVariable("LeadLep_dxy", &LeadLep_dxy);
@@ -36,16 +36,16 @@ Float_t get_BDT_score(Leptons ordered_leptons){
     FCNC_booster->AddVariable("SubLeadLep_eta", &SubLeadLep_eta);
     FCNC_booster->AddVariable("SubLeadLep_dxy", &SubLeadLep_dxy);
     FCNC_booster->AddVariable("SubLeadLep_dz", &SubLeadLep_dz);
-    FCNC_booster->AddVariable("nJet", &event);
-    FCNC_booster->AddVariable("nbtag", &event);
-    FCNC_booster->AddVariable("LeadJet_pt", &default_pt);
-    FCNC_booster->AddVariable("SubLeadJet_pt", &default_pt);
-    FCNC_booster->AddVariable("SubSubLeadJet_pt", &default_pt);
+    FCNC_booster->AddVariable("nJet", &(BDT_params["nJets"]));
+    FCNC_booster->AddVariable("nbtag", &(BDT_params["nBtag"]));
+    FCNC_booster->AddVariable("LeadJet_pt", &(BDT_params["LeadJet_pt"]));
+    FCNC_booster->AddVariable("SubLeadJet_pt", &(BDT_params["SubLeadJet_pt"]));
+    FCNC_booster->AddVariable("SubSubLeadJet_pt", &(BDT_params["SubSubLeadJet_pt"]));
     FCNC_booster->AddVariable("nElectron", &nElectron);
     FCNC_booster->AddVariable("MET_pt", &MET_pt);
-    FCNC_booster->AddVariable("LeadBtag_pt", &default_pt);
-    FCNC_booster->AddVariable("MT_LeadLep_MET", &default_pt);
-    FCNC_booster->AddVariable("MT_SubLeadLep_MET", &default_pt);
+    FCNC_booster->AddVariable("LeadBtag_pt", &(BDT_params["LeadBtag_pt"]));
+    FCNC_booster->AddVariable("MT_LeadLep_MET", &(BDT_params["MT_LeadLep_MET"]));
+    FCNC_booster->AddVariable("MT_SubLeadLep_MET", &(BDT_params["MT_SubLeadLep_MET"]));
     FCNC_booster->AddVariable("LeadLep_SubLeadLep_Mass", &LeadLep_SubLeadLep_Mass);
     FCNC_booster->BookMVA(TString(""), TString("./helpers/BDT/test.xml"));
     cout << "event: " << nt.event() << endl;

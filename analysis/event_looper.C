@@ -367,15 +367,12 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 duplicate_removal::DorkyEventIdentifier id( nt.run(), nt.event(), nt.luminosityBlock() );
                 if ( duplicate_removal::is_duplicate(id) ) continue;
             }
-<<<<<<< HEAD
-=======
 
             //if (nt.MET_pt() < 50.){continue;}
             if (debugPrints){std::cout << "passed MET cut for event " << nt.event() << ": " << nt.MET_pt() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
->>>>>>> e3cd1cd57f36ebd99ddf7d7209c386517dda60b6
             //get event weight based on sample!
             double weight = 1.;
             if (!isData){
@@ -639,9 +636,46 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 print_debug(debug_file,best_hyp_type,best_hyp,good_jets,good_bjets,category);
                 //debug_file << std::endl;
             }
+            // prepare BDT parameters
+            if (njets < 2) {
+                continue;
+            }
+            Float_t LeadJet_pt=0., SubLeadJet_pt=0., SubSubLeadJet_pt=0., LeadBtag_pt=0.;
+            if (njets > 2) {
+               LeadJet_pt = good_jets[0].pt();
+               SubLeadJet_pt = good_jets[1].pt();
+               SubSubLeadJet_pt = good_jets[2].pt();
+            }
+            else if (njets == 2) {
+               LeadJet_pt = good_jets[0].pt();
+               SubLeadJet_pt = good_jets[1].pt();
+            }
+            if (nbjets > 0) { 
+                LeadBtag_pt = good_bjets[0].pt();
+            }
+            Float_t BDT_njets=njets, BDT_nbtag=nbjets, BDT_HT = ht;
+            Float_t Most_Forward_pt = 0., highest_abs_eta=0.;
+            for(int i=0; i < njets; i++){
+                if (abs(good_jets[i].eta()) >= highest_abs_eta) {
+                    highest_abs_eta = abs(good_jets[i].eta());
+                    Most_Forward_pt = good_jets[i].pt();
+                }
+            }
 
-            
-            std::cout << get_BDT_score(best_hyp) << endl; 
+            std::map<std::string, Float_t> BDT_params = {
+                {"nJets", BDT_njets},
+                {"nBtag", BDT_nbtag},
+                {"LeadJet_pt", LeadJet_pt},
+                {"SubLeadJet_pt", SubLeadJet_pt},
+                {"SubSubLeadJet_pt", SubSubLeadJet_pt},
+                {"LeadBtag_pt", LeadBtag_pt},
+                {"MT_LeadLep_MET", 200.0},
+                {"MT_SubLeadLep_MET", 200.0},
+                {"HT", BDT_HT},
+                {"Most_Forward_pt", Most_Forward_pt}
+            };
+
+            std::cout << get_BDT_score(best_hyp, BDT_params) << endl; 
 
             // if there isn't a good lepton hypothesis
             if (best_hyp_type<0) continue;
@@ -742,7 +776,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             /*if (chainTitle == "ttjets"){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }
-=======
             //if (chainTitle == "ttjets"){
             hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             //}
@@ -756,7 +789,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             }else if (category == 4 && !(isSignal||isData)){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }else if (isSignal||isData){
-<<<<<<< HEAD
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }*/
             //cout << "**********" << endl;
