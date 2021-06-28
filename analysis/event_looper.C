@@ -624,7 +624,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             if(debugPrints){std::cout << "passed crWeight for event " << nt.event() << endl;}
             // if we've reached here we've passed the baseline selection
             // fill histograms
-            if (chainTitle == "ttjets"){
+            /*if (chainTitle == "ttjets"){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }
             if (category == 1 && !(isSignal||isData)){
@@ -637,7 +637,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }else if (isSignal||isData){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
-            }
+            }*/
             //cout << "**********" << endl;
         }//loop over events
         file->Close();
