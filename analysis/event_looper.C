@@ -12,6 +12,7 @@
 #include <TChainElement.h>
 #include <TLeaf.h>
 #include <TH1F.h>
+#include <TH1D.h>
 #include <TCanvas.h>
 #include <TPad.h>
 #include <THStack.h>
@@ -232,10 +233,64 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     set_goodrun_file( (goodrun_path+goodrun_file[year]).c_str() );
 
     //open b SF files here so they are opened only once
+    auto startBOpening = high_resolution_clock::now();
     //efficiency files
     TFile* f_btag_eff_2016 = new TFile("./outputs/2016_bEff.root");
     TFile* f_btag_eff_2017 = new TFile("./outputs/2017_bEff.root");
     TFile* f_btag_eff_2018 = new TFile("./outputs/2018_bEff.root");
+
+    TH1D* h_btag_eff_b_temp_2016    = (TH1D*) f_btag_eff_2016->Get("h2_BTaggingEff_med_Eff_b");
+    TH1D* h_btag_eff_c_temp_2016    = (TH1D*) f_btag_eff_2016->Get("h2_BTaggingEff_med_Eff_c");
+    TH1D* h_btag_eff_udsg_temp_2016 = (TH1D*) f_btag_eff_2016->Get("h2_BTaggingEff_med_Eff_udsg");
+
+    TH1D* h_btag_eff_b_temp_2017    = (TH1D*) f_btag_eff_2017->Get("h2_BTaggingEff_med_Eff_b");
+    TH1D* h_btag_eff_c_temp_2017    = (TH1D*) f_btag_eff_2017->Get("h2_BTaggingEff_med_Eff_c");
+    TH1D* h_btag_eff_udsg_temp_2017 = (TH1D*) f_btag_eff_2017->Get("h2_BTaggingEff_med_Eff_udsg");
+
+    TH1D* h_btag_eff_b_temp_2018    = (TH1D*) f_btag_eff_2018->Get("h2_BTaggingEff_med_Eff_b");
+    TH1D* h_btag_eff_c_temp_2018    = (TH1D*) f_btag_eff_2018->Get("h2_BTaggingEff_med_Eff_c");
+    TH1D* h_btag_eff_udsg_temp_2018 = (TH1D*) f_btag_eff_2018->Get("h2_BTaggingEff_med_Eff_udsg");
+
+    TH1D* h_btag_eff_b_2016    = (TH1D*) h_btag_eff_b_temp_2016->Clone("h_btag_eff_b");
+    TH1D* h_btag_eff_c_2016    = (TH1D*) h_btag_eff_c_temp_2016->Clone("h_btag_eff_c");
+    TH1D* h_btag_eff_udsg_2016 = (TH1D*) h_btag_eff_udsg_temp_2016->Clone("h_btag_eff_udsg");
+
+    TH1D* h_btag_eff_b_2017    = (TH1D*) h_btag_eff_b_temp_2017->Clone("h_btag_eff_b");
+    TH1D* h_btag_eff_c_2017    = (TH1D*) h_btag_eff_c_temp_2017->Clone("h_btag_eff_c");
+    TH1D* h_btag_eff_udsg_2017 = (TH1D*) h_btag_eff_udsg_temp_2017->Clone("h_btag_eff_udsg");
+
+    TH1D* h_btag_eff_b_2018    = (TH1D*) h_btag_eff_b_temp_2018->Clone("h_btag_eff_b");
+    TH1D* h_btag_eff_c_2018    = (TH1D*) h_btag_eff_c_temp_2018->Clone("h_btag_eff_c");
+    TH1D* h_btag_eff_udsg_2018 = (TH1D*) h_btag_eff_udsg_temp_2018->Clone("h_btag_eff_udsg");
+
+    std::map<std::string,TH1D*> eff2016 {
+        {"btag", h_btag_eff_b_2016},
+        {"ctag", h_btag_eff_c_2016},
+        {"udsgtag", h_btag_eff_udsg_2016},
+    };
+
+    std::map<std::string,TH1D*> eff2017 {
+        {"btag", h_btag_eff_b_2017},
+        {"ctag", h_btag_eff_c_2017},
+        {"udsgtag", h_btag_eff_udsg_2017},
+    };
+
+    std::map<std::string,TH1D*> eff2018 {
+        {"btag", h_btag_eff_b_2018},
+        {"ctag", h_btag_eff_c_2018},
+        {"udsgtag", h_btag_eff_udsg_2018},
+    };
+
+    h_btag_eff_b_temp_2016->Delete();
+    h_btag_eff_c_temp_2016->Delete();
+    h_btag_eff_udsg_temp_2016->Delete();
+    h_btag_eff_b_temp_2017->Delete();
+    h_btag_eff_c_temp_2017->Delete();
+    h_btag_eff_udsg_temp_2017->Delete();
+    h_btag_eff_b_temp_2018->Delete();
+    h_btag_eff_c_temp_2018->Delete();
+    h_btag_eff_udsg_temp_2018->Delete();
+
     //csv paths
     string csv_path_2016 = "../../NanoTools/NanoCORE/Tools/btagsf/csv/DeepJet_2016LegacySF_WP_V1.csv";
     string csv_path_2017 = "../../NanoTools/NanoCORE/Tools/btagsf/csv/DeepFlavour_94XSF_WP_V3_B_F.csv";
@@ -269,6 +324,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     //nEvents in chain
     int nEventsTotal = 0;
     unsigned int nEventsChain = chain->GetEntries();
+    //std::cout << "Events in Chain: " << nEventsChain << endl;
 
     //Set up iterator
     TObjArray *listOfFiles = chain->GetListOfFiles();
@@ -289,9 +345,13 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
         TString filename = currentFile->GetTitle();
         TTree *tree = (TTree*)file->Get("Events");
         nt.Init(tree);
+        if (debugPrints){std::cout << "working on file " << filename << endl;}
+        if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+        if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
         for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ 
         //for ( unsigned int counter = 0; counter < 1000; counter++ ){ //for testing only!!
+            //if (counter%100000==0){std::cout << "processed " << counter << " events and elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
 
             nt.GetEntry(counter);
             if ( nevts>0 && nEventsTotal>=nevts ) break;
@@ -307,6 +367,15 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 duplicate_removal::DorkyEventIdentifier id( nt.run(), nt.event(), nt.luminosityBlock() );
                 if ( duplicate_removal::is_duplicate(id) ) continue;
             }
+<<<<<<< HEAD
+=======
+
+            //if (nt.MET_pt() < 50.){continue;}
+            if (debugPrints){std::cout << "passed MET cut for event " << nt.event() << ": " << nt.MET_pt() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+
+>>>>>>> e3cd1cd57f36ebd99ddf7d7209c386517dda60b6
             //get event weight based on sample!
             double weight = 1.;
             if (!isData){
@@ -318,7 +387,9 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 weight = (weight*genWeight*lumi)/(abs(genWeight));
                 //cout << "weight: " << weight << endl;
             }else {weight = 1.;}
-            if(debugPrints){std::cout << "passed eventWeight for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "passed eventWeight for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
 
             // cutflow counter
@@ -341,6 +412,10 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                               << ", loose: " << lep.is_loose() << ", tight: " << lep.is_tight() << std::endl;
                 }
             }
+            if (debugPrints){std::cout << "loaded leptons for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+
 
             // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, OS, TL, LL
             std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,!quiet);
@@ -372,6 +447,9 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 std::cout << "best hyp type: " << best_hyp_type << "; lepton ids: " << leading_lep.id()
                                                                 << ", " << trailing_lep.id() << std::endl;
             }
+            if (debugPrints){std::cout << "got best hyp for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
             // now let's check if there are additional requirements we need to make
             bool is_fake = false;
@@ -388,12 +466,13 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 if (best_hyp.size() == 2 && nflips==1) is_flip=true;
                 if (!is_fake && (best_hyp.size()>2 || (best_hyp.size()==2 && !is_flip && best_hyp[0].charge()*best_hyp[1].charge()>0))) is_rare = true;
             }
-            //std::cout << "is_os: " << is_os << endl;
             int category=4;
             if (is_flip) category=2;
             if (is_rare) category=3;
             if (is_fake) category=1;
-            if(is_os && category!=4){std::cout << "os event is category " << category << endl;}
+            if (debugPrints){std::cout << "got category for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
             //for fake validation: gen matching for best_hyp leptons
             bool isVR_CR_fake = 0;
@@ -407,6 +486,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             //for flip validation: gen matching for best_hyp leptons
             bool isVR_CR_flip = 0;
             bool isVR_SR_flip = 0;
+            bool isEE_flip = 0;
+            bool isEM_flip = 0;
             if (!isData){
                 vector<int> nPromptTight;
                 vector<int> nNonPromptTight;
@@ -421,8 +502,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 vector<int> nTightNotFlip;
                 vector<int> nTightFlip;
                 for ( auto lep : tight_leptons ){
-                    if (lep.idlevel()==SS::IDLevel::IDtight && !lep.isFlip()){nTightNotFlip.push_back(lep.charge());}
-                    if (lep.idlevel()==SS::IDLevel::IDtight && lep.absid()==11 && lep.isFlip()){nTightFlip.push_back(lep.charge());}
+                    if (lep.idlevel()==SS::IDLevel::IDtight && !lep.isFlip()){nTightNotFlip.push_back(lep.id());}
+                    if (lep.idlevel()==SS::IDLevel::IDtight && lep.absid()==11 && lep.isFlip()){nTightFlip.push_back(lep.id());}
                 }
 
                 if(best_hyp.size()==2){
@@ -456,8 +537,28 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                         }
                     }
                     //flip categorization
-                    if(nTightNotFlip.size()==2 && nTightNotFlip[0]!=nTightNotFlip[1]){isVR_CR_flip=1;}
-                    if(nTightNotFlip.size()==1 && nTightFlip.size()==1 && nTightNotFlip[0]==nTightFlip[0]){isVR_SR_flip=1;}
+                    if(nTightNotFlip.size()==2 && (nTightNotFlip[0]/abs(nTightNotFlip[0]))!=(nTightNotFlip[1]/abs(nTightNotFlip[1]))){
+                        //check if there's an electron in the CR event
+                        if(abs(nTightNotFlip[0])==11){
+                            if(abs(nTightNotFlip[1])==11){
+                                isVR_CR_flip=1;
+                                isEE_flip=1;
+                            }else{
+                                isVR_CR_flip=1;
+                                isEM_flip=1;
+                            }
+                        }else if(abs(nTightNotFlip[1])==11){
+                            isVR_CR_flip=1;
+                            isEM_flip=1;
+                        }
+                    }
+                    //can't enter VR SR without containing an electron
+                    //because nTightFlip isn't filled for muons
+                    if(nTightNotFlip.size()==1 && nTightFlip.size()==1 && (nTightNotFlip[0]/abs(nTightNotFlip[0]))==(nTightFlip[0]/abs(nTightFlip[0]))){
+                        isVR_SR_flip=1;
+                        if(abs(nTightNotFlip[0])==11&&abs(nTightFlip[0])==11){isEE_flip=1;}
+                        else{isEM_flip=1;}
+                    }
                 }
                 if(best_hyp.size()==3){
                     if ((nPromptTight.size()==2&&nNonPromptTight.size()==1)||(nPromptTight.size()==1&&nNonPromptTight.size()==2)){
@@ -486,6 +587,9 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                     }
                 }
             }
+            if (debugPrints){std::cout << "passed validation categorization for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
             // get jets and bjets
             std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
@@ -498,28 +602,36 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             float ht = 0.;
             for (auto jet : good_jets) ht += jet.pt();
 
+            if (debugPrints){std::cout << "loaded jets for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+
 
             //apply SFs to MC events
             if (!isData){
                 //apply lepton SFs to hypothesis leptons
-                for ( auto lep : best_hyp ) {
-                    weight = weight * leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht);
-                }
+                for ( auto lep : best_hyp ) {weight = weight * leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht);}
 
                 //apply PU weight
                 //weight = weight * nt.puWeight();
 
                 //only apply trigger scale factors to dilepton events
-                if (best_hyp.size()==2){
-                    weight = weight * triggerScaleFactor(nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0);
-                }
+                if (best_hyp.size()==2){weight = weight * triggerScaleFactor(nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0);}
 
                 //applying b-tag SFs
-                if (nt.year() == 2016){weight = weight * getBSF(nt.year(),good_jets,good_bjets,f_btag_eff_2016,deepjet_medium_reader_2016);}
-                else if (nt.year() == 2017){weight = weight * getBSF(nt.year(),good_jets,good_bjets,f_btag_eff_2017,deepjet_medium_reader_2017);}
-                else if (nt.year() == 2018){weight = weight * getBSF(nt.year(),good_jets,good_bjets,f_btag_eff_2018,deepjet_medium_reader_2018);}
+                if (nt.year() == 2016){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016);}
+                else if (nt.year() == 2017){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017);}
+                else if (nt.year() == 2018){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018);}
             }
-            if(debugPrints){std::cout << "passed sfs for event " << nt.event() << endl;}
+            if(isnan(weight)||isinf(weight)){
+                cout << "found a wrong weight!!!!!" << endl;
+                cout << nt.event() << endl;
+                cout << "final weight: " << weight << endl;
+                cout << "******************" << endl;
+            }
+            if (debugPrints){std::cout << "passed sfs for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
 
             if (print_debug_file) {
@@ -568,7 +680,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             //         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
             //}
             if(debugPrints){std::cout << "passed triggers for event " << nt.event() << endl;}
-            
+           
             //calculate control region weights for background estimates
             //we calculate the weight
             float crWeight = 0;
@@ -621,25 +733,37 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 crWeight = weight * flipWeight;
                 //std::cout << "event crWeight: " << crWeight << endl;
             }
-            if(debugPrints){std::cout << "passed crWeight for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "passed crWeight for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+            
             // if we've reached here we've passed the baseline selection
             // fill histograms
             /*if (chainTitle == "ttjets"){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }
+=======
+            //if (chainTitle == "ttjets"){
+            hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
+            //}
+>>>>>>> e3cd1cd57f36ebd99ddf7d7209c386517dda60b6
             if (category == 1 && !(isSignal||isData)){
-                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
+                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }else if (category == 2 && !(isSignal||isData)){
-                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
+                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }else if (category == 3 && !(isSignal||isData)){
-                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
+                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }else if (category == 4 && !(isSignal||isData)){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }else if (isSignal||isData){
+<<<<<<< HEAD
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }*/
             //cout << "**********" << endl;
         }//loop over events
+        if (debugPrints){std::cout << "closing file " << file->GetName() << endl;}
+        if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+        if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
         file->Close();
      } // loop over files
 
@@ -648,6 +772,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
      if (debug_file.is_open()) debug_file.close();
 
      if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
+     cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
 
      //write histograms
      auto outFile = new TFile(outFileName.Data(), "recreate");

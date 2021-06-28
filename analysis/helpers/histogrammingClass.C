@@ -113,6 +113,12 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("vrsr_flip",sample,18,0.5,18.5,"vrsr_flip");
     addHist1d("vrcr_flip",sample,18,0.5,18.5,"vrcr_flip");
     addHist1d("vrcrest_flip",sample,18,0.5,18.5,"vrcrest_flip");
+    addHist1d("vrsr_flip_ee",sample,18,0.5,18.5,"vrsr_flip");
+    addHist1d("vrcr_flip_ee",sample,18,0.5,18.5,"vrcr_flip");
+    addHist1d("vrcrest_flip_ee",sample,18,0.5,18.5,"vrcrest_flip");
+    addHist1d("vrsr_flip_em",sample,18,0.5,18.5,"vrsr_flip");
+    addHist1d("vrcr_flip_em",sample,18,0.5,18.5,"vrcr_flip");
+    addHist1d("vrcrest_flip_em",sample,18,0.5,18.5,"vrcrest_flip");
     addHist1d("vrsr",sample,18,0.5,18.5,"vrsr");
     addHist1d("vrcr",sample,18,0.5,18.5,"vrcr");
     addHist1d("vrcrest",sample,18,0.5,18.5,"vrcrest");
@@ -182,7 +188,7 @@ float get_sum_pt(Jets  &jets) {
     return ret;
 }
 
-void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, bool isVR_SR_fake, bool isVR_CR_fake, bool isVR_SR_flip, bool isVR_CR_flip, bool isEE, bool isEM, bool isME, bool isMM, bool isEFake, bool isMFake, float weight, float crWeight) {
+void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, float met, bool isVR_SR_fake, bool isVR_CR_fake, bool isVR_SR_flip, bool isVR_CR_flip, bool isEE, bool isEM, bool isME, bool isMM, bool isEFake, bool isMFake, bool isEE_flip, bool isEM_flip, float weight, float crWeight) {
     float fillWeight = 0;
     bool fillFakeCR = false;
     // fill 1d histograms first
@@ -299,13 +305,18 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         //fill flip estimation plots
         if( name=="os"||name=="osest" ){
             fill1d("flipcr",name,sample,cr,fillWeight);
-            //if (isVR_CR_flip){fill1d("vrcr","vrcr_"+name,sample,cr,fillWeight);}
             if (isVR_CR_flip && fillWeight==weight){fill1d("vrcr_flip","vrcr_flip",sample,cr,fillWeight);}
             if (isVR_CR_flip && fillWeight==crWeight){fill1d("vrcrest_flip","vrcrest_flip",sample,cr,fillWeight);}
+            if (isVR_CR_flip && isEE_flip && fillWeight==weight){fill1d("vrcr_flip_ee","vrcr_flip",sample,cr,fillWeight);}
+            if (isVR_CR_flip && isEE_flip && fillWeight==crWeight){fill1d("vrcrest_flip_ee","vrcrest_flip",sample,cr,fillWeight);}
+            if (isVR_CR_flip && isEM_flip && fillWeight==weight){fill1d("vrcr_flip_em","vrcr_flip",sample,cr,fillWeight);}
+            if (isVR_CR_flip && isEM_flip && fillWeight==crWeight){fill1d("vrcrest_flip_em","vrcrest_flip",sample,cr,fillWeight);}
         }
         //if (isVR_SR_flip){fill1d("vrsr","vrsr_"+name,sample,cr,fillWeight);} 
         if(name == "ss" || name == "ml"){
             if (isVR_SR_flip){fill1d("vrsr_flip","vrsr_flip",sample,cr,fillWeight);}
+            if (isVR_SR_flip && isEE_flip){fill1d("vrsr_flip_ee","vrsr_flip",sample,cr,fillWeight);}
+            if (isVR_SR_flip && isEM_flip){fill1d("vrsr_flip_em","vrsr_flip",sample,cr,fillWeight);}
         }
 
     } // end loop over regions
