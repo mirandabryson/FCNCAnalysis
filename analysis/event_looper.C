@@ -636,47 +636,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 print_debug(debug_file,best_hyp_type,best_hyp,good_jets,good_bjets,category);
                 //debug_file << std::endl;
             }
-            // prepare BDT parameters
-            if (njets < 2) {
-                continue;
-            }
-            Float_t LeadJet_pt=0., SubLeadJet_pt=0., SubSubLeadJet_pt=0., LeadBtag_pt=0.;
-            if (njets > 2) {
-               LeadJet_pt = good_jets[0].pt();
-               SubLeadJet_pt = good_jets[1].pt();
-               SubSubLeadJet_pt = good_jets[2].pt();
-            }
-            else if (njets == 2) {
-               LeadJet_pt = good_jets[0].pt();
-               SubLeadJet_pt = good_jets[1].pt();
-            }
-            if (nbjets > 0) { 
-                LeadBtag_pt = good_bjets[0].pt();
-            }
-            Float_t BDT_njets=njets, BDT_nbtag=nbjets, BDT_HT = ht;
-            Float_t Most_Forward_pt = 0., highest_abs_eta=0.;
-            for(int i=0; i < njets; i++){
-                if (abs(good_jets[i].eta()) >= highest_abs_eta) {
-                    highest_abs_eta = abs(good_jets[i].eta());
-                    Most_Forward_pt = good_jets[i].pt();
-                }
-            }
-
-            std::map<std::string, Float_t> BDT_params = {
-                {"nJets", BDT_njets},
-                {"nBtag", BDT_nbtag},
-                {"LeadJet_pt", LeadJet_pt},
-                {"SubLeadJet_pt", SubLeadJet_pt},
-                {"SubSubLeadJet_pt", SubSubLeadJet_pt},
-                {"LeadBtag_pt", LeadBtag_pt},
-                {"MT_LeadLep_MET", 200.0},
-                {"MT_SubLeadLep_MET", 200.0},
-                {"HT", BDT_HT},
-                {"Most_Forward_pt", Most_Forward_pt}
-            };
-
-            std::cout << get_BDT_score(best_hyp, BDT_params) << endl; 
-
+            
             // if there isn't a good lepton hypothesis
             if (best_hyp_type<0) continue;
             else {hists.fill1d("cutflow","br",chainTitleCh,cutflow_counter,weight); cutflow_counter++;}
@@ -770,7 +730,51 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             if (debugPrints){std::cout << "passed crWeight for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
-            
+            // prepare BDT parameters
+            //if (njets < 2) {
+            //    continue;
+            //}
+            Float_t LeadJet_pt=0., SubLeadJet_pt=0., SubSubLeadJet_pt=0., LeadBtag_pt=0.;
+            if (njets > 2) {
+               LeadJet_pt = good_jets[0].pt();
+               SubLeadJet_pt = good_jets[1].pt();
+               SubSubLeadJet_pt = good_jets[2].pt();
+            }
+            else if (njets == 2) {
+               LeadJet_pt = good_jets[0].pt();
+               SubLeadJet_pt = good_jets[1].pt();
+            }
+            if (nbjets > 0) { 
+                LeadBtag_pt = good_bjets[0].pt();
+            }
+            Float_t BDT_nbtag=nbjets, BDT_HT = ht, BDT_njets=2.0;
+            Float_t Most_Forward_pt = 0., highest_abs_eta=0.;
+            for(int i=0; i < njets; i++){
+                if (abs(good_jets[i].eta()) >= highest_abs_eta) {
+                    highest_abs_eta = abs(good_jets[i].eta());
+                    Most_Forward_pt = good_jets[i].pt();
+                }
+            }
+            Float_t MT_LeadLep_MET, MT_SubLeadLep_MET;
+            MT_LeadLep_MET = TMath::Sqrt(2*best_hyp[0].pt()*nt.MET_pt() * (1 - TMath::Cos(best_hyp[0].phi()-nt.MET_phi())));
+            MT_SubLeadLep_MET = TMath::Sqrt(2*best_hyp[1].pt()*nt.MET_pt() * (1 - TMath::Cos(best_hyp[1].phi()-nt.MET_phi())));
+
+
+            std::map<std::string, Float_t> BDT_params = {
+                {"nJets", njets},
+                {"nBtag", nbjets},
+                {"LeadJet_pt", LeadJet_pt},
+                {"SubLeadJet_pt", SubLeadJet_pt},
+                {"SubSubLeadJet_pt", SubSubLeadJet_pt},
+                {"LeadBtag_pt", LeadBtag_pt},
+                {"MT_LeadLep_MET", MT_LeadLep_MET},
+                {"MT_SubLeadLep_MET", MT_SubLeadLep_MET},
+                {"HT", BDT_HT},
+                {"Most_Forward_pt", Most_Forward_pt}
+            };
+
+            std::cout << get_BDT_score(best_hyp, BDT_params) << endl; 
+
             // if we've reached here we've passed the baseline selection
             // fill histograms
             /*if (chainTitle == "ttjets"){
