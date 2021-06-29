@@ -17,6 +17,7 @@ for y in years:
     #first, we load the txt output from the tableMaker.py script into a dataframe
     #we will manipulate these data, save it into a different dataframe, and print to an output file
     df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/tableMaker_"+str(y)+".txt")
+    #print df
     print("got yields and stat errors")
 
     #now we have imported the data and manipulated it into the categories we want
@@ -118,7 +119,7 @@ for y in years:
                         yld = row[proc].values[0]
                         err = row[proc+" error"].values[0]
                         
-                        if yld != 0:
+                        if yld > 0:
                             dcPercentage = round(err/yld,3)
                         else:
                             dcPercentage = 1
@@ -127,24 +128,28 @@ for y in years:
             #print(statUnc)
             for i in range(len(statUnc)):
                 lep = statUnc[i][0]
+                if lep == 2: l = "dilep"
+                if lep == 3: l = "trilep"
                 jet = statUnc[i][1]
                 btag = statUnc[i][2]
                 unc = statUnc[i][3]
 
-                cTitle = str(lep)+"_"+str(jet)+"_"+str(btag)+"_"+p
+                cTitle = str(l)+"_"+str(jet)+"_"+str(btag)+"_"+p
                 rTitle = p+"_stat_"+str(i)
+
                 while len(cTitle) < 20:
                     cTitle+=" "
                 while len(rTitle) < 17:
                     rTitle+=" "
                 rTitle+="lnN"
-
+                #print("*************")
                 #print(cTitle)
                 #print(rTitle)
                 #print(unc)
 
 
                 for column in dcard_df:
+                    #print column
                     if column==cTitle:
                         filler = str(unc)
                         while len(filler)<20:
@@ -155,6 +160,7 @@ for y in years:
                         while len(filler) < 20:
                             filler += " "
                         dcard_df.at[rTitle,column] = filler
+                #print dcard_df
         print("filled stat uncertainties")
         #print(dcard_df)
 

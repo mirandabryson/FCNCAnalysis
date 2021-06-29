@@ -83,7 +83,7 @@ float fastsim_triggerScaleFactor(int year, int pdgId1, int pdgId2, float pt1, fl
 
 float flipRate(int year, float pt, float eta){//, ana_t ana) { 
     //if (ana == SSANA and year == 2016) return y2016::flipRate_legacy(pt, eta);
-    if (year == 2016) return y2016::flipRate(pt, eta);
+    if (year == 2016) return y2016::flipRate_legacy(pt, eta);
     else if (year == 2017) return y2017::flipRate(pt, eta);
     else if (year == 2018) return y2018::flipRate(pt, eta);
     else return 0.;

@@ -382,7 +382,9 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 //cout << "genWeight: " << genWeight << endl;
                 weight = (weight*genWeight*lumi)/(abs(genWeight));
                 //cout << "weight: " << weight << endl;
+                //cout << "lumi: " << lumi << endl;
             }else {weight = 1.;}
+            //cout << weight << endl;
             if (debugPrints){std::cout << "passed eventWeight for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
@@ -497,8 +499,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 vector<int> nTightNotFlip;
                 vector<int> nTightFlip;
                 for ( auto lep : tight_leptons ){
-                    if (lep.idlevel()==SS::IDLevel::IDtight && !lep.isFlip()){nTightNotFlip.push_back(lep.id());}
-                    if (lep.idlevel()==SS::IDLevel::IDtight && lep.absid()==11 && lep.isFlip()){nTightFlip.push_back(lep.id());}
+                    if (lep.idlevel()==SS::IDLevel::IDtight && (lep.genPartFlav()==0||lep.genPartFlav()==15) && !lep.isFlip()){nTightNotFlip.push_back(lep.id());}
+                    if (lep.idlevel()==SS::IDLevel::IDtight && (lep.genPartFlav()==0||lep.genPartFlav()==15) && lep.absid()==11 && lep.isFlip()){nTightFlip.push_back(lep.id());}
                 }
 
                 if(best_hyp.size()==2){
@@ -556,6 +558,11 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                     }
                 }
                 if(best_hyp.size()==3){
+                    isVR_CR_flip = 0;
+                    isVR_SR_flip = 0;
+                    isEE_flip = 0;
+                    isEM_flip = 0;
+                    
                     if ((nPromptTight.size()==2&&nNonPromptTight.size()==1)||(nPromptTight.size()==1&&nNonPromptTight.size()==2)){
                         isVR_SR_fake=1;
                         if (nNonPromptTight.size()==1){
@@ -605,7 +612,9 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             //apply SFs to MC events
             if (!isData){
                 //apply lepton SFs to hypothesis leptons
-                for ( auto lep : best_hyp ) {weight = weight * leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht);}
+                for ( auto lep : best_hyp ) {
+                    cout << leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht) << endl;
+                    weight = weight * leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht);}
 
                 //apply PU weight
                 weight = weight * nt.puWeight();
@@ -719,7 +728,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             //now, we move to the flip weight
             if (best_hyp_type==5){
                 float flipWeight = 0;
-                for (auto lep : loose_leptons){
+                for (auto lep : tight_leptons){
                     if (lep.absid()==13){continue;}
                     //std::cout << "flipWeight"
                     float flipRateValue = flipRate(nt.year(),lep.pt(),lep.eta());
@@ -735,7 +744,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             // if we've reached here we've passed the baseline selection
             // fill histograms
             //if (chainTitle == "ttjets"){
-            hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
+                //hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             //}
             if (category == 1 && !(isSignal||isData)){
                 hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
