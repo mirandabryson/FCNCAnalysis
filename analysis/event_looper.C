@@ -336,9 +336,11 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
     tqdm bar;
     // bar.set_theme_braille();
+    //BDT constructor
+    BDT booster("./helpers/BDT/test.xml");
 
     auto start = high_resolution_clock::now();
-
+    
     //File Loop
     while ( (currentFile = (TFile*)fileIter.Next()) ){
         TFile *file = new TFile(currentFile->GetTitle());
@@ -772,8 +774,9 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 {"HT", BDT_HT},
                 {"Most_Forward_pt", Most_Forward_pt}
             };
-
-            std::cout << get_BDT_score(best_hyp, BDT_params) << endl; 
+            booster.set_features(best_hyp, BDT_params);
+            std::cout << booster.get_score() << endl;
+            //std::cout << get_BDT_score(best_hyp, BDT_params) << endl; 
 
             // if we've reached here we've passed the baseline selection
             // fill histograms
@@ -807,8 +810,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
      auto duration = duration_cast<milliseconds>(stop - start);
      if (debug_file.is_open()) debug_file.close();
 
-     if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
-     cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
+     if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " milliseconds!!" << endl;
+     cout << "processed " << nEventsTotal << " events in " << duration.count() << " milliseconds!!" << endl;
 
      //write histograms
      auto outFile = new TFile(outFileName.Data(), "recreate");
