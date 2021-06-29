@@ -736,6 +736,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             //if (njets < 2) {
             //    continue;
             //}
+            auto start_time = high_resolution_clock::now();
             Float_t LeadJet_pt=0., SubLeadJet_pt=0., SubSubLeadJet_pt=0., LeadBtag_pt=0.;
             if (njets > 2) {
                LeadJet_pt = good_jets[0].pt();
@@ -774,7 +775,10 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 {"HT", BDT_HT},
                 {"Most_Forward_pt", Most_Forward_pt}
             };
+
             booster.set_features(best_hyp, BDT_params);
+            booster.get_score();
+            cout << "BDT eval time: " << duration_cast<microseconds>(high_resolution_clock::now() - start_time).count() << endl;
             std::cout << booster.get_score() << endl;
             //std::cout << get_BDT_score(best_hyp, BDT_params) << endl; 
 
