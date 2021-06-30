@@ -167,7 +167,7 @@ Float_t get_BDT_score(Leptons ordered_leptons, std::map<std::string, Float_t> BD
     FCNC_booster->AddVariable("MT_LeadLep_MET", &(BDT_params["MT_LeadLep_MET"]));
     FCNC_booster->AddVariable("MT_SubLeadLep_MET", &(BDT_params["MT_SubLeadLep_MET"]));
     FCNC_booster->AddVariable("LeadLep_SubLeadLep_Mass", &LeadLep_SubLeadLep_Mass);
-    FCNC_booster->BookMVA("BDT", "./helpers/BDT/test.xml");
+    FCNC_booster->BookMVA("BDT", "./helpers/BDT/BDT.xml");
 
     if (debug) {
         cout << "event: " << nt.event() << endl;

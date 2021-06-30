@@ -337,7 +337,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     tqdm bar;
     // bar.set_theme_braille();
     //BDT constructor
-    BDT booster("./helpers/BDT/test.xml");
+    BDT booster("./helpers/BDT/BDT.xml");
 
     auto start = high_resolution_clock::now();
     
