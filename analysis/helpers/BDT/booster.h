@@ -5,6 +5,7 @@
 
 using namespace std;
 using namespace std::chrono;
+
 double convert_tmva_to_prob(double score) {
     // Undo TMVA transformation
     double raw_score = -0.5 * log( (2 / (score + 1)) - 1);
@@ -12,7 +13,11 @@ double convert_tmva_to_prob(double score) {
     double prob = 1 / (1 + exp(-raw_score));
     return prob;
 }
+
 class BDT {
+    // Boosted decision tree class. Allows evaluation of BDT using ROOT variables
+    // by reading from a customized xml file. Uses the TMVA library:
+    // https://root.cern.ch/download/doc/tmva/TMVAUsersGuide.pdf
     unique_ptr<TMVA::Reader> booster;
     std::map<std::string, Float_t> parameter_map;
     Float_t MET_pt;
@@ -34,6 +39,10 @@ class BDT {
 
 BDT::BDT(std::string path_to_xml) {
     booster.reset( new TMVA::Reader( "!Color:Silent" ) );
+    // Booster must be initialized with an xml file and the feature addresses.
+    // The feature addresses cannot be changed, but the values can.
+    // NOTE: you must add the booster features in the same order
+    // that they are organized in the xml file
     booster->AddVariable("Most_Forward_pt", &(parameter_map["Most_Forward_pt"]));
     booster->AddVariable("HT", &(parameter_map["HT"]));
     booster->AddVariable("LeadLep_eta", &LeadLep_eta);
@@ -84,9 +93,6 @@ void BDT::set_features(Leptons ordered_leptons, std::map<std::string, Float_t> B
     parameter_map["LeadBtag_pt"] = BDT_params["LeadBtag_pt"];
     parameter_map["MT_LeadLep_MET"] = BDT_params["MT_LeadLep_MET"];
     parameter_map["MT_SubLeadLep_MET"] = BDT_params["MT_SubLeadLep_MET"];
-    //FCNC_booster.reset( new TMVA::Reader( "!Color:Silent" ) );
-    // NOTE: you must add the booster variables in the same order
-    // that they are organized in the xml file
     if (debug) {
         cout << "event: " << nt.event() << endl;
         cout << "Most_Forward_pt: " << BDT_params["Most_Forward_pt"] << endl;
@@ -114,10 +120,12 @@ void BDT::set_features(Leptons ordered_leptons, std::map<std::string, Float_t> B
 }
 
 Float_t BDT::get_score() {
+    //convert the TMVA output to a bdt score [0,1] using a sigmoid
     Float_t booster_score = convert_tmva_to_prob(booster->EvaluateMVA("BDT"));
     return booster_score;
 }
-//old function (~20ms per event because it makes a new BDT and opens an xml file for every event)
+
+//old function (~20ms per event because it makes a new BDT for every event)
 Float_t get_BDT_score(Leptons ordered_leptons, std::map<std::string, Float_t> BDT_params, bool debug=false){
     auto start_time = high_resolution_clock::now();
     unique_ptr<TMVA::Reader> FCNC_booster;
