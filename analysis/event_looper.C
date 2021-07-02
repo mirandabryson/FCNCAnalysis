@@ -737,50 +737,11 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             //    continue;
             //}
             auto start_time = high_resolution_clock::now();
-            //Float_t LeadJet_pt=0., SubLeadJet_pt=0., SubSubLeadJet_pt=0., LeadBtag_pt=0.;
-            //if (njets > 2) {
-            //   LeadJet_pt = good_jets[0].pt();
-            //   SubLeadJet_pt = good_jets[1].pt();
-            //   SubSubLeadJet_pt = good_jets[2].pt();
-           // }
-            //else if (njets == 2) {
-             //  LeadJet_pt = good_jets[0].pt();
-            //   SubLeadJet_pt = good_jets[1].pt();
-           // }
-            //if (nbjets > 0) { 
-            //    LeadBtag_pt = good_bjets[0].pt();
-            //}
-            //Float_t BDT_nbtag=nbjets, BDT_HT = ht, BDT_njets=2.0;
-            //Float_t Most_Forward_pt = 0., highest_abs_eta=0.;
-            //for(int i=0; i < njets; i++){
-            //    if (abs(good_jets[i].eta()) >= highest_abs_eta) {
-            //        highest_abs_eta = abs(good_jets[i].eta());
-            //        Most_Forward_pt = good_jets[i].pt();
-            //    }
-            //}
-            //Float_t MT_LeadLep_MET, MT_SubLeadLep_MET;
-            //MT_LeadLep_MET = TMath::Sqrt(2*best_hyp[0].pt()*nt.MET_pt() * (1 - TMath::Cos(best_hyp[0].phi()-nt.MET_phi())));
-            //MT_SubLeadLep_MET = TMath::Sqrt(2*best_hyp[1].pt()*nt.MET_pt() * (1 - TMath::Cos(best_hyp[1].phi()-nt.MET_phi())));
-
-
-            //std::map<std::string, Float_t> BDT_params = {
-            //    {"nJets", njets},
-            //    {"nBtag", nbjets},
-            //    {"LeadJet_pt", LeadJet_pt},
-            //    {"SubLeadJet_pt", SubLeadJet_pt},
-            //    {"SubSubLeadJet_pt", SubSubLeadJet_pt},
-             //   {"LeadBtag_pt", LeadBtag_pt},
-            //    {"MT_LeadLep_MET", MT_LeadLep_MET},
-            //    {"MT_SubLeadLep_MET", MT_SubLeadLep_MET},
-            //    {"HT", BDT_HT},
-            //    {"Most_Forward_pt", Most_Forward_pt}
-            //};
             std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-            booster.set_features(BDT_params, true);
+            booster.set_features(BDT_params);
             booster.get_score();
             cout << "BDT eval time: " << duration_cast<microseconds>(high_resolution_clock::now() - start_time).count() << endl;
             std::cout << booster.get_score() << endl;
-            //std::cout << get_BDT_score(best_hyp, BDT_params) << endl; 
 
             // if we've reached here we've passed the baseline selection
             // fill histograms

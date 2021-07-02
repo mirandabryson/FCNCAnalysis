@@ -1,0 +1,78 @@
+#include <TFile.h>
+
+class BabyMaker{
+    std::map<std::string, Float_t> parameter_map; 
+    TFile* BabyFile;
+    TTree* BabyTree;
+    public:
+        void fill_tree(std::map)
+        BabyMaker(std::string);
+        void close();
+};
+    
+BabyMaker::BabyMaker(std::string output_name) {
+
+    BabyFile = new TFile(output_name, "RECREATE");
+    BabyFile->cd();
+    BabyTree = new TTree("t", "test_tree");
+    
+    BabyTree->Branch("Most_Forward_pt", &(parameter_map["Most_Forward_pt"]));
+    BabyTree->Branch("HT", &(parameter_map["HT"]));
+    BabyTree->Branch("LeadLep_eta", &(parameter_map["LeadLep_eta"]));
+    BabyTree->Branch("LeadLep_pt", &(parameter_map["LeadLep_pt"]));
+    BabyTree->Branch("LeadLep_dxy", &(parameter_map["LeadLep_dxy"]));
+    BabyTree->Branch("LeadLep_dz", &(parameter_map["LeadLep_dz"]));
+    BabyTree->Branch("SubLeadLep_pt", &(parameter_map["SubLeadLep_pt"]));
+    BabyTree->Branch("SubLeadLep_eta", &(parameter_map["SubLeadLep_eta"]));
+    BabyTree->Branch("SubLeadLep_dxy", &(parameter_map["SubLeadLep_dxy"]));
+    BabyTree->Branch("SubLeadLep_dz", &(parameter_map["SubLeadLep_dz"]));
+    BabyTree->Branch("nJets", &(parameter_map["nJets"]));
+    BabyTree->Branch("nBtag", &(parameter_map["nbtag"]));
+    BabyTree->Branch("LeadJet_pt", &(parameter_map["LeadJet_pt"]));
+    BabyTree->Branch("SubLeadJet_pt", &(parameter_map["SubLeadJet_pt"]));
+    BabyTree->Branch("SubSubLeadJet_pt", &(parameter_map["SubSubLeadJet_pt"]));
+    BabyTree->Branch("nElectron", &(parameter_map["nElectron"]));
+    BabyTree->Branch("MET_pt", &(parameter_map["MET_pt"]));
+    BabyTree->Branch("LeadBtag_pt", &(parameter_map["LeadBtag_pt"]));
+    BabyTree->Branch("MT_LeadLep_MET", &(parameter_map["MT_LeadLep_MET"]));
+    BabyTree->Branch("MT_SubLeadLep_MET", &(parameter_map["MT_SubLeadLep_MET"]));
+    BabyTree->Branch("LeadLep_SubLeadLep_Mass", &(parameter_map["LeadLep_SubLeadLep_Mass"]));
+
+void BabyMaker::set_features(std::map<std::string, Float_t> BDT_params) {
+    parameter_map["Most_Forward_pt"] = BDT_params["Most_Forward_pt"];
+    parameter_map["HT"] = BDT_params["HT"];
+    parameter_map["LeadLep_eta"] = BDT_params["LeadLep_eta"];
+    parameter_map["LeadLep_pt"] = BDT_params["LeadLep_pt"];
+    parameter_map["LeadLep_dxy"] = BDT_params["LeadLep_dxy"];
+    parameter_map["LeadLep_dz"] = BDT_params["LeadLep_dz"];
+    parameter_map["SubLeadLep_pt"] = BDT_params["SubLeadLep_pt"];
+    parameter_map["SubLeadLep_eta"] = BDT_params["SubLeadLep_eta"];
+    parameter_map["SubLeadLep_dxy"] = BDT_params["SubLeadLep_dxy"];
+    parameter_map["SubLeadLep_dz"] = BDT_params["SubLeadLep_dz"];
+    parameter_map["nJets"] = BDT_params["nJets"];
+    parameter_map["nBtag"] = BDT_params["nBtag"];
+    parameter_map["LeadJet_pt"] = BDT_params["LeadJet_pt"];
+    parameter_map["SubLeadJet_pt"] = BDT_params["SubLeadJet_pt"];
+    parameter_map["SubSubLeadJet_pt"] = BDT_params["SubSubLeadJet_pt"];
+    parameter_map["nElectron"] = BDT_params["nElectron"];
+    parameter_map["MET_pt"] = BDT_params["MET_pt"];
+    parameter_map["LeadBtag_pt"] = BDT_params["LeadBtag_pt"];
+    parameter_map["MT_LeadLep_MET"] = BDT_params["MT_LeadLep_MET"];
+    parameter_map["MT_SubLeadLep_MET"] = BDT_params["MT_SubLeadLep_MET"];
+    parameter_map["LeadLep_SubLeadLep_Mass"] = BDT_params["LeadLep_SubLeadLep_Mass"];
+    BabyTree->Fill();
+}
+
+void BabyMaker::close() {
+    BabyFile->Close()
+}
+
+
+//make new TFile for making a baby
+//void make_BDT_baby() {
+//    
+//    TFile *baby_file = new TFile("BDT_baby.root", "RECREATE");
+//
+//    baby_file->Close();
+//}
+

@@ -20,17 +20,6 @@ class BDT {
     // https://root.cern.ch/download/doc/tmva/TMVAUsersGuide.pdf
     unique_ptr<TMVA::Reader> booster;
     std::map<std::string, Float_t> parameter_map;
-    //Float_t MET_pt;
-    //Float_t LeadLep_pt;
-    //Float_t SubLeadLep_pt; 
-    //Float_t LeadLep_eta;
-    //Float_t SubLeadLep_eta;
-    //Float_t LeadLep_dxy; 
-    //Float_t SubLeadLep_dxy;
-    //Float_t LeadLep_dz;
-    //Float_t SubLeadLep_dz; 
-    //Float_t nElectron;
-    //Float_t LeadLep_SubLeadLep_Mass;
     public:
         BDT(std::string);
         void set_features(std::map<std::string, Float_t>, bool);
@@ -137,20 +126,6 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
 
      
 void BDT::set_features(std::map<std::string, Float_t> BDT_params, bool debug=false){
-    //MET_pt = nt.MET_pt();
-    //Lepton LeadLep = ordered_leptons[0];
-    //Lepton SubLeadLep = ordered_leptons[1];
-    //LeadLep_pt = LeadLep.pt();
-    //SubLeadLep_pt = SubLeadLep.pt();
-    //LeadLep_eta = abs(LeadLep.eta());
-    //SubLeadLep_eta = abs(SubLeadLep.eta());
-    //LeadLep_dxy = abs(LeadLep.dxy());
-    //SubLeadLep_dxy = abs(SubLeadLep.dxy());
-    //LeadLep_dz = abs(LeadLep.dz());
-    //SubLeadLep_dz = abs(SubLeadLep.dz());
-    //nElectron = nt.nElectron();
-    //LeadLep_SubLeadLep_Mass = (LeadLep.p4() + SubLeadLep.p4()).M();
-    //set parameter_map values as well
     parameter_map["Most_Forward_pt"] = BDT_params["Most_Forward_pt"];
     parameter_map["HT"] = BDT_params["HT"];
     parameter_map["LeadLep_eta"] = BDT_params["LeadLep_eta"];
@@ -184,7 +159,7 @@ void BDT::set_features(std::map<std::string, Float_t> BDT_params, bool debug=fal
         cout << "SubLeadLep_eta: " << BDT_params["SubLeadLep_eta"] << endl;
         cout << "SubLeadLep_dxy: " << BDT_params["SubLeadLep_dxy"] << endl;
         cout << "SubLeadLep_dz: " << BDT_params["SubLeadLep_dz"] << endl;
-        cout << "nJet: " << parameter_map["nJets"] << endl;
+        cout << "nJets: " << parameter_map["nJets"] << endl;
         cout << "nBtag: " << parameter_map["nBtag"] << endl;
         cout << "LeadJet_pt: " << parameter_map["LeadJet_pt"] << endl;
         cout << "SubLeadJet_pt: " << parameter_map["SubLeadJet_pt"] << endl;
