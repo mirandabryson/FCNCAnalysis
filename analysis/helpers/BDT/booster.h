@@ -20,17 +20,17 @@ class BDT {
     // https://root.cern.ch/download/doc/tmva/TMVAUsersGuide.pdf
     unique_ptr<TMVA::Reader> booster;
     std::map<std::string, Float_t> parameter_map;
-    Float_t MET_pt;
-    Float_t LeadLep_pt;
-    Float_t SubLeadLep_pt; 
-    Float_t LeadLep_eta;
-    Float_t SubLeadLep_eta;
-    Float_t LeadLep_dxy; 
-    Float_t SubLeadLep_dxy;
-    Float_t LeadLep_dz;
-    Float_t SubLeadLep_dz; 
-    Float_t nElectron;
-    Float_t LeadLep_SubLeadLep_Mass;
+    //Float_t MET_pt;
+    //Float_t LeadLep_pt;
+    //Float_t SubLeadLep_pt; 
+    //Float_t LeadLep_eta;
+    //Float_t SubLeadLep_eta;
+    //Float_t LeadLep_dxy; 
+    //Float_t SubLeadLep_dxy;
+    //Float_t LeadLep_dz;
+    //Float_t SubLeadLep_dz; 
+    //Float_t nElectron;
+    //Float_t LeadLep_SubLeadLep_Mass;
     public:
         BDT(std::string);
         void set_features(Leptons, std::map<std::string, Float_t>, bool);
@@ -45,8 +45,8 @@ BDT::BDT(std::string path_to_xml) {
     // that they are organized in the xml file
     booster->AddVariable("Most_Forward_pt", &(parameter_map["Most_Forward_pt"]));
     booster->AddVariable("HT", &(parameter_map["HT"]));
-    booster->AddVariable("LeadLep_eta", &LeadLep_eta);
-    booster->AddVariable("LeadLep_pt", &LeadLep_pt);
+    booster->AddVariable("LeadLep_eta", &(parameter_map["LeadLep_eta"]));
+    booster->AddVariable("LeadLep_pt", &(parameter_map["LeadLep_pt"]));
     booster->AddVariable("LeadLep_dxy", &LeadLep_dxy);
     booster->AddVariable("LeadLep_dz", &LeadLep_dz);
     booster->AddVariable("SubLeadLep_pt", &SubLeadLep_pt);
@@ -67,6 +67,72 @@ BDT::BDT(std::string path_to_xml) {
     booster->BookMVA("BDT", path_to_xml);
 
 }
+
+void BDT::calculate_features(Jets good_jets, Jets good_bjets, float ht, Leptons ordered_leptons) {
+    MET_pt = nt.MET_pt();
+    Lepton LeadLep = ordered_leptons[0];
+    Lepton SubLeadLep = ordered_leptons[1];
+    LeadLep_pt = LeadLep.pt();
+    SubLeadLep_pt = SubLeadLep.pt();
+    LeadLep_eta = abs(LeadLep.eta());
+    SubLeadLep_eta = abs(SubLeadLep.eta());
+    LeadLep_dxy = abs(LeadLep.dxy());
+    SubLeadLep_dxy = abs(SubLeadLep.dxy());
+    LeadLep_dz = abs(LeadLep.dz());
+    SubLeadLep_dz = abs(SubLeadLep.dz());
+    nElectron = nt.nElectron();
+    LeadLep_SubLeadLep_Mass = (LeadLep.p4() + SubLeadLep.p4()).M();
+    
+    Float_t LeadJet_pt=0., SubLeadJet_pt=0., SubSubLeadJet_pt=0., LeadBtag_pt=0.;
+    if (njets > 2) {
+        LeadJet_pt = good_jets[0].pt();
+        SubLeadJet_pt = good_jets[1].pt();
+        SubSubLeadJet_pt = good_jets[2].pt();
+    }
+    else if (njets == 2) {
+        LeadJet_pt = good_jets[0].pt();
+        SubLeadJet_pt = good_jets[1].pt();
+    }
+    if (nbjets > 0) { 
+        LeadBtag_pt = good_bjets[0].pt();
+    }
+    Float_t BDT_nbtag=nbjets, BDT_HT = ht, BDT_njets=2.0;
+    Float_t Most_Forward_pt = 0., highest_abs_eta=0.;
+    for(int i=0; i < njets; i++){
+        if (abs(good_jets[i].eta()) >= highest_abs_eta) {
+            highest_abs_eta = abs(good_jets[i].eta());
+            Most_Forward_pt = good_jets[i].pt();
+        }
+    }
+    Float_t MT_LeadLep_MET, MT_SubLeadLep_MET;
+    MT_LeadLep_MET = TMath::Sqrt(2*best_hyp[0].pt()*nt.MET_pt() * (1 - TMath::Cos(best_hyp[0].phi()-nt.MET_phi())));
+    MT_SubLeadLep_MET = TMath::Sqrt(2*best_hyp[1].pt()*nt.MET_pt() * (1 - TMath::Cos(best_hyp[1].phi()-nt.MET_phi())));
+    std::map<std::string, Float_t> params = {
+        {"nJets", njets},
+        {"nBtag", nbjets},
+        {"LeadJet_pt", LeadJet_pt},
+        {"SubLeadJet_pt", SubLeadJet_pt},
+        {"SubSubLeadJet_pt", SubSubLeadJet_pt},
+        {"LeadBtag_pt", LeadBtag_pt},
+        {"MT_LeadLep_MET", MT_LeadLep_MET},
+        {"MT_SubLeadLep_MET", MT_SubLeadLep_MET},
+        {"HT", BDT_HT},
+        {"Most_Forward_pt", Most_Forward_pt},
+        {"MET_pt", MET_pt},
+        {"LeadLep_pt", LeadLep_pt},
+        {"SubLeadLep_pt", SubLeadLep_pt},
+        {"LeadLep_eta", LeadLep_eta},
+        {"SubLeadLep_eta", SubLeadLep_eta},
+        {"LeadLep_dxy", LeadLep_dxy},
+        {"SubLeadLep_dxy", SubLeadLep_dxy},
+        {"LeadLep_dz", LeadLep_dz},
+        {"SubLeadLep_dz", SubLeadLep_dz},
+        {"nElectron", nElectron},
+        {"LeadLep_SubLeadLep_Mass", LeadLep_SubLeadLep_Mass}
+    };
+    return params;
+}
+
      
 void BDT::set_features(Leptons ordered_leptons, std::map<std::string, Float_t> BDT_params, bool debug=false){
     MET_pt = nt.MET_pt();

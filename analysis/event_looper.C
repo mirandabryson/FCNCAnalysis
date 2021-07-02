@@ -340,7 +340,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     BDT booster("./helpers/BDT/BDT.xml");
 
     auto start = high_resolution_clock::now();
-    
+
     //File Loop
     while ( (currentFile = (TFile*)fileIter.Next()) ){
         TFile *file = new TFile(currentFile->GetTitle());
@@ -816,7 +816,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
      if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " milliseconds!!" << endl;
      cout << "processed " << nEventsTotal << " events in " << duration.count() << " milliseconds!!" << endl;
-
      //write histograms
      auto outFile = new TFile(outFileName.Data(), "recreate");
      if (!quiet) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
