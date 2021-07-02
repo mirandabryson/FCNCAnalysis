@@ -5,16 +5,15 @@ class BabyMaker{
     TFile* BabyFile;
     TTree* BabyTree;
     public:
-        void fill_tree(std::map)
+        void set_features(std::map<std::string, Float_t>);
         BabyMaker(std::string);
         void close();
 };
     
 BabyMaker::BabyMaker(std::string output_name) {
-
-    BabyFile = new TFile(output_name, "RECREATE");
+    BabyFile = new TFile("test.root", "RECREATE");
     BabyFile->cd();
-    BabyTree = new TTree("t", "test_tree");
+    BabyTree = new TTree("T", "Events");
     
     BabyTree->Branch("Most_Forward_pt", &(parameter_map["Most_Forward_pt"]));
     BabyTree->Branch("HT", &(parameter_map["HT"]));
@@ -37,6 +36,7 @@ BabyMaker::BabyMaker(std::string output_name) {
     BabyTree->Branch("MT_LeadLep_MET", &(parameter_map["MT_LeadLep_MET"]));
     BabyTree->Branch("MT_SubLeadLep_MET", &(parameter_map["MT_SubLeadLep_MET"]));
     BabyTree->Branch("LeadLep_SubLeadLep_Mass", &(parameter_map["LeadLep_SubLeadLep_Mass"]));
+}
 
 void BabyMaker::set_features(std::map<std::string, Float_t> BDT_params) {
     parameter_map["Most_Forward_pt"] = BDT_params["Most_Forward_pt"];
@@ -64,15 +64,5 @@ void BabyMaker::set_features(std::map<std::string, Float_t> BDT_params) {
 }
 
 void BabyMaker::close() {
-    BabyFile->Close()
+    BabyFile->Close();
 }
-
-
-//make new TFile for making a baby
-//void make_BDT_baby() {
-//    
-//    TFile *baby_file = new TFile("BDT_baby.root", "RECREATE");
-//
-//    baby_file->Close();
-//}
-

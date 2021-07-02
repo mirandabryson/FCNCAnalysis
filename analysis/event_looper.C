@@ -23,6 +23,7 @@
 #include "./helpers/histogrammingClass.h"
 //#include "./helpers/flip_weights.h"
 #include "./helpers/BDT/booster.h"
+#include "./helpers/BDT/make_baby.h"
 #include "./helpers/tqdm.h"
 #include "../../NanoTools/NanoCORE/SSSelections.h"
 #include "../../NanoTools/NanoCORE/IsolationTools.h"
@@ -338,6 +339,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     // bar.set_theme_braille();
     //BDT constructor
     BDT booster("./helpers/BDT/BDT.xml");
+    BabyMaker bdt_baby("./helpers/BDT/test_baby.root");
 
     auto start = high_resolution_clock::now();
 
@@ -740,6 +742,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
             booster.set_features(BDT_params);
             booster.get_score();
+            bdt_baby.set_features(BDT_params);
             cout << "BDT eval time: " << duration_cast<microseconds>(high_resolution_clock::now() - start_time).count() << endl;
             std::cout << booster.get_score() << endl;
 
@@ -783,4 +786,5 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
      outFile->cd();
      hists.write();
      outFile->Close();
+     bdt_baby.close();
 }
