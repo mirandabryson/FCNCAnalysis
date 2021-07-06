@@ -1,17 +1,18 @@
 #include <TFile.h>
 
-class BabyMaker{
+class BDTBabyMaker{
     std::map<std::string, Float_t> parameter_map; 
     TFile* BabyFile;
     TTree* BabyTree;
+    Float_t weight;
     public:
-        void set_features(std::map<std::string, Float_t>);
-        BabyMaker(std::string);
+        void set_features(std::map<std::string, Float_t>, Float_t);
+        BDTBabyMaker(char*);
         void close();
 };
     
-BabyMaker::BabyMaker(std::string output_name) {
-    BabyFile = new TFile("test.root", "RECREATE");
+BDTBabyMaker::BDTBabyMaker(char* output_name) {
+    BabyFile = new TFile(output_name, "RECREATE");
     BabyFile->cd();
     BabyTree = new TTree("T", "Events");
     
@@ -36,9 +37,10 @@ BabyMaker::BabyMaker(std::string output_name) {
     BabyTree->Branch("MT_LeadLep_MET", &(parameter_map["MT_LeadLep_MET"]));
     BabyTree->Branch("MT_SubLeadLep_MET", &(parameter_map["MT_SubLeadLep_MET"]));
     BabyTree->Branch("LeadLep_SubLeadLep_Mass", &(parameter_map["LeadLep_SubLeadLep_Mass"]));
+    BabyTree->Branch("Weight", &weight);
 }
 
-void BabyMaker::set_features(std::map<std::string, Float_t> BDT_params) {
+void BDTBabyMaker::set_features(std::map<std::string, Float_t> BDT_params, Float_t event_weight=1.0) {
     parameter_map["Most_Forward_pt"] = BDT_params["Most_Forward_pt"];
     parameter_map["HT"] = BDT_params["HT"];
     parameter_map["LeadLep_eta"] = BDT_params["LeadLep_eta"];
@@ -60,9 +62,11 @@ void BabyMaker::set_features(std::map<std::string, Float_t> BDT_params) {
     parameter_map["MT_LeadLep_MET"] = BDT_params["MT_LeadLep_MET"];
     parameter_map["MT_SubLeadLep_MET"] = BDT_params["MT_SubLeadLep_MET"];
     parameter_map["LeadLep_SubLeadLep_Mass"] = BDT_params["LeadLep_SubLeadLep_Mass"];
+    weight = event_weight;
     BabyTree->Fill();
 }
 
-void BabyMaker::close() {
+void BDTBabyMaker::close() {
+    BabyFile->Write();
     BabyFile->Close();
 }

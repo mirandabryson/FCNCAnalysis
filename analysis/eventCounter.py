@@ -2,9 +2,9 @@ import glob
 import tqdm
 import os
 
-VERSION = "fcnc_v6_SRonly_5may2021"
-BABY_DIR = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}".format(VERSION)
-#BABY_DIR = "/hadoop/cms/store/user/dspitzba/FCNC_NanoSkim/{}".format(VERSION)
+VERSION = "fcnc_v10_SRonly_11june2021"
+#BABY_DIR = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}".format(VERSION)
+BABY_DIR = "/hadoop/cms/store/user/dspitzba/FCNC_NanoSkim/{}".format(VERSION)
 N_EVENTS_DIR = "./n_events"
 
 if not os.path.exists(N_EVENTS_DIR): os.makedirs(N_EVENTS_DIR)

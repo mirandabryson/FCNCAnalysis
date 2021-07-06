@@ -339,7 +339,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     // bar.set_theme_braille();
     //BDT constructor
     BDT booster("./helpers/BDT/BDT.xml");
-    BabyMaker bdt_baby("./helpers/BDT/test_baby.root");
+    BDTBabyMaker dilep_bdt_baby(Form("./helpers/BDT/babies/dilep/%s.root", chainTitleCh));
+    BDTBabyMaker trilep_bdt_baby(Form("./helpers/BDT/babies/trilep/%s.root", chainTitleCh));
 
     auto start = high_resolution_clock::now();
 
@@ -738,13 +739,25 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             //if (njets < 2) {
             //    continue;
             //}
-            auto start_time = high_resolution_clock::now();
-            std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-            booster.set_features(BDT_params);
-            booster.get_score();
-            bdt_baby.set_features(BDT_params);
-            cout << "BDT eval time: " << duration_cast<microseconds>(high_resolution_clock::now() - start_time).count() << endl;
-            std::cout << booster.get_score() << endl;
+            //auto start_time = high_resolution_clock::now();
+            bool fill_BDT = (((category==1) && (chainTitle=="fakes_mc")) ||
+                             ((category==2) && (chainTitle=="flips_mc")) ||
+                             ((category==3) && (chainTitle=="rares"   )) ||
+                             ((chainTitle=="signal_tch"))                ||
+                             ((chainTitle=="signal_tuh"))                );
+            if (fill_BDT) {
+                if (best_hyp_type == 4) {
+                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    dilep_bdt_baby.set_features(BDT_params, weight);
+                } else if (best_hyp.size() > 2) {
+                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    trilep_bdt_baby.set_features(BDT_params, weight);
+                }
+            }
+            //booster.set_features(BDT_params);
+            //booster.get_score();
+            //cout << "BDT eval time: " << duration_cast<microseconds>(high_resolution_clock::now() - start_time).count() << endl;
+            //std::cout << booster.get_score() << endl;
 
             // if we've reached here we've passed the baseline selection
             // fill histograms
@@ -786,5 +799,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
      outFile->cd();
      hists.write();
      outFile->Close();
-     bdt_baby.close();
+     dilep_bdt_baby.close();
+     trilep_bdt_baby.close();
 }
