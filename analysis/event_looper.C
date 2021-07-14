@@ -241,6 +241,10 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
         {2018, "goldenJson_2018_final_59p76ifb_snt.txt"} };
     set_goodrun_file( (goodrun_path+goodrun_file[year]).c_str() );
 
+    //open trig eff SF file here so it's only opened once
+    TFile* f_trigEff = new TFile("/home/users/ksalyer/FranksFCNC/ana/misc/year_run2/triggeffcymapsRA5_Run2_ALL.root");
+
+
     //open b SF files here so they are opened only once
     auto startBOpening = high_resolution_clock::now();
     //efficiency files
@@ -391,18 +395,19 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
             //get event weight based on sample!
+            // cout << nt.event() << endl;
             double weight = 1.;
             if (!isData){
                 weight = getEventWeight( file->GetName(), chainTitle.Data(), nt.year() );
-                //cout << "scale1fb: " << weight << endl;
+                // cout << "scale1fb: " << weight << endl;
                 //double weight = 1.;
                 double genWeight = nt.Generator_weight();
-                //cout << "genWeight: " << genWeight << endl;
+                // cout << "genWeight: " << genWeight << endl;
                 weight = (weight*genWeight*lumi)/(abs(genWeight));
-                //cout << "weight: " << weight << endl;
-                //cout << "lumi: " << lumi << endl;
+                // cout << "weight: " << weight << endl;
+                // cout << "lumi: " << lumi << endl;
             }else {weight = 1.;}
-            //cout << weight << endl;
+            // cout << weight << endl;
             if (debugPrints){std::cout << "passed eventWeight for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
@@ -632,20 +637,26 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
 
             //apply SFs to MC events
+            // cout << nt.event() << endl;
+            // cout << weight << endl;
             if (!isData){
                 //apply lepton SFs to hypothesis leptons
                 for ( auto lep : best_hyp ) {weight = weight * leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht);}
+                // cout << "after lepton SF: " << weight << endl;
 
                 //apply PU weight
                 weight = weight * nt.puWeight();
+                // cout << "after PU weight: " << weight << endl;
 
                 //only apply trigger scale factors to dilepton events
-                if (best_hyp.size()==2){weight = weight * triggerScaleFactor(nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0);}
+                if (best_hyp.size()==2){weight = weight * triggerScaleFactor(f_trigEff, nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0);}
+                // cout << "after trigger SF: " << weight << endl;
 
                 //applying b-tag SFs
-                // if (nt.year() == 2016){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016);}
-                // else if (nt.year() == 2017){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017);}
-                // else if (nt.year() == 2018){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018);}
+                if (nt.year() == 2016){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016);}
+                else if (nt.year() == 2017){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017);}
+                else if (nt.year() == 2018){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018);}
+                // cout << "after b tag SF: " << weight << endl;
             }
             if(isnan(weight)||isinf(weight)){
                 cout << "found a wrong weight!!!!!" << endl;
@@ -704,6 +715,34 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "passed triggers for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+
+            if (nt.year()==2016){
+                if(!(nt.Flag_globalSuperTightHalo2016Filter()&&
+                     nt.Flag_HBHENoiseFilter()&&
+                     nt.Flag_HBHENoiseIsoFilter()&&
+                     nt.Flag_EcalDeadCellTriggerPrimitiveFilter()&&
+                     nt.Flag_BadPFMuonFilter()&&
+                     nt.Flag_goodVertices())) {continue;}
+            }else if (nt.year()==2017){
+                if(!(nt.Flag_globalSuperTightHalo2016Filter()&&
+                     nt.Flag_HBHENoiseFilter()&&
+                     nt.Flag_HBHENoiseIsoFilter()&&
+                     nt.Flag_EcalDeadCellTriggerPrimitiveFilter()&&
+                     nt.Flag_BadPFMuonFilter()&&
+                     nt.Flag_goodVertices()&&
+                     nt.Flag_ecalBadCalibFilterV2())) {continue;}
+            }else if (nt.year()==2018){
+                if(!(nt.Flag_globalSuperTightHalo2016Filter()&&
+                     nt.Flag_HBHENoiseFilter()&&
+                     nt.Flag_HBHENoiseIsoFilter()&&
+                     nt.Flag_EcalDeadCellTriggerPrimitiveFilter()&&
+                     nt.Flag_BadPFMuonFilter()&&
+                     nt.Flag_goodVertices()&&
+                     nt.Flag_ecalBadCalibFilterV2())) {continue;}
+            }
+            if (debugPrints){std::cout << "passed filters for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
             
             //calculate control region weights for background estimates
             //we calculate the weight
@@ -753,6 +792,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     //cout << lep.id() << " " << lep.mcid() << " " << lep.pt() << " " << lep.eta() << " " << lep.isFlip() << endl;
                     if (lep.absid()==13){continue;}
                     float flipRateValue = flipRate(nt.year(),lep.pt(),lep.eta());
+                    if(nt.year()==2016){flipRateValue *= 1.1128218361769364;}
+                    if(nt.year()==2017){flipRateValue *= 1.4447739510004296;}
+                    if(nt.year()==2018){flipRateValue *= 1.3061565063535605;}
                     //std::cout << "flip rate: " << flipRateValue << endl;
                     flipWeight = flipWeight + (flipRateValue/(1-flipRateValue));
                     //std::cout << "flip Weight: " << flipWeight << endl;
@@ -766,9 +808,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             
             // if we've reached here we've passed the baseline selection
             // fill histograms
-            //if (chainTitle == "ttjets"){
-                //hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
-            //}
+            if ((chainTitle == "top"||chainTitle =="dy") && (best_hyp_type==4) ){
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
+            }
             if (category == 1 && !(isSignal||isData)){
                 hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
                 if(print_sample_file){nFakes+=weight;}

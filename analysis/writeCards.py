@@ -17,6 +17,8 @@ for y in years:
     #first, we load the txt output from the tableMaker.py script into a dataframe
     #we will manipulate these data, save it into a different dataframe, and print to an output file
     df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/tableMaker_"+str(y)+".txt")
+    fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/fakeEstyields_"+str(y)+".txt")
+    flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/flipEstyields_"+str(y)+".txt")
     #print df
     print("got yields and stat errors")
 
@@ -115,13 +117,25 @@ for y in years:
                 for j in nJets:
                     for b in nBtags:
                         #calculate signal percentage for statistical unc.
-                        row = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
-                        yld = row[proc].values[0]
-                        err = row[proc+" error"].values[0]
+                        if proc == "fakes_mc":
+                            row = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                            yld = row['data estimate'].values[0]
+                            err = row["data estimate error"].values[0]
+                        elif proc == "flips_mc":
+                            row = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                            yld = row['data estimate'].values[0]
+                            err = row["data estimate error"].values[0]
+                        else:
+                            row = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                            yld = row[proc].values[0]
+                            err = row[proc+" error"].values[0]
                         
                         if yld > 0:
                             dcPercentage = round(err/yld,3)
                         else:
+                            dcPercentage = 1
+
+                        if dcPercentage>=1:
                             dcPercentage = 1
 
                         statUnc.append([l,j,b,1+dcPercentage])
@@ -182,6 +196,12 @@ for y in years:
                         if p == "signal":
                             p = s
                             yld = row[p].values[0]
+                        elif p == "fakes_mc":
+                            fakerow = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                            yld = fakerow["data estimate"].values[0]
+                        elif p == "flips_mc":
+                            fliprow = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                            yld = fliprow["data estimate"].values[0]
                         else:
                             yld = row[p].values[0]
 

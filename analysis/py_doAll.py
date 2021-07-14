@@ -300,6 +300,10 @@ if __name__ == "__main__":
             "ttz_m10": make_obj([basedirs[2016]+get_sample_path("ttz_m10", 2016,args.tag) + ".root",], options=options[2016]),
             "zg": make_obj([basedirs[2016]+get_sample_path("zg", 2016,args.tag) + ".root",], options=options[2016]),
             "wg": make_obj([basedirs[2016]+get_sample_path("wg", 2016,args.tag) + ".root",], options=options[2016]),
+            "diboson": make_obj([
+                basedirs[2016]+get_sample_path("wz", 2016,args.tag) + ".root",
+                basedirs[2016]+get_sample_path("zz", 2016,args.tag) + ".root",
+                ],options=options[2016]),
             },
         2017: {
             "fakes": make_obj([
@@ -462,6 +466,10 @@ if __name__ == "__main__":
                 basedirs[2017] + get_sample_path("tw_dilep", 2017,args.tag) + ".root",
 
             ], options=options[2017]),
+            "diboson": make_obj([
+                basedirs[2017]+get_sample_path("wz", 2017,args.tag) + ".root",
+                basedirs[2017]+get_sample_path("zz", 2017,args.tag) + ".root",
+                ],options=options[2017]),
             },
         2018: {
             # "fakes": make_obj([
@@ -797,6 +805,10 @@ if __name__ == "__main__":
             "tttj": make_obj(basedirs[2018] + get_sample_path("tttj", 2018,args.tag) + ".root",options=options[2018]),
             "tttw": make_obj(basedirs[2018] + get_sample_path("tttw", 2018,args.tag) + ".root",options=options[2018]),
             "tttt": make_obj(basedirs[2018] + get_sample_path("tttt", 2018,args.tag) + ".root",options=options[2018]),
+            "diboson": make_obj([
+                basedirs[2018]+get_sample_path("wz", 2018,args.tag) + ".root",
+                basedirs[2018]+get_sample_path("zz", 2018,args.tag) + ".root",
+                ],options=options[2018]),
 
        }
     }

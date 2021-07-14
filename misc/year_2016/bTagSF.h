@@ -16,7 +16,6 @@ float getBSF(int year, Jets &jets, Jets &bjets, std::map<std::string, TH1D*> eff
     float btag_mc = 1.;
 
     for ( auto bjet : bjets ){
-        if (bjet.pt()>40){continue;}
         float sf = deepjet_medium_reader.eval(  BTagEntry::FLAV_B,
                                                 bjet.eta(),
                                                 bjet.pt(),
@@ -27,6 +26,7 @@ float getBSF(int year, Jets &jets, Jets &bjets, std::map<std::string, TH1D*> eff
         btag_mc *= eff;
     }
     for ( auto jet : jets ){
+        if (jet.isBtag()){continue;}
         BTagEntry::JetFlavor flavor = BTagEntry::FLAV_UDSG;
         if (jet.hadronFlavor()==5) flavor = BTagEntry::FLAV_B;
         if (jet.hadronFlavor()==4) flavor = BTagEntry::FLAV_C;

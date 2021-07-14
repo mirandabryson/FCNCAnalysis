@@ -9,10 +9,12 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 }
 
 std::vector<std::string> HistContainer::getRegionNames() {
-    std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
-                                        "osest","mlsfest","sfest","mldfest","dfest",
-                                        "vrcr","vrcrest","vrsr",
-                                        "vrcr_flip","vrcrest_flip","vrsr_flip",};
+    // std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
+    //                                     "osest","mlsfest","sfest","mldfest","dfest",
+    //                                     "vrcr","vrcrest","vrsr",
+    //                                     "vrcr_flip","vrcrest_flip","vrsr_flip",};
+    std::vector<std::string> rnames = {"ss","os","osest"};
+
     return rnames;
 }
 
@@ -44,20 +46,29 @@ void HistContainer::addHist1d(std::string quantity, std::string sample, int nbin
         }
     }
     else {
-        TString tregion(region);
-        TObjArray* objarray = tregion.Tokenize(" ");
-        std::vector<std::string> regions;
-        for (auto obj : *objarray) {
-            regions.push_back( ((TString*)obj)->Data() );
-        }
-        for (auto name : regions) {
-            //cout << name << endl;
-            std::string htitle = name+"_"+quantity+"_"+sample;
-            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
-            TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
-            hists1d_[htitle] = hist;
-            //cout << htitle << "  " << hname << endl;
-        }
+    //     TString tregion(region);
+    //     //cout << tregion << endl;
+    //     TObjArray* objarray = tregion.Tokenize(" ");
+    //     std::vector<std::string> regions;
+    //     for (auto obj : *objarray) {
+    //         regions.push_back( ((TString*)obj)->Data() );
+    //         cout <<  ((TString*)obj)->Data()  << endl;
+    //     }
+    //     for (auto name : regions) {
+    //         cout << name << endl;
+    //         std::string htitle = name+"_"+quantity+"_"+sample;
+    //         std::string hname = "h_"+name+"_"+quantity+"_"+sample;
+    //         TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
+    //         hists1d_[htitle] = hist;
+    //         cout << htitle << "  " << hname << endl;
+    //     }
+    // }
+        
+        std::string htitle = region+"_"+quantity+"_"+sample;
+        std::string hname = "h_"+region+"_"+quantity+"_"+sample;
+        TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
+        hists1d_[htitle] = hist;
+        //cout << htitle << "  " << hname << endl;
     }
     return;
 }
@@ -89,51 +100,61 @@ void HistContainer::addHist2d(std::string quantity, std::string sample, int nbin
 }
 
 void HistContainer::loadHists(std::string sample) {
-    addHist1d("njets",sample,7,-0.5,6.5);
-    addHist1d("nbjets",sample,5,-0.5,4.5);
-    addHist1d("nleps",sample,5,-0.5,4.5);
-    addHist1d("neles",sample,5,-0.5,4.5);
-    addHist1d("nmus",sample,5,-0.5,4.5);
-    addHist1d("llpt",sample,100,0,200);
-    addHist1d("ltpt",sample,100,0,200);
-    addHist1d("lleta",sample,100,-5.,-5.);
-    addHist1d("lteta",sample,100,-5.,-5.);
-    addHist1d("llminiiso",sample,16,0.,0.4);
-    addHist1d("ltminiiso",sample,16,0.,0.4);
-    addHist1d("mll",sample,100,0,200);
-    addHist1d("ljpt",sample,50,0,500);
-    addHist1d("tjpt",sample,50,0,500);
-    addHist1d("lbpt",sample,50,0,500);
-    addHist1d("ht",sample,50,0,1000);
-    addHist1d("met",sample,20,0,400);
-    //addHist1d("cutflow",sample,4,0.5,4.5);//,"br");
+    // addHist1d("njets",sample,7,-0.5,6.5);
+    // addHist1d("nbjets",sample,5,-0.5,4.5);
+    // addHist1d("nleps",sample,5,-0.5,4.5);
+    // addHist1d("neles",sample,5,-0.5,4.5);
+    // addHist1d("nmus",sample,5,-0.5,4.5);
+    // addHist1d("llpt",sample,100,0,200);
+    // addHist1d("ltpt",sample,100,0,200);
+    // addHist1d("lleta",sample,100,-5.,-5.);
+    // addHist1d("lteta",sample,100,-5.,-5.);
+    // addHist1d("llminiiso",sample,16,0.,0.4);
+    // addHist1d("ltminiiso",sample,16,0.,0.4);
+    // addHist1d("mll",sample,100,0,200);
+    // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
+    // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
+    // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
+    // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
+    // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
+    // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
+    // addHist1d("ljpt",sample,50,0,500);
+    // addHist1d("tjpt",sample,50,0,500);
+    // addHist1d("lbpt",sample,50,0,500);
+    // addHist1d("ht",sample,50,0,1000);
+    // addHist1d("met",sample,20,0,400);
+    // //addHist1d("cutflow",sample,4,0.5,4.5);//,"br");
     addHist1d("sr",sample,18,0.5,18.5);//,"br");
-    addHist1d("fakecr",sample,18,0.5,18.5);//,"br");
+    // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
+    // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
+    // addHist1d("fakecr",sample,18,0.5,18.5);//,"br");
     addHist1d("flipcr",sample,18,0.5,18.5);//,"br");
-    addHist1d("vrsr_flip",sample,18,0.5,18.5,"vrsr_flip");
-    addHist1d("vrcr_flip",sample,18,0.5,18.5,"vrcr_flip");
-    addHist1d("vrcrest_flip",sample,18,0.5,18.5,"vrcrest_flip");
-    addHist1d("vrsr_flip_ee",sample,18,0.5,18.5,"vrsr_flip");
-    addHist1d("vrcr_flip_ee",sample,18,0.5,18.5,"vrcr_flip");
-    addHist1d("vrcrest_flip_ee",sample,18,0.5,18.5,"vrcrest_flip");
-    addHist1d("vrsr_flip_em",sample,18,0.5,18.5,"vrsr_flip");
-    addHist1d("vrcr_flip_em",sample,18,0.5,18.5,"vrcr_flip");
-    addHist1d("vrcrest_flip_em",sample,18,0.5,18.5,"vrcrest_flip");
-    addHist1d("vrsr",sample,18,0.5,18.5,"vrsr");
-    addHist1d("vrcr",sample,18,0.5,18.5,"vrcr");
-    addHist1d("vrcrest",sample,18,0.5,18.5,"vrcrest");
-    addHist1d("vrsr_ee",sample,18,0.5,18.5,"vrsr");
-    addHist1d("vrcr_ee",sample,18,0.5,18.5,"vrcr");
-    addHist1d("vrcrest_ee",sample,18,0.5,18.5,"vrcrest");
-    addHist1d("vrsr_mm",sample,18,0.5,18.5,"vrsr");
-    addHist1d("vrcr_mm",sample,18,0.5,18.5,"vrcr");
-    addHist1d("vrcrest_mm",sample,18,0.5,18.5,"vrcrest");
-    addHist1d("vrsr_em",sample,18,0.5,18.5,"vrsr");
-    addHist1d("vrcr_em",sample,18,0.5,18.5,"vrcr");
-    addHist1d("vrcrest_em",sample,18,0.5,18.5,"vrcrest");
-    addHist1d("vrsr_me",sample,18,0.5,18.5,"vrsr");
-    addHist1d("vrcr_me",sample,18,0.5,18.5,"vrcr");
-    addHist1d("vrcrest_me",sample,18,0.5,18.5,"vrcrest");
+
+    // addHist1d("valSR_flip",sample,18,0.5,18.5,"vrsr_flip");
+    // addHist1d("valCR_flip",sample,18,0.5,18.5,"vrcr_flip");
+    // addHist1d("valCRest_flip",sample,18,0.5,18.5,"vrcrest_flip");
+    // addHist1d("valSR_flip_eeChan",sample,18,0.5,18.5,"vrsr_flip");
+    // addHist1d("valCR_flip_eeChan",sample,18,0.5,18.5,"vrcr_flip");
+    // addHist1d("valCRest_flip_eeChan",sample,18,0.5,18.5,"vrcrest_flip");
+    // addHist1d("valSR_flip_emChan",sample,18,0.5,18.5,"vrsr_flip");
+    // addHist1d("valCR_flip_emChan",sample,18,0.5,18.5,"vrcr_flip");
+    // addHist1d("valCRest_flip_emChan",sample,18,0.5,18.5,"vrcrest_flip");
+
+    // addHist1d("vrsr",sample,18,0.5,18.5,"vrsr");
+    // addHist1d("vrcr",sample,18,0.5,18.5,"vrcr");
+    // addHist1d("vrcrest",sample,18,0.5,18.5,"vrcrest");
+    // addHist1d("vrsr_ee",sample,18,0.5,18.5,"vrsr");
+    // addHist1d("vrcr_ee",sample,18,0.5,18.5,"vrcr");
+    // addHist1d("vrcrest_ee",sample,18,0.5,18.5,"vrcrest");
+    // addHist1d("vrsr_mm",sample,18,0.5,18.5,"vrsr");
+    // addHist1d("vrcr_mm",sample,18,0.5,18.5,"vrcr");
+    // addHist1d("vrcrest_mm",sample,18,0.5,18.5,"vrcrest");
+    // addHist1d("vrsr_em",sample,18,0.5,18.5,"vrsr");
+    // addHist1d("vrcr_em",sample,18,0.5,18.5,"vrcr");
+    // addHist1d("vrcrest_em",sample,18,0.5,18.5,"vrcrest");
+    // addHist1d("vrsr_me",sample,18,0.5,18.5,"vrsr");
+    // addHist1d("vrcr_me",sample,18,0.5,18.5,"vrcr");
+    // addHist1d("vrcrest_me",sample,18,0.5,18.5,"vrcrest");
     return;
 }
 
@@ -155,17 +176,18 @@ void HistContainer::write() {
 
 void HistContainer::fill1d(std::string quantity, std::string region, std::string sample, float value, float weight) {
     std::map<std::string,TH1F*>::iterator it1d;
-    //cout << quantity << " " << region << " " << sample << endl;
+    // cout << quantity << " " << region << " " << sample << endl;
     for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {
         //cout << it1d->first << endl;
         if (it1d->first.find(sample)==std::string::npos)  continue;
         if (it1d->first.find(quantity)==std::string::npos) continue;
         if (it1d->first.find(region)==std::string::npos) continue;
         if (region.find("est")==std::string::npos && it1d->first.find("est")!=std::string::npos) continue;
-        if (region.find("ml")==std::string::npos && it1d->first.find("ml")!=std::string::npos) continue;
+        if (region.find("ml")==std::string::npos && it1d->first.find("ml")!=std::string::npos && quantity.find("mll")==std::string::npos) continue;
         if (region.find("vr")==std::string::npos && it1d->first.find("vr")!=std::string::npos) continue;
+        if (quantity.find("Chan")==std::string::npos && it1d->first.find("Chan")!=std::string::npos) continue;
         it1d->second->Fill(value,weight);
-        //cout << "filled " << it1d->first << " for event " << nt.event() << endl;
+        // cout << "filled " << it1d->first << " for event " << nt.event() << endl;
         /*if (region.find("vrcr")!=std::string::npos){
             std::cout << "Filling hist " << quantity << " with value " << value << " and weight " << weight << std::endl;
         }*/
@@ -211,10 +233,19 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     int nleps=leps.size();
     int neles=0;
     int nmus=0;
+    bool onZPeak = 0;
+    bool diEl = 0;
     for (auto lep: leps) {
         if (lep.absid()==11){neles++;}
         else if (lep.absid()==13){nmus++;}
     }
+    float mass = 0.;
+    if(leps.size()==2 && (leps[0].p4()+leps[1].p4()).M()>75 && (leps[0].p4()+leps[1].p4()).M()<105){
+        onZPeak=1;
+        mass = (leps[0].p4()+leps[1].p4()).M();
+    }
+    if(leps.size()==2 && leps[0].absid()==11 && leps[1].absid()==11){diEl=1;}
+
     for (auto name : rnames) {
         if (name=="br") {
             counter_++;
@@ -223,8 +254,8 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         if ( name.find("est")==std::string::npos ) fillWeight = weight;
         else fillWeight = crWeight;
         //std::cout << "Filling histograms for region " << name << std::endl;
-        fill1d("njets",name,sample,njets,fillWeight);
-        fill1d("nbjets",name,sample,nbjets,fillWeight);
+        // fill1d("njets",name,sample,njets,fillWeight);
+        // fill1d("nbjets",name,sample,nbjets,fillWeight);
         fill1d("nleps",name,sample,nleps,fillWeight);
         fill1d("neles",name,sample,neles,fillWeight);
         fill1d("nmus",name,sample,nmus,fillWeight);
@@ -234,26 +265,64 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         fill1d("lteta",name,sample,leps[1].eta(),fillWeight);
         fill1d("llminiiso",name,sample,leps[0].miniIso(),fillWeight);
         fill1d("ltminiiso",name,sample,leps[1].miniIso(),fillWeight);
-        fill1d("ljpt",name,sample,jets[0].pt(),fillWeight);
-        fill1d("tjpt",name,sample,jets[1].pt(),fillWeight);
+        // fill1d("ljpt",name,sample,jets[0].pt(),fillWeight);
+        // fill1d("tjpt",name,sample,jets[1].pt(),fillWeight);
         fill1d("met",name,sample,met,fillWeight);
         if (nbjets>0) fill1d("lbpt",name,sample,bjets[0].pt(),fillWeight);
         float ht = get_sum_pt(jets);
         fill1d("ht",name,sample,ht,fillWeight);
-        for (unsigned int idx1=0; idx1<leps.size();idx1++) {
-            for (unsigned int idx2=idx1+1; idx2<leps.size();idx2++) {
-                float mass = (leps[idx1].p4()+leps[idx2].p4()).M();
-                fill1d("mll",name,sample,mass,fillWeight);
-            }
+        if (fillWeight == weight){
+
+            /*//this fills mll 3 times for ml events, so commenting it out
+            cout << "mll for event: " << nt.event() << endl;
+            for (unsigned int idx1=0; idx1<leps.size();idx1++) {
+                cout << "   index 1: " << idx1 << endl;
+                for (unsigned int idx2=idx1+1; idx2<leps.size();idx2++) {
+                    cout << "   index 2: " << idx2 << endl;
+                    float mass = (leps[idx1].p4()+leps[idx2].p4()).M();
+                    cout << "   mass: " << mass << endl;
+                    fill1d("mll",name,sample,mass,fillWeight);
+                    //cout << "filling mll for event " << nt.event() << " and region " << name << endl;
+                }
+            }*/
+
+            //this fills mll with the leading two leptons. because best_hyp is fed to this function, this is the ss or os leptons in 2l events
+            //FIX ME: probably does not behave how we want for >2l cases
+            //cout << "leading 2 best_hyps for region " << name << endl;
+            //cout << "   id 1: " << leps[0].id() << " and id 2: " << leps[1].id() << endl;
+            mass = (leps[0].p4()+leps[1].p4()).M();
+            //cout << "   mll: " << mass << endl;
+            //cout << "   filled mll plot for event " << nt.event() << " with " << mass << endl;
+            
+
+            fill1d("mll",name,sample,mass,fillWeight);
         }
         if (name == "br") {
             int sr = getSR(best_hyp_type,njets,nbjets);
-            if (sr>=0)
+            if (sr>=0 && !(diEl && onZPeak)){
                 fill1d("sr",name,sample,sr,fillWeight);
+            }
             int cutflow_counter=4;
             fill1d("cutflow",name,sample,cutflow_counter,fillWeight);
-        }
+        } 
         int cr = getCRbin(nleps, njets, nbjets);
+        if ((name == "ss"||name == "os"||name == "osest") && onZPeak && diEl){
+            //mass = (leps[0].p4()+leps[1].p4()).M();
+            fill1d("flipSFcr_inclMET",name,sample,cr,fillWeight);
+            if(nbjets==0){
+                fill1d("flipSF_inclMET_mee",name,sample,mass,fillWeight);
+                fill1d("flipSF_inclMET_njets",name,sample,njets,fillWeight);
+                fill1d("flipSF_inclMET_nbjets",name,sample,nbjets,fillWeight);
+            }
+            if(nt.MET_pt()<50.){
+                fill1d("flipSFcr_l50MET",name,sample,cr,fillWeight);
+                if(nbjets==0){
+                    fill1d("flipSF_l50MET_mee",name,sample,mass,fillWeight);
+                    fill1d("flipSF_l50MET_njets",name,sample,njets,fillWeight);
+                    fill1d("flipSF_l50MET_nbjets",name,sample,nbjets,fillWeight);
+                }
+            }
+        }
         //fill the fake estimation plots
         if( fillFakeCR ){
             fill1d("fakecr",name,sample,cr,fillWeight);
@@ -305,18 +374,18 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         //fill flip estimation plots
         if( name=="os"||name=="osest" ){
             fill1d("flipcr",name,sample,cr,fillWeight);
-            if (isVR_CR_flip && fillWeight==weight){fill1d("vrcr_flip","vrcr_flip",sample,cr,fillWeight);}
-            if (isVR_CR_flip && fillWeight==crWeight){fill1d("vrcrest_flip","vrcrest_flip",sample,cr,fillWeight);}
-            if (isVR_CR_flip && isEE_flip && fillWeight==weight){fill1d("vrcr_flip_ee","vrcr_flip",sample,cr,fillWeight);}
-            if (isVR_CR_flip && isEE_flip && fillWeight==crWeight){fill1d("vrcrest_flip_ee","vrcrest_flip",sample,cr,fillWeight);}
-            if (isVR_CR_flip && isEM_flip && fillWeight==weight){fill1d("vrcr_flip_em","vrcr_flip",sample,cr,fillWeight);}
-            if (isVR_CR_flip && isEM_flip && fillWeight==crWeight){fill1d("vrcrest_flip_em","vrcrest_flip",sample,cr,fillWeight);}
+            if (isVR_CR_flip && fillWeight==weight){fill1d("valCR_flip","vrcr_flip",sample,cr,fillWeight);}
+            if (isVR_CR_flip && fillWeight==crWeight){fill1d("valCRest_flip","vrcrest_flip",sample,cr,fillWeight);}
+            if (isVR_CR_flip && isEE_flip && fillWeight==weight){fill1d("valCR_flip_eeChan","vrcr_flip",sample,cr,fillWeight);}
+            if (isVR_CR_flip && isEE_flip && fillWeight==crWeight){fill1d("valCRest_flip_eeChan","vrcrest_flip",sample,cr,fillWeight);}
+            if (isVR_CR_flip && isEM_flip && fillWeight==weight){fill1d("valCR_flip_emChan","vrcr_flip",sample,cr,fillWeight);}
+            if (isVR_CR_flip && isEM_flip && fillWeight==crWeight){fill1d("valCRest_flip_emChan","vrcrest_flip",sample,cr,fillWeight);}
         }
         //if (isVR_SR_flip){fill1d("vrsr","vrsr_"+name,sample,cr,fillWeight);} 
         if(name == "ss" || name == "ml"){
-            if (isVR_SR_flip){fill1d("vrsr_flip","vrsr_flip",sample,cr,fillWeight);}
-            if (isVR_SR_flip && isEE_flip){fill1d("vrsr_flip_ee","vrsr_flip",sample,cr,fillWeight);}
-            if (isVR_SR_flip && isEM_flip){fill1d("vrsr_flip_em","vrsr_flip",sample,cr,fillWeight);}
+            if (isVR_SR_flip){fill1d("valSR_flip","vrsr_flip",sample,cr,fillWeight);}
+            if (isVR_SR_flip && isEE_flip){fill1d("valSR_flip_eeChan","vrsr_flip",sample,cr,fillWeight);}
+            if (isVR_SR_flip && isEM_flip){fill1d("valSR_flip_emChan","vrsr_flip",sample,cr,fillWeight);}
         }
 
     } // end loop over regions
