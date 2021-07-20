@@ -11,14 +11,16 @@ import pandas as pd
 
 #hardcoded variables other users should customize
 outdir = "/home/users/ksalyer/FranksFCNC/ana/analysis/datacards/"
+indir = "bCut"
+outdir = outdir+indir+"/"
 years = [2016, 2017, 2018]
 
 for y in years:
     #first, we load the txt output from the tableMaker.py script into a dataframe
     #we will manipulate these data, save it into a different dataframe, and print to an output file
-    df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/tableMaker_"+str(y)+".txt")
-    fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/fakeEstyields_"+str(y)+".txt")
-    flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/flipEstyields_"+str(y)+".txt")
+    df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
+    fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/fakeEstyields_"+str(y)+".txt")
+    flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/flipEstyields_"+str(y)+".txt")
     #print df
     print("got yields and stat errors")
 
@@ -35,7 +37,8 @@ for y in years:
         #signal region bins
         nLeps = [2, 3]
         nJets = [2,3,4]
-        nBtags = [0,1,2]
+        # nBtags = [0,1,2]
+        nBtags = [1,2]
         numBins = len(nLeps)*len(nJets)*len(nBtags)
         nProc = ["signal", "rares", "fakes_mc", "flips_mc"]
         numBackgrounds = len(nProc)-1
@@ -116,17 +119,23 @@ for y in years:
             for l in nLeps:
                 for j in nJets:
                     for b in nBtags:
+                        #print (p, l, j, b)
                         #calculate signal percentage for statistical unc.
                         if proc == "fakes_mc":
                             row = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                             yld = row['data estimate'].values[0]
                             err = row["data estimate error"].values[0]
                         elif proc == "flips_mc":
-                            row = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
-                            yld = row['data estimate'].values[0]
-                            err = row["data estimate error"].values[0]
+                            if l == 3:
+                                yld = 0.0
+                                err = 0
+                            else:
+                                row = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                                yld = row['data estimate'].values[0]
+                                err = row["data estimate error"].values[0]
                         else:
                             row = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                            #print row
                             yld = row[proc].values[0]
                             err = row[proc+" error"].values[0]
                         
@@ -184,8 +193,10 @@ for y in years:
         for l in nLeps:
             for j in nJets:
                 for b in nBtags:
-                    row = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
-                    obsYld = row["Total Background"].values[0]
+                    fakerow = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                    fliprow = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                    row     = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                    obsYld = row["rares"].values[0] + fakerow['data estimate'].values[0] + fliprow['data estimate'].values[0]
                     obsYld = round(obsYld,0)
                     obsString = str(obsYld)
                     while len(obsString)<20:
@@ -219,11 +230,14 @@ for y in years:
         for p in nProc:
             if "signal" in p:
                 unc = "0.8/1.2"
-            elif p == "flips":
-                unc = "0.8/1.2"
-            elif p == "other":
+            elif p == "flips_mc":
+                if y == 2016: unc = '1.1'
+                if y == 2017: unc = '1.4'
+                if y == 2018: unc = '1.3'
+                #unc = "0.8/1.2"
+            elif p == "rares":
                 unc = "0.7/1.3"
-            elif p == "fakes":
+            elif p == "fakes_mc":
                 unc = "0.6/1.4"
 
             while len(unc)<20:
@@ -235,7 +249,7 @@ for y in years:
             rTitle+="lnN"
 
             for column in dcard_df:
-                if p in column:
+                if ((p in column) and not (p=="flips_mc" and "trilep" in column)):
                     filler = unc
                     while len(filler)<20:
                         filler+=" "
@@ -286,7 +300,7 @@ for y in years:
         outfile.write(imaxHeader)
         outfile.write(jmaxHeader)
         outfile.write(kmaxHeader)
-        outfile.write("shape * * FAKE\n\n")
+        outfile.write("shapes * * FAKE\n\n")
         outfile.write(binHeadersObs)
         outfile.write(obsHeaders)
         outfile.write("\n")
