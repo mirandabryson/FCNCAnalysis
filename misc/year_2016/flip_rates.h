@@ -1,5 +1,6 @@
 float flipRate(float pt, float eta) {
-    float scale = 1.01;
+    float scale = 1.;
+    // float scale = 1.01;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.000 && fabs(eta)<0.800 ) return 3.90282474065e-05*scale;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.800 && fabs(eta)<1.479 ) return 0.000196650768861*scale;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=1.479 && fabs(eta)<2.500 ) return 0.00131720111326*scale;
@@ -21,7 +22,8 @@ float flipRate(float pt, float eta) {
    return 0.;
 }
 float flipRateError(float pt, float eta) {
-    float scale = 1.01;
+    float scale = 1.;
+    // float scale = 1.01;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.000 && fabs(eta)<0.800 ) return 5.83282386202e-06*scale; // 14.9%
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.800 && fabs(eta)<1.479 ) return 1.59120785765e-05*scale; // 8.1%
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=1.479 && fabs(eta)<2.500 ) return 4.9222388261e-05*scale; // 3.7%
@@ -43,7 +45,8 @@ float flipRateError(float pt, float eta) {
    return 0.;
 }
 float flipRate_legacy(float pt, float eta) {
-    float scale = 1.09;
+    float scale = 1.;
+    // float scale = 1.09;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.000 && fabs(eta)<0.800 ) return 4.02556047095e-05*scale;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.800 && fabs(eta)<1.479 ) return 0.000191283075539*scale;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=1.479 && fabs(eta)<2.500 ) return 0.0014808018906*scale;
@@ -65,7 +68,8 @@ float flipRate_legacy(float pt, float eta) {
    return 0.;
 }
 float flipRateError_legacy(float pt, float eta) {
-    float scale = 1.09;
+    float scale = 1.;
+    // float scale = 1.09;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.000 && fabs(eta)<0.800 ) return 3.9183184838e-06*scale; // 9.7%
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.800 && fabs(eta)<1.479 ) return 1.04671211985e-05*scale; // 5.5%
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=1.479 && fabs(eta)<2.500 ) return 3.30698016443e-05*scale; // 2.2%

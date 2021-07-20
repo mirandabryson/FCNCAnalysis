@@ -1,5 +1,6 @@
 float flipRate(float pt, float eta) {
-    float scale = 1.41;
+    float scale = 1.;
+    // float scale = 1.41;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.000 && fabs(eta)<0.800 ) return 2.91502811928e-05*scale;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.800 && fabs(eta)<1.479 ) return 0.000114537784561*scale;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=1.479 && fabs(eta)<2.500 ) return 0.000737718492991*scale;
@@ -21,7 +22,8 @@ float flipRate(float pt, float eta) {
    return 0.;
 }
 float flipRateError(float pt, float eta) {
-    float scale = 1.41;
+    float scale = 1.;
+    // float scale = 1.41;
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.000 && fabs(eta)<0.800 ) return 3.54576253168e-06*scale; // 12.2%
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=0.800 && fabs(eta)<1.479 ) return 8.57622206089e-06*scale; // 7.5%
    if (pt>=15.0 && pt<40.0 && fabs(eta)>=1.479 && fabs(eta)<2.500 ) return 2.61956706819e-05*scale; // 3.6%

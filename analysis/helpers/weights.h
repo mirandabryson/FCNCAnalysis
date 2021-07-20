@@ -13,6 +13,7 @@ double getEventWeight (string fileName, string sampleName, int year, bool verbos
     TString sName = TString(fileName.c_str());
     TObjArray *tokens = sName.Tokenize("/");
     unsigned int nentries = tokens->GetEntries();
+    //cout << sName << endl;
 
     TString sTag = ((TObjString*)tokens->At(nentries-3) )->GetString();
     if (verbose) std::cout << "sTag: " << sTag << std::endl;

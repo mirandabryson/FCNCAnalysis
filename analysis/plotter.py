@@ -11,20 +11,22 @@ f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyP
 
 #path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/'
 #path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun10_remergedBabies/'
-path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun14_allMC_estimate/'
+path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun28_os_allMC/'
 
-regions =   ["sf",
-             "df",
-             "mlsf",
-             "mldf",
-             "ss",
-             "ml",
-             "vrsr_ss",
-             "vrsr_ml",
-             "vrcr_sf",
-             "vrcr_df",
-             "vrcr_mlsf",
-             "vrcr_mldf"
+regions =   [#"sf",
+             #"df",
+             #"mlsf",
+             #"mldf",
+             #"ss",
+             #"ml",
+             #"vrsr_ss",
+             #"vrsr_ml",
+             #"vrcr_sf",
+             #"vrcr_df",
+             #"vrcr_mlsf",
+             #"vrcr_mldf",
+             "vrcr_flip",
+             "vrsr_flip"
             ]
 variables = [   ["njets", 1, r'$N_{jets}$'],
                 ["nbjets", 1, r'$N_{b-jets}$'],
@@ -187,7 +189,7 @@ for y in years:
                 hep.histplot(
                     ratio.counts,
                     ratio.edges,
-                    yerr=my_histos['data'].errors/total_mc
+                    yerr=my_histos['data'].errors/total_mc.counts,
                     histtype="errorbar",
                     color='black',
                     ax=rax)

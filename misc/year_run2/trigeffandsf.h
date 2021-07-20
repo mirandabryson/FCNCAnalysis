@@ -2,12 +2,12 @@
 
 bool debug = false;
 
-TFile *myf; // NJA
-//TString rfilepath = Form("%s/analysis/misc/year_run2/triggeffcymapsRA5_Run2_ALL.root",getenv("ANABASE"));
-TString rfilepath = "/home/users/ksalyer/FranksFCNC/ana/misc/year_run2/triggeffcymapsRA5_Run2_ALL.root";
+// TFile *myf; // NJA
+// //TString rfilepath = Form("%s/analysis/misc/year_run2/triggeffcymapsRA5_Run2_ALL.root",getenv("ANABASE"));
+// TString rfilepath = "/home/users/ksalyer/FranksFCNC/ana/misc/year_run2/triggeffcymapsRA5_Run2_ALL.root";
 std::map<TString,TH2D*> hists;
 
-double LegEffcyorSF(TString legname, double pt, double eta, TString year, bool issf, int systfluc){
+double LegEffcyorSF(TFile* myf, TString legname, double pt, double eta, TString year, bool issf, int systfluc){
     if(legname =="ele23_diele" && (year=="2018"||  year=="2017BtoF"||  year=="2017CtoF") ) legname = "ele23l1eg24_diele";
     if(debug)  cout << legname<<"  " ; 
     TString hname = year+"/"+legname;
@@ -124,12 +124,12 @@ double DZLeg(bool islowlow, int nmus, TString year, bool issf, int systfluc){
 
 }
 
-double TriggerWeight(int pdgid1, double pt1, double eta1, int pdgid2, double pt2, double eta2, double ht, int iyear, bool issf, int systfluc){
+double TriggerWeight(TFile* myf, int pdgid1, double pt1, double eta1, int pdgid2, double pt2, double eta2, double ht, int iyear, bool issf, int systfluc){
 
-    if (!myf) { // NJA
-        myf = new TFile(rfilepath,"read");
-        if (!myf){std::cout << "might want to check the rfilepath in /misc/year_run2/trigeffandsf.h" << endl;}
-    }
+    // if (!myf) { // NJA
+    //     myf = new TFile(rfilepath,"read");
+    //     if (!myf){std::cout << "might want to check the rfilepath in /misc/year_run2/trigeffandsf.h" << endl;}
+    // }
 
     bool islowlow = pt1<25 && pt2<25 ;
 
@@ -171,19 +171,19 @@ double TriggerWeight(int pdgid1, double pt1, double eta1, int pdgid2, double pt2
     if(!islowlow &&year=="2017") year = "2017BtoF";
     if(islowlow) {
         if(year=="2017") year = "2017CtoF";
-        if(nmus==0)leptonlegs = LegEffcyorSF("ele_dieleht",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF("ele_dieleht",pttrail,etatrail,year,issf,systfluc); 
-        else if(nmus==1 && fabs(pdgidlead)==13)leptonlegs = LegEffcyorSF("mu_elemuht",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF("ele_elemuht",pttrail,etatrail,year,issf,systfluc); 
-        else if(nmus==1 && fabs(pdgidlead)==11)leptonlegs = LegEffcyorSF("ele_elemuht",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF("mu_elemuht",pttrail,etatrail,year,issf,systfluc); 
-        else if(nmus==2)leptonlegs = LegEffcyorSF("mu_elemuht",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF("mu_elemuht",pttrail,etatrail,year,issf,systfluc); 
+        if(nmus==0)leptonlegs = LegEffcyorSF(myf,"ele_dieleht",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF(myf,"ele_dieleht",pttrail,etatrail,year,issf,systfluc); 
+        else if(nmus==1 && fabs(pdgidlead)==13)leptonlegs = LegEffcyorSF(myf,"mu_elemuht",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF(myf,"ele_elemuht",pttrail,etatrail,year,issf,systfluc); 
+        else if(nmus==1 && fabs(pdgidlead)==11)leptonlegs = LegEffcyorSF(myf,"ele_elemuht",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF(myf,"mu_elemuht",pttrail,etatrail,year,issf,systfluc); 
+        else if(nmus==2)leptonlegs = LegEffcyorSF(myf,"mu_elemuht",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF(myf,"mu_elemuht",pttrail,etatrail,year,issf,systfluc); 
     }
     else{
 
-        if(nmus==0)leptonlegs = LegEffcyorSF("ele23_diele",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF("ele12_diele",pttrail,etatrail,year,issf,systfluc); 
-        else if(nmus==1 && fabs(pdgidlead)==13)leptonlegs = LegEffcyorSF("mu23_elemu",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF("ele12_elemu",pttrail,etatrail,year,issf,systfluc); 
+        if(nmus==0)leptonlegs = LegEffcyorSF(myf,"ele23_diele",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF(myf,"ele12_diele",pttrail,etatrail,year,issf,systfluc); 
+        else if(nmus==1 && fabs(pdgidlead)==13)leptonlegs = LegEffcyorSF(myf,"mu23_elemu",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF(myf,"ele12_elemu",pttrail,etatrail,year,issf,systfluc); 
         // below line added to fix bug with 2017BtoF map
-        else if(nmus==1 && fabs(pdgidlead)==11&& year == "2017BtoF"){year = "2017CtoF"; leptonlegs = LegEffcyorSF("ele23_elemu",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF("mu8_elemu",pttrail,etatrail,year,issf,systfluc); }
-        else if(nmus==1 && fabs(pdgidlead)==11)leptonlegs = LegEffcyorSF("ele23_elemu",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF("mu8_elemu",pttrail,etatrail,year,issf,systfluc); 
-        else if(nmus==2)leptonlegs = LegEffcyorSF("mu17_dimu",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF("mu8_dimu",pttrail,etatrail,year,issf,systfluc); 
+        else if(nmus==1 && fabs(pdgidlead)==11&& year == "2017BtoF"){year = "2017CtoF"; leptonlegs = LegEffcyorSF(myf,"ele23_elemu",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF(myf,"mu8_elemu",pttrail,etatrail,year,issf,systfluc); }
+        else if(nmus==1 && fabs(pdgidlead)==11)leptonlegs = LegEffcyorSF(myf,"ele23_elemu",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF(myf,"mu8_elemu",pttrail,etatrail,year,issf,systfluc); 
+        else if(nmus==2)leptonlegs = LegEffcyorSF(myf,"mu17_dimu",ptlead,etalead,year,issf,systfluc) * LegEffcyorSF(myf,"mu8_dimu",pttrail,etatrail,year,issf,systfluc); 
     }
 
 
