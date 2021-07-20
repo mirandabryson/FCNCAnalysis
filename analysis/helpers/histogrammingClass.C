@@ -9,14 +9,14 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 }
 
 std::vector<std::string> HistContainer::getRegionNames() {
-    // std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
-    //                                     "osest","mlsfest","sfest","mldfest","dfest",
-    //                                     "vrcr","vrcrest","vrsr",
-    //                                     "vrcr_flip","vrcrest_flip","vrsr_flip",};
+    std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
+                                        "osest","mlsfest","sfest","mldfest","dfest",
+                                        "vrcr","vrcrest","vrsr",
+                                        "vrcr_flip","vrcrest_flip","vrsr_flip",};
 
     // std::vector<std::string> rnames = {"os","osest"};
     // std::vector<std::string> rnames = {"br","ss","ml"};
-    std::vector<std::string> rnames = {"sf","df","mlsf","mldf","sfest","dfest","mlsfest","mldfest"};
+    // std::vector<std::string> rnames = {"sf","df","mlsf","mldf","sfest","dfest","mlsfest","mldfest"};
 
     return rnames;
 }
@@ -245,6 +245,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     int nmus=0;
     bool onZPeak = 0;
     bool diEl = 0;
+    bool isSS = 0;
     for (auto lep: leps) {
         if (lep.absid()==11){neles++;}
         else if (lep.absid()==13){nmus++;}
@@ -255,9 +256,10 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         mass = (leps[0].p4()+leps[1].p4()).M();
     }
     if(leps.size()==2 && leps[0].absid()==11 && leps[1].absid()==11){diEl=1;}
+    if(leps.size()==2 && leps[0].charge()==leps[1].charge()){isSS=1;}
 
     for (auto name : rnames) {
-        if(onZPeak && diEl){continue;}
+        if(onZPeak && diEl && isSS){continue;}
         if (name=="br") {
             counter_++;
             //std::cout << "Filled br histograms for " << counter_ << " time" << std::endl;
@@ -316,7 +318,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         if (name == "br") {
 
             int sr = getSR(best_hyp_type,njets,nbjets);
-            if (sr>=0 && !(diEl && onZPeak)){
+            if (sr>=0 && !(diEl && onZPeak && isSS)){
 
                 fill1d("cutflow","br",sample,9,fillWeight);
                 if (nt.MET_pt()>=50){fill1d("cutflow","br",sample,10,fillWeight);}
