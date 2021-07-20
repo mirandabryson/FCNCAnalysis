@@ -9,10 +9,10 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 }
 
 std::vector<std::string> HistContainer::getRegionNames() {
-    std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
+    std::vector<std::string> rnames = { "br"/*,"mr","ml","mlsf","ss","os","sf","df","mldf",
                                         "osest","mlsfest","sfest","mldfest","dfest",
                                         "vrcr","vrcrest","vrsr",
-                                        "vrcr_flip","vrcrest_flip","vrsr_flip",};
+                                        "vrcr_flip","vrcrest_flip","vrsr_flip",*/};
     return rnames;
 }
 
@@ -89,7 +89,7 @@ void HistContainer::addHist2d(std::string quantity, std::string sample, int nbin
 }
 
 void HistContainer::loadHists(std::string sample) {
-    addHist1d("njets",sample,7,-0.5,6.5);
+    /*addHist1d("njets",sample,7,-0.5,6.5);
     addHist1d("nbjets",sample,5,-0.5,4.5);
     addHist1d("nleps",sample,5,-0.5,4.5);
     addHist1d("neles",sample,5,-0.5,4.5);
@@ -105,10 +105,10 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("tjpt",sample,50,0,500);
     addHist1d("lbpt",sample,50,0,500);
     addHist1d("ht",sample,50,0,1000);
-    addHist1d("met",sample,20,0,400);
+    addHist1d("met",sample,20,0,400);*/
     //addHist1d("cutflow",sample,4,0.5,4.5);//,"br");
     addHist1d("sr",sample,18,0.5,18.5);//,"br");
-    addHist1d("fakecr",sample,18,0.5,18.5);//,"br");
+    /*addHist1d("fakecr",sample,18,0.5,18.5);//,"br");
     addHist1d("flipcr",sample,18,0.5,18.5);//,"br");
     addHist1d("vrsr_flip",sample,18,0.5,18.5,"vrsr_flip");
     addHist1d("vrcr_flip",sample,18,0.5,18.5,"vrcr_flip");
@@ -133,7 +133,7 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("vrcrest_em",sample,18,0.5,18.5,"vrcrest");
     addHist1d("vrsr_me",sample,18,0.5,18.5,"vrsr");
     addHist1d("vrcr_me",sample,18,0.5,18.5,"vrcr");
-    addHist1d("vrcrest_me",sample,18,0.5,18.5,"vrcrest");
+    addHist1d("vrcrest_me",sample,18,0.5,18.5,"vrcrest");*/
     return;
 }
 

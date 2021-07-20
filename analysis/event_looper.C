@@ -339,8 +339,8 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
     // bar.set_theme_braille();
     //BDT constructor
     BDT booster("./helpers/BDT/BDT.xml");
-    BDTBabyMaker dilep_bdt_baby(Form("./helpers/BDT/babies/dilep/%s.root", chainTitleCh));
-    BDTBabyMaker trilep_bdt_baby(Form("./helpers/BDT/babies/trilep/%s.root", chainTitleCh));
+    BDTBabyMaker bdt_baby(Form("./helpers/BDT/babies/%s.root", chainTitleCh));
+    //BDTBabyMaker trilep_bdt_baby(Form("./helpers/BDT/babies/%s.root", chainTitleCh));
 
     auto start = high_resolution_clock::now();
 
@@ -615,7 +615,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 for ( auto lep : best_hyp ) {weight = weight * leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht);}
 
                 //apply PU weight
-                //weight = weight * nt.puWeight();
+                weight = weight * nt.puWeight();
 
                 //only apply trigger scale factors to dilepton events
                 if (best_hyp.size()==2){weight = weight * triggerScaleFactor(nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0);}
@@ -660,24 +660,24 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
 
             if (doFakes && !isData && doTruthFake && !is_fake) continue;
             if (doFlips && !isData && doTruthFlip && !is_flip) continue;
-            //if (nt.year()==2016){
-            //    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
-            //         nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()||
-            //         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-            //         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-            //         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
-            //}else if (nt.year()==2017){
-            //    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
-            //         nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
-            //         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
-            //         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-            //         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
-            //}else if (nt.year()==2018){
-            //    if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
-            //         nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
-            //         nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-            //         nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
-            //}
+            if (nt.year()==2016){
+                if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
+                     nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()||
+                     nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                     nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+            }else if (nt.year()==2017){
+                if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
+                     nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
+                     nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
+                     nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+            }else if (nt.year()==2018){
+                if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
+                     nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL()||
+                     nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+            }
             if(debugPrints){std::cout << "passed triggers for event " << nt.event() << endl;}
            
             //calculate control region weights for background estimates
@@ -718,6 +718,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                     fakeWeight = fakeWeight * (fakeRateValue/(1-fakeRateValue));
                 }
                 crWeight = weight * fakeWeight;
+                //std::cout << crWeight << std::endl;
             }
 
             //now, we move to the flip weight
@@ -736,22 +737,33 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
             // prepare BDT parameters
-            //if (njets < 2) {
-            //    continue;
-            //}
+            if (njets < 2) {
+                continue;
+            }
             //auto start_time = high_resolution_clock::now();
-            bool fill_BDT = (((category==1) && (chainTitle=="fakes_mc")) ||
-                             ((category==2) && (chainTitle=="flips_mc")) ||
-                             ((category==3) && (chainTitle=="rares"   )) ||
-                             ((chainTitle=="signal_tch"))                ||
-                             ((chainTitle=="signal_tuh"))                );
-            if (fill_BDT) {
-                if (best_hyp_type == 4) {
+            bool fill_BDT_MC = (((category==1) && (chainTitle=="fakes_mc")) ||
+                               ((category==2) && (chainTitle=="flips_mc")) ||
+                               ((category==3) && (chainTitle=="rares"   )) ||
+                               ((chainTitle=="signal_tch"))                ||
+                               ((chainTitle=="signal_tuh"))                );
+            bool fill_BDT_data_driven = (abs(crWeight) > 0.0);
+            //std::cout << "fill_BDT_data_driven: " << fill_BDT_data_driven << std::endl;
+            //std::cout << "category: " << category << "\tchainTitle: " << chainTitle;
+            //std::cout << "\tfill_BDT: " << fill_BDT << std::endl;
+            if (fill_BDT_MC) {
+                if ((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) {
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-                    dilep_bdt_baby.set_features(BDT_params, weight);
-                } else if (best_hyp.size() > 2) {
+                    bdt_baby.set_features(BDT_params, weight);
+                    //std::cout << chainTitle << endl;
+                }
+            }
+            else if (fill_BDT_data_driven) {
+                if ((best_hyp_type == 5) || (best_hyp_type==3||best_hyp_type>=6)) {
+                    Float_t BDT_crWeight = crWeight;
+                    //std::cout << "BDT_crWeight: " << BDT_crWeight << "\tcrWeight: " << crWeight << std::endl;
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-                    trilep_bdt_baby.set_features(BDT_params, weight);
+                    bdt_baby.set_features(BDT_params, BDT_crWeight);
+                    //std::cout << "Filling BDT baby" << std::endl;
                 }
             }
             //booster.set_features(BDT_params);
@@ -766,8 +778,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
             }
             //if (chainTitle == "ttjets"){
             hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
-            //}
->>>>>>> e3cd1cd57f36ebd99ddf7d7209c386517dda60b6
+            //}*/
             if (category == 1 && !(isSignal||isData)){
                 hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }else if (category == 2 && !(isSignal||isData)){
@@ -778,7 +789,7 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }else if (isSignal||isData){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
-            }*/
+            }
             //cout << "**********" << endl;
         }//loop over events
         if (debugPrints){std::cout << "closing file " << file->GetName() << endl;}
@@ -799,6 +810,6 @@ void event_looper(TChain *chain, TString options="", int nevts=-1, TString outpu
      outFile->cd();
      hists.write();
      outFile->Close();
-     dilep_bdt_baby.close();
-     trilep_bdt_baby.close();
+     bdt_baby.close();
+     //trilep_bdt_baby.close();
 }
