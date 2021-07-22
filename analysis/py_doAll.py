@@ -142,8 +142,8 @@ if __name__ == "__main__":
                 basedirs[2016] + get_sample_path("wjets", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tw_top", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tw_atop", 2016,args.tag) + ".root",
-                basedirs[2016] + get_sample_path("ttg_dilep", 2016,args.tag) + ".root",
-                basedirs[2016] + get_sample_path("ttg_1lep", 2016,args.tag) + ".root",
+                #basedirs[2016] + get_sample_path("ttg_dilep", 2016,args.tag) + ".root",
+                #basedirs[2016] + get_sample_path("ttg_1lep", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wg", 2016,args.tag) + ".root",
 
                 ], options=options[2016] + " doTruthFake doStitch "),
@@ -157,7 +157,7 @@ if __name__ == "__main__":
                 basedirs[2016] + get_sample_path("dyjets_m50", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tw_atop", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tw_top", 2016,args.tag) + ".root",
-                basedirs[2016] + get_sample_path("ttg_dilep", 2016,args.tag) + ".root",
+                #basedirs[2016] + get_sample_path("ttg_dilep", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("ww", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("zg", 2016,args.tag) + ".root",
 

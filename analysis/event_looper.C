@@ -362,6 +362,18 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     auto start = high_resolution_clock::now();
 
     //File Loop
+    // int nLooseFlips=0;
+    // int nTightFlips=0;
+
+    // int nDilep_ss=0;
+    // int nDilep_fake_ss=0;
+    // int nDilep_flip_ss=0;
+    // int n1lep_ss=0;
+
+    // int nDilep_sf=0;
+    // int nDilep_fake_sf=0;
+    // int nDilep_flip_sf=0;
+    // int n1lep_sf=0;
     while ( (currentFile = (TFile*)fileIter.Next()) ){
         TFile *file = new TFile(currentFile->GetName());
         TString filename = currentFile->GetName();
@@ -397,7 +409,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             //if(nt.event()!=313915097){continue;}
 
             //MET CUT
-            if (nt.MET_pt() < 50.){continue;}
+            // if (nt.MET_pt() < 50.){continue;}
             if (debugPrints){std::cout << "passed MET cut for event " << nt.event() << ": " << nt.MET_pt() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
@@ -491,7 +503,13 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             int nflips=0;
             if(!isData){
                 for ( auto lep : best_hyp ) {if (lep.isFake()) nfakes++;}
-                for ( auto lep : best_hyp ) {if (lep.isFlip() && lep.absid()==11) nflips++;}
+                for ( auto lep : best_hyp ) {
+                    if (lep.isFlip() && lep.absid()==11){
+                        nflips++;
+                        // if(lep.idlevel()==SS::IDLevel::IDtight){nTightFlips++;}
+                        // else if(lep.idlevel()==SS::IDLevel::IDfakable){nLooseFlips++;}
+                    }
+                }
                 if (best_hyp.size() == 2 && best_hyp[0].charge()*best_hyp[1].charge()<0) is_os=true;
                 if (nfakes>0 && !is_os) is_fake=true;
                 if (best_hyp.size() == 2 && nflips==1) is_flip=true;
@@ -502,6 +520,41 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (is_rare) category=3;
             if (is_fake) category=1;
             // cout << category << endl;
+
+            //count dilep vs 1lep events
+            // int ngenleps=0;
+            // for(int i=0; i<nt.GenPart_pdgId().size(); i++){
+            //     if(abs(nt.GenPart_pdgId()[i])==11||abs(nt.GenPart_pdgId()[i])==13){
+            //         if(abs(nt.GenPart_pdgId()[nt.GenPart_genPartIdxMother()[i]])==24){
+            //             ngenleps++;
+            //         }
+            //     }
+            // }
+            // if(best_hyp_type==4){
+            //     if(ngenleps==2){nDilep_ss++;}
+            //     if(ngenleps==1){n1lep_ss++;}
+            //     if(ngenleps==2&&category==1){nDilep_fake_ss++;}
+            //     if(ngenleps==2&&category==2){nDilep_flip_ss++;}
+            // }else if(best_hyp_type==6){
+            //     if(ngenleps==2){
+            //         nDilep_sf++;
+            //         for(auto lep : best_hyp){
+            //             if(lep.idlevel()==SS::IDLevel::IDfakable){
+            //                 cout << nDilep_sf << " loose lep reco id: " << lep.id() << " and gen id: " << lep.mcid() << endl;
+            //                 if(lep.id()==-1*lep.mcid()){cout << "     above is a flip"<< endl;}
+            //             }
+            //         }
+            //     }
+            //     if(ngenleps==1){n1lep_sf++;}
+            //     if(ngenleps==2&&category==1){
+            //         nDilep_fake_sf++;
+            //         // cout << "sf dilep fake: " << nt.event() << endl;
+            //     }
+            //     if(ngenleps==2&&category==2){
+            //         nDilep_flip_sf++;
+            //         // cout << "sf dilep flip: " << nt.event() << endl;
+            //     }
+            // }
             if (debugPrints){std::cout << "got category for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
@@ -644,7 +697,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             for (auto jet : good_jets) ht += jet.pt();
 
             //BJET CUT
-            if(nbjets<1){continue;}
+            // if(nbjets<1){continue;}
 
             if (debugPrints){std::cout << "loaded jets for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
@@ -915,16 +968,16 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }*/
             if (category == 1 && !(isSignal||isData)){
-                // hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
+                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
+                // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
                 if(print_sample_file){nFakes+=weight;}
             }else if (category == 2 && !(isSignal||isData)){
-                // hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
+                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
+                // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
                 if(print_sample_file){nFlips+=weight;}
             }else if (category == 3 && !(isSignal||isData)){
-                // hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
+                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
+                // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
                 if(print_sample_file){nRares+=weight;}
             }else if (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData)){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
@@ -940,6 +993,18 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
         file->Close();
         delete file;
      } // loop over files
+     // cout << "nLooseFlips: " << nLooseFlips << endl;
+     // cout << "nTightFlips: " << nTightFlips << endl;
+     // cout << "SS: " << endl;
+     // cout << "    nDilep: " << nDilep_ss << endl;
+     // cout << "    n1lep: " << n1lep_ss << endl;
+     // cout << "    nDilep fakes: " << nDilep_fake_ss << endl;
+     // cout << "    nDilep flips: " << nDilep_flip_ss << endl;
+     // cout << "TL: " << endl;
+     // cout << "    nDilep: " << nDilep_sf << endl;
+     // cout << "    n1lep: " << n1lep_sf << endl;
+     // cout << "    nDilep fakes: " << nDilep_fake_sf << endl;
+     // cout << "    nDilep flips: " << nDilep_flip_sf << endl;
 
      auto stop = high_resolution_clock::now();
      auto duration = duration_cast<milliseconds>(stop - start);
