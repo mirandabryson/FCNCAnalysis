@@ -33,6 +33,9 @@ BDTBabyMaker::BDTBabyMaker(char* output_name) {
     BabyTree->Branch("LeadJet_pt", &(parameter_map["LeadJet_pt"]));
     BabyTree->Branch("SubLeadJet_pt", &(parameter_map["SubLeadJet_pt"]));
     BabyTree->Branch("SubSubLeadJet_pt", &(parameter_map["SubSubLeadJet_pt"]));
+    BabyTree->Branch("LeadJet_BtagScore", &(parameter_map["LeadJet_BtagScore"]));
+    BabyTree->Branch("SubLeadJet_BtagScore", &(parameter_map["SubLeadJet_BtagScore"]));
+    BabyTree->Branch("SubSubLeadJet_BtagScore", &(parameter_map["SubSubLeadJet_BtagScore"]));
     BabyTree->Branch("nElectron", &(parameter_map["nElectron"]));
     BabyTree->Branch("MET_pt", &(parameter_map["MET_pt"]));
     BabyTree->Branch("LeadBtag_pt", &(parameter_map["LeadBtag_pt"]));
@@ -65,6 +68,9 @@ void BDTBabyMaker::set_features(std::map<std::string, Float_t> BDT_params, Float
     parameter_map["LeadJet_pt"] = BDT_params["LeadJet_pt"];
     parameter_map["SubLeadJet_pt"] = BDT_params["SubLeadJet_pt"];
     parameter_map["SubSubLeadJet_pt"] = BDT_params["SubSubLeadJet_pt"];
+    parameter_map["LeadJet_BtagScore"] = BDT_params["LeadJet_BtagScore"];
+    parameter_map["SubLeadJet_BtagScore"] = BDT_params["SubLeadJet_BtagScore"];
+    parameter_map["SubSubLeadJet_BtagScore"] = BDT_params["SubSubLeadJet_BtagScore"];
     parameter_map["nElectron"] = BDT_params["nElectron"];
     parameter_map["MET_pt"] = BDT_params["MET_pt"];
     parameter_map["LeadBtag_pt"] = BDT_params["LeadBtag_pt"];

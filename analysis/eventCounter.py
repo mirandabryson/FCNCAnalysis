@@ -2,7 +2,7 @@ import glob
 import tqdm
 import os
 
-VERSION = "fcnc_v12_SRonly_30june2021"
+VERSION = "fcnc_v11_SRandCR_30june2021"
 BABY_DIR = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}".format(VERSION)
 #BABY_DIR = "/hadoop/cms/store/user/dspitzba/FCNC_NanoSkim/{}".format(VERSION)
 N_EVENTS_DIR = "./n_events"
@@ -39,6 +39,8 @@ for sample_dir in tqdm.tqdm(sample_dirs):
             if not counted_total or not counted_effective:
                 print(lines)
     sample = sample_dir.split("/")[-1]
+    if sample == "ST_tW_antitop_5f_NoFullyHadronicDecays_13TeV-powheg_TuneCUETP8M1_RunIISummer16NanoAODv7-PUMoriond17_Nano02Apr2020_102X_mcRun2_asymptotic_v8-v1_NANOAODSIM_fcnc_v10_SRonly_11june2021":
+        print("found sample")
     with open(N_EVENTS_DIR+"/"+sample+"_n_events.txt", "w") as f_out:
         f_out.write(str(n_total_events)+"\n")
         f_out.write(str(n_effective_events)+"\n")

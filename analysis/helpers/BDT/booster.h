@@ -54,12 +54,12 @@ BDT::BDT(std::string path_to_xml) {
     booster->AddVariable("MT_LeadLep_MET", &(parameter_map["MT_LeadLep_MET"]));
     booster->AddVariable("MT_SubLeadLep_MET", &(parameter_map["MT_SubLeadLep_MET"]));
     booster->AddVariable("LeadLep_SubLeadLep_Mass", &(parameter_map["LeadLep_SubLeadLep_Mass"]));
-    //booster->AddVariable("SubSubLeadLep_pt", &(parameter_map["SubSubLeadLep_pt"]));
-    //booster->AddVariable("SubSubLeadLep_eta", &(parameter_map["SubSubLeadLep_eta"]));
-    //booster->AddVariable("SubSubLeadLep_dxy", &(parameter_map["SubSubLeadLep_dxy"]));
-    //booster->AddVariable("SubSubLeadLep_dz", &(parameter_map["SubSubLeadLep_dz"]));
-    //booster->AddVariable("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
-    //booster->AddVariable("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
+    booster->AddVariable("SubSubLeadLep_pt", &(parameter_map["SubSubLeadLep_pt"]));
+    booster->AddVariable("SubSubLeadLep_eta", &(parameter_map["SubSubLeadLep_eta"]));
+    booster->AddVariable("SubSubLeadLep_dxy", &(parameter_map["SubSubLeadLep_dxy"]));
+    booster->AddVariable("SubSubLeadLep_dz", &(parameter_map["SubSubLeadLep_dz"]));
+    booster->AddVariable("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
+    booster->AddVariable("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
     booster->BookMVA("BDT", path_to_xml);
 
 }
@@ -79,11 +79,13 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
     Float_t LeadLep_SubLeadLep_Mass = (LeadLep.p4() + SubLeadLep.p4()).M();
     Float_t njets = good_jets.size();
     Float_t nbjets = good_bjets.size();
-    Float_t LeadJet_pt=0., SubLeadJet_pt=0., SubSubLeadJet_pt=0., LeadBtag_pt=0., LeadBtag_score=0.;
+    Float_t LeadJet_pt=-999.0, SubLeadJet_pt=-999.0, SubSubLeadJet_pt=-999.0;
+    Float_t LeadBtag_pt=-999.0, LeadBtag_score=-999.0;
+    Float_t LeadJet_BtagScore=-999.0, SubLeadJet_BtagScore=-999.0, SubSubLeadJet_BtagScore=-999.0;
     Float_t nElectron = 0;//ordered_leptons.size();
-    //thiird lepton properties
-    Float_t SubSubLeadLep_pt = 0., SubSubLeadLep_eta = 0., SubSubLeadLep_dxy = 0., SubSubLeadLep_dz = 0.;
-    Float_t MT_SubSubLeadLep_MET = 0.;
+    //third lepton properties
+    Float_t SubSubLeadLep_pt = -999.0, SubSubLeadLep_eta = -999.0, SubSubLeadLep_dxy = -999.0, SubSubLeadLep_dz = -999.0;
+    Float_t MT_SubSubLeadLep_MET = -999.0;
     if (ordered_leptons.size() > 2) {
         Lepton SubSubLeadLep = ordered_leptons[2];
         SubSubLeadLep_pt = SubSubLeadLep.pt();
@@ -98,20 +100,23 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
             nElectron++;
             }
         }
-    if (njets > 2) {
+    if (njets >= 2) {
         LeadJet_pt = good_jets[0].pt();
+        LeadJet_BtagScore = good_jets[0].bdisc();
         SubLeadJet_pt = good_jets[1].pt();
+        SubLeadJet_BtagScore = good_jets[1].bdisc();
         SubSubLeadJet_pt = good_jets[2].pt();
+        SubSubLeadJet_BtagScore = good_jets[2].bdisc();
     }
-    else if (njets == 2) {
-        LeadJet_pt = good_jets[0].pt();
-        SubLeadJet_pt = good_jets[1].pt();
+    if (njets > 2) { //third jet properties
+        SubSubLeadJet_pt = good_jets[2].pt();
+        SubSubLeadJet_BtagScore = good_jets[2].bdisc();
     }
     if (nbjets > 0) { 
         LeadBtag_pt = good_bjets[0].pt();
         LeadBtag_score = good_bjets[0].bdisc();
     }
-    Float_t Most_Forward_pt = 0., highest_abs_eta=0.;
+    Float_t Most_Forward_pt = -999.0, highest_abs_eta=-999.0;
     for(int i=0; i < njets; i++){
         if (abs(good_jets[i].eta()) >= highest_abs_eta) {
             highest_abs_eta = abs(good_jets[i].eta());
@@ -128,6 +133,9 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
         {"LeadJet_pt", LeadJet_pt},
         {"SubLeadJet_pt", SubLeadJet_pt},
         {"SubSubLeadJet_pt", SubSubLeadJet_pt},
+        {"LeadJet_BtagScore", LeadJet_BtagScore},
+        {"SubLeadJet_BtagScore", SubLeadJet_BtagScore},
+        {"SubSubLeadJet_BtagScore", SubSubLeadJet_BtagScore},
         {"LeadBtag_pt", LeadBtag_pt},
         {"MT_LeadLep_MET", MT_LeadLep_MET},
         {"MT_SubLeadLep_MET", MT_SubLeadLep_MET},
@@ -151,7 +159,6 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
         {"MT_SubSubLeadLep_MET", MT_SubSubLeadLep_MET},
         {"LeadBtag_score", LeadBtag_score}
     };
-    //cout << "Setting nBtag = " << nbjets << endl;
     return params;
 }
 
@@ -172,6 +179,9 @@ void BDT::set_features(std::map<std::string, Float_t> BDT_params, bool debug=fal
     parameter_map["LeadJet_pt"] = BDT_params["LeadJet_pt"];
     parameter_map["SubLeadJet_pt"] = BDT_params["SubLeadJet_pt"];
     parameter_map["SubSubLeadJet_pt"] = BDT_params["SubSubLeadJet_pt"];
+    //parameter_map["LeadJet_BtagScore"] = BDT_params["LeadJet_BtagScore"];
+    //parameter_map["SubLeadJet_BtagScore"] = BDT_params["SubLeadJet_BtagScore"];
+    //parameter_map["SubSubLeadJet_BtagScore"] = BDT_params["SubSubLeadJet_BtagScore"];
     parameter_map["nElectron"] = BDT_params["nElectron"];
     parameter_map["MET_pt"] = BDT_params["MET_pt"];
     parameter_map["LeadBtag_pt"] = BDT_params["LeadBtag_pt"];
