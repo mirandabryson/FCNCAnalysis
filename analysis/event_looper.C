@@ -22,6 +22,8 @@
 #include "./helpers/weights.h"
 #include "./helpers/histogrammingClass.h"
 //#include "./helpers/flip_weights.h"
+#include "./helpers/BDT/booster.h"
+#include "./helpers/BDT/make_baby.h"
 #include "./helpers/tqdm.h"
 #include "../../NanoTools/NanoCORE/SSSelections.h"
 #include "../../NanoTools/NanoCORE/IsolationTools.h"
@@ -351,7 +353,12 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
     tqdm bar;
     // bar.set_theme_braille();
-
+    //BDT constructor
+    BDT booster("./helpers/BDT/BDT.xml");
+    std::string tmp_yr_str = std::to_string(year);
+    //BDTBabyMaker bdt_fakes_baby(Form("./helpers/BDT/babies/%s/data_driven/%s_fakes.root", tmp_yr_str.c_str(), chainTitleCh));
+    //BDTBabyMaker bdt_flips_baby(Form("./helpers/BDT/babies/%s/data_driven/%s_flips.root", tmp_yr_str.c_str(), chainTitleCh));
+    //BDTBabyMaker bdt_MC_baby(Form("./helpers/BDT/babies/%s/MC/%s.root", tmp_yr_str.c_str(), chainTitleCh));
     auto start = high_resolution_clock::now();
 
     //File Loop
@@ -373,8 +380,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
         TTree *tree = (TTree*)file->Get("Events");
         nt.Init(tree);
         if (debugPrints){std::cout << "working on file " << filename << endl;}
-        if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
-        if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+        if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
+        if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
         float nFakes = 0.;
         float nFlips = 0.;
@@ -382,7 +389,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
         for ( unsigned int counter = 0; counter < tree->GetEntries(); counter++ ){ 
         //for ( unsigned int counter = 0; counter < 1000; counter++ ){ //for testing only!!
-            //if (counter%100000==0){std::cout << "processed " << counter << " events and elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            //if (counter%100000==0){std::cout << "processed " << counter << " events and elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
 
             nt.GetEntry(counter);
             if ( nevts>0 && nEventsTotal>=nevts ) break;
@@ -404,14 +411,14 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             //MET CUT
             if (nt.MET_pt() < 50.){continue;}
             if (debugPrints){std::cout << "passed MET cut for event " << nt.event() << ": " << nt.MET_pt() << endl;}
-            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
-            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
             //get event weight based on sample!
             // cout << nt.event() << endl;
             double weight = 1.;
             if (!isData){
-                weight = getEventWeight( file->GetName(), chainTitle.Data(), nt.year() );
+                weight = getEventWeight( file->GetName(), chainTitle.Data(), nt.year());
                 // cout << "scale1fb: " << weight << endl;
                 //double weight = 1.;
                 double genWeight = nt.Generator_weight();
@@ -423,8 +430,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             // cout << weight << endl;
             double evtWeight = weight; 
             if (debugPrints){std::cout << "passed eventWeight for event " << nt.event() << endl;}
-            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
-            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
 
             // cutflow counter
@@ -453,8 +460,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 }
             }
             if (debugPrints){std::cout << "loaded leptons for event " << nt.event() << endl;}
-            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
-            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
 
             // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, OS, TL, LL
@@ -489,8 +496,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                                                                 << ", " << trailing_lep.id() << std::endl;
             }
             if (debugPrints){std::cout << "got best hyp for event " << nt.event() << endl;}
-            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
-            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
             // now let's check if there are additional requirements we need to make
             bool is_fake = false;
@@ -554,8 +561,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             //     }
             // }
             if (debugPrints){std::cout << "got category for event " << nt.event() << endl;}
-            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
-            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
 
             //for fake validation: gen matching for best_hyp leptons
@@ -680,8 +687,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 }
             }
             if (debugPrints){std::cout << "passed validation categorization for event " << nt.event() << endl;}
-            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
-            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
             // get jets and bjets
             //getJets parameters: Leptons &leps,float min_jet_pt=40., float min_bjet_pt=25.
@@ -699,8 +706,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             // if(nbjets<1){continue;}
 
             if (debugPrints){std::cout << "loaded jets for event " << nt.event() << endl;}
-            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
-            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
 
             //apply SFs to MC events
@@ -740,8 +747,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 hists.fill1d("cutflow","br",chainTitleCh,3,weight);
             }
             if (debugPrints){std::cout << "passed sfs for event " << nt.event() << endl;}
-            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
-            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
 
             if (print_debug_file) {
@@ -749,8 +756,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 print_debug(debug_file,best_hyp_type,best_hyp,good_jets,good_bjets,category);
                 //debug_file << std::endl;
             }
-
-
+            
             // if there isn't a good lepton hypothesis
             if (best_hyp_type<0) continue;
             //else {hists.fill1d("cutflow","br",chainTitleCh,2,weight);}
@@ -795,7 +801,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                      nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
                      nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
             }
-
+            if(debugPrints){std::cout << "passed triggers for event " << nt.event() << endl;}
             if ((category == 1 && chainTitle=="fakes_mc")||
                 (category == 2 && chainTitle=="flips_mc")||
                 (category == 3 && chainTitle=="rares")||
@@ -902,6 +908,39 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 //std::cout << "event crWeight: " << crWeight << endl;
             }
             if (debugPrints){std::cout << "passed crWeight for event " << nt.event() << endl;}
+            // prepare BDT parameters
+            if (njets < 2) {
+                continue;
+            }
+            //auto start_time = high_resolution_clock::now();
+            bool fill_BDT_MC = (((category==1) && (chainTitle=="fakes_mc")) ||
+                               ((category==2) && (chainTitle=="flips_mc")) ||
+                               ((category==3) && (chainTitle=="rares"   )) ||
+                               ((chainTitle=="signal_tch"))                ||
+                               ((chainTitle=="signal_tuh"))                );
+            bool fill_BDT_data_driven = (abs(crWeight) > 0.0);
+            if (fill_BDT_MC) {
+                if ((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) {
+                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    //bdt_MC_baby.set_features(BDT_params, weight);
+                }
+            }
+            else if (fill_BDT_data_driven) {
+                if (best_hyp_type == 5){
+                    Float_t BDT_crWeight = crWeight;
+                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    //bdt_flips_baby.set_features(BDT_params, BDT_crWeight);
+            
+              } else if ((best_hyp_type==3) || (best_hyp_type>=6)) {
+                    Float_t BDT_crWeight = crWeight;
+                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    //bdt_fakes_baby.set_features(BDT_params, BDT_crWeight);
+              }
+            }
+            //booster.set_features(BDT_params);
+            //booster.get_score();
+            //cout << "BDT eval time: " << duration_cast<microseconds>(high_resolution_clock::now() - start_time).count() << endl;
+            //std::cout << booster.get_score() << endl;
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
@@ -963,7 +1002,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             }else if (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData)){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }else if (isSignal||isData){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
             }
             //cout << "**********" << endl;
         }//loop over events
@@ -988,16 +1027,18 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
      // cout << "    nDilep flips: " << nDilep_flip_sf << endl;
 
      auto stop = high_resolution_clock::now();
-     auto duration = duration_cast<seconds>(stop - start);
+     auto duration = duration_cast<milliseconds>(stop - start);
      if (debug_file.is_open()) debug_file.close();
 
-     if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
-     cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
-
+     if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " milliseconds!!" << endl;
+     cout << "processed " << nEventsTotal << " events in " << duration.count() << " milliseconds!!" << endl;
      //write histograms
      auto outFile = new TFile(outFileName.Data(), "recreate");
      if (!quiet) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
      outFile->cd();
      hists.write();
      outFile->Close();
+     //bdt_fakes_baby.close();
+     //bdt_flips_baby.close();
+     //bdt_MC_baby.close();
 }

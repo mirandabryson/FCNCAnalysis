@@ -36,10 +36,6 @@ outdir=basepath+'outputs/'
 outtag='jul30_lead25_else20_jet35/'
 #files = glob.glob(histdir)
 
-
-
-
-
 def getObjFromFile(fname, hname):
     f = r.TFile(fname)
     assert not f.IsZombie()
@@ -62,12 +58,6 @@ def writeToLatexFile(outName, df):
     outFile.write(df.to_latex())
     outFile.write("\end{document} \n")
     outFile.close()
-
-
-
-
-
-
 
 for year in years:
     sigregions =    {   
@@ -164,11 +154,8 @@ for year in years:
 
         df["Total Background"] = df["fakes_mc"]+df["flips_mc"]+df["rares"]
         df["Total Background error"] = np.sqrt(df["fakes_mc error"]**2+df["flips_mc error"]**2+df["rares error"]**2)
-
-
         #df = df[df.nBtags!=0]
-
-        
+        df["Signal/Background Ratio"] = (df["signal_tuh"] + df["signal_tch"]) / df["Total Background"]        
         df = df.fillna("")
         writeToLatexFile("tables/SRyields_"+str(year), df)
         #save to txt file for datacards
