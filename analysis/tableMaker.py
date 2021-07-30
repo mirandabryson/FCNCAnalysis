@@ -13,25 +13,21 @@ sigWeight = 0.01
 #procs=['flips_mc']
 blind = True
 
-doSRTable = 0
+doSRTable = 1
 doFakeCR = 0
 doFakeEst = 0
 doFakeVal = 0
 doFlipCR = 0
 doFlipEst = 0
-doFlipVal = 1
+doFlipVal = 0
 
 br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
 #histdir=basepath+'outputs/jun14_allMC_estimate/'
-histdir=basepath+'outputs/jun25_OSbabies/'
-outdir=basepath+'outputs/'
+histdir=basepath+'outputs/'
+outdir=basepath+'helpers/BDT/'
 #files = glob.glob(histdir)
-
-
-
-
 
 def getObjFromFile(fname, hname):
     f = r.TFile(fname)
@@ -55,12 +51,6 @@ def writeToLatexFile(outName, df):
     outFile.write(df.to_latex())
     outFile.write("\end{document} \n")
     outFile.close()
-
-
-
-
-
-
 
 for year in years:
     sigregions =    {   
@@ -111,7 +101,7 @@ for year in years:
 
         df["Total Background"] = df["fakes_mc"]+df["flips_mc"]+df["rares"]
         df["Total Background error"] = np.sqrt(df["fakes_mc error"]**2+df["flips_mc error"]**2+df["rares error"]**2)
-        
+        df["Signal/Background Ratio"] = (df["signal_tuh"] + df["signal_tch"]) / df["Total Background"]        
         df = df.fillna("")
         writeToLatexFile("tables/SRyields_"+str(year), df)
         #save to txt file for datacards

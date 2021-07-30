@@ -118,8 +118,6 @@ void HistContainer::addHist2d(std::string quantity, std::string sample, int nbin
 
 void HistContainer::loadHists(std::string sample) {
     addHist1d("njets",sample,7,-0.5,6.5);
-    addHist1d("nj1b",sample,7,-0.5,6.5);
-    addHist1d("nj2b",sample,7,-0.5,6.5);
     addHist1d("nbjets",sample,5,-0.5,4.5);
     addHist1d("nleps",sample,5,-0.5,4.5);
     addHist1d("neles",sample,5,-0.5,4.5);
