@@ -895,6 +895,17 @@ float fakeRate(int id, float pt, float eta, bool isData) {
       else return 0.;
    }
 }
+float fakeRateError(int id, float pt, float eta, bool isData) { 
+   if (isData){
+      if (abs(id)==11) return electronFakeRateError_IsoTrigs_legacy(pt,eta);
+      else if (abs(id)==13) return muonFakeRateError_IsoTrigs_legacy(pt,eta);
+      else return 0.;
+   }else {
+      if (abs(id)==11) return electronQCDMCFakeRateError_IsoTrigs_legacy(pt,eta);
+      else if (abs(id)==13) return muonQCDMCFakeRateError_IsoTrigs_legacy(pt,eta);
+      else return 0.;
+   }
+}
 /*float fakeRate(int id, float pt, float eta) { 
     if (abs(id)==11) return 0.1;
     else if (abs(id)==13) return 0.1;
@@ -946,7 +957,7 @@ float qcdMCFakeRateError(int id, float pt, float eta, float ht, bool isLL) {
     else if (abs(id)==13) return (isLL ? muonFakeRate_legacy(pt,eta) : muonFakeRate_IsoTrigs_legacy(pt,eta));
     else return 0.;
   }
-}*/
+}
 
 float fakeRateError(int id, float pt, float eta, float ht, ana_t ana, bool isLL) { 
   if (ht>300. and ana != SSANA) {
@@ -958,7 +969,7 @@ float fakeRateError(int id, float pt, float eta, float ht, ana_t ana, bool isLL)
     else if (abs(id)==13) return (isLL ? muonFakeRateError_legacy(pt,eta) : muonFakeRateError_IsoTrigs_legacy(pt,eta));
     else return 0.;
   }
-}
+}*/
 
 float alternativeFakeRate(int id, float pt, float eta, float ht, ana_t ana, bool isLL) { 
   if (ht>300. and ana != SSANA) {

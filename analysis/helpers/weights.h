@@ -66,6 +66,7 @@ double getEventWeight (string fileName, string sampleName, int year, bool verbos
     //calculate weight
     eventWeight = xsecWeight/nEvents;
     if (verbose) cout << "scale1fb: " << eventWeight << std::endl;
+    inFile.close();
 
     return eventWeight;
 }//close function
