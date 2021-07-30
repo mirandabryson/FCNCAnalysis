@@ -8,3 +8,5 @@
 *.pyc
 *.log
 *.tmp
+*/outputs/*
+*ACLiC*
