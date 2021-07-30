@@ -89,9 +89,9 @@ float flipRate(int year, float pt, float eta){//, ana_t ana) {
     else return 0.;
 }
 
-float flipRateError(int year, float pt, float eta, ana_t ana) { 
-    if (ana == SSANA and year == 2016) return y2016::flipRateError_legacy(pt, eta);
-    if (year == 2016) return y2016::flipRateError(pt, eta);
+float flipRateError(int year, float pt, float eta){//, ana_t ana) { 
+    // if (ana == SSANA and year == 2016) return y2016::flipRateError_legacy(pt, eta);
+    if (year == 2016) return y2016::flipRateError_legacy(pt, eta);
     else if (year == 2017) return y2017::flipRateError(pt, eta);
     else if (year == 2018) return y2018::flipRateError(pt, eta);
     else return 0.;
@@ -103,20 +103,26 @@ float fakeRate(int year, int id, float pt, float eta, bool isData) {
     else if (year == 2018) return y2018::fakeRate(id, pt, eta, isData);
     else return 0.;
 }
+float fakeRateError(int year, int id, float pt, float eta, bool isData) { 
+    if (year == 2016) return y2016::fakeRateError(id, pt, eta, isData);
+    else if (year == 2017) return y2017::fakeRateError(id, pt, eta, isData);
+    else if (year == 2018) return y2018::fakeRateError(id, pt, eta, isData);
+    else return 0.;
+}
 /*float fakeRate(int year, int id, float pt, float eta, float ht, ana_t ana, bool newbins=false, bool allpt=false, bool isLL=false) { 
     if (ana == SSANA and year == 2016) return y2016::fakeRate(id, pt, eta, ht, ana, isLL);
     if (year == 2016) return (newbins ? y2016::newbins::fakeRate(id, pt, eta, ht, ana, isLL) : y2016::fakeRate(id, pt, eta, ht, ana, isLL));
     else if (year == 2017) return (allpt ? y2017::allpt::fakeRate(id, pt, eta, ht, isLL) : y2017::fakeRate(id, pt, eta, ht, isLL));
     else if (year == 2018) return (allpt ? y2018::allpt::fakeRate(id, pt, eta, ht, isLL) : y2018::fakeRate(id, pt, eta, ht, isLL));
     else return 0.;
-}*/
+}
 float fakeRateError(int year, int id, float pt, float eta, float ht, ana_t ana, bool newbins=false, bool allpt=false, bool isLL=false) { 
     if (ana == SSANA and year == 2016) return y2016::fakeRateError(id, pt, eta, ht, ana, isLL);
     if (year == 2016) return (newbins ? y2016::newbins::fakeRateError(id, pt, eta, ht, ana, isLL) : y2016::fakeRateError(id, pt, eta, ht, ana, isLL));
     else if (year == 2017) return (allpt ? y2017::allpt::fakeRateError(id, pt, eta, ht, isLL) : y2017::fakeRateError(id, pt, eta, ht, isLL));
     else if (year == 2018) return (allpt ? y2018::allpt::fakeRateError(id, pt, eta, ht, isLL) : y2018::fakeRateError(id, pt, eta, ht, isLL));
     else return 0.;
-}
+}*/
 
 float alternativeFakeRate(int year, int id, float pt, float eta, float ht, ana_t ana, bool newbins=false, bool allpt=false, bool isLL=false) { 
     if (ana == SSANA and year == 2016) return y2016::alternativeFakeRate(id, pt, eta, ht, ana, isLL);
