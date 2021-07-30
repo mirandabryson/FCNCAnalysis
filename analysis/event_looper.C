@@ -881,7 +881,6 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     fakeWeight = fakeWeight * (fakeRateValue/(1-fakeRateValue));
                 }
                 crWeight = weight * fakeWeight;
-                //std::cout << crWeight << std::endl;
             }
 
             //now, we move to the flip weight
@@ -914,9 +913,6 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                                ((chainTitle=="signal_tch"))                ||
                                ((chainTitle=="signal_tuh"))                );
             bool fill_BDT_data_driven = (abs(crWeight) > 0.0);
-            //std::cout << "fill_BDT_data_driven: " << fill_BDT_data_driven << std::endl;
-            //std::cout << "category: " << category << "\tchainTitle: " << chainTitle;
-            //std::cout << "\tfill_BDT: " << fill_BDT << std::endl;
             if (fill_BDT_MC) {
                 if ((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) {
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
@@ -928,12 +924,12 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     Float_t BDT_crWeight = crWeight;
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
                     bdt_flips_baby.set_features(BDT_params, BDT_crWeight);
-
-                } else if ((best_hyp_type==3) || (best_hyp_type>=6)) {
+            
+              } else if ((best_hyp_type==3) || (best_hyp_type>=6)) {
                     Float_t BDT_crWeight = crWeight;
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
                     bdt_fakes_baby.set_features(BDT_params, BDT_crWeight);
-                }
+              }
             }
             //booster.set_features(BDT_params);
             //booster.get_score();

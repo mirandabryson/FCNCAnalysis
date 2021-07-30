@@ -54,12 +54,12 @@ BDT::BDT(std::string path_to_xml) {
     booster->AddVariable("MT_LeadLep_MET", &(parameter_map["MT_LeadLep_MET"]));
     booster->AddVariable("MT_SubLeadLep_MET", &(parameter_map["MT_SubLeadLep_MET"]));
     booster->AddVariable("LeadLep_SubLeadLep_Mass", &(parameter_map["LeadLep_SubLeadLep_Mass"]));
-    booster->AddVariable("SubSubLeadLep_pt", &(parameter_map["SubSubLeadLep_pt"]));
-    booster->AddVariable("SubSubLeadLep_eta", &(parameter_map["SubSubLeadLep_eta"]));
-    booster->AddVariable("SubSubLeadLep_dxy", &(parameter_map["SubSubLeadLep_dxy"]));
-    booster->AddVariable("SubSubLeadLep_dz", &(parameter_map["SubSubLeadLep_dz"]));
-    booster->AddVariable("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
-    booster->AddVariable("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
+    //booster->AddVariable("SubSubLeadLep_pt", &(parameter_map["SubSubLeadLep_pt"]));
+    //booster->AddVariable("SubSubLeadLep_eta", &(parameter_map["SubSubLeadLep_eta"]));
+    //booster->AddVariable("SubSubLeadLep_dxy", &(parameter_map["SubSubLeadLep_dxy"]));
+    //booster->AddVariable("SubSubLeadLep_dz", &(parameter_map["SubSubLeadLep_dz"]));
+    //booster->AddVariable("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
+    //booster->AddVariable("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
     booster->BookMVA("BDT", path_to_xml);
 
 }
@@ -100,13 +100,13 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
             nElectron++;
             }
         }
+    //std::cout << "njets: " << njets << std::endl;
     if (njets >= 2) {
         LeadJet_pt = good_jets[0].pt();
         LeadJet_BtagScore = good_jets[0].bdisc();
+        //std::cout << "LeadJet_BtagScore: " << LeadJet_BtagScore << std::endl;
         SubLeadJet_pt = good_jets[1].pt();
         SubLeadJet_BtagScore = good_jets[1].bdisc();
-        SubSubLeadJet_pt = good_jets[2].pt();
-        SubSubLeadJet_BtagScore = good_jets[2].bdisc();
     }
     if (njets > 2) { //third jet properties
         SubSubLeadJet_pt = good_jets[2].pt();
