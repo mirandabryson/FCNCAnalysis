@@ -9,12 +9,7 @@ from yahist import Hist1D, Hist2D
 
 f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/fakes_mc_2018_hists.root')
 
-#path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/'
-#path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun10_remergedBabies/'
-path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jul28_neles_byProc/'
-#toppath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jul5_os_allMC/'
-#rarespath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jul7_os_allMC_bsfFix/'
-#datapath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jul6_os_allMC_bsfFix/'
+path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug02_flavChannel_jet40/'
 
 regions =   [#"mr",
              "os"
@@ -36,7 +31,7 @@ regions =   [#"mr",
 variables = [   #["njets", 1, r'$N_{jets}$'],
                 # ["nbjets", 1, r'$N_{b-jets}$'],
                 # ["nleps", 1, r'$N_{leptons}$'],
-                ["neles", 1, r'$N_{electrons}$'],
+                # ["neles", 1, r'$N_{electrons}$'],
                 # ["nmus", 1, r'$N_{muons}$'],
                 # ["ljpt", 5, r'$p_T\ (lead.\ jet)\ (GeV)$'],
                 # ["tjpt", 5, r'$p_T\ (sublead.\ jet)\ (GeV)$'],
@@ -54,14 +49,15 @@ variables = [   #["njets", 1, r'$N_{jets}$'],
                 # ["llminiiso", 1, r'$miniIso\ (lead.\ lep.)\ (GeV)$'],
                 # ["ltminiiso", 1, r'$miniIso\ (sublead.\ lep.)\ (GeV)$'],
                 # ['met', 1, r'$MET\ (GeV)$'],
+                ['flavorChannel', 1, r'$Flavor\ Channel$'],
                 # ['flipSFcr_inclMET', 1, r'$sr bin$'],
                 # ['flipSFcr_l50MET', 1, r'$sr bin$'],
                 # #['vrsr', 1, r'$VRSR$'],
                 # #['vrcr', 1, r'$VRCR$']
                 # #['vrcr', 1, r'$VRCR$']
             ]
-# years = ["2016","2017","2018"]
-years = ["2016"]
+years = ["2016","2017","2018"]
+# years = ["2016"]
 blind = True
 
 
@@ -122,10 +118,10 @@ for y in years:
                 }
             elif r == 'os':
                 hists = {
-                    # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
                     #'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
                     'top': uproot3.open(path+'top_'+y+'_hists.root')['h_'+r+'_'+v+'_top'],
-                    'tw': uproot3.open(path+'tw_'+y+'_hists.root')['h_'+r+'_'+v+'_tw'],
+                    # 'tw': uproot3.open(path+'tw_'+y+'_hists.root')['h_'+r+'_'+v+'_tw'],
                     # 'top': uproot3.open(path+'tw_'+y+'_hists.root')['h_'+r+'_'+v+'_tw'],
                     'dy': uproot3.open(path+'dy_'+y+'_hists.root')['h_'+r+'_'+v+'_dy'],
                     'rares': uproot3.open(path+'os_rares_'+y+'_hists.root')['h_'+r+'_'+v+'_os_rares'],
@@ -159,11 +155,11 @@ for y in years:
 
 
             if r == 'os':
-                # my_histos['fakes'].label = 'Nonprompt'
-                # my_histos['fakes'].color = '#FF595E'
+                my_histos['fakes'].label = 'Nonprompt'
+                my_histos['fakes'].color = '#FF595E'
 
-                my_histos['tw'].label = 'tW'
-                my_histos['tw'].color = '#FF595E'
+                # my_histos['tw'].label = 'tW'
+                # my_histos['tw'].color = '#FF595E'
 
                 my_histos['top'].label = 'tt2l'
                 my_histos['top'].color = '#FFCA3A'
@@ -174,7 +170,7 @@ for y in years:
                 my_histos['rares'].label = 'Other'
                 my_histos['rares'].color = '#8AC926'
 
-                keys = ['rares', 'tw', 'dy', 'top']
+                keys = ['rares', 'fakes', 'dy', 'top']
                 # keys = ['rares', 'dy', 'fakes']
 
             else: 

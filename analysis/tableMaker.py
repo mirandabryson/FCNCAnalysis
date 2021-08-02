@@ -14,14 +14,14 @@ procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
 # procs=['data']
 sigWeight = 0.01
 # sigWeight = 1
-# years=[2018]
+# years=[2016]
 #procs=['flips_mc']
 blind = True
 
 doCutflow = 0
 doSRTable = 1
 doFakeCR = 0
-doFakeEst = 1
+doFakeEst = 0
 doFakeVal = 0
 doFlipCR = 0
 doFlipEst = 0
@@ -31,11 +31,12 @@ br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
 #histdir=basepath+'outputs/jun14_allMC_estimate/'
-histdir=basepath+'outputs/jul30_lead25_else20_jet30/'
+histdir=basepath+'outputs/aug02_lead25_else20_jet25/'
 # sighistdir=basepath+'outputs/jul12_ss_allMC/'
 outdir=basepath+'outputs/'
-outtag='jul30_lead25_else20_jet30/'
+outtag='test/'
 #files = glob.glob(histdir)
+if not os.path.exists(outdir+"tables/"+outtag): os.makedirs(outdir+"tables/"+outtag)
 
 def getObjFromFile(fname, hname):
     f = r.TFile(fname)
@@ -141,7 +142,7 @@ for year in years:
         # df = df.drop([0,1,2,9,10,11,12,13,14,15,16,17],axis=0)
         # df = df.drop([0,1,2,9,10,11,12],axis=0)
 
-        #df.loc['Total']= df.sum(numeric_only=True, axis=0)
+        # df.loc['Total']= df.sum(numeric_only=True, axis=0)
         df.at["Total", "fakes_mc"] = df["fakes_mc"].sum()
         df.at["Total", "fakes_mc error"] = round(np.sqrt(df["fakes_mc error"].pow(2).sum()),2)
         df.loc["Total", "flips_mc"] = df["flips_mc"].sum()

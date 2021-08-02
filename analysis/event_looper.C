@@ -428,7 +428,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 // cout << "lumi: " << lumi << endl;
             }else {weight = 1.;}
             // cout << weight << endl;
-            double evtWeight = weight; 
+            // double evtWeight = weight; 
             if (debugPrints){std::cout << "passed eventWeight for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
@@ -692,8 +692,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
             // get jets and bjets
             //getJets parameters: Leptons &leps,float min_jet_pt=40., float min_bjet_pt=25.
-            // std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,25.,25.);
-            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
+            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,25.,25.);
+            // std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
             Jets good_jets = good_jets_and_bjets.first;
             Jets good_bjets = good_jets_and_bjets.second;
             int njets = good_jets.size();
@@ -802,7 +802,6 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                      nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
                      nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
             }
-            if(debugPrints){std::cout << "passed triggers for event " << nt.event() << endl;}
             if ((category == 1 && chainTitle=="fakes_mc")||
                 (category == 2 && chainTitle=="flips_mc")||
                 (category == 3 && chainTitle=="rares")||
@@ -910,9 +909,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             }
             if (debugPrints){std::cout << "passed crWeight for event " << nt.event() << endl;}
             // prepare BDT parameters
-            if (njets < 2) {
-                continue;
-            }
+            // cout << "before BDT weight: " << weight << endl;
             //auto start_time = high_resolution_clock::now();
             bool fill_BDT_MC = (((category==1) && (chainTitle=="fakes_mc")) ||
                                ((category==2) && (chainTitle=="flips_mc")) ||
@@ -932,11 +929,11 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
                     //bdt_flips_baby.set_features(BDT_params, BDT_crWeight);
             
-              } else if ((best_hyp_type==3) || (best_hyp_type>=6)) {
+                } else if ((best_hyp_type==3) || (best_hyp_type>=6)) {
                     Float_t BDT_crWeight = crWeight;
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
                     //bdt_fakes_baby.set_features(BDT_params, BDT_crWeight);
-              }
+                }
             }
             //booster.set_features(BDT_params);
             //booster.get_score();
@@ -945,6 +942,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
+            // cout << "after BDT: " << weight << endl;
             // if (best_hyp.size()<2) {continue;}
             // if (best_hyp.size()!=2) {continue;}
             // if ((category == 1 && chainTitle=="fakes_mc")||
@@ -1003,7 +1001,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             }else if (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData)){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }else if (isSignal||isData){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,weight,crWeight);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight);
             }
             //cout << "**********" << endl;
         }//loop over events
