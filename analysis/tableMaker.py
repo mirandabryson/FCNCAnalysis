@@ -3,6 +3,7 @@ import ROOT as r
 import pandas as pd
 import glob
 import os
+import pdb
 r.TH1F.SetDefaultSumw2()
 pd.set_option('display.float_format', lambda x: '%.5f' % x)
 
@@ -79,6 +80,7 @@ for year in years:
             sr_hist=getObjFromFile(fname,sr_hname)
             for b in range(1,sr_hist.GetNbinsX()+1):
                 if 'signal' in proc:
+                    pdb.set_trace()
                     yields.append(sigWeight*sr_hist.GetBinContent(b))
                     err.append(sigWeight*sr_hist.GetBinError(b))
                 else:
