@@ -11,6 +11,7 @@ procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
 # procs=['signal_tch','signal_tuh']
 # procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','data']
 # procs=['signal_tch', 'signal_tuh','fakes_mc','dy','top','data']
+# procs=['data']
 sigWeight = 0.01
 # sigWeight = 1
 # years=[2018]
@@ -30,10 +31,10 @@ br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
 #histdir=basepath+'outputs/jun14_allMC_estimate/'
-histdir=basepath+'outputs/jul30_lead25_else20_jet35/'
+histdir=basepath+'outputs/jul30_lead25_else20_jet30/'
 # sighistdir=basepath+'outputs/jul12_ss_allMC/'
 outdir=basepath+'outputs/'
-outtag='jul30_lead25_else20_jet35/'
+outtag='jul30_lead25_else20_jet30/'
 #files = glob.glob(histdir)
 
 def getObjFromFile(fname, hname):
@@ -138,7 +139,7 @@ for year in years:
 
         #to compare to old an: drop 3l and 0b
         # df = df.drop([0,1,2,9,10,11,12,13,14,15,16,17],axis=0)
-        df = df.drop([0,1,2,9,10,11,12],axis=0)
+        # df = df.drop([0,1,2,9,10,11,12],axis=0)
 
         #df.loc['Total']= df.sum(numeric_only=True, axis=0)
         df.at["Total", "fakes_mc"] = df["fakes_mc"].sum()

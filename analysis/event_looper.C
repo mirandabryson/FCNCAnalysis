@@ -692,7 +692,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
             // get jets and bjets
             //getJets parameters: Leptons &leps,float min_jet_pt=40., float min_bjet_pt=25.
-            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.);
+            // std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,25.,25.);
+            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
             Jets good_jets = good_jets_and_bjets.first;
             Jets good_bjets = good_jets_and_bjets.second;
             int njets = good_jets.size();
