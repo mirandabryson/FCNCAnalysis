@@ -3,20 +3,14 @@ import ROOT as r
 import pandas as pd
 import glob
 import os
-import pdb
 r.TH1F.SetDefaultSumw2()
 pd.set_option('display.float_format', lambda x: '%.5f' % x)
 
 years=[2016,2017,2018]
 procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
-# procs=['signal_tch','signal_tuh']
-# procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','data']
-# procs=['signal_tch', 'signal_tuh','fakes_mc','dy','top','data']
-# procs=['data']
 sigWeight = 0.01
 # sigWeight = 1
 # years=[2016]
-#procs=['flips_mc']
 blind = True
 
 doCutflow = 0
@@ -32,10 +26,10 @@ br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
 #histdir=basepath+'outputs/jun14_allMC_estimate/'
-histdir=basepath+'outputs/aug02_lead25_else20_jet25/'
+histdir=basepath+'outputs/'
 # sighistdir=basepath+'outputs/jul12_ss_allMC/'
-outdir=basepath+'outputs/'
-outtag='aug02_lead25_else20_jet25/'
+outdir=basepath+'helpers/BDT/'
+outtag='aug02_lead25_else20_jet30/'
 #files = glob.glob(histdir)
 if not os.path.exists(outdir+"tables/"+outtag): os.makedirs(outdir+"tables/"+outtag)
 
@@ -131,7 +125,6 @@ for year in years:
             sr_hist=getObjFromFile(fname,sr_hname)
             for b in range(1,sr_hist.GetNbinsX()+1):
                 if 'signal' in proc:
-                    pdb.set_trace()
                     yields.append(sigWeight*sr_hist.GetBinContent(b))
                     err.append(sigWeight*sr_hist.GetBinError(b))
                 else:
@@ -159,7 +152,7 @@ for year in years:
         df["Total Background"] = df["fakes_mc"]+df["flips_mc"]+df["rares"]
         df["Total Background error"] = np.sqrt(df["fakes_mc error"]**2+df["flips_mc error"]**2+df["rares error"]**2)
         #df = df[df.nBtags!=0]
-        df["Signal/Background Ratio"] = (df["signal_tuh"] + df["signal_tch"]) / df["Total Background"]        
+        df["Signal/Background Ratio"] = (df["signal_tuh"] + df["signal_tch"]) / df["Total Background"]
         df = df.fillna("")
         writeToLatexFile("tables/SRyields_"+str(year), df)
         #save to txt file for datacards
