@@ -246,7 +246,7 @@ if __name__ == "__main__":
                 basedirs[2016] + get_sample_path("ttw", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("ttz_m1-10", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("ttz_m10", 2016,args.tag) + ".root",
-                # basedirs[2016] + get_sample_path("zg", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("zg", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wg", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tw_dilep", 2016,args.tag) + ".root",
 
@@ -466,7 +466,7 @@ if __name__ == "__main__":
                 basedirs[2017] + get_sample_path("ttw", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("ttz_m1-10", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("ttz_m10", 2017,args.tag) + ".root",
-                # basedirs[2017] + get_sample_path("zg", 2017,args.tag) + ".root",
+                basedirs[2017] + get_sample_path("zg", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("wg", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("tw_dilep", 2017,args.tag) + ".root",
 
@@ -802,7 +802,7 @@ if __name__ == "__main__":
                 basedirs[2018] + get_sample_path("ttw", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("ttz_m1-10", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("ttz_m10", 2018,args.tag) + ".root",
-                # basedirs[2018] + get_sample_path("zg", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("zg", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("wg", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("tw_dilep", 2018,args.tag) + ".root",
 

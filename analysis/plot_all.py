@@ -10,7 +10,7 @@ from utils.plotting_utils import write_table
 
 import sys
 sys.path.insert(0,'/home/users/{}/.local/lib/python2.7/site-packages/'.format(os.getenv("USER")))
-sys.path.append('/home/users/fgolf/fcnc/current/matplottery/')
+sys.path.append('/home/users/ksalyer/FranksFCNC/ana/matplottery/')
 from matplottery.plotter import plot_stack
 from matplottery.utils import Hist1D, MET_LATEX, binomial_obs_z
 
@@ -482,8 +482,11 @@ def make_plots(outputdir="plots", inputdir="outputs", year=2017, lumi="41.5", ot
     from multiprocessing import Pool as ThreadPool
     #pool = ThreadPool(15)
     pool = ThreadPool(1)
-    # print infos
+    print infos
+    print pool
+    print pool.imap_unordered(worker,infos)
     for res in pool.imap_unordered(worker,infos):
+        print res
         if res:
             print "Wrote {}".format(res)
 
@@ -495,9 +498,9 @@ if __name__ == "__main__":
 
     make_plots(
             outputdir="plots_temp",
-            inputdir="outputs",
+            inputdir="outputs/v6BabyPlots",
             year=2018,
             lumi="124.0", # 2016+2017+2018 --> 35.87+41.53+46.57 = 124.0
-            other_years = [2016,2017],
-            signames = "ttw",
+            #other_years = [2016,2017],
+            signames = "signal_tch",
             )

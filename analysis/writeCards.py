@@ -12,8 +12,9 @@ import os
 
 #hardcoded variables other users should customize
 outdir = "/home/users/ksalyer/FranksFCNC/ana/analysis/datacards/"
-indir = "jul30_lead25_else20_jet30"
+indir = "jul30_el25_mu20_jet40"
 outdir = outdir+indir+"/"
+if not os.path.exists(outdir): os.makedirs(outdir)
 years = [2016, 2017, 2018]
 
 if not os.path.exists(outdir): os.makedirs(outdir)

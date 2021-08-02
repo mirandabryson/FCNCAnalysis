@@ -11,43 +11,57 @@ f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyP
 
 #path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/'
 #path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun10_remergedBabies/'
-path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jun28_os_allMC/'
+path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jul28_neles_byProc/'
+#toppath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jul5_os_allMC/'
+#rarespath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jul7_os_allMC_bsfFix/'
+#datapath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/jul6_os_allMC_bsfFix/'
 
-regions =   [#"sf",
-             #"df",
-             #"mlsf",
-             #"mldf",
-             #"ss",
-             #"ml",
+regions =   [#"mr",
+             "os"
+             # "sf",
+             # "df",
+             # "mlsf",
+             # "mldf",
+             # "ss",
+             # "ml",
              #"vrsr_ss",
              #"vrsr_ml",
              #"vrcr_sf",
              #"vrcr_df",
              #"vrcr_mlsf",
              #"vrcr_mldf",
-             "vrcr_flip",
-             "vrsr_flip"
+             #"vrcr_flip",
+             #"vrsr_flip"
             ]
-variables = [   ["njets", 1, r'$N_{jets}$'],
-                ["nbjets", 1, r'$N_{b-jets}$'],
-                ["nleps", 1, r'$N_{leptons}$'],
+variables = [   #["njets", 1, r'$N_{jets}$'],
+                # ["nbjets", 1, r'$N_{b-jets}$'],
+                # ["nleps", 1, r'$N_{leptons}$'],
                 ["neles", 1, r'$N_{electrons}$'],
-                ["nmus", 1, r'$N_{muons}$'],
-                ["ljpt", 5, r'$p_T\ (lead.\ jet)\ (GeV)$'],
-                ["tjpt", 5, r'$p_T\ (sublead.\ jet)\ (GeV)$'],
-                ["llpt", 5, r'$p_T\ (lead.\ lep.)\ (GeV)$'],
-                ["ltpt", 5, r'$p_T\ (sublead.\ lep.)\ (GeV)$'],
-                #["lleta", 4],
-                #["lteta", 4],
-                ["llminiiso", 1, r'$miniIso\ (lead.\ lep.)\ (GeV)$'],
-                ["ltminiiso", 1, r'$miniIso\ (sublead.\ lep.)\ (GeV)$'],
-                ['met', 1, r'$MET\ (GeV)$'],
-                #['vrsr', 1, r'$VRSR$'],
-                #['vrcr', 1, r'$VRCR$']
-                #['vrcr', 1, r'$VRCR$']
+                # ["nmus", 1, r'$N_{muons}$'],
+                # ["ljpt", 5, r'$p_T\ (lead.\ jet)\ (GeV)$'],
+                # ["tjpt", 5, r'$p_T\ (sublead.\ jet)\ (GeV)$'],
+                # ["llpt", 5, r'$p_T\ (lead.\ lep.)\ (GeV)$'],
+                # ["ltpt", 5, r'$p_T\ (sublead.\ lep.)\ (GeV)$'],
+                # ["mll", 4, r'$m_{ll}\ (GeV)$'],
+                # ['flipSF_inclMET_mee', 1, r'$m_{ee}\ (GeV)$'],
+                # ['flipSF_l50MET_mee', 1, r'$m_{ee}\ (GeV)$'],
+                # ['flipSF_inclMET_njets', 1, r'$N_{jets}$'],
+                # ['flipSF_l50MET_njets', 1, r'$N_{jets}$'],
+                # ['flipSF_inclMET_nbjets', 1, r'$N_{b-jets}$'],
+                # ['flipSF_l50MET_nbjets', 1, r'$N_{b-jets}$'],
+                # #["lleta", 4],
+                # #["lteta", 4],
+                # ["llminiiso", 1, r'$miniIso\ (lead.\ lep.)\ (GeV)$'],
+                # ["ltminiiso", 1, r'$miniIso\ (sublead.\ lep.)\ (GeV)$'],
+                # ['met', 1, r'$MET\ (GeV)$'],
+                # ['flipSFcr_inclMET', 1, r'$sr bin$'],
+                # ['flipSFcr_l50MET', 1, r'$sr bin$'],
+                # #['vrsr', 1, r'$VRSR$'],
+                # #['vrcr', 1, r'$VRCR$']
+                # #['vrcr', 1, r'$VRCR$']
             ]
-years = ["2016","2017","2018"]
-#years = ["2018"]
+# years = ["2016","2017","2018"]
+years = ["2016"]
 blind = True
 
 
@@ -96,20 +110,41 @@ for y in years:
             vname = var[2]
             histName = 'h_'+r+'_'+v+'_'+y
             print (histName)
-            if blind and (r == 'ss' or r == 'ml'):
+            if blind and (r == 'ss' or r == 'ml' or r == 'mr'):
                 hists = {
+                    # 'top': uproot3.open(path+'top_'+y+'_hists.root')['h_'+r+'_'+v+'_top'],
+                    # 'dy': uproot3.open(path+'dy_'+y+'_hists.root')['h_'+r+'_'+v+'_dy'],
                     'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
                     'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
                     'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
                     'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
                     'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
                 }
+            elif r == 'os':
+                hists = {
+                    # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    #'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    'top': uproot3.open(path+'top_'+y+'_hists.root')['h_'+r+'_'+v+'_top'],
+                    'tw': uproot3.open(path+'tw_'+y+'_hists.root')['h_'+r+'_'+v+'_tw'],
+                    # 'top': uproot3.open(path+'tw_'+y+'_hists.root')['h_'+r+'_'+v+'_tw'],
+                    'dy': uproot3.open(path+'dy_'+y+'_hists.root')['h_'+r+'_'+v+'_dy'],
+                    'rares': uproot3.open(path+'os_rares_'+y+'_hists.root')['h_'+r+'_'+v+'_os_rares'],
+                    'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
+                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
+                }
             else:
                 hists = {
-                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
-                    'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    'top': uproot3.open(path+'top_'+y+'_hists.root')['h_'+r+'_'+v+'_top'],
+                    'dy': uproot3.open(path+'dy_'+y+'_hists.root')['h_'+r+'_'+v+'_dy'],
+                    'wboson': uproot3.open(path+'wboson_'+y+'_hists.root')['h_'+r+'_'+v+'_wboson'],
+                    'xg': uproot3.open(path+'xg_'+y+'_hists.root')['h_'+r+'_'+v+'_xg'],
+                    # 'diboson': uproot3.open(path+'diboson_'+y+'_hists.root')['h_'+r+'_'+v+'_diboson'],
+                    # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
                     'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
                     'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
+                    # 'data_est': uproot3.open(path+'data_'+y+'_hists.root')['h_osest_'+v+'_data'],
                     'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
                     'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
                 }
@@ -117,22 +152,69 @@ for y in years:
 
             my_histos = { x:get_yahist(hists[x], rebin=rebinVal, overflow=True) for x in hists.keys() }
 
-            my_histos['fakes'].label = 'Nonprompt'
-            my_histos['fakes'].color = '#FF595E'
+            # flipDataSF = (sum(my_histos['data'].counts)-sum(my_histos['top'].counts))/(sum(my_histos['data_est'].counts))
+            # print(flipDataSF)
+            # my_histos['data_est'] *= flipDataSF
+            # my_histos['dy'] *= flipDataSF
 
-            my_histos['flips'].label = 'Charge flip'
-            my_histos['flips'].color = '#FFCA3A'
 
-            my_histos['rares'].label = 'Other'
-            my_histos['rares'].color = '#8AC926'
+            if r == 'os':
+                # my_histos['fakes'].label = 'Nonprompt'
+                # my_histos['fakes'].color = '#FF595E'
 
-            keys = ['rares', 'flips', 'fakes']
+                my_histos['tw'].label = 'tW'
+                my_histos['tw'].color = '#FF595E'
+
+                my_histos['top'].label = 'tt2l'
+                my_histos['top'].color = '#FFCA3A'
+
+                my_histos['dy'].label = 'Drell Yan'
+                my_histos['dy'].color = '#08BDBD'
+
+                my_histos['rares'].label = 'Other'
+                my_histos['rares'].color = '#8AC926'
+
+                keys = ['rares', 'tw', 'dy', 'top']
+                # keys = ['rares', 'dy', 'fakes']
+
+            else: 
+
+                # my_histos['fakes'].label = 'Nonprompt'
+                # my_histos['fakes'].color = '#FF595E'
+
+                # my_histos['flips'].label = 'Charge flip'
+                # my_histos['flips'].color = '#FFCA3A'
+
+                my_histos['rares'].label = 'Other'
+                my_histos['rares'].color = '#8AC926'
+
+                my_histos['top'].label = 'ttbar and tW'
+                my_histos['top'].color = '#FFCA3A'
+
+                my_histos['dy'].label = 'Drell Yan'
+                my_histos['dy'].color = '#08BDBD'
+
+                my_histos['wboson'].label = 'W+jets and WW'
+                my_histos['wboson'].color = '#FF595E'
+
+                my_histos['xg'].label = 'x + gamma'
+                my_histos['xg'].color = '#586BA4'
+
+                # my_histos['diboson'].label = 'WW/WZG'
+                # my_histos['diboson'].color = '#FF595E'
+
+                # keys = ['rares', 'flips', 'fakes']
+                keys = ['dy', 'xg','rares', 'wboson','top']
+                # keys = ['dy', 'xg', 'wboson','top']
 
             signals = ['tch', 'tuh']
 
             total_mc = get_total(my_histos, keys)
 
-            if not (blind and (r == 'ss' or r == 'ml')): ratio = my_histos['data'].divide(total_mc, )
+            if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')): 
+                ratio = my_histos['data'].divide(total_mc, )
+                # ratio_est = my_histos['data_est'].divide(total_mc, )
+                # ratio_data = my_histos['data'].divide(my_histos['data_est'], )
             else:
                 ratio_tch = my_histos['tch'].divide(total_mc, )
                 ratio_tuh = my_histos['tuh'].divide(total_mc, )
@@ -156,7 +238,7 @@ for y in years:
 
             hep.histplot(
                 [ my_histos[x].counts for x in keys ],
-                my_histos['fakes'].edges,
+                my_histos['top'].edges,
                 w2=[ my_histos[x].errors for x in keys ],
                 histtype="fill",
                 stack=True,
@@ -164,7 +246,7 @@ for y in years:
                 color=[ my_histos[x].color for x in keys ],
                 ax=ax)
 
-            if not (blind and (r == 'ss' or r == 'ml')):
+            if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')):
                 hep.histplot(
                     my_histos['data'].counts,
                     my_histos['data'].edges,
@@ -174,6 +256,16 @@ for y in years:
                     label='%s (%.0f)'%('Observation', sum(my_histos['data'].counts)),
                     color='black',
                     ax=ax)
+
+                # hep.histplot(
+                #     my_histos['data_est'].counts,
+                #     my_histos['data_est'].edges,
+                #     yerr=my_histos['data_est'].errors,
+                #     histtype="errorbar",
+                #     stack=False,
+                #     label='%s (%.0f)'%('Data (est)', sum(my_histos['data_est'].counts)),
+                #     color='grey',
+                #     ax=ax)
 
             hep.histplot(
                 [my_histos['tch'].counts/100, my_histos['tuh'].counts/100],
@@ -185,7 +277,7 @@ for y in years:
                 color=['#525B76','#6A4C93'],
                 ax=ax)
 
-            if not (blind and (r == 'ss' or r == 'ml')):
+            if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')):
                 hep.histplot(
                     ratio.counts,
                     ratio.edges,
@@ -193,6 +285,22 @@ for y in years:
                     histtype="errorbar",
                     color='black',
                     ax=rax)
+
+                # hep.histplot(
+                #     ratio_est.counts,
+                #     ratio_est.edges,
+                #     yerr=my_histos['data_est'].errors/total_mc.counts,
+                #     histtype="errorbar",
+                #     color='grey',
+                #     ax=rax)
+
+                # hep.histplot(
+                #     ratio_data.counts,
+                #     ratio_data.edges,
+                #     yerr=my_histos['data'].errors/my_histos['data_est'].counts,
+                #     histtype="errorbar",
+                #     color='black',
+                #     ax=rax)
             else:
                 hep.histplot(
                     [ratio_tch.counts/100, ratio_tuh.counts/100],
@@ -206,11 +314,14 @@ for y in years:
             rax.set_ylim(0,1.99)
             #rax.set_xlabel(r'$p_T\ (lead.\ lep.)\ (GeV)$')
             rax.set_xlabel(vname)
-            if not (blind and (r == 'ss' or r == 'ml')): rax.set_ylabel(r'Data/Sim.')
+            if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')): rax.set_ylabel(r'Data/Sim.')
+            # if not (blind and (r == 'ss' or r == 'ml' or r == 'mr') or r == 'os'): rax.set_ylabel(r'Obs./Pred.')
             else: rax.set_ylabel(r'Sig./Back.')
             ax.set_ylabel(r'Events')
             ax.set_yscale('log')
-            ax.set_ylim(0.1,1e5)
+            ax.set_ylim(0.1,1e7)
+            # ax.set_yscale('linear')
+            # ax.set_ylim(0,200000)
 
             add_uncertainty(total_mc, rax, ratio=True)
             add_uncertainty(total_mc, ax)
@@ -221,3 +332,4 @@ for y in years:
 
             fig.savefig('/home/users/ksalyer/public_html/dump/FCNC_plots/'+histName+'.png')
             fig.savefig('/home/users/ksalyer/public_html/dump/FCNC_plots/'+histName+'.pdf')
+            #plt.close()
