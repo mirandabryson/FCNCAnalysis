@@ -9,11 +9,17 @@ pd.set_option('display.float_format', lambda x: '%.5f' % x)
 
 years=[2016,2017,2018]
 procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
+# procs=['signal_tch','signal_tuh']
+# procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','data']
+# procs=['signal_tch', 'signal_tuh','fakes_mc','dy','top','data']
+# procs=['data']
 sigWeight = 0.01
-#years=[2017,2018]
+# sigWeight = 1
+# years=[2016]
 #procs=['flips_mc']
 blind = True
 
+doCutflow = 0
 doSRTable = 1
 doFakeCR = 0
 doFakeEst = 0
@@ -26,9 +32,12 @@ br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
 #histdir=basepath+'outputs/jun14_allMC_estimate/'
-histdir=basepath+'outputs/'
-outdir=basepath+'helpers/BDT/'
+histdir=basepath+'outputs/aug02_lead25_else20_jet25/'
+# sighistdir=basepath+'outputs/jul12_ss_allMC/'
+outdir=basepath+'outputs/'
+outtag='aug02_lead25_else20_jet25/'
 #files = glob.glob(histdir)
+if not os.path.exists(outdir+"tables/"+outtag): os.makedirs(outdir+"tables/"+outtag)
 
 def getObjFromFile(fname, hname):
     f = r.TFile(fname)
@@ -55,9 +64,20 @@ def writeToLatexFile(outName, df):
 
 for year in years:
     sigregions =    {   
-                        "nBtags": [0,0,0,1,1,1,2,2,2,0,0,0,1,1,1,2,2,2],
-                        "nJets": [2,3,4,2,3,4,2,3,4,2,3,4,2,3,4,2,3,4],
-                        "nLeptons": [2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3],
+                        "nBtags": [0,0,0,1,1,1,2,2,2, 0,0,0,0,1,1,1,1,2,2,2,2],
+                        "nJets": [2,3,4,2,3,4,2,3,4, 1,2,3,4,1,2,3,4,1,2,3,4],
+                        "nLeptons": [2,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,3,3,3,3],
+                    }
+    cutregions =    {   
+                        "cuts": [   'entry',
+                                    'loose lepton cut',
+                                    'tight lepton cut',
+                                    'pass triggers',
+                                    'pass filters',
+                                    'SS2l',
+                                    'onZveto',
+                                    'nJets>=2',
+                                    'MET>50',],
                     }
     df = pd.DataFrame(sigregions)
     fake_cr_df = pd.DataFrame(sigregions)
@@ -66,6 +86,37 @@ for year in years:
     flip_cr_df = pd.DataFrame(sigregions)
     flipEst_df = pd.DataFrame(sigregions)
     flipVal_df = pd.DataFrame(sigregions)
+    df_cutflow = pd.DataFrame(cutregions)
+
+    ## make signal region yields
+    if doCutflow:
+        for proc in procs:
+            if blind and proc == 'data': continue
+            yields = []
+            err = []
+            fname=histdir+proc+'_{}_hists.root'.format(year)
+            print fname
+            cutflow_hname=br_hist_prefix+"cutflow_"+proc
+            #print sr_hname
+            cutflow_hist=getObjFromFile(fname,cutflow_hname)
+            for b in range(1,cutflow_hist.GetNbinsX()+1):
+                if 'signal' in proc:
+                    yields.append(sigWeight*cutflow_hist.GetBinContent(b))
+                    err.append(sigWeight*cutflow_hist.GetBinError(b))
+                else:
+                    yields.append(cutflow_hist.GetBinContent(b))
+                    err.append(cutflow_hist.GetBinError(b))
+            df_cutflow[proc] = yields
+            df_cutflow[proc+" error"] = err
+        
+        # df_cutflow["S/B"] = (df_cutflow['signal_tch']+df_cutflow['signal_tuh'])/(df_cutflow["fakes_mc"]+df_cutflow["flips_mc"]+df_cutflow["rares"])
+        
+        # df_cutflow = df_cutflow.drop([5],axis=0)
+        # df_cutflow.ix[9],df_cutflow.ix[10],df_cutflow.ix[11],df_cutflow.ix[12] = df_cutflow.ix[12],df_cutflow.ix[9],df_cutflow.ix[10],df_cutflow.ix[11]
+
+        df_cutflow = df_cutflow.fillna("")
+        writeToLatexFile("tables/cutflow_"+str(year), df_cutflow)
+        print df_cutflow
 
     ## make signal region yields
     if doSRTable:
@@ -89,7 +140,11 @@ for year in years:
             df[proc] = yields
             df[proc+" error"] = err
 
-        #df.loc['Total']= df.sum(numeric_only=True, axis=0)
+        #to compare to old an: drop 3l and 0b
+        # df = df.drop([0,1,2,9,10,11,12,13,14,15,16,17],axis=0)
+        # df = df.drop([0,1,2,9,10,11,12],axis=0)
+
+        # df.loc['Total']= df.sum(numeric_only=True, axis=0)
         df.at["Total", "fakes_mc"] = df["fakes_mc"].sum()
         df.at["Total", "fakes_mc error"] = round(np.sqrt(df["fakes_mc error"].pow(2).sum()),2)
         df.loc["Total", "flips_mc"] = df["flips_mc"].sum()
@@ -103,12 +158,13 @@ for year in years:
 
         df["Total Background"] = df["fakes_mc"]+df["flips_mc"]+df["rares"]
         df["Total Background error"] = np.sqrt(df["fakes_mc error"]**2+df["flips_mc error"]**2+df["rares error"]**2)
+        #df = df[df.nBtags!=0]
         df["Signal/Background Ratio"] = (df["signal_tuh"] + df["signal_tch"]) / df["Total Background"]        
         df = df.fillna("")
         writeToLatexFile("tables/SRyields_"+str(year), df)
         #save to txt file for datacards
-        outtxt = open(outdir+"tables/tableMaker_"+str(year)+".txt","w")
-        outtxt.write(df.to_csv())
+        outtxt = open(outdir+"tables/"+outtag+"tableMaker_"+str(year)+".txt","w")
+        outtxt.write(df.to_csv(index=False))
         outtxt.close()
         print df
 
@@ -165,6 +221,8 @@ for year in years:
             err = []
             estyields = []
             esterr = []
+            ppestyields = []
+            ppesterr = []
             fname=histdir+proc+'_{}_hists.root'.format(year)
             print fname
             histsToAdd = [  "h_sf_fakecr_"+proc,
@@ -175,14 +233,20 @@ for year in years:
             sfEstimationHistsToAdd = [  "h_sfest_fakecr_"+proc,
                                         "h_mlsfest_fakecr_"+proc,
                                         ]
+            sfppEstimationHistsToAdd = [  "h_sfppest_fakecr_"+proc,
+                                          "h_mlsfpppest_fakecr_"+proc,
+                                          #"h_dfppest_fakecr_"+proc,
+                                          #"h_mldfpppest_fakecr_"+proc,
+                                        ]
             dfEstimationHistsToAdd = [  "h_dfest_fakecr_"+proc,
                                         "h_mldfest_fakecr_"+proc
                                         ]
-            #print sr_hname
-            cr_hist = r.TH1F("fake_cr"+proc, "fake_cr"+proc, 18, 0.5, 18.5)
-            sfest_hist = r.TH1F("fake_sfest"+proc, "fake_sfest"+proc, 18, 0.5, 18.5)
-            dfest_hist = r.TH1F("fake_dfest"+proc, "fake_dfest"+proc, 18, 0.5, 18.5)
-            fakeest_hist = r.TH1F("fake_est"+proc, "fake_est"+proc, 18, 0.5, 18.5)
+
+            cr_hist = r.TH1F("fake_cr"+proc, "fake_cr"+proc, 21, 0.5, 21.5)
+            sfest_hist = r.TH1F("fake_sfest"+proc, "fake_sfest"+proc, 21, 0.5, 21.5)
+            dfest_hist = r.TH1F("fake_dfest"+proc, "fake_dfest"+proc, 21, 0.5, 21.5)
+            sfppest_hist = r.TH1F("fake_sfppest"+proc, "fake_sfppest"+proc, 21, 0.5, 21.5)
+            fakeest_hist = r.TH1F("fake_est"+proc, "fake_est"+proc, 21, 0.5, 21.5)
             for name in histsToAdd:
                 cr_hist.Add(getObjFromFile(fname,name))
             for h_sf,h_df in zip(sfEstimationHistsToAdd,dfEstimationHistsToAdd):
@@ -190,6 +254,8 @@ for year in years:
                 dfest_hist.Add(getObjFromFile(fname,h_df))
                 fakeest_hist.Add(getObjFromFile(fname,h_sf))
                 fakeest_hist.Add(getObjFromFile(fname,h_df),-1)
+            for h_sfpp in sfppEstimationHistsToAdd:
+                sfppest_hist.Add(getObjFromFile(fname,h_sfpp))
             for b in range(1,cr_hist.GetNbinsX()+1):
                 if 'signal' in proc:
                     yields.append(sigWeight*cr_hist.GetBinContent(b))
@@ -197,6 +263,8 @@ for year in years:
                 else:
                     yields.append(cr_hist.GetBinContent(b))
                     err.append(cr_hist.GetBinError(b))
+                    ppestyields.append(sfppest_hist.GetBinContent(b))
+                    ppesterr.append(sfppest_hist.GetBinError(b))
                     if 'data' in proc:
                         #estyields.append(sfest_hist.GetBinContent(b)-dfest_hist.GetBinContent(b))
                         #esterr.append(sqrt(sfest_hist.GetBinError(b)**2+dfest_hist.GetBinError(b)**2))
@@ -205,29 +273,47 @@ for year in years:
             #print yields
             fakeEst_df[proc] = yields
             fakeEst_df[proc+" error"] = err
+            if 'rares' in proc:
+                print ppestyields
+                fakeEst_df[proc+" prompt"] = ppestyields
+                fakeEst_df[proc+" prompt error"] = ppesterr
             if 'data' in proc:
                 fakeEst_df[proc+" estimate"] = estyields
                 fakeEst_df[proc+" estimate error"] = esterr
 
-        fakeEst_df["Total Background"] = fakeEst_df["fakes_mc"]+fakeEst_df["flips_mc"]+fakeEst_df["rares"]
-        fakeEst_df["Total Background error"] = np.sqrt(fakeEst_df["fakes_mc error"]**2+fakeEst_df["flips_mc error"]**2+fakeEst_df["rares error"]**2)
+        # fakeEst_df["Total Background"] = fakeEst_df["fakes_mc"]+fakeEst_df["flips_mc"]+fakeEst_df["rares"]
+        # fakeEst_df["Total Background error"] = np.sqrt(fakeEst_df["fakes_mc error"]**2+fakeEst_df["flips_mc error"]**2+fakeEst_df["rares error"]**2)
         fakeEst_df= fakeEst_df.drop([   "fakes_mc",
-                                            "fakes_mc error",
-                                            "flips_mc",
-                                            "flips_mc error",
-                                            "rares",
-                                            "rares error",
-                                            "signal_tch",
-                                            "signal_tch error",
-                                            "signal_tuh",
-                                            "signal_tuh error"], axis=1)
-        totmcback = fakeEst_df['Total Background']
-        totmcbackerr = fakeEst_df['Total Background error']
-        fakeEst_df.drop(['Total Background','Total Background error'], axis=1, inplace=True)
-        fakeEst_df.insert(3,"Total Background", totmcback)
-        fakeEst_df.insert(4,"Total Background error", totmcbackerr)
+                                        "fakes_mc error",
+                                        "flips_mc",
+                                        "flips_mc error",
+                                        "rares",
+                                        "rares error",
+                                        "signal_tch",
+                                        "signal_tch error",
+                                        "signal_tuh",
+                                        "signal_tuh error"], axis=1)
+        # totmcback = fakeEst_df['Total Background']
+        # totmcbackerr = fakeEst_df['Total Background error']
+        # fakeEst_df.drop(['Total Background','Total Background error'], axis=1, inplace=True)
+        # fakeEst_df.insert(3,"Total Background", totmcback)
+        # fakeEst_df.insert(4,"Total Background error", totmcbackerr)
+
+        rarespp = fakeEst_df['rares prompt']
+        rarespperr = fakeEst_df['rares prompt error']
+        fakeEst_df.drop(['rares prompt','rares prompt error'], axis=1, inplace=True)
+        fakeEst_df.insert(7,"rares prompt", rarespp)
+        fakeEst_df.insert(8,"rares prompt error", rarespperr)
+
+        fakeEst_df["Corrected Estimate"] = fakeEst_df["data estimate"] - fakeEst_df["rares prompt"]
+        fakeEst_df["Corrected Estimate error"] = np.sqrt(fakeEst_df["data estimate error"]**2+fakeEst_df["rares prompt error"]**2)
+
         fakeEst_df = fakeEst_df.fillna("")
         writeToLatexFile("tables/fakeEstyields_"+str(year), fakeEst_df)
+        #save to txt file for datacards
+        outtxt = open(outdir+"tables/" +outtag+"fakeEstyields_"+str(year)+".txt","w")
+        outtxt.write(fakeEst_df.to_csv(index=False))
+        outtxt.close()
         print fakeEst_df
     
     ## make fake validation tables
@@ -304,19 +390,19 @@ for year in years:
             flip_cr_df[proc+" error"] = err
 
         #flip_cr_df.loc['Total']= flip_cr_df.sum(numeric_only=True, axis=0)
-        flip_cr_df.at["Total", "fakes_mc"] = flip_cr_df["fakes_mc"].sum()
-        flip_cr_df.at["Total", "fakes_mc error"] = round(np.sqrt(flip_cr_df["fakes_mc error"].pow(2).sum()),2)
-        flip_cr_df.loc["Total", "flips_mc"] = flip_cr_df["flips_mc"].sum()
-        flip_cr_df.at["Total", "flips_mc error"] = round(np.sqrt(flip_cr_df["flips_mc error"].pow(2).sum()),2)
-        flip_cr_df.loc["Total", "rares"] = flip_cr_df["rares"].sum()
-        flip_cr_df.at["Total", "rares error"] = round(np.sqrt(flip_cr_df["rares error"].pow(2).sum()),2)
-        flip_cr_df.loc["Total", "signal_tuh"] = flip_cr_df["signal_tuh"].sum()
-        flip_cr_df.at["Total", "signal_tuh error"] = round(np.sqrt(flip_cr_df["signal_tuh error"].pow(2).sum()),2)
-        flip_cr_df.loc["Total", "signal_tch"] = flip_cr_df["signal_tch"].sum()
-        flip_cr_df.at["Total", "signal_tch error"] = round(np.sqrt(flip_cr_df["signal_tch error"].pow(2).sum()),2)
+        # flip_cr_df.at["Total", "fakes_mc"] = flip_cr_df["fakes_mc"].sum()
+        # flip_cr_df.at["Total", "fakes_mc error"] = round(np.sqrt(flip_cr_df["fakes_mc error"].pow(2).sum()),2)
+        # flip_cr_df.loc["Total", "flips_mc"] = flip_cr_df["flips_mc"].sum()
+        # flip_cr_df.at["Total", "flips_mc error"] = round(np.sqrt(flip_cr_df["flips_mc error"].pow(2).sum()),2)
+        # flip_cr_df.loc["Total", "rares"] = flip_cr_df["rares"].sum()
+        # flip_cr_df.at["Total", "rares error"] = round(np.sqrt(flip_cr_df["rares error"].pow(2).sum()),2)
+        # flip_cr_df.loc["Total", "signal_tuh"] = flip_cr_df["signal_tuh"].sum()
+        # flip_cr_df.at["Total", "signal_tuh error"] = round(np.sqrt(flip_cr_df["signal_tuh error"].pow(2).sum()),2)
+        # flip_cr_df.loc["Total", "signal_tch"] = flip_cr_df["signal_tch"].sum()
+        # flip_cr_df.at["Total", "signal_tch error"] = round(np.sqrt(flip_cr_df["signal_tch error"].pow(2).sum()),2)
 
-        flip_cr_df["Total Background"] = flip_cr_df["fakes_mc"]+flip_cr_df["flips_mc"]+flip_cr_df["rares"]
-        flip_cr_df["Total Background error"] = np.sqrt(flip_cr_df["fakes_mc error"]**2+flip_cr_df["flips_mc error"]**2+flip_cr_df["rares error"]**2)
+        # flip_cr_df["Total Background"] = flip_cr_df["fakes_mc"]+flip_cr_df["flips_mc"]+flip_cr_df["rares"]
+        # flip_cr_df["Total Background error"] = np.sqrt(flip_cr_df["fakes_mc error"]**2+flip_cr_df["flips_mc error"]**2+flip_cr_df["rares error"]**2)
         
         flip_cr_df = flip_cr_df.fillna("")
         writeToLatexFile("tables/flipCRyields_"+str(year), flip_cr_df)
@@ -351,31 +437,35 @@ for year in years:
                 flipEst_df[proc+" estimate"] = estyields
                 flipEst_df[proc+" estimate error"] = esterr
 
-        flipEst_df["Total Background"] = flipEst_df["fakes_mc"]+flipEst_df["flips_mc"]+flipEst_df["rares"]
-        flipEst_df["Total Background error"] = np.sqrt(flipEst_df["fakes_mc error"]**2+flipEst_df["flips_mc error"]**2+flipEst_df["rares error"]**2)
-        flipEst_df= flipEst_df.drop([   "fakes_mc",
-                                        "fakes_mc error",
-                                        "flips_mc",
-                                        "flips_mc error",
-                                        "rares",
-                                        "rares error",
-                                        "signal_tch",
-                                        "signal_tch error",
-                                        "signal_tuh",
-                                        "signal_tuh error"], axis=1)
-        totmcback = flipEst_df['Total Background']
-        totmcbackerr = flipEst_df['Total Background error']
-        flipEst_df.drop(['Total Background','Total Background error'], axis=1, inplace=True)
-        flipEst_df.insert(3,"Total Background", totmcback)
-        flipEst_df.insert(4,"Total Background error", totmcbackerr)
+        # flipEst_df["Total Background"] = flipEst_df["fakes_mc"]+flipEst_df["flips_mc"]+flipEst_df["rares"]
+        # flipEst_df["Total Background error"] = np.sqrt(flipEst_df["fakes_mc error"]**2+flipEst_df["flips_mc error"]**2+flipEst_df["rares error"]**2)
+        # flipEst_df= flipEst_df.drop([   "fakes_mc",
+        #                                 "fakes_mc error",
+        #                                 "flips_mc",
+        #                                 "flips_mc error",
+        #                                 "rares",
+        #                                 "rares error",
+        #                                 "signal_tch",
+        #                                 "signal_tch error",
+        #                                 "signal_tuh",
+        #                                 "signal_tuh error"], axis=1)
+        # totmcback = flipEst_df['Total Background']
+        # totmcbackerr = flipEst_df['Total Background error']
+        # flipEst_df.drop(['Total Background','Total Background error'], axis=1, inplace=True)
+        # flipEst_df.insert(3,"Total Background", totmcback)
+        # flipEst_df.insert(4,"Total Background error", totmcbackerr)
         flipEst_df = flipEst_df.fillna("")
         writeToLatexFile("tables/flipEstyields_"+str(year), flipEst_df)
+        #save to txt file for datacards
+        outtxt = open(outdir+"tables/"+outtag+"flipEstyields_"+str(year)+".txt","w")
+        outtxt.write(flipEst_df.to_csv(index=False))
+        outtxt.close()
         print flipEst_df
     
     ## make flip validation tables
     if doFlipVal:
         for proc in procs:
-            if 'flip' not in proc: continue
+            #if 'flip' not in proc: continue
             sryields = []
             srerr = []
             cryields = []
@@ -384,9 +474,9 @@ for year in years:
             cresterr = []
             fname=histdir+proc+'_{}_hists.root'.format(year)
             print fname
-            srName = "h__vrsr_flip_"+proc
-            crName = "h__vrcr_flip_"+proc
-            crestName = "h__vrcrest_flip_"+proc
+            srName = "h_vrsr_flip_valSR_flip_"+proc
+            crName = "h_vrcr_flip_valCR_flip_"+proc
+            crestName = "h_vrcrest_flip_valCRest_flip_"+proc
             sr_hist = getObjFromFile(fname, srName)
             cr_hist = getObjFromFile(fname, crName)
             crest_hist = getObjFromFile(fname, crestName)
@@ -411,6 +501,7 @@ for year in years:
                 flipVal_df[proc+" est error"] = cresterr
                 flipVal_df[proc+" sr"] = sryields
                 flipVal_df[proc+" sr error"] = srerr
+        flipVal_df = flipVal_df.loc[:, (flipVal_df != 0).any(axis=0)]
         flipVal_df = flipVal_df.fillna("")
         writeToLatexFile("tables/flipValyields_"+str(year), flipVal_df)
         print flipVal_df

@@ -8,12 +8,16 @@ import time
 import numpy as np
 import sys
 import pandas as pd
+import os
 
 #hardcoded variables other users should customize
 outdir = "/home/users/ksalyer/FranksFCNC/ana/analysis/datacards/"
-indir = "bCut"
+indir = "aug02_lead25_else20_jet25"
 outdir = outdir+indir+"/"
+if not os.path.exists(outdir): os.makedirs(outdir)
 years = [2016, 2017, 2018]
+
+if not os.path.exists(outdir): os.makedirs(outdir)
 
 for y in years:
     #first, we load the txt output from the tableMaker.py script into a dataframe
@@ -21,7 +25,9 @@ for y in years:
     df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
     fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/fakeEstyields_"+str(y)+".txt")
     flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/flipEstyields_"+str(y)+".txt")
-    #print df
+    # print df
+    # print fakeEst_df
+    # print flipEst_df
     print("got yields and stat errors")
 
     #now we have imported the data and manipulated it into the categories we want
@@ -37,9 +43,10 @@ for y in years:
         #signal region bins
         nLeps = [2, 3]
         nJets = [2,3,4]
-        # nBtags = [0,1,2]
-        nBtags = [1,2]
-        numBins = len(nLeps)*len(nJets)*len(nBtags)
+        nMLJets = [1,2,3,4]
+        nBtags = [0,1,2]
+        # nBtags = [1,2]
+        numBins = (len(nMLJets)+len(nJets))*len(nBtags)
         nProc = ["signal", "rares", "fakes_mc", "flips_mc"]
         numBackgrounds = len(nProc)-1
 
@@ -51,10 +58,12 @@ for y in years:
         procIndex = []
         for l in nLeps:
             if l == 2:
-		lep = "dilep"
-	    if l == 3:
-		lep = "trilep"
-            for j in nJets:
+                lep = "dilep"
+                numJets = list(nJets)
+            if l == 3:
+                lep = "trilep"
+                numJets = list(nMLJets)
+            for j in numJets:
                 for b in nBtags:
                     counter = 0
                     srName_base = lep+"_"+str(j)+"_"+str(b)
@@ -106,6 +115,7 @@ for y in years:
 
         #dataframe I will print to datacard file
         dcard_df = pd.DataFrame(index = rowTitles, columns = dcColumns)
+        # print(dcColumns)
         print("defined output dataframe")
 
 
@@ -117,9 +127,13 @@ for y in years:
                 proc = p
             statUnc = []
             for l in nLeps:
-                for j in nJets:
+                if l == 2:
+                    numJets = list(nJets)
+                if l == 3:
+                    numJets = list(nMLJets)
+                for j in numJets:
                     for b in nBtags:
-                        #print (p, l, j, b)
+                        # print (p, l, j, b)
                         #calculate signal percentage for statistical unc.
                         if proc == "fakes_mc":
                             row = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
@@ -134,8 +148,12 @@ for y in years:
                                 yld = row['data estimate'].values[0]
                                 err = row["data estimate error"].values[0]
                         else:
+                            # print df
+                            # print df.loc[ (df["nLeptons"]==l) ]
+                            # print df.loc[ (df["nJets"]==j) ]
+                            # print df.loc[ (df["nBtags"]==b) ]
                             row = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
-                            #print row
+                            # print row
                             yld = row[proc].values[0]
                             err = row[proc+" error"].values[0]
                         
@@ -191,7 +209,11 @@ for y in years:
         rates = []
         observation = []
         for l in nLeps:
-            for j in nJets:
+            if l == 2:
+                numJets = list(nJets)
+            if l == 3:
+                numJets = list(nMLJets)
+            for j in numJets:
                 for b in nBtags:
                     fakerow = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                     fliprow = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
@@ -216,7 +238,8 @@ for y in years:
                         else:
                             yld = row[p].values[0]
 
-                        if yld<0:
+                        # if yld<0:
+                        if yld<=0:
                             yld = 0.01
 
                         yldString = str(yld)
