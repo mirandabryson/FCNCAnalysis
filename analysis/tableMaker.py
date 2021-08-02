@@ -34,7 +34,7 @@ basepath = basepath.replace("tableMaker.py","")
 histdir=basepath+'outputs/aug02_lead25_else20_jet25/'
 # sighistdir=basepath+'outputs/jul12_ss_allMC/'
 outdir=basepath+'outputs/'
-outtag='test/'
+outtag='aug02_lead25_else20_jet25/'
 #files = glob.glob(histdir)
 if not os.path.exists(outdir+"tables/"+outtag): os.makedirs(outdir+"tables/"+outtag)
 
