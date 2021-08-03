@@ -354,8 +354,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     tqdm bar;
     // bar.set_theme_braille();
     //BDT constructor
-    BDT booster("./helpers/BDT/BDT.xml");
-    std::string tmp_yr_str = std::to_string(year);
+    //BDT booster("./helpers/BDT/BDT.xml");
+    //std::string tmp_yr_str = std::to_string(year);
     //BDTBabyMaker bdt_fakes_baby(Form("./helpers/BDT/babies/%s/data_driven/%s_fakes.root", tmp_yr_str.c_str(), chainTitleCh));
     //BDTBabyMaker bdt_flips_baby(Form("./helpers/BDT/babies/%s/data_driven/%s_flips.root", tmp_yr_str.c_str(), chainTitleCh));
     //BDTBabyMaker bdt_MC_baby(Form("./helpers/BDT/babies/%s/MC/%s.root", tmp_yr_str.c_str(), chainTitleCh));
@@ -409,7 +409,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             //if(nt.event()!=313915097){continue;}
 
             //MET CUT
-            if (nt.MET_pt() < 50.){continue;}
+            //if (nt.MET_pt() < 50.){continue;}
             if (debugPrints){std::cout << "passed MET cut for event " << nt.event() << ": " << nt.MET_pt() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<milliseconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<milliseconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
@@ -910,7 +910,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "passed crWeight for event " << nt.event() << endl;}
             // prepare BDT parameters
             //auto start_time = high_resolution_clock::now();
-            bool fill_BDT_MC = (((category==1) && (chainTitle=="fakes_mc")) ||
+            /*bool fill_BDT_MC = (((category==1) && (chainTitle=="fakes_mc")) ||
                                ((category==2) && (chainTitle=="flips_mc")) ||
                                ((category==3) && (chainTitle=="rares"   )) ||
                                ((chainTitle=="signal_tch"))                ||
@@ -918,22 +918,22 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             bool fill_BDT_data_driven = (abs(crWeight) > 0.0);
             if (fill_BDT_MC) {
                 if ((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) {
-                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    //std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
                     //bdt_MC_baby.set_features(BDT_params, weight);
                 }
             }
             else if (fill_BDT_data_driven) {
                 if (best_hyp_type == 5){
                     Float_t BDT_crWeight = crWeight;
-                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    //std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
                     //bdt_flips_baby.set_features(BDT_params, BDT_crWeight);
             
                 } else if ((best_hyp_type==3) || (best_hyp_type>=6)) {
                     Float_t BDT_crWeight = crWeight;
-                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    //std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
                     //bdt_fakes_baby.set_features(BDT_params, BDT_crWeight);
                 }
-            }
+            }*/
             //booster.set_features(BDT_params);
             //booster.get_score();
             //cout << "BDT eval time: " << duration_cast<microseconds>(high_resolution_clock::now() - start_time).count() << endl;
