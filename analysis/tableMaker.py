@@ -16,12 +16,12 @@ sigWeight = 0.01
 blind = True
 
 doCutflow = 0
-doSRTable = 0
-doFakeCR = 0
+doSRTable = 1
+doFakeCR  = 0
 doFakeEst = 0
 doFakeVal = 0
-doFlipCR = 0
-doFlipEst = 1
+doFlipCR  = 0
+doFlipEst = 0
 doFlipVal = 0
 
 br_hist_prefix='h_br_'
