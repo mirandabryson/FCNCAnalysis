@@ -15,28 +15,30 @@ double getEventWeight (string fileName, string sampleName, int year, bool verbos
     unsigned int nentries = tokens->GetEntries();
     //cout << sName << endl;
 
-    TString sTag = ((TObjString*)tokens->At(nentries-3) )->GetString();
+    TString sTag = ((TObjString*)tokens->At(nentries-3))->GetString();
     if (verbose) std::cout << "sTag: " << sTag << std::endl;
     std::string tag = sTag.Data();
 
     TString sName_short;
     std::string fname;
     if (TString(fileName).Contains("hadoop")) {
-        sName_short = ((TObjString*)tokens->At(nentries-2) )->GetString();
+        sName_short = ((TObjString*)tokens->At(nentries-2))->GetString();
         if (verbose) std::cout << "sName: " << sName_short << std::endl;
         string fileEnding = "_n_events.txt";
         fname = short_to_long(sName_short.Data(), year)+'_'+tag+fileEnding;
         if (verbose) std::cout << "fname: " << fname << std::endl;
     }
     else if (TString(fileName).Contains("nfs")) {
-        sName_short = ((TObjString*)tokens->At(nentries-1) )->GetString();
-        sName_short = ( (TObjString*)sName_short.Tokenize(".")->At(0) )->GetString();
+        sName_short = ((TObjString*)tokens->At(nentries-1))->GetString();
+        TObjArray *tmp_string = sName_short.Tokenize(".");
+        sName_short = ((TObjString*)(tmp_string->At(0)))->GetString();
+        delete tmp_string;
+        //sName_short = ((TObjString*)sName_short.Tokenize(".")->At(0) )->GetString();
         if (verbose) std::cout << "sName: " << sName_short << std::endl;
         string fileEnding = "_n_events.txt";
         fname = short_to_long(sName_short.Data(), year)+'_'+tag+fileEnding;
         if (verbose) std::cout << "fname: " << fname << std::endl;
     }
-
     //get the number of MC events from sample
     ifstream inFile;
     inFile.open("./n_events/"+fname);
@@ -47,7 +49,7 @@ double getEventWeight (string fileName, string sampleName, int year, bool verbos
         std::getline(inFile, numEvents);
         if (verbose) cout << "line " << i << ": "<< numEvents << endl;
     }
-
+    //delete &sName_short;
     double nEvents = stod(numEvents);
     //cout << "num effective events: " << nEvents << endl;
 
@@ -67,6 +69,6 @@ double getEventWeight (string fileName, string sampleName, int year, bool verbos
     eventWeight = xsecWeight/nEvents;
     if (verbose) cout << "scale1fb: " << eventWeight << std::endl;
     inFile.close();
-
+    delete tokens; //potential memory leak
     return eventWeight;
 }//close function
