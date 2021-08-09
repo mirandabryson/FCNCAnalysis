@@ -13,6 +13,7 @@ if not os.path.exists(N_EVENTS_DIR): os.makedirs(N_EVENTS_DIR)
 sample_dirs = glob.glob(BABY_DIR+"/*")
 
 for sample_dir in tqdm.tqdm(sample_dirs):
+    print(sample_dir)
     n_events_files = glob.glob(sample_dir+"/output_*_nevents.txt")
     n_total_events = 0
     n_effective_events = 0
