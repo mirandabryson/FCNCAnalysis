@@ -692,7 +692,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
             // get jets and bjets
             //getJets parameters: Leptons &leps,float min_jet_pt=40., float min_bjet_pt=25.
-            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,40.,25.);
+            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.);
             // std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
             Jets good_jets = good_jets_and_bjets.first;
             Jets good_bjets = good_jets_and_bjets.second;
@@ -768,6 +768,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                           << good_bjets.size() << " b-tagged jets." << std::endl;
             }
 
+            //NJETS CUT
             if (best_hyp.size()==2&&njets < 2) continue;
             if (best_hyp.size()>2&&njets < 1) continue;
             if ((category == 1 && chainTitle=="fakes_mc")||
@@ -785,11 +786,18 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (doFakes && !isData && doTruthFake && !is_fake) continue;
             if (doFlips && !isData && doTruthFlip && !is_flip) continue;
             if (nt.year()==2016){
-                if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
-                     nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()||
-                     nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                if(!(
+                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL()||
+                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ()||
                      nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
-                     nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ())) {continue;}
+                     nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL()||
+
+                     nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
+                     nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ()||
+                     nt.HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()//||
+                     // nt.HLT_Mu23_TrkIsoVVL_Ele12_CaloIdL_TrackIdL_IsoVL_DZ()||
+                     // nt.HLT_Mu8_TrkIsoVVL_Ele23_CaloIdL_TrackIdL_IsoVL_DZ()
+                     )) {continue;}
             }else if (nt.year()==2017){
                 if(!(nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL()||
                      nt.HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8()||
@@ -1029,8 +1037,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
      auto duration = duration_cast<seconds>(stop - start);
      if (debug_file.is_open()) debug_file.close();
 
-     if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " milliseconds!!" << endl;
-     cout << "processed " << nEventsTotal << " events in " << duration.count() << " milliseconds!!" << endl;
+     if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
+     cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
      //write histograms
      auto outFile = new TFile(outFileName.Data(), "recreate");
      if (!quiet) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
