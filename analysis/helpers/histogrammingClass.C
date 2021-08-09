@@ -15,18 +15,24 @@ std::vector<std::string> HistContainer::getRegionNames() {
     //                                     "vrcr_flip","vrcrest_flip","vrsr_flip",};
 
     // std::vector<std::string> rnames = {"os","osest"};
+    std::vector<std::string> rnames = {"os","osest","vrcr_flip","vrcrest_flip","vrsr_flip"};
     // std::vector<std::string> rnames = {"br","ss","ml"};
     // std::vector<std::string> rnames = {"sf","df","mlsf","mldf",
     //                                     "sfest","dfest","mlsfest","mldfest",
     //                                     "sfpp","dfpp","mlsfppp","mldfppp",
     //                                     "sfppest","dfppest","mlsfpppest","mldfpppest"};
+    // std::vector<std::string> rnames = {"sf","df","mlsf","mldf",
+    //                                     "sfest","dfest","mlsfest","mldfest",
+    //                                     "sfpp","dfpp","mlsfppp","mldfppp",
+    //                                     "sfppest","dfppest","mlsfpppest","mldfpppest",
+    //                                     "vrcr","vrcrest","vrsr"};
 
-    std::vector<std::string> rnames = { "br","ss","ml",
-                                        "os","osest",
-                                        "sf","df","mlsf","mldf",
-                                        "sfest","dfest","mlsfest","mldfest",
-                                        "sfpp","dfpp","mlsfppp","mldfppp",
-                                        "sfppest","dfppest","mlsfpppest","mldfpppest"};
+    // std::vector<std::string> rnames = { "br","ss","ml",
+    //                                     "os","osest",
+    //                                     "sf","df","mlsf","mldf",
+    //                                     "sfest","dfest","mlsfest","mldfest",
+    //                                     "sfpp","dfpp","mlsfppp","mldfppp",
+    //                                     "sfppest","dfppest","mlsfpppest","mldfpppest"};
 
     return rnames;
 }
@@ -117,47 +123,47 @@ void HistContainer::addHist2d(std::string quantity, std::string sample, int nbin
 }
 
 void HistContainer::loadHists(std::string sample) {
-    addHist1d("njets",sample,7,-0.5,6.5);
-    addHist1d("nbjets",sample,5,-0.5,4.5);
-    addHist1d("nleps",sample,5,-0.5,4.5);
-    addHist1d("neles",sample,5,-0.5,4.5);
-    addHist1d("nmus",sample,5,-0.5,4.5);
-    addHist1d("elpt_emu",sample,100,0,200);
-    addHist1d("llpt",sample,100,0,200);
-    addHist1d("ltpt",sample,100,0,200);
-    addHist1d("lleta",sample,100,-5.,-5.);
-    addHist1d("lteta",sample,100,-5.,-5.);
-    addHist1d("llminiiso",sample,16,0.,0.4);
-    addHist1d("ltminiiso",sample,16,0.,0.4);
-    addHist1d("mll",sample,100,0,200);
-    // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
-    // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
-    // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
-    // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
-    // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
-    // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
-    addHist1d("ljpt",sample,50,0,500);
-    addHist1d("tjpt",sample,50,0,500);
-    addHist1d("lbpt",sample,50,0,500);
-    addHist1d("ht",sample,50,0,1000);
-    addHist1d("met",sample,20,0,400);
-    // addHist1d("cutflow",sample,9,0.5,9.5,"br");
+    // addHist1d("njets",sample,7,-0.5,6.5);
+    // addHist1d("nbjets",sample,5,-0.5,4.5);
+    // addHist1d("nleps",sample,5,-0.5,4.5);
+    // addHist1d("neles",sample,5,-0.5,4.5);
+    // addHist1d("nmus",sample,5,-0.5,4.5);
+    // addHist1d("elpt_emu",sample,100,0,200);
+    // addHist1d("llpt",sample,100,0,200);
+    // addHist1d("ltpt",sample,100,0,200);
+    // addHist1d("lleta",sample,100,-5.,-5.);
+    // addHist1d("lteta",sample,100,-5.,-5.);
+    // addHist1d("llminiiso",sample,16,0.,0.4);
+    // addHist1d("ltminiiso",sample,16,0.,0.4);
+    // addHist1d("mll",sample,100,0,200);
+    // // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
+    // // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
+    // // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
+    // // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
+    // // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
+    // // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
+    // addHist1d("ljpt",sample,50,0,500);
+    // addHist1d("tjpt",sample,50,0,500);
+    // addHist1d("lbpt",sample,50,0,500);
+    // addHist1d("ht",sample,50,0,1000);
+    // addHist1d("met",sample,20,0,400);
+    // // addHist1d("cutflow",sample,9,0.5,9.5,"br");
     addHist1d("sr",sample,21,0.5,21.5);//,"br");
-    // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
-    // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
+    // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
+    // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
     addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
     addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
-    addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
+    // addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
 
-    // addHist1d("valSR_flip",sample,18,0.5,18.5,"vrsr_flip");
-    // addHist1d("valCR_flip",sample,18,0.5,18.5,"vrcr_flip");
-    // addHist1d("valCRest_flip",sample,18,0.5,18.5,"vrcrest_flip");
-    // addHist1d("valSR_flip_eeChan",sample,18,0.5,18.5,"vrsr_flip");
-    // addHist1d("valCR_flip_eeChan",sample,18,0.5,18.5,"vrcr_flip");
-    // addHist1d("valCRest_flip_eeChan",sample,18,0.5,18.5,"vrcrest_flip");
-    // addHist1d("valSR_flip_emChan",sample,18,0.5,18.5,"vrsr_flip");
-    // addHist1d("valCR_flip_emChan",sample,18,0.5,18.5,"vrcr_flip");
-    // addHist1d("valCRest_flip_emChan",sample,18,0.5,18.5,"vrcrest_flip");
+    addHist1d("valSR_flip",sample,21,0.5,21.5,"vrsr_flip");
+    addHist1d("valCR_flip",sample,21,0.5,21.5,"vrcr_flip");
+    addHist1d("valCRest_flip",sample,21,0.5,21.5,"vrcrest_flip");
+    addHist1d("valSR_flip_eeChan",sample,21,0.5,21.5,"vrsr_flip");
+    addHist1d("valCR_flip_eeChan",sample,21,0.5,21.5,"vrcr_flip");
+    addHist1d("valCRest_flip_eeChan",sample,21,0.5,21.5,"vrcrest_flip");
+    addHist1d("valSR_flip_emChan",sample,21,0.5,21.5,"vrsr_flip");
+    addHist1d("valCR_flip_emChan",sample,21,0.5,21.5,"vrcr_flip");
+    addHist1d("valCRest_flip_emChan",sample,21,0.5,21.5,"vrcrest_flip");
 
     // addHist1d("vrsr",sample,21,0.5,21.5,"vrsr");
     // addHist1d("vrcr",sample,21,0.5,21.5,"vrcr");
