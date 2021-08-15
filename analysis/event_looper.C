@@ -950,6 +950,21 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
+            // float weightLepSFup = weight;
+            // float weightLepSFdown = weight;
+            // for ( auto lep : best_hyp ) {weightLepSFup =    (weightLepSFup/leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht))*
+            //                                                 (leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht)+
+            //                                                 leptonScaleFactorError(nt.year(), lep.id(), lep.pt(), lep.eta(), ht));}
+            // for ( auto lep : best_hyp ) {weightLepSFdown =  (weightLepSFdown/leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht))*
+            //                                                 (leptonScaleFactor(nt.year(), lep.id(), lep.pt(), lep.eta(), ht)-
+            //                                                 leptonScaleFactorError(nt.year(), lep.id(), lep.pt(), lep.eta(), ht));}
+            // std::map<std::string, float> variationalWeights{
+            //     {"PU_up",       (weight/nt.puWeight())*nt.puWeightUp()},
+            //     {"PU_down",     (weight/nt.puWeight())*nt.puWeightDown()},
+            //     {"LepSF_up",    weightLepSFup},
+            //     {"LepSF_down",  weightLepSFdown},
+            // };
+
             // cout << "after BDT: " << weight << endl;
             // if (best_hyp.size()<2) {continue;}
             // if (best_hyp.size()!=2) {continue;}

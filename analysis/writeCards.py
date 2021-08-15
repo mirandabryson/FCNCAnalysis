@@ -12,10 +12,12 @@ import os
 
 #hardcoded variables other users should customize
 outdir = "/home/users/ksalyer/FranksFCNC/ana/analysis/datacards/"
-indir = "aug02_lead25_else20_jet25"
+indir = "aug09_withST"
 outdir = outdir+indir+"/"
 if not os.path.exists(outdir): os.makedirs(outdir)
+# years = [2016, 2017, 2018]
 years = [2016, 2017, 2018]
+includeSignalInObs = False
 
 if not os.path.exists(outdir): os.makedirs(outdir)
 
@@ -219,6 +221,7 @@ for y in years:
                     fliprow = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                     row     = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                     obsYld = row["rares"].values[0] + fakerow['data estimate'].values[0] + fliprow['data estimate'].values[0]
+                    if includeSignalInObs: obsYld += row[s].values[0]
                     obsYld = round(obsYld,0)
                     obsString = str(obsYld)
                     while len(obsString)<20:
@@ -254,10 +257,10 @@ for y in years:
             if "signal" in p:
                 unc = "0.8/1.2"
             elif p == "flips_mc":
-                if y == 2016: unc = '1.1'
-                if y == 2017: unc = '1.4'
-                if y == 2018: unc = '1.3'
-                #unc = "0.8/1.2"
+                # if y == 2016: unc = '1.1'
+                # if y == 2017: unc = '1.4'
+                # if y == 2018: unc = '1.3'
+                unc = "0.7/1.3"
             elif p == "rares":
                 unc = "0.7/1.3"
             elif p == "fakes_mc":

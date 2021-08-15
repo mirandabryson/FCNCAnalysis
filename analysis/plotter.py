@@ -9,17 +9,18 @@ from yahist import Hist1D, Hist2D
 
 f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/fakes_mc_2018_hists.root')
 
-path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug03_lead25_else20_jet40_rares/'
+path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug11_runall_MET50_lead25_jet30/'
+# sigpath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug09_lead25_MET50_jet30_newTriggers_tt2or1l/'
 
 regions =   [#"mr",
              # "os",
-             # "sf",
+             "sf",
              # "df",
              # "mlsf",
              # "mldf",
              # "ss",
              # "ml",
-             "br",
+             # "br",
              #"vrsr_ss",
              #"vrsr_ml",
              #"vrcr_sf",
@@ -29,29 +30,29 @@ regions =   [#"mr",
              #"vrcr_flip",
              #"vrsr_flip"
             ]
-variables = [   #["njets", 1, r'$N_{jets}$'],
-                # ["nbjets", 1, r'$N_{b-jets}$'],
-                # ["nleps", 1, r'$N_{leptons}$'],
-                # ["neles", 1, r'$N_{electrons}$'],
-                # ["nmus", 1, r'$N_{muons}$'],
-                # ["ljpt", 5, r'$p_T\ (lead.\ jet)\ (GeV)$'],
-                # ["tjpt", 5, r'$p_T\ (sublead.\ jet)\ (GeV)$'],
-                # ["llpt", 5, r'$p_T\ (lead.\ lep.)\ (GeV)$'],
-                # ["ltpt", 5, r'$p_T\ (sublead.\ lep.)\ (GeV)$'],
+variables = [   ["njets", 1, r'$N_{jets}$'],
+                ["nbjets", 1, r'$N_{b-jets}$'],
+                ["nleps", 1, r'$N_{leptons}$'],
+                ["neles", 1, r'$N_{electrons}$'],
+                ["nmus", 1, r'$N_{muons}$'],
+                ["ljpt", 5, r'$p_T\ (lead.\ jet)\ (GeV)$'],
+                ["tjpt", 5, r'$p_T\ (sublead.\ jet)\ (GeV)$'],
+                ["llpt", 5, r'$p_T\ (lead.\ lep.)\ (GeV)$'],
+                ["ltpt", 5, r'$p_T\ (sublead.\ lep.)\ (GeV)$'],
                 # ["mll", 4, r'$m_{ll}\ (GeV)$'],
-                # ['flipSF_inclMET_mee', 1, r'$m_{ee}\ (GeV)$'],
-                # ['flipSF_l50MET_mee', 1, r'$m_{ee}\ (GeV)$'],
-                # ['flipSF_inclMET_njets', 1, r'$N_{jets}$'],
-                # ['flipSF_l50MET_njets', 1, r'$N_{jets}$'],
-                # ['flipSF_inclMET_nbjets', 1, r'$N_{b-jets}$'],
-                # ['flipSF_l50MET_nbjets', 1, r'$N_{b-jets}$'],
-                # #["lleta", 4],
-                # #["lteta", 4],
-                # ["llminiiso", 1, r'$miniIso\ (lead.\ lep.)\ (GeV)$'],
-                # ["ltminiiso", 1, r'$miniIso\ (sublead.\ lep.)\ (GeV)$'],
-                # ['met', 1, r'$MET\ (GeV)$'],
+                # # ['flipSF_inclMET_mee', 1, r'$m_{ee}\ (GeV)$'],
+                # # ['flipSF_l50MET_mee', 1, r'$m_{ee}\ (GeV)$'],
+                # # ['flipSF_inclMET_njets', 1, r'$N_{jets}$'],
+                # # ['flipSF_l50MET_njets', 1, r'$N_{jets}$'],
+                # # ['flipSF_inclMET_nbjets', 1, r'$N_{b-jets}$'],
+                # # ['flipSF_l50MET_nbjets', 1, r'$N_{b-jets}$'],
+                # ["lleta", 4, r'$\eta\ (lead.\ lep.)\ (GeV)$'],
+                # ["lteta", 4, r'$\eta\ (sublead.\ lep.)\ (GeV)$'],
+                # # ["llminiiso", 1, r'$miniIso\ (lead.\ lep.)\ (GeV)$'],
+                # # ["ltminiiso", 1, r'$miniIso\ (sublead.\ lep.)\ (GeV)$'],
+                ['met', 1, r'$MET\ (GeV)$'],
                 # ['flavorChannel', 1, r'$Flavor\ Channel$'],
-                ['sr', 1, r'$SR\ bin$'],
+                # ['sr', 1, r'$SR\ bin$'],
                 # ['flipSFcr_inclMET', 1, r'$sr bin$'],
                 # ['flipSFcr_l50MET', 1, r'$sr bin$'],
                 # #['vrsr', 1, r'$VRSR$'],
@@ -87,16 +88,17 @@ def get_total(histos, keys):
     
     return tmp
 
-def add_uncertainty(hist, ax, ratio=False):
+def add_uncertainty(hist, ax, ratio=False, offset1 = 0.0, offset2 = 0.0):
     opts = {'step': 'post', 'label': 'Uncertainty', 'hatch': '///',
                     'facecolor': 'none', 'edgecolor': (0, 0, 0, .5), 'linewidth': 0, 'zorder':10.}
+    error = np.sqrt(hist.errors**2+(offset1*hist.counts)**2+(offset2*hist.counts)**2)
     
     if ratio:
-        down = np.ones(len(hist.counts)) - hist.errors/hist.counts
-        up = np.ones(len(hist.counts)) + hist.errors/hist.counts
+        down = np.nan_to_num(np.ones(len(hist.counts)) - error/hist.counts)
+        up = np.nan_to_num(np.ones(len(hist.counts)) + error/hist.counts)
     else:
-        down = hist.counts-hist.errors
-        up = hist.counts+hist.errors
+        down = hist.counts-error
+        up = hist.counts+error
     ax.fill_between(x=hist.edges, y1=np.r_[down, down[-1]], y2=np.r_[up, up[-1]], **opts)
 
 
@@ -133,20 +135,19 @@ for y in years:
                 }
             else:
                 hists = {
-                    'diboson': uproot3.open(path+'diboson_'+y+'_hists.root')['h_'+r+'_'+v+'_diboson'],
-                    'smallRares': uproot3.open(path+'smallRares_'+y+'_hists.root')['h_'+r+'_'+v+'_smallRares'],
-                    'triboson': uproot3.open(path+'triboson_'+y+'_hists.root')['h_'+r+'_'+v+'_triboson'],
-                    'ttvv': uproot3.open(path+'ttvv_'+y+'_hists.root')['h_'+r+'_'+v+'_ttvv'],
-                    'ttw': uproot3.open(path+'ttw_'+y+'_hists.root')['h_'+r+'_'+v+'_ttw'],
-                    'ttx': uproot3.open(path+'ttx_'+y+'_hists.root')['h_'+r+'_'+v+'_ttx'],
-                    'xg': uproot3.open(path+'xg_'+y+'_hists.root')['h_'+r+'_'+v+'_xg'],
-                    # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
-                    # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
-                    # 'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
-                    # 'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
+                    # 'multiboson': uproot3.open(path+'multiboson_'+y+'_hists.root')['h_'+r+'_'+v+'_multiboson'],
+                    # 'Higgs': uproot3.open(path+'smallRares_'+y+'_hists.root')['h_'+r+'_'+v+'_smallRares'],
+                    # 'ttxx': uproot3.open(path+'ttvv_'+y+'_hists.root')['h_'+r+'_'+v+'_ttvv'],
+                    # 'ttw': uproot3.open(path+'ttw_'+y+'_hists.root')['h_'+r+'_'+v+'_ttw'],
+                    # 'ttx': uproot3.open(path+'ttx_'+y+'_hists.root')['h_'+r+'_'+v+'_ttx'],
+                    # 'xg': uproot3.open(path+'xg_'+y+'_hists.root')['h_'+r+'_'+v+'_xg'],
+                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
+                    'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
                     # 'data_est': uproot3.open(path+'data_'+y+'_hists.root')['h_osest_'+v+'_data'],
-                    # 'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
-                    # 'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
+                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
                 }
 
 
@@ -179,57 +180,57 @@ for y in years:
 
             else: 
 
-                # my_histos['fakes'].label = 'Nonprompt'
-                # my_histos['fakes'].color = '#FF595E'
+                my_histos['fakes'].label = 'Nonprompt'
+                my_histos['fakes'].color = '#FF595E'
 
-                # my_histos['flips'].label = 'Charge flip'
-                # my_histos['flips'].color = '#FFCA3A'
+                my_histos['flips'].label = 'Charge flip'
+                my_histos['flips'].color = '#FFCA3A'
 
-                # my_histos['rares'].label = 'Other'
-                # my_histos['rares'].color = '#8AC926'
+                my_histos['rares'].label = 'Other'
+                my_histos['rares'].color = '#8AC926'
 
-                my_histos['smallRares'].label = 'etc.'
-                my_histos['smallRares'].color = '#A03E99'
+                # my_histos['Higgs'].label = 'Higgs'
+                # my_histos['Higgs'].color = '#FF99C9'
 
-                my_histos['xg'].label = r'$x +\gamma$'
-                my_histos['xg'].color = '#F2542D'
+                # my_histos['xg'].label = r'$X +\gamma$'
+                # my_histos['xg'].color = '#6987C9'
 
-                my_histos['ttvv'].label = 'ttVV'
-                my_histos['ttvv'].color = '#8AC926'
+                # my_histos['ttxx'].label = 'ttXX'
+                # my_histos['ttxx'].color = '#8AC926'
 
-                my_histos['triboson'].label = 'VVV'
-                my_histos['triboson'].color = '#FF99C9'
+                # # my_histos['triboson'].label = 'VVV'
+                # # my_histos['triboson'].color = '#FF99C9'
 
-                my_histos['ttx'].label = 'ttX'
-                my_histos['ttx'].color = '#FFCA3A'
+                # my_histos['ttx'].label = 'ttX'
+                # my_histos['ttx'].color = '#FFCA3A'
 
-                my_histos['ttw'].label = 'ttW'
-                my_histos['ttw'].color = '#08BDBD'
+                # my_histos['ttw'].label = 'ttW'
+                # my_histos['ttw'].color = '#08BDBD'
 
-                my_histos['diboson'].label = 'WZ/ZZ/WpWp'
-                my_histos['diboson'].color = '#FF595E'
+                # my_histos['multiboson'].label = 'VV/VVV'
+                # my_histos['multiboson'].color = '#FF595E'
 
-                # keys = ['rares', 'flips', 'fakes']
-                keys = ['smallRares','xg', 'ttvv','triboson','ttx', 'ttw','diboson']
+                keys = ['flips', 'rares', 'fakes']
+                # keys = ['Higgs','xg', 'ttxx','ttx', 'ttw','multiboson']
                 # keys = ['dy', 'xg', 'wboson','top']
 
-            # signals = ['tch', 'tuh']
+            signals = ['tch', 'tuh']
 
             total_mc = get_total(my_histos, keys)
 
-            # if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')): 
-            #     ratio = my_histos['data'].divide(total_mc, )
-            #     # ratio_est = my_histos['data_est'].divide(total_mc, )
-            #     # ratio_data = my_histos['data'].divide(my_histos['data_est'], )
-            # else:
-            #     ratio_tch = my_histos['tch'].divide(total_mc, )
-            #     ratio_tuh = my_histos['tuh'].divide(total_mc, )
+            if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')): 
+                ratio = my_histos['data'].divide(total_mc, )
+                # ratio_est = my_histos['data_est'].divide(total_mc, )
+                # ratio_data = my_histos['data'].divide(my_histos['data_est'], )
+            else:
+                ratio_tch = my_histos['tch'].divide(total_mc, )
+                ratio_tuh = my_histos['tuh'].divide(total_mc, )
 
 
             #f, ax = plt.subplots()
 
-            # fig, (ax, rax) = plt.subplots(2,1,figsize=(10,10), gridspec_kw={"height_ratios": (3, 1), "hspace": 0.05}, sharex=True)
-            fig, ax = plt.subplots(1,1,figsize=(10,10))
+            fig, (ax, rax) = plt.subplots(2,1,figsize=(10,10), gridspec_kw={"height_ratios": (3, 1), "hspace": 0.05}, sharex=True)
+            # fig, ax = plt.subplots(1,1,figsize=(10,10))
 
             if y == "2016": luminosity = 35.9
             if y == "2017": luminosity = 41.5
@@ -245,24 +246,26 @@ for y in years:
 
             hep.histplot(
                 [ my_histos[x].counts for x in keys ],
-                my_histos['diboson'].edges,
+                my_histos['fakes'].edges,
                 w2=[ my_histos[x].errors for x in keys ],
                 histtype="fill",
                 stack=True,
-                label=['%s (%.0f)'%(my_histos[x].label, sum(my_histos[x].counts)) for x in keys],
+                # label=['%s (%.0f)'%(my_histos[x].label, sum(my_histos[x].counts)) for x in keys],
+                label=['%s'%(my_histos[x].label) for x in keys],
                 color=[ my_histos[x].color for x in keys ],
                 ax=ax)
 
-            # if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')):
-            #     hep.histplot(
-            #         my_histos['data'].counts,
-            #         my_histos['data'].edges,
-            #         yerr=my_histos['data'].errors,
-            #         histtype="errorbar",
-            #         stack=False,
-            #         label='%s (%.0f)'%('Observation', sum(my_histos['data'].counts)),
-            #         color='black',
-            #         ax=ax)
+            if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')):
+                hep.histplot(
+                    my_histos['data'].counts,
+                    my_histos['data'].edges,
+                    yerr=my_histos['data'].errors,
+                    histtype="errorbar",
+                    stack=False,
+                    # label='%s (%.0f)'%('Observation', sum(my_histos['data'].counts)),
+                    label='%s'%('Observation'),
+                    color='black',
+                    ax=ax)
 
                 # hep.histplot(
                 #     my_histos['data_est'].counts,
@@ -274,64 +277,65 @@ for y in years:
                 #     color='grey',
                 #     ax=ax)
 
-            # hep.histplot(
-            #     [my_histos['tch'].counts/100, my_histos['tuh'].counts/100],
-            #     my_histos['tch'].edges,
-            #     w2=[my_histos['tch'].errors/100, my_histos['tuh'].errors/100],
-            #     histtype="step",
-            #     stack=False,
-            #     label=[r'$B(t\to Hc)=0.01$', r'$B(t\to Hu)=0.01$'],
-            #     color=['#525B76','#6A4C93'],
-            #     ax=ax)
+            hep.histplot(
+                [my_histos['tch'].counts/100, my_histos['tuh'].counts/100],
+                my_histos['tch'].edges,
+                w2=[my_histos['tch'].errors/100, my_histos['tuh'].errors/100],
+                histtype="step",
+                stack=False,
+                label=[r'$B(t\to Hc)=0.01$', r'$B(t\to Hu)=0.01$'],
+                color=['#525B76','#6A4C93'],
+                ax=ax)
 
-            # if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')):
-            #     hep.histplot(
-            #         ratio.counts,
-            #         ratio.edges,
-            #         yerr=my_histos['data'].errors/total_mc.counts,
-            #         histtype="errorbar",
-            #         color='black',
-            #         ax=rax)
+            if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')):
+                hep.histplot(
+                    ratio.counts,
+                    ratio.edges,
+                    yerr=my_histos['data'].errors/total_mc.counts,
+                    histtype="errorbar",
+                    color='black',
+                    ax=rax)
 
-            #     # hep.histplot(
-            #     #     ratio_est.counts,
-            #     #     ratio_est.edges,
-            #     #     yerr=my_histos['data_est'].errors/total_mc.counts,
-            #     #     histtype="errorbar",
-            #     #     color='grey',
-            #     #     ax=rax)
+                # hep.histplot(
+                #     ratio_est.counts,
+                #     ratio_est.edges,
+                #     yerr=my_histos['data_est'].errors/total_mc.counts,
+                #     histtype="errorbar",
+                #     color='grey',
+                #     ax=rax)
 
-            #     # hep.histplot(
-            #     #     ratio_data.counts,
-            #     #     ratio_data.edges,
-            #     #     yerr=my_histos['data'].errors/my_histos['data_est'].counts,
-            #     #     histtype="errorbar",
-            #     #     color='black',
-            #     #     ax=rax)
-            # else:
-            #     hep.histplot(
-            #         [ratio_tch.counts/100, ratio_tuh.counts/100],
-            #         ratio_tch.edges,
-            #         w2=[ratio_tch.errors/100, ratio_tuh.errors/100],
-            #         histtype="errorbar",
-            #         color=['#525B76','#6A4C93'],
-            #         ax=rax)
+                # hep.histplot(
+                #     ratio_data.counts,
+                #     ratio_data.edges,
+                #     yerr=my_histos['data'].errors/my_histos['data_est'].counts,
+                #     histtype="errorbar",
+                #     color='black',
+                #     ax=rax)
+            else:
+                hep.histplot(
+                    [ratio_tch.counts/100, ratio_tuh.counts/100],
+                    ratio_tch.edges,
+                    w2=[ratio_tch.errors/100, ratio_tuh.errors/100],
+                    histtype="errorbar",
+                    color=['#525B76','#6A4C93'],
+                    ax=rax)
 
 
-            # rax.set_ylim(0,1.99)
-            # #rax.set_xlabel(r'$p_T\ (lead.\ lep.)\ (GeV)$')
-            # rax.set_xlabel(vname)
-            # if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')): rax.set_ylabel(r'Data/Sim.')
-            # # if not (blind and (r == 'ss' or r == 'ml' or r == 'mr') or r == 'os'): rax.set_ylabel(r'Obs./Pred.')
-            # else: rax.set_ylabel(r'Sig./Back.')
+            rax.set_ylim(0,1.99)
+            #rax.set_xlabel(r'$p_T\ (lead.\ lep.)\ (GeV)$')
+            rax.set_xlabel(vname)
+            if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')): rax.set_ylabel(r'Data/Sim.')
+            # if not (blind and (r == 'ss' or r == 'ml' or r == 'mr') or r == 'os'): rax.set_ylabel(r'Obs./Pred.')
+            else: rax.set_ylabel(r'Sig./Back.')
             ax.set_ylabel(r'Events')
             ax.set_yscale('log')
-            ax.set_ylim(0.1,1e4)
+            ax.set_ylim(0.1,1e6)
+            ax.set_xlabel(vname)
             # ax.set_yscale('linear')
             # ax.set_ylim(0,200000)
 
             # add_uncertainty(total_mc, rax, ratio=True)
-            add_uncertainty(total_mc, ax)
+            add_uncertainty(total_mc, ax, offset1= 0.0)
 
             ax.legend()
 

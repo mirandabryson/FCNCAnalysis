@@ -6,13 +6,14 @@ import os
 r.TH1F.SetDefaultSumw2()
 pd.set_option('display.float_format', lambda x: '%.5f' % x)
 
-years=[2016,2017,2018]
-procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
+# years=[2016,2017,2018]
+# procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
+procs=['signal_tch','signal_tuh']
 sigWeight = 0.01
 #procs=['signal_tch', 'signal_tuh','fakes_mc','dy','top','data']
 sigWeight = 0.01
 # sigWeight = 1
-# years=[2016,2017]
+years=[2016,2017,2018]
 blind = True
 
 doCutflow = 0
@@ -27,11 +28,10 @@ doFlipVal = 0
 br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
-#histdir=basepath+'outputs/jun14_allMC_estimate/'
-histdir=basepath+'outputs/'
-# sighistdir=basepath+'outputs/jul12_ss_allMC/'
-outdir=basepath+'helpers/BDT/'
-outtag='aug02_lead25_else20_jet30/'
+histdir=basepath+'outputs/aug13_signal_MET50_lead25_jet30/'
+sighistdir=basepath+'outputs/aug13_signal_MET50_lead25_jet30/'
+outdir=basepath+'outputs/'
+outtag='test/'
 #files = glob.glob(histdir)
 if not os.path.exists(outdir+"tables/"+outtag): os.makedirs(outdir+"tables/"+outtag)
 
@@ -120,7 +120,8 @@ for year in years:
             if blind and proc == 'data': continue
             yields = []
             err = []
-            fname=histdir+proc+'_{}_hists.root'.format(year)
+            if "signal" in proc: fname=sighistdir+proc+'_{}_hists.root'.format(year)
+            else: fname=histdir+proc+'_{}_hists.root'.format(year)
             print fname
             sr_hname=br_hist_prefix+"sr_"+proc
             #print sr_hname
@@ -140,21 +141,21 @@ for year in years:
         # df = df.drop([0,1,2,9,10,11,12],axis=0)
 
         # df.loc['Total']= df.sum(numeric_only=True, axis=0)
-        df.at["Total", "fakes_mc"] = df["fakes_mc"].sum()
-        df.at["Total", "fakes_mc error"] = round(np.sqrt(df["fakes_mc error"].pow(2).sum()),2)
-        df.loc["Total", "flips_mc"] = df["flips_mc"].sum()
-        df.at["Total", "flips_mc error"] = round(np.sqrt(df["flips_mc error"].pow(2).sum()),2)
-        df.loc["Total", "rares"] = df["rares"].sum()
-        df.at["Total", "rares error"] = round(np.sqrt(df["rares error"].pow(2).sum()),2)
-        df.loc["Total", "signal_tuh"] = df["signal_tuh"].sum()
-        df.at["Total", "signal_tuh error"] = round(np.sqrt(df["signal_tuh error"].pow(2).sum()),2)
-        df.loc["Total", "signal_tch"] = df["signal_tch"].sum()
-        df.at["Total", "signal_tch error"] = round(np.sqrt(df["signal_tch error"].pow(2).sum()),2)
+        # df.at["Total", "fakes_mc"] = df["fakes_mc"].sum()
+        # df.at["Total", "fakes_mc error"] = round(np.sqrt(df["fakes_mc error"].pow(2).sum()),2)
+        # df.loc["Total", "flips_mc"] = df["flips_mc"].sum()
+        # df.at["Total", "flips_mc error"] = round(np.sqrt(df["flips_mc error"].pow(2).sum()),2)
+        # df.loc["Total", "rares"] = df["rares"].sum()
+        # df.at["Total", "rares error"] = round(np.sqrt(df["rares error"].pow(2).sum()),2)
+        # df.loc["Total", "signal_tuh"] = df["signal_tuh"].sum()
+        # df.at["Total", "signal_tuh error"] = round(np.sqrt(df["signal_tuh error"].pow(2).sum()),2)
+        # df.loc["Total", "signal_tch"] = df["signal_tch"].sum()
+        # df.at["Total", "signal_tch error"] = round(np.sqrt(df["signal_tch error"].pow(2).sum()),2)
 
-        df["Total Background"] = df["fakes_mc"]+df["flips_mc"]+df["rares"]
-        df["Total Background error"] = np.sqrt(df["fakes_mc error"]**2+df["flips_mc error"]**2+df["rares error"]**2)
+        # df["Total Background"] = df["fakes_mc"]+df["flips_mc"]+df["rares"]
+        # df["Total Background error"] = np.sqrt(df["fakes_mc error"]**2+df["flips_mc error"]**2+df["rares error"]**2)
         #df = df[df.nBtags!=0]
-        df["Signal/Background Ratio"] = (df["signal_tuh"] + df["signal_tch"]) / df["Total Background"]
+        # df["Signal/Background Ratio"] = (df["signal_tuh"] + df["signal_tch"]) / df["Total Background"]
         df = df.fillna("")
         writeToLatexFile("tables/SRyields_"+str(year), df)
         #save to txt file for datacards
@@ -249,6 +250,9 @@ for year in years:
                 dfest_hist.Add(getObjFromFile(fname,h_df))
                 fakeest_hist.Add(getObjFromFile(fname,h_sf))
                 fakeest_hist.Add(getObjFromFile(fname,h_df),-1)
+            # if proc == "data":
+            #     for b in range(1,sfest_hist.GetNbinsX()+1):
+            #         print(b, sfest_hist.GetBinContent(b), dfest_hist.GetBinContent(b), dfest_hist.GetBinContent(b)/sfest_hist.GetBinContent(b))
             for h_sfpp in sfppEstimationHistsToAdd:
                 sfppest_hist.Add(getObjFromFile(fname,h_sfpp))
             for b in range(1,cr_hist.GetNbinsX()+1):
@@ -269,7 +273,7 @@ for year in years:
             fakeEst_df[proc] = yields
             fakeEst_df[proc+" error"] = err
             if 'rares' in proc:
-                print ppestyields
+                # print ppestyields
                 fakeEst_df[proc+" prompt"] = ppestyields
                 fakeEst_df[proc+" prompt error"] = ppesterr
             if 'data' in proc:

@@ -15,12 +15,13 @@ std::vector<std::string> HistContainer::getRegionNames() {
     //                                     "vrcr_flip","vrcrest_flip","vrsr_flip",};
 
     // std::vector<std::string> rnames = {"os","osest"};
-    std::vector<std::string> rnames = {"os","osest","vrcr_flip","vrcrest_flip","vrsr_flip"};
+    // std::vector<std::string> rnames = {"os","osest","vrcr_flip","vrcrest_flip","vrsr_flip"};
     // std::vector<std::string> rnames = {"br","ss","ml"};
-    // std::vector<std::string> rnames = {"sf","df","mlsf","mldf",
-    //                                     "sfest","dfest","mlsfest","mldfest",
-    //                                     "sfpp","dfpp","mlsfppp","mldfppp",
-    //                                     "sfppest","dfppest","mlsfpppest","mldfpppest"};
+    std::vector<std::string> rnames = {"sf","df","mlsf","mldf",
+                                        // "sfest","dfest","mlsfest","mldfest",
+                                        "sfpp","dfpp","mlsfppp","mldfppp",
+                                        // "sfppest","dfppest","mlsfpppest","mldfpppest"
+                                    };
     // std::vector<std::string> rnames = {"sf","df","mlsf","mldf",
     //                                     "sfest","dfest","mlsfest","mldfest",
     //                                     "sfpp","dfpp","mlsfppp","mldfppp",
@@ -34,17 +35,22 @@ std::vector<std::string> HistContainer::getRegionNames() {
     //                                     "sfpp","dfpp","mlsfppp","mldfppp",
     //                                     "sfppest","dfppest","mlsfpppest","mldfpppest"};
 
+    // std::vector<std::string> rnames = { "vrsr_flip","vrcr_flip","vrcrest_flip",
+    //                                     "vrsr","vrcr","vrcrest"};
+
+
     return rnames;
 }
 
 int HistContainer::getSR(int hyp_type, int njets, int nbjets) {
+    // if(hyp_type==2 && njets>3 && nbjets >1){cout << "njets: " << njets << "  nbjets: " << nbjets << "  hyptype: " << hyp_type << endl;}
     if ( !(hyp_type==2 || hyp_type==4) ) return -1;
     int ret=0;
     int joffset = 3;
     if (hyp_type==2){joffset = 4;};
     int offset=(std::min(njets,4)-1)+joffset*std::min(nbjets,2);
     int loffset=0;
-    if (hyp_type==2) loffset=9;
+    if (hyp_type==2) loffset=10;
     return loffset+offset;
 }
 
@@ -55,8 +61,49 @@ int HistContainer::getCRbin(int nleps, int njets, int nbjets) {
     if (nleps==3){joffset = 4;};
     int offset=(std::min(njets,4)-1)+joffset*std::min(nbjets,2);
     int loffset=0;
-    if (nleps==3) loffset=9;
+    if (nleps==3) loffset=10;
     return loffset+offset;
+}
+
+std::vector<int> HistContainer::getDoubleFakeBin(float lep1_pt, float lep1_eta, float lep2_pt, float lep2_eta) {
+    // pt: {10.,15.,20.,25.,35.,50.,70.,90.},
+    // eta: {0.,0.8,1.479,2.5}
+    vector<int> ret = {0,0};
+    int lep1_ptBin = 0;
+    int lep1_etaBin = 0;
+    int lep2_ptBin = 0;
+    int lep2_etaBin = 0;
+
+    if (lep1_pt>=10 && lep1_pt<15) lep1_ptBin = 1;
+    if (lep1_pt>=15 && lep1_pt<20) lep1_ptBin = 2;
+    if (lep1_pt>=20 && lep1_pt<25) lep1_ptBin = 3;
+    if (lep1_pt>=25 && lep1_pt<35) lep1_ptBin = 4;
+    if (lep1_pt>=35 && lep1_pt<50) lep1_ptBin = 5;
+    if (lep1_pt>=50 && lep1_pt<70) lep1_ptBin = 6;
+    if (lep1_pt>=70) lep1_ptBin = 7;
+
+    if (lep2_pt>=10 && lep2_pt<15) lep2_ptBin = 1;
+    if (lep2_pt>=15 && lep2_pt<20) lep2_ptBin = 2;
+    if (lep2_pt>=20 && lep2_pt<25) lep2_ptBin = 3;
+    if (lep2_pt>=25 && lep2_pt<35) lep2_ptBin = 4;
+    if (lep2_pt>=35 && lep2_pt<50) lep2_ptBin = 5;
+    if (lep2_pt>=50 && lep2_pt<70) lep2_ptBin = 6;
+    if (lep2_pt>=70) lep2_ptBin = 7;
+
+    if (fabs(lep1_eta)>=0.000 && fabs(lep1_eta)<0.800) lep1_etaBin = 1;
+    if (fabs(lep1_eta)>=0.800 && fabs(lep1_eta)<1.479) lep1_etaBin = 2;
+    if (fabs(lep1_eta)>=1.479 && fabs(lep1_eta)<2.500) lep1_etaBin = 3;
+
+    if (fabs(lep2_eta)>=0.000 && fabs(lep2_eta)<0.800) lep2_etaBin = 1;
+    if (fabs(lep2_eta)>=0.800 && fabs(lep2_eta)<1.479) lep2_etaBin = 2;
+    if (fabs(lep2_eta)>=1.479 && fabs(lep2_eta)<2.500) lep2_etaBin = 3;
+
+
+    ret[0]=((lep1_ptBin)+(7*(lep1_etaBin-1)));
+    ret[1]=((lep2_ptBin)+(7*(lep2_etaBin-1)));
+
+
+    return ret;
 }
 
 void HistContainer::addHist1d(std::string quantity, std::string sample, int nbins, float xmin, float xmax, std::string region) {
@@ -64,7 +111,7 @@ void HistContainer::addHist1d(std::string quantity, std::string sample, int nbin
         for (auto name : region_names_) {
             std::string htitle = name+"_"+quantity+"_"+sample;
             std::string hname = "h_"+name+"_"+quantity+"_"+sample;
-            TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
+            TH1D *hist = new TH1D(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
             hists1d_[htitle] = hist;
         }
     }
@@ -81,7 +128,7 @@ void HistContainer::addHist1d(std::string quantity, std::string sample, int nbin
     //         cout << name << endl;
     //         std::string htitle = name+"_"+quantity+"_"+sample;
     //         std::string hname = "h_"+name+"_"+quantity+"_"+sample;
-    //         TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
+    //         TH1D *hist = new TH1D(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
     //         hists1d_[htitle] = hist;
     //         cout << htitle << "  " << hname << endl;
     //     }
@@ -89,7 +136,7 @@ void HistContainer::addHist1d(std::string quantity, std::string sample, int nbin
         
         std::string htitle = region+"_"+quantity+"_"+sample;
         std::string hname = "h_"+region+"_"+quantity+"_"+sample;
-        TH1F *hist = new TH1F(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
+        TH1D *hist = new TH1D(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
         hists1d_[htitle] = hist;
         //cout << htitle << "  " << hname << endl;
     }
@@ -106,18 +153,69 @@ void HistContainer::addHist2d(std::string quantity, std::string sample, int nbin
         }
     }
     else {
-        TString tregion(region);
-        TObjArray* objarray = tregion.Tokenize(" ");
-        std::vector<std::string> regions;
-        for (auto obj : *objarray) {
-            regions.push_back( ((TString*)obj)->Data() );
-        }
-        for (auto name : regions) {
+        std::string htitle = region+"_"+quantity+"_"+sample;
+        std::string hname = "h_"+region+"_"+quantity+"_"+sample;
+        TH2F *hist = new TH2F(hname.c_str(),htitle.c_str(),nbinsx,xmin,xmax,nbinsy,ymin,ymax);
+        hists2d_[htitle] = hist;
+    }
+    return;
+}
+
+void HistContainer::addHist2d(std::string quantity, std::string sample, int nbinsx, int nbinsy, std::vector<float> xbins, std::vector<float> ybins, std::string region) {
+    float xbinsarr[nbinsx+1];
+    float ybinsarr[nbinsy+1];
+    for (uint i=0; i<xbins.size(); i++){
+        xbinsarr[i] = xbins[i];
+    }
+    for (uint j=0; j<ybins.size(); j++){
+        ybinsarr[j] = ybins[j];
+    }
+    if (region=="") {
+        for (auto name : region_names_) {
             std::string htitle = name+"_"+quantity+"_"+sample;
             std::string hname = "h_"+name+"_"+quantity+"_"+sample;
-            TH2F *hist = new TH2F(hname.c_str(),htitle.c_str(),nbinsx,xmin,xmax,nbinsy,ymin,ymax);
+            TH2F *hist = new TH2F(hname.c_str(),htitle.c_str(),nbinsx,xbinsarr,nbinsy,ybinsarr);
             hists2d_[htitle] = hist;
         }
+    }
+    else {
+        std::string htitle = region+"_"+quantity+"_"+sample;
+        std::string hname = "h_"+region+"_"+quantity+"_"+sample;
+        TH2F *hist = new TH2F(hname.c_str(),htitle.c_str(),nbinsx,xbinsarr,nbinsy,ybinsarr);
+        hists2d_[htitle] = hist;
+    }
+    return;
+}
+
+void HistContainer::addHist4d(std::string quantity, std::string sample, int nbinsx, int nbinsy, std::vector<double> xedges, std::vector<double> yedges, std::string region) {
+    const Int_t bins[4] = {nbinsx, nbinsy, nbinsx, nbinsy};
+    const Double_t mins[4] = {xedges[0], yedges[0], xedges[0], yedges[0]};
+    const Double_t maxs[4] = {xedges[nbinsx+1], yedges[nbinsy+1], xedges[nbinsx+1], yedges[nbinsy+1]};
+
+    Double_t ptbins[nbinsx+1];
+    Double_t etabins[nbinsy+1];
+    for(uint i = 0; i<xedges.size(); i++){ptbins[i] = xedges[i];}
+    for(uint i = 0; i<yedges.size(); i++){etabins[i] = yedges[i];}
+
+    if (region=="") {
+        for (auto name : region_names_) {
+            std::string htitle = name+"_"+quantity+"_"+sample;
+            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
+            THnF *hist = new THnF(hname.c_str(),htitle.c_str(),4,bins,mins,maxs);
+            hist->SetBinEdges(0,ptbins);
+            hist->SetBinEdges(1,etabins);
+            hist->SetBinEdges(2,ptbins);
+            hist->SetBinEdges(3,etabins);
+            // TH2D* hist2D = hist->Projection(1,0);
+            // cout << hist2D->GetNbinsX() << " " << hist2D->GetNbinsY() << " " << hist2D->GetXaxis()->GetBinLowEdge(1) << " " << hist2D->GetXaxis()->GetBinLowEdge(6) << endl;
+            hists4d_[htitle] = hist;
+        }
+    }
+    else {
+        std::string htitle = region+"_"+quantity+"_"+sample;
+        std::string hname = "h_"+region+"_"+quantity+"_"+sample;
+        THnF *hist = new THnF(hname.c_str(),htitle.c_str(),4,bins,mins,maxs);
+        hists4d_[htitle] = hist;
     }
     return;
 }
@@ -128,6 +226,7 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("nleps",sample,5,-0.5,4.5);
     // addHist1d("neles",sample,5,-0.5,4.5);
     // addHist1d("nmus",sample,5,-0.5,4.5);
+    // addHist1d("nvtxs",sample,100,0,100);
     // addHist1d("elpt_emu",sample,100,0,200);
     // addHist1d("llpt",sample,100,0,200);
     // addHist1d("ltpt",sample,100,0,200);
@@ -136,6 +235,7 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("llminiiso",sample,16,0.,0.4);
     // addHist1d("ltminiiso",sample,16,0.,0.4);
     // addHist1d("mll",sample,100,0,200);
+    // addHist1d("mbl",sample,100,0,200);
     // // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
     // // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
     // // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
@@ -148,59 +248,69 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("ht",sample,50,0,1000);
     // addHist1d("met",sample,20,0,400);
     // // addHist1d("cutflow",sample,9,0.5,9.5,"br");
-    addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    // addHist1d("sr",sample,21,0.5,21.5);//,"br");
     // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
-    addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
-    addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
+    // addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
+    addHist2d("fake2dcr_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0.,0.8,1.479,2.5});//,"br");
+    addHist2d("fake2dcr_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0.,0.8,1.479,2.5});//,"br");
+    addHist2d("fake2dcr_eefake",sample,21,0,21,21,0,21);
+    addHist2d("fake2dcr_emfake",sample,21,0,21,21,0,21);
+    addHist2d("fake2dcr_mmfake",sample,21,0,21,21,0,21);
+    // addHist2d("flip2dcr",sample,21,0.5,21.5);//,"br");
+    // addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
     // addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
 
-    addHist1d("valSR_flip",sample,21,0.5,21.5,"vrsr_flip");
-    addHist1d("valCR_flip",sample,21,0.5,21.5,"vrcr_flip");
-    addHist1d("valCRest_flip",sample,21,0.5,21.5,"vrcrest_flip");
-    addHist1d("valSR_flip_eeChan",sample,21,0.5,21.5,"vrsr_flip");
-    addHist1d("valCR_flip_eeChan",sample,21,0.5,21.5,"vrcr_flip");
-    addHist1d("valCRest_flip_eeChan",sample,21,0.5,21.5,"vrcrest_flip");
-    addHist1d("valSR_flip_emChan",sample,21,0.5,21.5,"vrsr_flip");
-    addHist1d("valCR_flip_emChan",sample,21,0.5,21.5,"vrcr_flip");
-    addHist1d("valCRest_flip_emChan",sample,21,0.5,21.5,"vrcrest_flip");
+    // addHist1d("valSR_flip",sample,21,0.5,21.5,"vrsr_flip");
+    // addHist1d("valCR_flip",sample,21,0.5,21.5,"vrcr_flip");
+    // addHist1d("valCRest_flip",sample,21,0.5,21.5,"vrcrest_flip");
+    // // addHist1d("valSR_flip_eeChan",sample,21,0.5,21.5,"vrsr_flip");
+    // // addHist1d("valCR_flip_eeChan",sample,21,0.5,21.5,"vrcr_flip");
+    // // addHist1d("valCRest_flip_eeChan",sample,21,0.5,21.5,"vrcrest_flip");
+    // // addHist1d("valSR_flip_emChan",sample,21,0.5,21.5,"vrsr_flip");
+    // // addHist1d("valCR_flip_emChan",sample,21,0.5,21.5,"vrcr_flip");
+    // // addHist1d("valCRest_flip_emChan",sample,21,0.5,21.5,"vrcrest_flip");
 
     // addHist1d("vrsr",sample,21,0.5,21.5,"vrsr");
     // addHist1d("vrcr",sample,21,0.5,21.5,"vrcr");
     // addHist1d("vrcrest",sample,21,0.5,21.5,"vrcrest");
-    // addHist1d("vrsr_ee",sample,21,0.5,21.5,"vrsr");
-    // addHist1d("vrcr_ee",sample,21,0.5,21.5,"vrcr");
-    // addHist1d("vrcrest_ee",sample,21,0.5,21.5,"vrcrest");
-    // addHist1d("vrsr_mm",sample,21,0.5,21.5,"vrsr");
-    // addHist1d("vrcr_mm",sample,21,0.5,21.5,"vrcr");
-    // addHist1d("vrcrest_mm",sample,21,0.5,21.5,"vrcrest");
-    // addHist1d("vrsr_em",sample,21,0.5,21.5,"vrsr");
-    // addHist1d("vrcr_em",sample,21,0.5,21.5,"vrcr");
-    // addHist1d("vrcrest_em",sample,21,0.5,21.5,"vrcrest");
-    // addHist1d("vrsr_me",sample,21,0.5,21.5,"vrsr");
-    // addHist1d("vrcr_me",sample,21,0.5,21.5,"vrcr");
-    // addHist1d("vrcrest_me",sample,21,0.5,21.5,"vrcrest");
+    // // addHist1d("vrsr_ee",sample,21,0.5,21.5,"vrsr");
+    // // addHist1d("vrcr_ee",sample,21,0.5,21.5,"vrcr");
+    // // addHist1d("vrcrest_ee",sample,21,0.5,21.5,"vrcrest");
+    // // addHist1d("vrsr_mm",sample,21,0.5,21.5,"vrsr");
+    // // addHist1d("vrcr_mm",sample,21,0.5,21.5,"vrcr");
+    // // addHist1d("vrcrest_mm",sample,21,0.5,21.5,"vrcrest");
+    // // addHist1d("vrsr_em",sample,21,0.5,21.5,"vrsr");
+    // // addHist1d("vrcr_em",sample,21,0.5,21.5,"vrcr");
+    // // addHist1d("vrcrest_em",sample,21,0.5,21.5,"vrcrest");
+    // // addHist1d("vrsr_me",sample,21,0.5,21.5,"vrsr");
+    // // addHist1d("vrcr_me",sample,21,0.5,21.5,"vrcr");
+    // // addHist1d("vrcrest_me",sample,21,0.5,21.5,"vrcrest");
     return;
 }
 
 void HistContainer::sumw2() {
-    std::map<std::string,TH1F*>::iterator it1d;
+    std::map<std::string,TH1D*>::iterator it1d;
     std::map<std::string,TH2F*>::iterator it2d;
+    std::map<std::string,THnF*>::iterator it4d;
     for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {it1d->second->Sumw2();}
     for (it2d=hists2d_.begin();it2d!=hists2d_.end();it2d++) {it2d->second->Sumw2();}
+    for (it4d=hists4d_.begin();it4d!=hists4d_.end();it4d++) {it4d->second->Sumw2();}
     return;
 }
 
 void HistContainer::write() {
-    std::map<std::string,TH1F*>::iterator it1d;
+    std::map<std::string,TH1D*>::iterator it1d;
     std::map<std::string,TH2F*>::iterator it2d;
+    std::map<std::string,THnF*>::iterator it4d;
     for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {it1d->second->Write();}
     for (it2d=hists2d_.begin();it2d!=hists2d_.end();it2d++) {it2d->second->Write();}
+    for (it4d=hists4d_.begin();it4d!=hists4d_.end();it4d++) {it4d->second->Write();}
     return;
 }
 
 void HistContainer::fill1d(std::string quantity, std::string region, std::string sample, float value, float weight) {
-    std::map<std::string,TH1F*>::iterator it1d;
+    std::map<std::string,TH1D*>::iterator it1d;
     // cout << quantity << " " << region << " " << sample << endl;
     for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {
         //cout << it1d->first << endl;
@@ -217,18 +327,45 @@ void HistContainer::fill1d(std::string quantity, std::string region, std::string
         if (region.find("vr")==std::string::npos && it1d->first.find("vr")!=std::string::npos) continue;
         if (quantity.find("Chan")==std::string::npos && it1d->first.find("Chan")!=std::string::npos) continue;
         it1d->second->Fill(value,weight);
-        // cout << "filled " << it1d->first << " for event " << nt.event() << endl;//<< " in bin " << value << endl;
+        // cout << "filled " << it1d->first << " with weight " << weight << " for event " << nt.event() << endl;//<< " in bin " << value << endl;
         /*if (region.find("vrcr")!=std::string::npos){
             std::cout << "Filling hist " << quantity << " with value " << value << " and weight " << weight << std::endl;
         }*/
     }
 }
 
-void HistContainer::fill2d(std::string region, std::string quantity, std::string sample, float xvalue, float yvalue, float weight) {
+void HistContainer::fill2d(std::string quantity, std::string region, std::string sample, float xvalue, float yvalue, float weight) {
     std::map<std::string,TH2F*>::iterator it2d;
     for (it2d=hists2d_.begin();it2d!=hists2d_.end();it2d++) {
         if (it2d->first.find(sample)==std::string::npos)  continue;
-        if (it2d->first.find(quantity)!=std::string::npos) it2d->second->Fill(xvalue,yvalue,weight);
+        if (it2d->first.find(quantity)==std::string::npos) continue;
+        if (it2d->first.find(region)==std::string::npos) continue;
+        if (region.find("pp")==std::string::npos && it2d->first.find("pp")!=std::string::npos) continue;
+        if (region.find("est")==std::string::npos && it2d->first.find("est")!=std::string::npos) continue;
+        if (region.find("ml")==std::string::npos && it2d->first.find("ml")!=std::string::npos) continue;
+        if (it2d->first.find(quantity)!=std::string::npos) {
+            // cout << it2d->first << endl;
+            it2d->second->Fill(xvalue,yvalue,weight);
+        }
+        // cout << "filled " << it2d->first << " with weight " << weight << " for event " << nt.event() << endl;
+    }
+}
+
+void HistContainer::fill4d(std::string quantity, std::string region, std::string sample, float xvalue, float yvalue, float zvalue, float tvalue, float weight) {
+    const Double_t bin[4] = {xvalue,yvalue,zvalue,tvalue};
+    std::map<std::string,THnF*>::iterator it4d;
+    for (it4d=hists4d_.begin();it4d!=hists4d_.end();it4d++) {
+        if (it4d->first.find(sample)==std::string::npos)  continue;
+        if (it4d->first.find(quantity)==std::string::npos) continue;
+        if (it4d->first.find(region)==std::string::npos) continue;
+        if (region.find("pp")==std::string::npos && it4d->first.find("pp")!=std::string::npos) continue;
+        if (region.find("est")==std::string::npos && it4d->first.find("est")!=std::string::npos) continue;
+        if (region.find("ml")==std::string::npos && it4d->first.find("ml")!=std::string::npos) continue;
+        if (it4d->first.find(quantity)!=std::string::npos) {
+            // cout << it4d->first << endl;
+            it4d->second->Fill(bin,weight);
+        }
+        // cout << "filled " << it4d->first << " with weight " << weight << " for event " << nt.event() << endl;
     }
 }
 
@@ -271,17 +408,26 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     bool onZPeak = 0;
     bool diEl = 0;
     bool isSS = 0;
+    Leptons fakeLeps;
+    std::vector<int> bin;
     for (auto lep: leps) {
         if (lep.genPartFlav()==1 || lep.genPartFlav()==15){nPrompt++;}
 
-        if (lep.absid()==11){neles++;}
-        else if (lep.absid()==13){nmus++;}
+        if (lep.absid()==11){
+            neles++;
+            if(lep.idlevel()==SS::IDLevel::IDfakable && lep.idlevel()!=SS::IDLevel::IDtight){fakeLeps.push_back(lep);}
+        }
+        else if (lep.absid()==13){
+            nmus++;
+            if(lep.idlevel()==SS::IDLevel::IDfakable && lep.idlevel()!=SS::IDLevel::IDtight){fakeLeps.push_back(lep);}
+        }
     }
     if(neles==2&&nmus==0){flavChannelVal=1;}
     else if(neles==0&&nmus==2){flavChannelVal=2;}
     else if(neles==1&&nmus==1&&leps[0].absid()==11){flavChannelVal=3;}
     else if(neles==1&&nmus==1&&leps[0].absid()==13){flavChannelVal=4;}
 
+    float mbl = 0.;
     float mass = 0.;
     if(leps.size()==2 && (leps[0].p4()+leps[1].p4()).M()>75 && (leps[0].p4()+leps[1].p4()).M()<105){
         onZPeak=1;
@@ -311,6 +457,9 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         }
         if ( name.find("est")==std::string::npos ) {fillWeight = weight;}
         else if (name.find("est")!=std::string::npos) {fillWeight = crWeight;}
+
+        if(sample=="data" && name.find("est")==std::string::npos && !(fillWeight==1 || fillWeight==0)) {cout << "data weighted! " << weight << " " << crWeight << " " << fillWeight << endl;}
+
         //std::cout << "Filling histograms for region " << name << std::endl;
         fill1d("njets",name,sample,njets,fillWeight);
         if(nbjets==1){fill1d("nj1b",name,sample,njets,fillWeight);}
@@ -320,11 +469,30 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         fill1d("nleps",name,sample,nleps,fillWeight);
         fill1d("neles",name,sample,neles,fillWeight);
         fill1d("nmus",name,sample,nmus,fillWeight);
+        fill1d("nvtxs",name,sample,nt.PV_npvsGood(),fillWeight);
         if(leps.size()==2){
             if ((leps[0].absid()==11&&leps[1].absid()==13)||(leps[0].absid()==13&&leps[1].absid()==11)){fill1d("elpt_emu",name,sample,leps[0].pt(),fillWeight);}
         }
         fill1d("llpt",name,sample,leps[0].pt(),fillWeight);
         fill1d("ltpt",name,sample,leps[1].pt(),fillWeight);
+        if (fakeLeps.size()==1){
+            if (fakeLeps[0].absid()==11){fill2d("fake2dcr_efake",name,sample,fakeLeps[0].pt(),fabs(fakeLeps[0].eta()),fillWeight);}
+            if (fakeLeps[0].absid()==13){fill2d("fake2dcr_mfake",name,sample,fakeLeps[0].pt(),fabs(fakeLeps[0].eta()),fillWeight);}
+        }else if (fakeLeps.size() == 2){
+            if (fakeLeps[0].absid()==11 && fakeLeps[1].absid()==11){
+                bin = getDoubleFakeBin(fakeLeps[0].pt(),fakeLeps[0].eta(),fakeLeps[1].pt(),fakeLeps[1].eta());
+                fill2d("fake2dcr_eefake",name,sample,bin[0],bin[1],fillWeight);
+            }else if (fakeLeps[0].absid()==11 && fakeLeps[1].absid()==13){
+                bin = getDoubleFakeBin(fakeLeps[0].pt(),fakeLeps[0].eta(),fakeLeps[1].pt(),fakeLeps[1].eta());
+                fill2d("fake2dcr_emfake",name,sample,bin[0],bin[1],fillWeight);
+            }else if (fakeLeps[0].absid()==13 && fakeLeps[1].absid()==11){
+                bin = getDoubleFakeBin(fakeLeps[1].pt(),fakeLeps[1].eta(),fakeLeps[0].pt(),fakeLeps[0].eta());
+                fill2d("fake2dcr_emfake",name,sample,bin[0],bin[1],fillWeight);
+            }else if (fakeLeps[0].absid()==13 && fakeLeps[1].absid()==13){
+                bin = getDoubleFakeBin(fakeLeps[0].pt(),fakeLeps[0].eta(),fakeLeps[1].pt(),fakeLeps[1].eta());
+                fill2d("fake2dcr_mmfake",name,sample,bin[0],bin[1],fillWeight);
+            }
+        }
         fill1d("lleta",name,sample,leps[0].eta(),fillWeight);
         fill1d("lteta",name,sample,leps[1].eta(),fillWeight);
         fill1d("llminiiso",name,sample,leps[0].miniIso(),fillWeight);
@@ -332,7 +500,11 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         fill1d("ljpt",name,sample,jets[0].pt(),fillWeight);
         fill1d("tjpt",name,sample,jets[1].pt(),fillWeight);
         fill1d("met",name,sample,met,fillWeight);
-        if (nbjets>0) fill1d("lbpt",name,sample,bjets[0].pt(),fillWeight);
+        if (nbjets>0){
+            fill1d("lbpt",name,sample,bjets[0].pt(),fillWeight);
+            mbl = (leps[0].p4()+bjets[0].p4()).M();
+            fill1d("mbl",name,sample,mbl,fillWeight);
+        }
         float ht = get_sum_pt(jets);
         fill1d("ht",name,sample,ht,fillWeight);
         if (fillWeight == weight && name != "br"){
