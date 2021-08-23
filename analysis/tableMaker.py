@@ -6,20 +6,21 @@ import os
 r.TH1F.SetDefaultSumw2()
 pd.set_option('display.float_format', lambda x: '%.5f' % x)
 
-# years=[2016,2017,2018]
+years=[2016,2017,2018]
 # procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
-procs=['signal_tch','signal_tuh']
+procs=['data']
+# procs=['signal_tch','signal_tuh']
 sigWeight = 0.01
 #procs=['signal_tch', 'signal_tuh','fakes_mc','dy','top','data']
 sigWeight = 0.01
 # sigWeight = 1
-years=[2016,2017,2018]
+# years=[2016]
 blind = True
 
 doCutflow = 0
-doSRTable = 1
+doSRTable = 0
 doFakeCR  = 0
-doFakeEst = 0
+doFakeEst = 1
 doFakeVal = 0
 doFlipCR  = 0
 doFlipEst = 0
@@ -28,8 +29,8 @@ doFlipVal = 0
 br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
-histdir=basepath+'outputs/aug13_signal_MET50_lead25_jet30/'
-sighistdir=basepath+'outputs/aug13_signal_MET50_lead25_jet30/'
+histdir=basepath+'outputs/aug16_fakes_MET50_lead25_jet30/2_2_0/'
+sighistdir=basepath+'outputs/aug16_fakes_MET50_lead25_jet30/2_2_0/'
 outdir=basepath+'outputs/'
 outtag='test/'
 #files = glob.glob(histdir)
@@ -223,8 +224,8 @@ for year in years:
             print fname
             histsToAdd = [  "h_sf_fakecr_"+proc,
                             "h_mlsf_fakecr_"+proc,
-                            "h_df_fakecr_"+proc,
-                            "h_mldf_fakecr_"+proc
+                            # "h_df_fakecr_"+proc,
+                            # "h_mldf_fakecr_"+proc
                             ]
             sfEstimationHistsToAdd = [  "h_sfest_fakecr_"+proc,
                                         "h_mlsfest_fakecr_"+proc,
@@ -249,7 +250,7 @@ for year in years:
                 sfest_hist.Add(getObjFromFile(fname,h_sf))
                 dfest_hist.Add(getObjFromFile(fname,h_df))
                 fakeest_hist.Add(getObjFromFile(fname,h_sf))
-                fakeest_hist.Add(getObjFromFile(fname,h_df),-1)
+                # fakeest_hist.Add(getObjFromFile(fname,h_df),-1)
             # if proc == "data":
             #     for b in range(1,sfest_hist.GetNbinsX()+1):
             #         print(b, sfest_hist.GetBinContent(b), dfest_hist.GetBinContent(b), dfest_hist.GetBinContent(b)/sfest_hist.GetBinContent(b))
@@ -282,30 +283,33 @@ for year in years:
 
         # fakeEst_df["Total Background"] = fakeEst_df["fakes_mc"]+fakeEst_df["flips_mc"]+fakeEst_df["rares"]
         # fakeEst_df["Total Background error"] = np.sqrt(fakeEst_df["fakes_mc error"]**2+fakeEst_df["flips_mc error"]**2+fakeEst_df["rares error"]**2)
-        fakeEst_df= fakeEst_df.drop([   "fakes_mc",
-                                        "fakes_mc error",
-                                        "flips_mc",
-                                        "flips_mc error",
-                                        "rares",
-                                        "rares error",
-                                        "signal_tch",
-                                        "signal_tch error",
-                                        "signal_tuh",
-                                        "signal_tuh error"], axis=1)
+        # fakeEst_df= fakeEst_df.drop([   "fakes_mc",
+        #                                 "fakes_mc error",
+        #                                 "flips_mc",
+        #                                 "flips_mc error",
+        #                                 "rares",
+        #                                 "rares error",
+        #                                 "signal_tch",
+        #                                 "signal_tch error",
+        #                                 "signal_tuh",
+        #                                 "signal_tuh error"], axis=1)
         # totmcback = fakeEst_df['Total Background']
         # totmcbackerr = fakeEst_df['Total Background error']
         # fakeEst_df.drop(['Total Background','Total Background error'], axis=1, inplace=True)
         # fakeEst_df.insert(3,"Total Background", totmcback)
         # fakeEst_df.insert(4,"Total Background error", totmcbackerr)
 
-        rarespp = fakeEst_df['rares prompt']
-        rarespperr = fakeEst_df['rares prompt error']
-        fakeEst_df.drop(['rares prompt','rares prompt error'], axis=1, inplace=True)
-        fakeEst_df.insert(7,"rares prompt", rarespp)
-        fakeEst_df.insert(8,"rares prompt error", rarespperr)
+        fakeEst_df.at["Total", "data"] = fakeEst_df["data"].sum()
+        fakeEst_df.at["Total", "data estimate"] = fakeEst_df["data estimate"].sum()
 
-        fakeEst_df["Corrected Estimate"] = fakeEst_df["data estimate"] - fakeEst_df["rares prompt"]
-        fakeEst_df["Corrected Estimate error"] = np.sqrt(fakeEst_df["data estimate error"]**2+fakeEst_df["rares prompt error"]**2)
+        # rarespp = fakeEst_df['rares prompt']
+        # rarespperr = fakeEst_df['rares prompt error']
+        # fakeEst_df.drop(['rares prompt','rares prompt error'], axis=1, inplace=True)
+        # fakeEst_df.insert(7,"rares prompt", rarespp)
+        # fakeEst_df.insert(8,"rares prompt error", rarespperr)
+
+        # fakeEst_df["Corrected Estimate"] = fakeEst_df["data estimate"] - fakeEst_df["rares prompt"]
+        # fakeEst_df["Corrected Estimate error"] = np.sqrt(fakeEst_df["data estimate error"]**2+fakeEst_df["rares prompt error"]**2)
 
         fakeEst_df = fakeEst_df.fillna("")
         writeToLatexFile("tables/fakeEstyields_"+str(year), fakeEst_df)

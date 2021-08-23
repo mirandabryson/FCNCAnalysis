@@ -8,6 +8,7 @@ bool debug = false;
 std::map<TString,TH2D*> hists;
 
 double LegEffcyorSF(TFile* myf, TString legname, double pt, double eta, TString year, bool issf, int systfluc){
+    if(eta==2.5){eta = 2.49;}
     if(legname =="ele23_diele" && (year=="2018"||  year=="2017BtoF"||  year=="2017CtoF") ) legname = "ele23l1eg24_diele";
     if(debug)  cout << legname<<"  " ; 
     TString hname = year+"/"+legname;
@@ -29,10 +30,15 @@ double LegEffcyorSF(TFile* myf, TString legname, double pt, double eta, TString 
     int thebin= myhdata->FindBin(pt,eta);
     double effdata = myhdata->GetBinContent(thebin);
     double effmc = myhmc->GetBinContent(thebin);
+    if(hname.EqualTo(TString("2016/mu23_elemu")) && thebin==88){effdata=effmc;}
     if(debug)  cout <<effdata<<endl ; 
+    // cout << systfluc << " " << issf << endl;
+    // cout << "the bin: " << thebin << " pt: " << pt << " eta: " << eta << endl;
+    // cout << "hname: " << hname << endl;
 
     if(systfluc==0&& !issf) return effdata;
     else if(systfluc==0){
+        // cout << effmc << " " << effdata/effmc << endl;
         if(effmc >0) return effdata/effmc;
         else return 0;
     }

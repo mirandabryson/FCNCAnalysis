@@ -19,7 +19,8 @@ class HistContainer {
         std::string getRegionName(int hyp_type, int njets, int  nbjets);
         int getSR(int hyp_type, int njets, int nbjets);
         int getCRbin(int nleps, int njets, int nbjets);
-        std::vector<int> getDoubleFakeBin(float lep1_pt, float lep1_eta, float lep2_pt, float lep2_eta);
+        int getEtaBin(float lep_eta, int lep_id);
+        std::vector<int> getDoubleFakeBin(float lep1_pt, float lep1_eta, int lep1_id, float lep2_pt, float lep2_eta, int lep2_id);
         int counter_;
     public:
         HistContainer () : counter_(0) {region_names_=getRegionNames();}
@@ -36,7 +37,8 @@ class HistContainer {
         void fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, 
                 float met, bool isVR_SR_fake, bool isVR_CR_fake, bool isVR_SR_flip, bool isVR_CR_flip, 
                 bool isEE, bool isEM, bool isME, bool isMM, bool isEFake, bool isMFake, bool isEE_flip, 
-                bool isEM_flip, float weight=1., float crWeight=1.);
+                bool isEM_flip, float weight=1., float crWeight=1.,
+                bool doVariations=0, std::map<std::string, float> variationMap = {{"null", 0.}});
 };
 
 #endif
