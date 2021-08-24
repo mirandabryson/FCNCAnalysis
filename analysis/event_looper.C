@@ -79,6 +79,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     bool isData = 0;
     bool doFlips = 0;
     bool doFakes = 0;
+    bool make_BDT_fakes_babies = false;
+    bool make_BDT_flips_babies = false;
+    bool make_BDT_MC_babies  = false;
     int exclude = 0;
     bool isGamma = 0;
     bool truthfake = 0;
@@ -356,17 +359,18 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     // //BDT constructor
     BDT booster("./helpers/BDT/BDT.xml");
     std::string tmp_yr_str = std::to_string(year);
-    bool make_BDT_fakes_babies = false;
+    BDTBabyMaker bdt_fakes_baby;
+    BDTBabyMaker bdt_flips_baby;
+    BDTBabyMaker bdt_MC_baby;
     if (make_BDT_fakes_babies){
-        std::cout << "filling BDT baby" << std::endl;
-        BDTBabyMaker bdt_fakes_baby(Form("./helpers/BDT/babies/%s/data_driven/%s_fakes.root", tmp_yr_str.c_str(), chainTitleCh));
-    } else {
-        std::cout << "making empty baby" << std::endl;
-        BDTBabyMaker bdt_fakes_baby; //returns an empty object to prevent overwriting an existing BDT baby
+        bdt_fakes_baby.Initialize(Form("./helpers/BDT/babies/%s/data_driven/%s_fakes_test.root", tmp_yr_str.c_str(), chainTitleCh));
     }
-
-    //BDTBabyMaker bdt_flips_baby(Form("./helpers/BDT/babies/%s/data_driven/%s_flips.root", tmp_yr_str.c_str(), chainTitleCh));
-    //BDTBabyMaker bdt_MC_baby(Form("./helpers/BDT/babies/%s/MC/%s.root", tmp_yr_str.c_str(), chainTitleCh));
+    if (make_BDT_flips_babies){
+        bdt_flips_baby.Initialize(Form("./helpers/BDT/babies/%s/data_driven/%s_flips.root", tmp_yr_str.c_str(), chainTitleCh));
+    }
+    if (make_BDT_MC_babies){
+        bdt_MC_baby.Initialize(Form("./helpers/BDT/babies/%s/MC/%s.root", tmp_yr_str.c_str(), chainTitleCh));
+    }
     auto start = high_resolution_clock::now();
 
     //File Loop
@@ -934,16 +938,16 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                                ((chainTitle=="signal_tuh"))                );
             bool fill_BDT_data_driven = (abs(crWeight) > 0.0);
             if (fill_BDT_MC) {
-                if ((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) {
+                if (((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) && make_BDT_MC_babies) {
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-                    //bdt_MC_baby.set_features(BDT_params, weight);
+                    bdt_MC_baby.set_features(BDT_params, weight);
                 }
             }
             else if (fill_BDT_data_driven) {
-                if (best_hyp_type == 5){
+                if ((best_hyp_type == 5) && (make_BDT_flips_babies)){
                     Float_t BDT_crWeight = crWeight;
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-                    //bdt_flips_baby.set_features(BDT_params, BDT_crWeight);
+                    bdt_flips_baby.set_features(BDT_params, BDT_crWeight);
             
                 } else if (make_BDT_fakes_babies && ((best_hyp_type==3) || (best_hyp_type>=6))) { 
                     Float_t BDT_crWeight = crWeight;
@@ -1053,7 +1057,13 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     outFile->cd();
     hists.write();
     outFile->Close();
-    bdt_fakes_baby.close(make_BDT_fakes_babies);
-    //bdt_flips_baby.close();
-    //bdt_MC_baby.close();
+    if (make_BDT_fakes_babies){
+        bdt_fakes_baby.close();
+    }
+    if (make_BDT_flips_babies){
+        bdt_flips_baby.close();
+    }
+    if (make_BDT_MC_babies){
+        bdt_MC_baby.close();
+    }
 }
