@@ -79,9 +79,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     bool isData = 0;
     bool doFlips = 0;
     bool doFakes = 0;
-    bool make_BDT_fakes_babies = false;
-    bool make_BDT_flips_babies = false;
-    bool make_BDT_MC_babies  = false;
+    bool make_BDT_fakes_babies = options.Contains("doBDTfakesbabies");
+    bool make_BDT_flips_babies = options.Contains("doBDTflipsbabies");
+    bool make_BDT_MC_babies  = options.Contains("doBDTMCbabies");
     int exclude = 0;
     bool isGamma = 0;
     bool truthfake = 0;
@@ -410,14 +410,15 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     BDTBabyMaker bdt_fakes_baby;
     BDTBabyMaker bdt_flips_baby;
     BDTBabyMaker bdt_MC_baby;
+    //char* BDT_base_dir = "./helpers/BDT/babies/btagSF/up"
     if (make_BDT_fakes_babies){
-        bdt_fakes_baby.Initialize(Form("./helpers/BDT/babies/%s/data_driven/%s_fakes_test.root", tmp_yr_str.c_str(), chainTitleCh));
+        bdt_fakes_baby.Initialize(Form("./helpers/BDT/babies/btagSF/up/%s/data_driven/%s_fakes.root", tmp_yr_str.c_str(), chainTitleCh));
     }
     if (make_BDT_flips_babies){
-        bdt_flips_baby.Initialize(Form("./helpers/BDT/babies/%s/data_driven/%s_flips.root", tmp_yr_str.c_str(), chainTitleCh));
+        bdt_flips_baby.Initialize(Form("./helpers/BDT/babies/btagSF/up/%s/data_driven/%s_flips.root", tmp_yr_str.c_str(), chainTitleCh));
     }
     if (make_BDT_MC_babies){
-        bdt_MC_baby.Initialize(Form("./helpers/BDT/babies/%s/MC/%s.root", tmp_yr_str.c_str(), chainTitleCh));
+        bdt_MC_baby.Initialize(Form("./helpers/BDT/babies/btagSF/up/%s/MC/%s.root", tmp_yr_str.c_str(), chainTitleCh));
     }
     auto start = high_resolution_clock::now();
 
@@ -992,31 +993,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "passed crWeight for event " << nt.event() << endl;}
             //prepare BDT parameters
             // // cout << "before BDT weight: " << weight << endl;
-            auto start_time = high_resolution_clock::now();
-            bool fill_BDT_MC = (((category==1) && (chainTitle=="fakes_mc")) ||
-                               ((category==2) && (chainTitle=="flips_mc")) ||
-                                ((category==3) && (chainTitle=="rares"   )) ||
-                               ((chainTitle=="signal_tch"))                ||
-                               ((chainTitle=="signal_tuh"))                );
-            bool fill_BDT_data_driven = (abs(crWeight) > 0.0);
-            if (fill_BDT_MC) {
-                if (((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) && make_BDT_MC_babies) {
-                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-                    bdt_MC_baby.set_features(BDT_params, weight);
-                }
-            }
-            else if (fill_BDT_data_driven) {
-                if ((best_hyp_type == 5) && (make_BDT_flips_babies)){
-                    Float_t BDT_crWeight = crWeight;
-                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-                    bdt_flips_baby.set_features(BDT_params, BDT_crWeight);
             
-                } else if (make_BDT_fakes_babies && ((best_hyp_type==3) || (best_hyp_type>=6))) { 
-                    Float_t BDT_crWeight = crWeight;
-                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-                    bdt_fakes_baby.set_features(BDT_params, BDT_crWeight);
-                }
-            }
             // //booster.set_features(BDT_params);
             // //booster.get_score();
             // //cout << "BDT eval time: " << duration_cast<microseconds>(high_resolution_clock::now() - start_time).count() << endl;
@@ -1077,7 +1054,30 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 variationalWeights["bTag_down"]=    weightBtagSFdown;
                 // if(isnan(weightTrigup)){cout << weight<< " "<< triggerScaleFactor(f_trigEff, nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0) << " " << triggerScaleFactor(f_trigEff, nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 1) << endl;}
             }
-
+            bool fill_BDT_MC = (((category==1) && (chainTitle=="fakes_mc")) ||
+                               ((category==2) && (chainTitle=="flips_mc")) ||
+                                ((category==3) && (chainTitle=="rares"   )) ||
+                               ((chainTitle=="signal_tch"))                ||
+                               ((chainTitle=="signal_tuh"))                );
+            bool fill_BDT_data_driven = (abs(crWeight) > 0.0);
+            if (fill_BDT_MC) {
+                if (((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) && make_BDT_MC_babies) {
+                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    bdt_MC_baby.set_features(BDT_params,weightBtagSFup);//change to weight when done
+                }
+            }
+            else if (fill_BDT_data_driven) {
+                if ((best_hyp_type == 5) && (make_BDT_flips_babies)){
+                    Float_t BDT_crWeight = crWeight;
+                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    bdt_flips_baby.set_features(BDT_params, BDT_crWeight);
+            
+                } else if (make_BDT_fakes_babies && ((best_hyp_type==3) || (best_hyp_type>=6))) { 
+                    Float_t BDT_crWeight = crWeight;
+                    std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    bdt_fakes_baby.set_features(BDT_params, BDT_crWeight);
+                }
+            }
 
             // if we've reached here we've passed the baseline selection
             // cout << category << endl;
