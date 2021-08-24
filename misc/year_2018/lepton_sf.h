@@ -2,6 +2,7 @@
 #include "lepton_sfs_mu.h"
 
 float leptonScaleFactor(int pdgId, float pt, float eta, float ht, float rand=-1.) {
+    if(abs(pdgId)==11 && eta == 2.5){eta = 2.49;}
     if (abs(pdgId)==13) {
         return muonScaleFactor_RunABCD(pt,eta)*muonScaleFactor_Medium(pt,eta);
     } else if (abs(pdgId)==11){
@@ -11,6 +12,7 @@ float leptonScaleFactor(int pdgId, float pt, float eta, float ht, float rand=-1.
 }
 
 float leptonScaleFactor_err(int pdgId, float pt, float eta, float ht, float rand=-1.) {
+    if(abs(pdgId)==11 && eta == 2.5){eta = 2.49;}
     if (abs(pdgId)==13) {
         float e1=muonScaleFactorError_RunABCD(pt,eta);
         float e2=muonScaleFactorError_Medium(pt,eta);

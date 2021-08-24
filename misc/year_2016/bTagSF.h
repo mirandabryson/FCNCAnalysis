@@ -16,9 +16,10 @@ float getBSF(int year, Jets &jets, Jets &bjets, std::map<std::string, TH1D*> eff
     float btag_mc = 1.;
 
     for ( auto bjet : bjets ){
+        float pt_cutoff = std::max(20.,std::min(999.,double(bjet.pt())));
         float sf = deepjet_medium_reader.eval(  BTagEntry::FLAV_B,
                                                 bjet.eta(),
-                                                bjet.pt(),
+                                                pt_cutoff,
                                                 bjet.bdisc());
         float eff = getBtagEffFromFile(bjet.pt(), bjet.hadronFlavor(), effMap);
         

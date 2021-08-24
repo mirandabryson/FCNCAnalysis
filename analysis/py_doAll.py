@@ -125,12 +125,12 @@ if __name__ == "__main__":
                 datadirs[2016] + get_sample_path("muon_eg_data", 2016,args.tag) + ".root",
                 ], options=options[2016] + " doData "),
             "signal_tuh": make_obj([
-                #basedirs[2016]+get_sample_path("signal_hut_ST",2016,args.tag)+".root",
+                basedirs[2016]+get_sample_path("signal_hut_ST",2016,args.tag)+".root",
                 basedirs[2016]+get_sample_path("signal_hut_atop",2016,args.tag)+".root",
                 basedirs[2016]+get_sample_path("signal_hut_top",2016,args.tag)+".root",
                 ] , options=options[2016]),
             "signal_tch": make_obj([
-                #basedirs[2016]+get_sample_path("signal_hct_ST",2016,args.tag)+".root",
+                basedirs[2016]+get_sample_path("signal_hct_ST",2016,args.tag)+".root",
                 basedirs[2016]+get_sample_path("signal_hct_atop",2016,args.tag)+".root",
                 basedirs[2016]+get_sample_path("signal_hct_top",2016,args.tag)+".root",
                 ] , options=options[2016]),
@@ -138,9 +138,8 @@ if __name__ == "__main__":
             "fakes_mc": make_obj([
                 basedirs[2016] + get_sample_path("tt2lep", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tt1lep", 2016,args.tag) + ".root",
-                basedirs[2016] + get_sample_path("wjets", 2016,args.tag) + ".root",
 
-                # basedirs[2016] + get_sample_path("ttjets", 2016,args.tag) + ".root",
+                # # basedirs[2016] + get_sample_path("ttjets", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wjets", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tw_top", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tw_atop", 2016,args.tag) + ".root",
@@ -166,10 +165,10 @@ if __name__ == "__main__":
                 ], options=options[2016] + "doTruthFlip doStitch"),
             "top": make_obj([
                 basedirs[2016] + get_sample_path("tt2lep", 2016,args.tag) + ".root",
-                # basedirs[2016] + get_sample_path("tt1lep", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("tt1lep", 2016,args.tag) + ".root",
                 # basedirs[2016] + get_sample_path("ttjets", 2016,args.tag) + ".root",
-                # basedirs[2016] + get_sample_path("tw_top", 2016,args.tag) + ".root",
-                # basedirs[2016] + get_sample_path("tw_atop", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("tw_top", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("tw_atop", 2016,args.tag) + ".root",
 
                 ], options=options[2016] + " doStitch"),
             "wboson": make_obj([
@@ -359,21 +358,19 @@ if __name__ == "__main__":
                 datadirs[2017] + get_sample_path("muon_eg_data", 2017,args.tag) + ".root",
                 ], options=options[2017] + " doData "),
             "signal_tuh": make_obj([
-                #basedirs[2017]+get_sample_path("signal_hut_ST",2017,args.tag)+".root",
+                basedirs[2017]+get_sample_path("signal_hut_ST",2017,args.tag)+".root",
                 basedirs[2017]+get_sample_path("signal_hut_atop",2017,args.tag)+".root",
                 basedirs[2017]+get_sample_path("signal_hut_top",2017,args.tag)+".root",
                 ] , options=options[2017]),
             "signal_tch": make_obj([
-                #basedirs[2017]+get_sample_path("signal_hct_ST",2017,args.tag)+".root",
                 basedirs[2017]+get_sample_path("signal_hct_atop",2017,args.tag)+".root",
                 basedirs[2017]+get_sample_path("signal_hct_top",2017,args.tag)+".root",
                 ] , options=options[2017]),
             "fakes_mc": make_obj([
                 basedirs[2017] + get_sample_path("tt2lep", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("tt1lep", 2017,args.tag) + ".root",
-                basedirs[2017] + get_sample_path("wjets", 2017,args.tag) + ".root",
 
-                # basedirs[2017] + get_sample_path("ttjets", 2017,args.tag) + ".root",
+                # # basedirs[2017] + get_sample_path("ttjets", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("wjets", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("tw_top", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("tw_atop", 2017,args.tag) + ".root",
@@ -399,10 +396,10 @@ if __name__ == "__main__":
                 ], options=options[2017] + "doTruthFlip doStitch"),
             "top": make_obj([
                 basedirs[2017] + get_sample_path("tt2lep", 2017,args.tag) + ".root",
-                # basedirs[2017] + get_sample_path("tt1lep", 2017,args.tag) + ".root",
+                basedirs[2017] + get_sample_path("tt1lep", 2017,args.tag) + ".root",
                 # basedirs[2017] + get_sample_path("ttjets", 2017,args.tag) + ".root",
-                # basedirs[2017] + get_sample_path("tw_top", 2017,args.tag) + ".root",
-                # basedirs[2017] + get_sample_path("tw_atop", 2017,args.tag) + ".root",
+                basedirs[2017] + get_sample_path("tw_top", 2017,args.tag) + ".root",
+                basedirs[2017] + get_sample_path("tw_atop", 2017,args.tag) + ".root",
                 ], options=options[2017] + " doStitch"),
             "wboson": make_obj([
                 basedirs[2017] + get_sample_path("wjets", 2017,args.tag) + ".root",
@@ -597,12 +594,12 @@ if __name__ == "__main__":
                 datadirs[2018] + get_sample_path("muon_eg_data", 2018,args.tag) + ".root",
                 ], options=options[2018] + " doData "),
             "signal_tuh": make_obj([
-                #basedirs[2018]+get_sample_path("signal_hut_ST",2018,args.tag)+".root",
+                basedirs[2018]+get_sample_path("signal_hut_ST",2018,args.tag)+".root",
                 basedirs[2018]+get_sample_path("signal_hut_atop",2018,args.tag)+".root",
                 basedirs[2018]+get_sample_path("signal_hut_top",2018,args.tag)+".root",
                 ] , options=options[2018]),
             "signal_tch": make_obj([
-                #basedirs[2018]+get_sample_path("signal_hct_ST",2018,args.tag)+".root",
+                basedirs[2018]+get_sample_path("signal_hct_ST",2018,args.tag)+".root",
                 basedirs[2018]+get_sample_path("signal_hct_atop",2018,args.tag)+".root",
                 basedirs[2018]+get_sample_path("signal_hct_top",2018,args.tag)+".root",
                 ] , options=options[2018]),
@@ -610,9 +607,8 @@ if __name__ == "__main__":
             "fakes_mc": make_obj([
                 basedirs[2018] + get_sample_path("tt2lep", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("tt1lep", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("wjets", 2018,args.tag) + ".root",
 
-                # basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
+                # # basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("wjets", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("tw_top", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("tw_atop", 2018,args.tag) + ".root",
@@ -729,10 +725,10 @@ if __name__ == "__main__":
                 ], options=options[2018] + "doTruthFlip doStitch"),
             "top": make_obj([
                 basedirs[2018] + get_sample_path("tt2lep", 2018,args.tag) + ".root",
-                # basedirs[2018] + get_sample_path("tt1lep", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tt1lep", 2018,args.tag) + ".root",
                 # basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
-                # basedirs[2018] + get_sample_path("tw_top", 2018,args.tag) + ".root",
-                # basedirs[2018] + get_sample_path("tw_atop", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tw_top", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("tw_atop", 2018,args.tag) + ".root",
                 ], options=options[2018] + " doStitch"),
             "wboson": make_obj([
                 basedirs[2018] + get_sample_path("wjets", 2018,args.tag) + ".root",
