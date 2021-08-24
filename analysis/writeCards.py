@@ -20,27 +20,102 @@ years = [2016, 2017, 2018]
 includeSignalInObs = False
 
 
-fakeCRStatYld_2016 = [  1292,671,397,
-                        1231,1089,803,
-                        92,146,205,
-                        252,146,41,20,
-                        339,193,64,42,
-                        5,13,13,6
+# fakeCRStatYld_2016 = [  1292,1231,92,
+#                         671,1089,146,
+#                         397,803,205,
+#                         252,339,5,
+#                         146,193,13,
+#                         41,64,13,
+#                         20,42,6
+#                         ]
+# fakeCRStatYld_2017 = [  1727,1952,183,
+#                         1003,1707,246,
+#                         536,1183,370,
+#                         264,443,5,
+#                         137,253,24,
+#                         54,115,28,
+#                         35,36,24
+#                         ]
+# fakeCRStatYld_2018 = [  2320,2708,259,
+#                         1206,2206,375,
+#                         666,1601,550,
+#                         420,667,11,
+#                         173,404,45,
+#                         70,138,43,
+#                         22,72,28
+#                         ]
+
+
+# fakeCRStatYldDict_2016 = {  "2_2_0":1292,"2_3_0":671,"2_4_0":397,
+#                             "2_2_1":1231,"2_3_1":1089,"2_4_1":803,
+#                             "2_2_2":92,"2_3_2":146,"2_4_2":205,
+#                             "3_1_0":252,"3_2_0":146,"3_3_0":41,"3_4_0":20,
+#                             "3_1_1":339,"3_2_1":193,"3_3_1":64,"3_4_1":42,
+#                             "3_1_2":5,"3_2_2":13,"3_3_2":13,"3_4_2":6
+#                             }
+# fakeCRStatYldDict_2017 = {  "2_2_0":1727,"2_3_0":1003,"2_4_0":536,
+#                             "2_2_1":1952,"2_3_1":1707,"2_4_1":1183,
+#                             "2_2_2":183,"2_3_2":246,"2_4_2":370,
+#                             "3_1_0":264,"3_2_0":137,"3_3_0":54,"3_4_0":35,
+#                             "3_1_1":443,"3_2_1":253,"3_3_1":115,"3_4_1":36,
+#                             "3_1_2":5,"3_2_2":24,"3_3_2":28,"3_4_2":24
+#                             }
+# fakeCRStatYldDict_2018 = {  "2_2_0":2320,"2_3_0":1206,"2_4_0":666,
+#                             "2_2_1":2708,"2_3_1":2206,"2_4_1":1601,
+#                             "2_2_2":259,"2_3_2":375,"2_4_2":550,
+#                             "3_1_0":420,"3_2_0":173,"3_3_0":70,"3_4_0":22,
+#                             "3_1_1":667,"3_2_1":404,"3_3_1":138,"3_4_1":72,
+#                             "3_1_2":11,"3_2_2":45,"3_3_2":43,"3_4_2":28
+#                             }
+
+
+fakeCRStatYld_2016 = [  1507,1342,104,
+                        757,1162,155,
+                        439,847,222,
+                        282,376,5,
+                        167,210,15,
+                        46,80,15,
+                        22,48,8
                         ]
-fakeCRStatYld_2017 = [  1727,1003,536,
-                        1952,1707,1183,
-                        183,246,370,
-                        264,137,54,35,
-                        443,253,115,36,
-                        5,24,28,24
+fakeCRStatYld_2017 = [  2304,2282,222,
+                        1191,1908,278,
+                        629,1302,416,
+                        328,508,5,
+                        171,300,30,
+                        62,137,32,
+                        38,50,28
                         ]
-fakeCRStatYld_2018 = [  2320,1206,666,
-                        2708,2206,1601,
-                        259,375,550,
-                        420,173,70,22,
-                        667,404,138,72,
-                        11,45,43,28
+fakeCRStatYld_2018 = [  2919,3112,297,
+                        1431,2452,425,
+                        766,1774,612,
+                        503,766,13,
+                        211,467,54,
+                        93,167,49,
+                        35,89,35
                         ]
+
+
+fakeCRStatYldDict_2016 = {  "2_2_0":1507,"2_3_0":757,"2_4_0":439,
+                            "2_2_1":1342,"2_3_1":1162,"2_4_1":847,
+                            "2_2_2":104,"2_3_2":155,"2_4_2":222,
+                            "3_1_0":282,"3_2_0":167,"3_3_0":46,"3_4_0":22,
+                            "3_1_1":376,"3_2_1":210,"3_3_1":80,"3_4_1":48,
+                            "3_1_2":5,"3_2_2":15,"3_3_2":15,"3_4_2":8
+                            }
+fakeCRStatYldDict_2017 = {  "2_2_0":2304,"2_3_0":1191,"2_4_0":629,
+                            "2_2_1":2282,"2_3_1":1908,"2_4_1":1302,
+                            "2_2_2":222,"2_3_2":278,"2_4_2":416,
+                            "3_1_0":328,"3_2_0":171,"3_3_0":62,"3_4_0":38,
+                            "3_1_1":508,"3_2_1":300,"3_3_1":137,"3_4_1":50,
+                            "3_1_2":5,"3_2_2":30,"3_3_2":32,"3_4_2":28
+                            }
+fakeCRStatYldDict_2018 = {  "2_2_0":2919,"2_3_0":1431,"2_4_0":766,
+                            "2_2_1":3112,"2_3_1":2452,"2_4_1":1774,
+                            "2_2_2":297,"2_3_2":425,"2_4_2":612,
+                            "3_1_0":503,"3_2_0":211,"3_3_0":93,"3_4_0":35,
+                            "3_1_1":766,"3_2_1":467,"3_3_1":167,"3_4_1":89,
+                            "3_1_2":13,"3_2_2":54,"3_3_2":49,"3_4_2":35
+                            }
 
 
 fakeCRStatErr_2016 = {  "2_2_0":3.50365,"2_3_0":4.99353,"2_4_0":6.52687,
@@ -66,26 +141,31 @@ fakeCRStatErr_2018 = {  "2_2_0":3.22747,"2_3_0":4.51919,"2_4_0":6.10372,
                         }
 
 
-fakeSystErr_2016 = [    4.46067,5.62097,6.07675,
-                        4.76551,4.84993,5.59812,
-                        5.03131,5.98169,6.29573,
-                        6.79787,6.70704,9.27242,8.82801,
-                        6.49155,5.32922,8.69589,6.4532,
-                        8.72948,5.47438,7.82636,19.5941
+fakeSystErr_2016 = [    4.46067,4.76551,5.03131,
+                        5.62097,4.84993,5.98169,
+                        6.07675,5.59812,6.29573,
+                        6.79787,6.49155,8.72948,
+                        6.70704,5.32922,5.47438,
+                        9.27242,8.69589,7.82636,
+                        8.82801,6.4532,19.5941
                         ]
-fakeSystErr_2017 = [    6.63146,7.24731,9.42543,
-                        8.08039,7.56606,9.85621,
-                        7.74266,7.26889,8.45383,
-                        6.98604,9.96351,10.7108,8.9602,
-                        8.04912,9.18872,7.79917,13.3502,
-                        40.6501,7.21745,10.4827,10.228
+fakeSystErr_2017 = [    6.63146,8.08039,7.74266,
+                        7.24731,7.56606,7.26889,
+                        9.42543,9.85621,8.45383,
+                        6.98604,8.04912,40.6501,
+                        9.96351,9.18872,7.21745,
+                        10.7108,7.79917,10.4827,
+                        8.9602,13.3502,10.228
                         ]
-fakeSystErr_2018 = [    7.71618,7.72384,7.31554,
-                        8.71154,9.50327,10.0837,
-                        7.85155,7.64877,8.39966,
-                        7.96532,10.14,14.7398,21.8245,
-                        9.96087,10.1111,10.4591,13.9245,
-                        16.6508,10.7022,13.3193,11.5897
+
+
+fakeSystErr_2018 = [    7.71618,8.71154,7.85155,
+                        7.72384,9.50327,7.64877,
+                        7.31554,10.0837,8.39966,
+                        7.96532,9.96087,16.6508,
+                        10.14,10.1111,10.7022,
+                        14.7398,10.4591,13.3193,
+                        21.8245,13.9245,11.5897
                         ]
 
 
@@ -93,33 +173,51 @@ if not os.path.exists(outdir): os.makedirs(outdir)
 
 for y in years:
     #first, we load the txt output from the tableMaker.py script into a dataframe
-    # #we will manipulate these data, save it into a different dataframe, and print to an output file
-    # df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
-    # fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/fakeEstyields_"+str(y)+".txt")
-    # flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/flipEstyields_"+str(y)+".txt")
-    df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/aug09_withST/tableMaker_"+str(y)+".txt")
-    fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/aug09_withST/fakeEstyields_"+str(y)+".txt")
-    flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/aug09_withST/flipEstyields_"+str(y)+".txt")
-    # print df
+    #we will manipulate these data, save it into a different dataframe, and print to an output file
+    df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
+    fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/fakeEstyields_"+str(y)+".txt")
+    flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/flipEstyields_"+str(y)+".txt")
+    raresSyst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/variations/rares_"+str(y)+".txt")
+    tchSyst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/variations/signal_tch_"+str(y)+".txt")
+    tuhSyst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/variations/signal_tuh_"+str(y)+".txt")
+    # print (fakeEst_df)
+    # print (flipEst_df)
+    # df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/aug09_withST/tableMaker_"+str(y)+".txt")
+    # fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/aug09_withST/fakeEstyields_"+str(y)+".txt")
+    # flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/aug09_withST/flipEstyields_"+str(y)+".txt")
+    # # print df
     # print fakeEst_df
     # print flipEst_df
     fakeCRStatYld = []
+    fakeCRStatYldDict = {}
     fakeCRStatErr = {}
+    fakeSystErr = []
     if y == 2016: 
         fakeCRStatYld = fakeCRStatYld_2016
+        fakeCRStatYldDict = fakeCRStatYldDict_2016
         fakeCRStatErr = fakeCRStatErr_2016
+        fakeSystErr = fakeSystErr_2016
+        yr = "16"
     if y == 2017: 
         fakeCRStatYld = fakeCRStatYld_2017
+        fakeCRStatYldDict = fakeCRStatYldDict_2017
         fakeCRStatErr = fakeCRStatErr_2017
+        fakeSystErr = fakeSystErr_2017
+        yr = "17"
     if y == 2018: 
         fakeCRStatYld = fakeCRStatYld_2018
+        fakeCRStatYldDict = fakeCRStatYldDict_2018
         fakeCRStatErr = fakeCRStatErr_2018
+        fakeSystErr = fakeSystErr_2018
+        yr = "18"
     print("got yields and stat errors")
 
     #now we have imported the data and manipulated it into the categories we want
     #we will do the rest in a loop over signals
     signals = ["signal_tuh","signal_tch"]
     for s in signals:
+        if "tch" in s: signalSyst_df = tchSyst_df
+        else: signalSyst_df = tuhSyst_df
         outfileName = "datacard_"
         outfileName+=s
         outfileName+="_"
@@ -135,6 +233,7 @@ for y in years:
         numBins = (len(nMLJets)+len(nJets))*len(nBtags)
         nProc = ["signal", "rares", "fakes_mc", "flips_mc"]
         numBackgrounds = len(nProc)-1
+        systematicSources = ["LepSF","PU","Trigger","bTag","jes"]
 
         #make some headers for my dataframe columns
         dcColumns = []
@@ -183,7 +282,7 @@ for y in years:
             iterator = 0
             while iterator < numBins:
                 if p == "fakes_mc":
-                    title = "fake_stat_"+str(iterator)
+                    title = "fkStat"+yr+"_"+str(iterator)
                     numParameters+=1
                     yld = str(fakeCRStatYld[iterator])
                     while len(title) <(16-len(yld)):
@@ -201,7 +300,24 @@ for y in years:
             # print(rowTitles)
 
         for p in nProc:
+            # if "rares" in p: continue
+            # if "signal" in p: continue
             title = p+"_syst"
+            while len(title)<17:
+                title+=" "
+            title+="lnN"
+            rowTitles.append(title)
+            numParameters+=1
+
+        title = "fakeRate_syst"
+        while len(title)<17:
+            title+=" "
+        title+="lnN"
+        rowTitles.append(title)
+        numParameters+=1
+
+        for source in systematicSources:
+            title = source+"_"+yr
             while len(title)<17:
                 title+=" "
             title+="lnN"
@@ -233,9 +349,10 @@ for y in years:
                         #calculate signal percentage for statistical unc.
                         if proc == "fakes_mc":
                             srbin = str(l)+"_"+str(j)+"_"+str(b)
-                            err = fakeCRStatErr[srbin]/100 -1
-                            yld = 1
-                            print(yld, err)
+                            yld = fakeCRStatYldDict[srbin]
+                            row = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                            err = row["data estimate"].values[0]
+                            # print(yld, err, err/yld)
                         elif proc == "flips_mc":
                             if l == 3:
                                 yld = 0.0
@@ -262,7 +379,8 @@ for y in years:
                         if dcPercentage>=1:
                             dcPercentage = 1
 
-                        statUnc.append([l,j,b,1+dcPercentage])
+                        if proc == "fakes_mc": statUnc.append([l,j,b,dcPercentage])
+                        else: statUnc.append([l,j,b,1+dcPercentage])
             # print(statUnc)
             for i in range(len(statUnc)):
                 lep = statUnc[i][0]
@@ -277,7 +395,7 @@ for y in years:
                     cTitle+=" "
 
                 if p =="fakes_mc":
-                    rTitle = "fake_stat_"+str(i)
+                    rTitle = "fkStat"+yr+"_"+str(i)
                     yld = str(fakeCRStatYld[i])
                     while len(rTitle) <(16-len(yld)):
                         rTitle += " "
@@ -317,8 +435,10 @@ for y in years:
                 numJets = list(nJets)
             if l == 3:
                 numJets = list(nMLJets)
+            # print(numJets)
             for j in numJets:
                 for b in nBtags:
+                    # print fakeEst_df
                     fakerow = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                     fliprow = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                     row     = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
@@ -358,13 +478,15 @@ for y in years:
         for p in nProc:
             if "signal" in p:
                 unc = "0.8/1.2"
-            elif p == "flips_mc":
+                # continue
+            if p == "flips_mc":
                 # if y == 2016: unc = '1.1'
                 # if y == 2017: unc = '1.4'
                 # if y == 2018: unc = '1.3'
                 unc = "0.7/1.3"
             elif p == "rares":
                 unc = "0.7/1.3"
+                # continue
             elif p == "fakes_mc":
                 unc = "0.6/1.4"
 
@@ -387,6 +509,59 @@ for y in years:
                     while len(filler) < 20:
                         filler += " "
                     dcard_df.at[rTitle,column] = filler
+
+        fakeRateIter = 0
+        for column in dcard_df:
+            rTitle = "fakeRate_syst"
+            while len(rTitle)<17:
+                rTitle+=" "
+            rTitle+="lnN"
+            if "fakes_mc" in column:
+                filler = str(1+fakeSystErr[fakeRateIter]/100)
+                while len(filler)<20:
+                    filler+=" "
+                dcard_df.at[rTitle,column] = filler
+                fakeRateIter+=1
+            else:
+                filler = "-"
+                while len(filler)<20:
+                    filler+=" "
+                dcard_df.at[rTitle,column]=filler
+
+        for source in systematicSources:
+            rTitle = source+"_"+yr
+            while len(rTitle)<17:
+                rTitle+=" "
+            rTitle+="lnN"
+            for column in dcard_df:
+                if ("rares" in column) or ("signal" in column):
+                    if "dilep" in column: l=2
+                    else: l=3
+                    srbin = column.split("_")
+                    j = int(srbin[1])
+                    b = int(srbin[2])
+                    if "rares" in column:
+                        row = raresSyst_df.loc[(raresSyst_df["nLeptons"]==l) & (raresSyst_df["nJets"]==j) & (raresSyst_df["nBtags"]==b)]
+                        colTitleUp = "rares_"+source+"_up"
+                        colTitleDown = "rares_"+source+"_down"
+                        filler = str(round(row[colTitleDown],3))+"/"+str(round(row[colTitleUp],3))
+                        while len(filler)<20:
+                            filler+=" "
+                        dcard_df.at[rTitle,column]=filler
+                    elif "signal" in column:
+                        row = signalSyst_df.loc[(signalSyst_df["nLeptons"]==l) & (signalSyst_df["nJets"]==j) & (signalSyst_df["nBtags"]==b)]
+                        colTitleUp = s+"_"+source+"_up"
+                        colTitleDown = s+"_"+source+"_down"
+                        filler = str(round(row[colTitleDown],3))+"/"+str(round(row[colTitleUp],3))
+                        while len(filler)<20:
+                            filler+=" "
+                        dcard_df.at[rTitle,column]=filler
+                else:
+                    filler = "-"
+                    while len(filler)<20:
+                        filler+=" "
+                    dcard_df.at[rTitle,column]=filler
+
         print("filled syst uncertainties")
 
 
