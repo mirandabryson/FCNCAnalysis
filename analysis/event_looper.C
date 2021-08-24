@@ -34,7 +34,8 @@
 #include "../../NanoTools/NanoCORE/Tools/btagsf/BTagCalibrationStandalone.h"
 #include "../../NanoTools/NanoCORE/Tools/btagsf/BTagCalibrationStandalone.cc"
 #include "../misc/common_utils.h"
-
+#include "CondFormats/BTauObjects/interface/BTagCalibration.h" 
+#include "CondTools/BTau/interface/BTagCalibrationReader.h"
 using namespace std;
 using namespace std::chrono;
 
