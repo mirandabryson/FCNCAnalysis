@@ -356,7 +356,15 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     // //BDT constructor
     BDT booster("./helpers/BDT/BDT.xml");
     std::string tmp_yr_str = std::to_string(year);
-    //BDTBabyMaker bdt_fakes_baby(Form("./helpers/BDT/babies/%s/data_driven/%s_fakes.root", tmp_yr_str.c_str(), chainTitleCh));
+    bool make_BDT_fakes_babies = false;
+    if (make_BDT_fakes_babies){
+        std::cout << "filling BDT baby" << std::endl;
+        BDTBabyMaker bdt_fakes_baby(Form("./helpers/BDT/babies/%s/data_driven/%s_fakes.root", tmp_yr_str.c_str(), chainTitleCh));
+    } else {
+        std::cout << "making empty baby" << std::endl;
+        BDTBabyMaker bdt_fakes_baby; //returns an empty object to prevent overwriting an existing BDT baby
+    }
+
     //BDTBabyMaker bdt_flips_baby(Form("./helpers/BDT/babies/%s/data_driven/%s_flips.root", tmp_yr_str.c_str(), chainTitleCh));
     //BDTBabyMaker bdt_MC_baby(Form("./helpers/BDT/babies/%s/MC/%s.root", tmp_yr_str.c_str(), chainTitleCh));
     auto start = high_resolution_clock::now();
@@ -409,7 +417,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             //if(nt.event()!=313915097){continue;}
 
             //MET CUT
-            if (nt.MET_pt() < 50.){continue;}
+            //if (nt.MET_pt() < 50.){continue;}
             if (debugPrints){std::cout << "passed MET cut for event " << nt.event() << ": " << nt.MET_pt() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
@@ -419,15 +427,15 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             double weight = 1.;
             if (!isData){
                 weight = getEventWeight( file->GetName(), chainTitle.Data(), nt.year());
-                // cout << "scale1fb: " << weight << endl;
+                //cout << "scale1fb: " << weight << endl;
                 //double weight = 1.;
                 double genWeight = nt.Generator_weight();
-                // cout << "genWeight: " << genWeight << endl;
+                //cout << "genWeight: " << genWeight << endl;
                 weight = (weight*genWeight*lumi)/(abs(genWeight));
-                // cout << "weight: " << weight << endl;
-                // cout << "lumi: " << lumi << endl;
+                //cout << "weight: " << weight << endl;
+                //cout << "lumi: " << lumi << endl;
             }else {weight = 1.;}
-            // cout << weight << endl;
+            //cout << weight << endl;
             // double evtWeight = weight; 
             if (debugPrints){std::cout << "passed eventWeight for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
@@ -937,10 +945,10 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
                     //bdt_flips_baby.set_features(BDT_params, BDT_crWeight);
             
-                } else if ((best_hyp_type==3) || (best_hyp_type>=6)) {
+                } else if (make_BDT_fakes_babies && ((best_hyp_type==3) || (best_hyp_type>=6))) { 
                     Float_t BDT_crWeight = crWeight;
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-                    //bdt_fakes_baby.set_features(BDT_params, BDT_crWeight);
+                    bdt_fakes_baby.set_features(BDT_params, BDT_crWeight);
                 }
             }
             // //booster.set_features(BDT_params);
@@ -1019,33 +1027,33 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
         if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
         file->Close();
         delete file;
-     } // loop over files
-     // cout << "nLooseFlips: " << nLooseFlips << endl;
-     // cout << "nTightFlips: " << nTightFlips << endl;
-     // cout << "SS: " << endl;
-     // cout << "    nDilep: " << nDilep_ss << endl;
-     // cout << "    n1lep: " << n1lep_ss << endl;
-     // cout << "    nDilep fakes: " << nDilep_fake_ss << endl;
-     // cout << "    nDilep flips: " << nDilep_flip_ss << endl;
-     // cout << "TL: " << endl;
-     // cout << "    nDilep: " << nDilep_sf << endl;
-     // cout << "    n1lep: " << n1lep_sf << endl;
-     // cout << "    nDilep fakes: " << nDilep_fake_sf << endl;
-     // cout << "    nDilep flips: " << nDilep_flip_sf << endl;
+    } // loop over files
+    // cout << "nLooseFlips: " << nLooseFlips << endl;
+    // cout << "nTightFlips: " << nTightFlips << endl;
+    // cout << "SS: " << endl;
+    // cout << "    nDilep: " << nDilep_ss << endl;
+    // cout << "    n1lep: " << n1lep_ss << endl;
+    // cout << "    nDilep fakes: " << nDilep_fake_ss << endl;
+    // cout << "    nDilep flips: " << nDilep_flip_ss << endl;
+    // cout << "TL: " << endl;
+    // cout << "    nDilep: " << nDilep_sf << endl;
+    // cout << "    n1lep: " << n1lep_sf << endl;
+    // cout << "    nDilep fakes: " << nDilep_fake_sf << endl;
+    // cout << "    nDilep flips: " << nDilep_flip_sf << endl;
 
-     auto stop = high_resolution_clock::now();
-     auto duration = duration_cast<seconds>(stop - start);
-     if (debug_file.is_open()) debug_file.close();
+    auto stop = high_resolution_clock::now();
+    auto duration = duration_cast<seconds>(stop - start);
+    if (debug_file.is_open()) debug_file.close();
 
-     if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
-     cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
-     //write histograms
-     auto outFile = new TFile(outFileName.Data(), "recreate");
-     if (!quiet) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
-     outFile->cd();
-     hists.write();
-     outFile->Close();
-     //bdt_fakes_baby.close();
-     //bdt_flips_baby.close();
-     //bdt_MC_baby.close();
+    if (!quiet) cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
+    cout << "processed " << nEventsTotal << " events in " << duration.count() << " seconds!!" << endl;
+    //write histograms
+    auto outFile = new TFile(outFileName.Data(), "recreate");
+    if (!quiet) std::cout << "Writing " << chainTitleCh << " histograms to " << outFile->GetName() << std::endl;
+    outFile->cd();
+    hists.write();
+    outFile->Close();
+    bdt_fakes_baby.close(make_BDT_fakes_babies);
+    //bdt_flips_baby.close();
+    //bdt_MC_baby.close();
 }
