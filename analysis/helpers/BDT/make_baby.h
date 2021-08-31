@@ -4,11 +4,12 @@
 
 class BDTBabyMaker{
     std::map<std::string, Float_t> parameter_map; 
+    std::map<std::string, Float_t> variationalWeights;
     TFile* BabyFile;
     TTree* BabyTree;
     Float_t weight;
     public:
-        void set_features(std::map<std::string, Float_t>, Float_t);
+        void set_features(std::map<std::string, Float_t>, Float_t, std::map<std::string, Float_t>);
         //BDTBabyMaker(char*);
         void Initialize(char*);
         BDTBabyMaker(); //return empty object
@@ -51,13 +52,21 @@ void BDTBabyMaker::Initialize(char* output_name) {
     BabyTree->Branch("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
     BabyTree->Branch("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
     BabyTree->Branch("Weight", &weight);
+    BabyTree->Branch("Weight_LepSF_up", &variationalWeights["LepSF_up"]);
+    BabyTree->Branch("Weight_LepSF_down", &variationalWeights["LepSF_down"]);
+    BabyTree->Branch("Weight_Trigger_up", &variationalWeights["Trigger_up"]);
+    BabyTree->Branch("Weight_Trigger_down", &variationalWeights["Trigger_down"]);
+    BabyTree->Branch("Weight_PU_up", &variationalWeights["PU_up"]);
+    BabyTree->Branch("Weight_PU_down", &variationalWeights["PU_down"]);
+    BabyTree->Branch("Weight_bTag_up", &variationalWeights["bTag_up"]);
+    BabyTree->Branch("Weight_bTag_down", &variationalWeights["bTag_down"]);
 }
 
 BDTBabyMaker::BDTBabyMaker() {
     return;
 }
 
-void BDTBabyMaker::set_features(std::map<std::string, Float_t> BDT_params, Float_t event_weight=1.0) {
+void BDTBabyMaker::set_features(std::map<std::string, Float_t> BDT_params, Float_t event_weight, std::map<std::string, Float_t> var_weights) {
     //parameter_map["Event"] = nt.event();
     parameter_map["Most_Forward_pt"] = BDT_params["Most_Forward_pt"];
     parameter_map["HT"] = BDT_params["HT"];
@@ -90,6 +99,16 @@ void BDTBabyMaker::set_features(std::map<std::string, Float_t> BDT_params, Float
     parameter_map["MT_SubSubLeadLep_MET"] = BDT_params["MT_SubSubLeadLep_MET"];
     parameter_map["LeadBtag_score"] = BDT_params["LeadBtag_score"];
     weight = event_weight;
+    //weights used for calculating systematic uncertainties
+    variationalWeights["PU_up"] = var_weights["PU_up"];
+    variationalWeights["PU_down"] = var_weights["PU_down"];
+    variationalWeights["LepSF_up"] = var_weights["LepSF_up"];
+    variationalWeights["LepSF_down"] = var_weights["LepSF_down"];
+    variationalWeights["Trigger_up"] = var_weights["Trigger_up"];
+    variationalWeights["Trigger_down"] = var_weights["Trigger_down"];
+    variationalWeights["bTag_up"] = var_weights["bTag_up"];
+    variationalWeights["bTag_down"] = var_weights["bTag_down"];
+
     BabyTree->Fill();
 }
 

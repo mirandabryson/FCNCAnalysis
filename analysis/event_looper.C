@@ -410,15 +410,15 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     BDTBabyMaker bdt_fakes_baby;
     BDTBabyMaker bdt_flips_baby;
     BDTBabyMaker bdt_MC_baby;
-    //char* BDT_base_dir = "./helpers/BDT/babies/btagSF/up"
+    std::string BDT_base_dir = "./helpers/BDT/babies/variations/JES_down/";
     if (make_BDT_fakes_babies){
-        bdt_fakes_baby.Initialize(Form("./helpers/BDT/babies/btagSF/up/%s/data_driven/%s_fakes.root", tmp_yr_str.c_str(), chainTitleCh));
+        bdt_fakes_baby.Initialize(Form("%s/%s/data_driven/%s_fakes.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
     }
     if (make_BDT_flips_babies){
-        bdt_flips_baby.Initialize(Form("./helpers/BDT/babies/btagSF/up/%s/data_driven/%s_flips.root", tmp_yr_str.c_str(), chainTitleCh));
+        bdt_flips_baby.Initialize(Form("%s/%s/data_driven/%s_flips.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
     }
     if (make_BDT_MC_babies){
-        bdt_MC_baby.Initialize(Form("./helpers/BDT/babies/btagSF/up/%s/MC/%s.root", tmp_yr_str.c_str(), chainTitleCh));
+        bdt_MC_baby.Initialize(Form("%s/%s/MC/%s.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
     }
     auto start = high_resolution_clock::now();
 
@@ -760,11 +760,11 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             // get jets and bjets
             //getJets parameters: Leptons &leps,float min_jet_pt=40., float min_bjet_pt=25.
             //central
-            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.,0);
+            //std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.,0);
             // //jes down
-            // std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.,-1);
+            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.,-1);
             // //jes up
-            // std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.,1);
+            //std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.,1);
             // std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
             Jets good_jets = good_jets_and_bjets.first;
             Jets good_bjets = good_jets_and_bjets.second;
@@ -993,7 +993,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "passed crWeight for event " << nt.event() << endl;}
             //prepare BDT parameters
             // // cout << "before BDT weight: " << weight << endl;
-            
+            auto start_time = high_resolution_clock::now(); 
             // //booster.set_features(BDT_params);
             // //booster.get_score();
             // //cout << "BDT eval time: " << duration_cast<microseconds>(high_resolution_clock::now() - start_time).count() << endl;
@@ -1055,27 +1055,28 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 // if(isnan(weightTrigup)){cout << weight<< " "<< triggerScaleFactor(f_trigEff, nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0) << " " << triggerScaleFactor(f_trigEff, nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 1) << endl;}
             }
             bool fill_BDT_MC = (((category==1) && (chainTitle=="fakes_mc")) ||
-                               ((category==2) && (chainTitle=="flips_mc")) ||
+                                ((category==2) && (chainTitle=="flips_mc")) ||
                                 ((category==3) && (chainTitle=="rares"   )) ||
-                               ((chainTitle=="signal_tch"))                ||
-                               ((chainTitle=="signal_tuh"))                );
+                                ((chainTitle=="signal_tch"))                ||
+                                ((chainTitle=="signal_tuh"))                );
             bool fill_BDT_data_driven = (abs(crWeight) > 0.0);
             if (fill_BDT_MC) {
                 if (((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) && make_BDT_MC_babies) {
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-                    bdt_MC_baby.set_features(BDT_params,weightBtagSFup);//change to weight when done
+                    //std::cout << variationalWeights["LepSF_up"] << std::endl;
+                    bdt_MC_baby.set_features(BDT_params,weight, variationalWeights);
                 }
             }
             else if (fill_BDT_data_driven) {
                 if ((best_hyp_type == 5) && (make_BDT_flips_babies)){
                     Float_t BDT_crWeight = crWeight;
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-                    bdt_flips_baby.set_features(BDT_params, BDT_crWeight);
+                    bdt_flips_baby.set_features(BDT_params, BDT_crWeight, variationalWeights);
             
                 } else if (make_BDT_fakes_babies && ((best_hyp_type==3) || (best_hyp_type>=6))) { 
                     Float_t BDT_crWeight = crWeight;
                     std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-                    bdt_fakes_baby.set_features(BDT_params, BDT_crWeight);
+                    bdt_fakes_baby.set_features(BDT_params, BDT_crWeight, variationalWeights);
                 }
             }
 
