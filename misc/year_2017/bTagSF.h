@@ -45,3 +45,32 @@ float getBSF(int year, Jets &jets, Jets &bjets, std::map<std::string, TH1D*> eff
     return weight;
 
 }
+
+float getIterativeBSF(int year, Jets &jets, Jets &bjets, BTagCalibrationReader &deepjet_medium_reader){
+    float weight = 1.;
+
+    for ( auto bjet : bjets ){
+        float pt_cutoff = std::max(20.,std::min(999.,double(bjet.pt())));
+        float sf = deepjet_medium_reader.eval(  BTagEntry::FLAV_B,
+                                                bjet.eta(),
+                                                pt_cutoff,
+                                                bjet.bdisc());
+        
+        weight += sf;
+    }
+    for ( auto jet : jets ){
+        if (jet.isBtag()){continue;}
+        BTagEntry::JetFlavor flavor = BTagEntry::FLAV_UDSG;
+        if (jet.hadronFlavor()==5) flavor = BTagEntry::FLAV_B;
+        if (jet.hadronFlavor()==4) flavor = BTagEntry::FLAV_C;
+        float pt_cutoff = std::max(20.,std::min(999.,double(jet.pt())));
+        float sf = deepjet_medium_reader.eval(  flavor,
+                                                jet.eta(),
+                                                pt_cutoff,
+                                                jet.bdisc());
+        
+        weight += sf;
+    }
+    return weight;
+
+}

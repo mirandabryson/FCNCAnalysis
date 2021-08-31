@@ -169,4 +169,11 @@ float getBSFError(int year, Jets &jets, Jets &bjets, std::map<std::string, TH1D*
     else {throw std::runtime_error("ControlTree::INIT: Error - invalid year");}
 }
 
+float getIterativeBSF(int year, Jets &jets, Jets &bjets, BTagCalibrationReader &deepjet_reader){
+    if (year == 2016) return y2016::getIterativeBSF(year, jets, bjets, deepjet_reader);
+    else if (year == 2017) return y2017::getIterativeBSF(year, jets, bjets, deepjet_reader);
+    else if (year == 2018) return y2018::getIterativeBSF(year, jets, bjets, deepjet_reader);
+    else {throw std::runtime_error("ControlTree::INIT: Error - invalid year");}
+}
+
 #endif
