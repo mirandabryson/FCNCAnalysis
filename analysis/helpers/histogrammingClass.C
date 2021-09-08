@@ -41,7 +41,25 @@ std::vector<std::string> HistContainer::getRegionNames() {
     // std::vector<std::string> rnames = { "PU_up","PU_down",
     //                                     "LepSF_up","LepSF_down",
     //                                     "Trigger_up","Trigger_down",
-    //                                     "bTag_up","bTag_down"};
+    //                                     "lf_up","lf_down",
+    //                                     "hf_up","hf_down",
+    //                                     "hfstats1_up","hfstats1_down",
+    //                                     "hfstats2_up","hfstats2_down",
+    //                                     "lfstats1_up","lfstats1_down",
+    //                                     "lfstats2_up","lfstats2_down",
+    //                                     "cferr1_up","cferr1_down",
+    //                                     "cferr2_up","cferr2_down",
+    //                                     "btag_central",
+    //                                     "bTag_up","bTag_down",
+    //                                     /*"renorm_scale","pdf_scale"*/};
+    // for(int i = 0; i < 101; i++){
+    //     std::string i_str = std::to_string(i);
+    //     rnames.push_back(i_str+"_"+i_str+"_pdf_scale");
+    // }
+    // for(int j = 0; j <= 6; j++){
+    //     std::string j_str = std::to_string(j);
+    //     rnames.push_back(j_str+"_renorm_scale");
+    // }
 
     return rnames;
 }
@@ -276,10 +294,12 @@ void HistContainer::loadHists(std::string sample) {
     // // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
     // addHist1d("ljpt",sample,50,0,500);
     // addHist1d("tjpt",sample,50,0,500);
-    // addHist1d("lbpt",sample,50,0,500);
+    // addHist1d("ljbscore",sample,20,0,1);
+    // addHist1d("tjbscore",sample,20,0,1);
+    // addHist1d("lbpt",sample,50,0,500);    
     // addHist1d("ht",sample,50,0,1000);
     // addHist1d("met",sample,20,0,400);
-    // // addHist1d("cutflow",sample,9,0.5,9.5,"br");
+    // addHist1d("cutflow",sample,10,0.5,10.5,"br");
     addHist1d("sr",sample,21,0.5,21.5);//,"br");
     // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
     // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
@@ -492,6 +512,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         if(doVariations){
             int sr = getSR(best_hyp_type,njets,nbjets);
             fill1d("sr_syst",name,sample,sr,variationMap[name]);
+            // cout << "filled " << name << " with weight " << variationMap[name] << endl;
             // if(isnan(variationMap[name])){cout << "nan weight: " << name << " event: " << nt.event() << endl;}
         }
 
@@ -553,6 +574,9 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         fill1d("ltminiiso",name,sample,leps[1].miniIso(),fillWeight);
         fill1d("ljpt",name,sample,jets[0].pt(),fillWeight);
         fill1d("tjpt",name,sample,jets[1].pt(),fillWeight);
+        fill1d("ljbscore",name,sample,jets[0].bdisc(),fillWeight);
+        if(njets>=2){fill1d("tjbscore",name,sample,jets[1].bdisc(),fillWeight);}
+        else if(nbjets>0){fill1d("tjbscore",name,sample,bjets[0].bdisc(),fillWeight);}
         fill1d("met",name,sample,met,fillWeight);
         if (nbjets>0){
             fill1d("lbpt",name,sample,bjets[0].pt(),fillWeight);
@@ -595,7 +619,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             // if(!(diEl&&onZPeak&&isSS)){fill1d("cutflow","br",sample,11,fillWeight);}
             if (sr>=0 && !(diEl && onZPeak && isSS)){
 
-                // fill1d("cutflow","br",sample,12,fillWeight);
+                fill1d("cutflow","br",sample,10,fillWeight);
                 // if (nt.MET_pt()>=50){fill1d("cutflow","br",sample,13,fillWeight);}
                 // if (nbjets>0){fill1d("cutflow","br",sample,14,fillWeight);}
                 // if (nbjets>0&&nt.MET_pt()>=50){fill1d("cutflow","br",sample,15,fillWeight);}
