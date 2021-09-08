@@ -20,55 +20,6 @@ years = [2016, 2017, 2018]
 includeSignalInObs = False
 
 
-# fakeCRStatYld_2016 = [  1292,1231,92,
-#                         671,1089,146,
-#                         397,803,205,
-#                         252,339,5,
-#                         146,193,13,
-#                         41,64,13,
-#                         20,42,6
-#                         ]
-# fakeCRStatYld_2017 = [  1727,1952,183,
-#                         1003,1707,246,
-#                         536,1183,370,
-#                         264,443,5,
-#                         137,253,24,
-#                         54,115,28,
-#                         35,36,24
-#                         ]
-# fakeCRStatYld_2018 = [  2320,2708,259,
-#                         1206,2206,375,
-#                         666,1601,550,
-#                         420,667,11,
-#                         173,404,45,
-#                         70,138,43,
-#                         22,72,28
-#                         ]
-
-
-# fakeCRStatYldDict_2016 = {  "2_2_0":1292,"2_3_0":671,"2_4_0":397,
-#                             "2_2_1":1231,"2_3_1":1089,"2_4_1":803,
-#                             "2_2_2":92,"2_3_2":146,"2_4_2":205,
-#                             "3_1_0":252,"3_2_0":146,"3_3_0":41,"3_4_0":20,
-#                             "3_1_1":339,"3_2_1":193,"3_3_1":64,"3_4_1":42,
-#                             "3_1_2":5,"3_2_2":13,"3_3_2":13,"3_4_2":6
-#                             }
-# fakeCRStatYldDict_2017 = {  "2_2_0":1727,"2_3_0":1003,"2_4_0":536,
-#                             "2_2_1":1952,"2_3_1":1707,"2_4_1":1183,
-#                             "2_2_2":183,"2_3_2":246,"2_4_2":370,
-#                             "3_1_0":264,"3_2_0":137,"3_3_0":54,"3_4_0":35,
-#                             "3_1_1":443,"3_2_1":253,"3_3_1":115,"3_4_1":36,
-#                             "3_1_2":5,"3_2_2":24,"3_3_2":28,"3_4_2":24
-#                             }
-# fakeCRStatYldDict_2018 = {  "2_2_0":2320,"2_3_0":1206,"2_4_0":666,
-#                             "2_2_1":2708,"2_3_1":2206,"2_4_1":1601,
-#                             "2_2_2":259,"2_3_2":375,"2_4_2":550,
-#                             "3_1_0":420,"3_2_0":173,"3_3_0":70,"3_4_0":22,
-#                             "3_1_1":667,"3_2_1":404,"3_3_1":138,"3_4_1":72,
-#                             "3_1_2":11,"3_2_2":45,"3_3_2":43,"3_4_2":28
-#                             }
-
-
 fakeCRStatYld_2016 = [  1507,1342,104,
                         757,1162,155,
                         439,847,222,
@@ -149,6 +100,7 @@ fakeSystErr_2016 = [    4.46067,4.76551,5.03131,
                         9.27242,8.69589,7.82636,
                         8.82801,6.4532,19.5941
                         ]
+print(sum(fakeSystErr_2016)/len(fakeSystErr_2016))
 fakeSystErr_2017 = [    6.63146,8.08039,7.74266,
                         7.24731,7.56606,7.26889,
                         9.42543,9.85621,8.45383,
@@ -157,8 +109,7 @@ fakeSystErr_2017 = [    6.63146,8.08039,7.74266,
                         10.7108,7.79917,10.4827,
                         8.9602,13.3502,10.228
                         ]
-
-
+print(sum(fakeSystErr_2017)/len(fakeSystErr_2017))
 fakeSystErr_2018 = [    7.71618,8.71154,7.85155,
                         7.72384,9.50327,7.64877,
                         7.31554,10.0837,8.39966,
@@ -167,6 +118,7 @@ fakeSystErr_2018 = [    7.71618,8.71154,7.85155,
                         14.7398,10.4591,13.3193,
                         21.8245,13.9245,11.5897
                         ]
+print(sum(fakeSystErr_2018)/len(fakeSystErr_2018))
 
 
 if not os.path.exists(outdir): os.makedirs(outdir)
@@ -233,7 +185,11 @@ for y in years:
         numBins = (len(nMLJets)+len(nJets))*len(nBtags)
         nProc = ["signal", "rares", "fakes_mc", "flips_mc"]
         numBackgrounds = len(nProc)-1
-        systematicSources = ["LepSF","PU","Trigger","bTag","jes"]
+        # systematicSources = ["LepSF","PU","Trigger","bTag","jes"]
+        systematicSources = [   "LepSF","PU","Trigger","jes",
+                                "lf","lfstats1","lfstats2",
+                                "hf","hfstats1","hfstats2",
+                                "cferr1","cferr2"]
 
         #make some headers for my dataframe columns
         dcColumns = []
@@ -290,7 +246,10 @@ for y in years:
                     title += "gmN "+yld
 
                 else:
-                    title = p+"_stat_"+str(iterator)
+                    if p=="flips_mc": title = "flp_stat_"+yr+"_"+str(iterator)
+                    elif p=="signal": title = "sig_stat_"+yr+"_"+str(iterator)
+                    else: title = p+"_stat_"+yr+"_"+str(iterator)
+                    # title = p+"_stat_"+yr+"_"+str(iterator)
                     numParameters+=1
                     while len(title) <17:
                         title+=" "
@@ -317,7 +276,10 @@ for y in years:
         numParameters+=1
 
         for source in systematicSources:
-            title = source+"_"+yr
+            if source == "lf" or source == "hf" or "cferr" in source:
+                title = source
+            else:
+                title = source+"_"+yr
             while len(title)<17:
                 title+=" "
             title+="lnN"
@@ -329,6 +291,7 @@ for y in years:
         dcard_df = pd.DataFrame(index = rowTitles, columns = dcColumns)
         # print(dcColumns)
         print("defined output dataframe")
+        # print(dcard_df)
 
 
         #ok, now I want to know the stat uncertainty as a percentage of the yield
@@ -373,8 +336,8 @@ for y in years:
                         
                         if yld > 0:
                             dcPercentage = round(err/yld,3)
-                        else:
-                            dcPercentage = 1
+                        # else:
+                        #     dcPercentage = 1
 
                         if dcPercentage>=1:
                             dcPercentage = 1
@@ -401,29 +364,36 @@ for y in years:
                         rTitle += " "
                     rTitle += "gmN "+yld
                 else:
-                    rTitle = p+"_stat_"+str(i)
+                    if p=="flips_mc": rTitle = "flp_stat_"+yr+"_"+str(i)
+                    elif p=="signal": rTitle = "sig_stat_"+yr+"_"+str(i)
+                    else: rTitle = p+"_stat_"+yr+"_"+str(i)
+                    # rTitle = p+"_stat_"+yr+"_"+str(i)
                     while len(rTitle) < 17:
                         rTitle+=" "
                     rTitle+="lnN"
                 #print("*************")
-                #print(cTitle)
-                #print(rTitle)
-                #print(unc)
+                # if p=="flips_mc":
+                #     print(cTitle)
+                #     print(rTitle)
+                #     print(unc)
 
 
                 for column in dcard_df:
-                    #print column
+                    # print column
                     if column==cTitle:
                         filler = str(unc)
                         while len(filler)<20:
                             filler+=" "
                         dcard_df.at[rTitle,column] = filler
+                        # if p=="flips_mc": print filler
+                        # if p=="flips_mc": print dcard_df.at[rTitle,column]
                     else:
                         filler = "-"
                         while len(filler) < 20:
                             filler += " "
                         dcard_df.at[rTitle,column] = filler
-                #print dcard_df
+                        # print filler
+                # if p == "flips_mc": print dcard_df
         print("filled stat uncertainties")
         #print(dcard_df)
 
@@ -464,8 +434,8 @@ for y in years:
                             yld = row[p].values[0]
 
                         # if yld<0:
-                        if yld<=0:
-                            yld = 0.01
+                        # if yld<=0:
+                        #     yld = 0.01
 
                         yldString = str(yld)
                         while len(yldString)<20:
@@ -529,7 +499,11 @@ for y in years:
                 dcard_df.at[rTitle,column]=filler
 
         for source in systematicSources:
-            rTitle = source+"_"+yr
+            if source == "lf" or source == "hf" or "cferr" in source:
+                rTitle = source
+            else:
+                rTitle = source+"_"+yr
+            # rTitle = source+"_"+yr
             while len(rTitle)<17:
                 rTitle+=" "
             rTitle+="lnN"
