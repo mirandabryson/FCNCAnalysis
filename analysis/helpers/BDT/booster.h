@@ -48,18 +48,21 @@ BDT::BDT(std::string path_to_xml) {
     booster->AddVariable("LeadJet_pt", &(parameter_map["LeadJet_pt"]));
     booster->AddVariable("SubLeadJet_pt", &(parameter_map["SubLeadJet_pt"]));
     booster->AddVariable("SubSubLeadJet_pt", &(parameter_map["SubSubLeadJet_pt"]));
+    booster->AddVariable("LeadJet_BtagScore", &(parameter_map["LeadJet_BtagScore"]));
+    booster->AddVariable("SubLeadJet_BtagScore", &(parameter_map["SubLeadJet_BtagScore"]));
+    booster->AddVariable("SubSubLeadJet_BtagScore", &(parameter_map["SubSubLeadJet_BtagScore"]));
     booster->AddVariable("nElectron", &(parameter_map["nElectron"]));
     booster->AddVariable("MET_pt", &(parameter_map["MET_pt"]));
     booster->AddVariable("LeadBtag_pt", &(parameter_map["LeadBtag_pt"]));
     booster->AddVariable("MT_LeadLep_MET", &(parameter_map["MT_LeadLep_MET"]));
     booster->AddVariable("MT_SubLeadLep_MET", &(parameter_map["MT_SubLeadLep_MET"]));
     booster->AddVariable("LeadLep_SubLeadLep_Mass", &(parameter_map["LeadLep_SubLeadLep_Mass"]));
-    //booster->AddVariable("SubSubLeadLep_pt", &(parameter_map["SubSubLeadLep_pt"]));
-    //booster->AddVariable("SubSubLeadLep_eta", &(parameter_map["SubSubLeadLep_eta"]));
-    //booster->AddVariable("SubSubLeadLep_dxy", &(parameter_map["SubSubLeadLep_dxy"]));
-    //booster->AddVariable("SubSubLeadLep_dz", &(parameter_map["SubSubLeadLep_dz"]));
-    //booster->AddVariable("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
-    //booster->AddVariable("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
+    booster->AddVariable("SubSubLeadLep_pt", &(parameter_map["SubSubLeadLep_pt"]));
+    booster->AddVariable("SubSubLeadLep_eta", &(parameter_map["SubSubLeadLep_eta"]));
+    booster->AddVariable("SubSubLeadLep_dxy", &(parameter_map["SubSubLeadLep_dxy"]));
+    booster->AddVariable("SubSubLeadLep_dz", &(parameter_map["SubSubLeadLep_dz"]));
+    booster->AddVariable("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
+    booster->AddVariable("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
     booster->BookMVA("BDT", path_to_xml);
 
 }
