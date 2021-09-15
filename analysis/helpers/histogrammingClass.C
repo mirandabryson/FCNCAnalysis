@@ -323,7 +323,8 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("ht",sample,50,0,1000);
     // addHist1d("met",sample,20,0,400);
     // addHist1d("cutflow",sample,10,0.5,10.5,"br");
-    addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    //addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    addHist1d("BDT_sr",sample,2,{0.0, 0.5, 1.0});//,"br");
     // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
     // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
@@ -458,7 +459,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
                         float met, bool isVR_SR_fake, bool isVR_CR_fake, bool isVR_SR_flip, bool isVR_CR_flip, 
                         bool isEE, bool isEM, bool isME, bool isMM, bool isEFake, bool isMFake, bool isEE_flip, 
                         bool isEM_flip, float weight, float crWeight,
-                        bool doVariations, std::map<std::string, float> variationMap) {
+                        bool doVariations, std::map<std::string, float> variationMap, float BDT_score) {
     float fillWeight = 0;
     bool fillFakeCR = false;
     // fill 1d histograms first
@@ -557,6 +558,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         fill1d("nleps",name,sample,nleps,fillWeight);
         fill1d("neles",name,sample,neles,fillWeight);
         fill1d("nmus",name,sample,nmus,fillWeight);
+        fill1d("BDT_score",name,sample,BDT_score,fillWeight);
         fill1d("nvtxs",name,sample,nt.PV_npvsGood(),fillWeight);
         if(leps.size()==2){
             if ((leps[0].absid()==11&&leps[1].absid()==13)||(leps[0].absid()==13&&leps[1].absid()==11)){fill1d("elpt_emu",name,sample,leps[0].pt(),fillWeight);}
