@@ -193,6 +193,29 @@ void HistContainer::addHist1d(std::string quantity, std::string sample, int nbin
     return;
 }
 
+void HistContainer::addHist1d(std::string quantity, std::string sample, int nbins, std::vector<float> bins, std::string region) {
+    float binsarr[nbins+1];
+    for (uint i=0; i<bins.size(); i++){
+        binsarr[i] = bins[i];
+    } 
+    if (region=="") {
+        for (auto name : region_names_) {
+            std::string htitle = name+"_"+quantity+"_"+sample;
+            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
+            TH1D *hist = new TH1D(hname.c_str(),htitle.c_str(),nbins, binsarr);
+            hists1d_[htitle] = hist;
+        }
+    }
+    else {
+        std::string htitle = region+"_"+quantity+"_"+sample;
+        std::string hname = "h_"+region+"_"+quantity+"_"+sample;
+        TH1D *hist = new TH1D(hname.c_str(),htitle.c_str(),nbins, binsarr);
+        hists1d_[htitle] = hist;
+    }
+    return;
+}
+
+
 void HistContainer::addHist2d(std::string quantity, std::string sample, int nbinsx, float xmin, float xmax, int nbinsy, float ymin, float ymax, std::string region) {
     if (region=="") {
         for (auto name : region_names_) {
