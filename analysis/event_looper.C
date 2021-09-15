@@ -476,7 +476,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     BDTBabyMaker bdt_fakes_baby;
     BDTBabyMaker bdt_flips_baby;
     BDTBabyMaker bdt_MC_baby;
-    std::string BDT_base_dir = "./helpers/BDT/babies/variations/JES_down/";
+    std::string BDT_base_dir = "./helpers/BDT/babies/variations_cached/JES_central/";
     if (make_BDT_fakes_babies){
         bdt_fakes_baby.Initialize(Form("%s/%s/data_driven/%s_fakes.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
     }
