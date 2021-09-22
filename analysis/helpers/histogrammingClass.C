@@ -1,4 +1,5 @@
 #include "histogrammingClass.h"
+#include<csignal> 
 
 std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
     std::vector<std::string> rnames = {"br","mr","ml","mlsf","ss","os","sf","df","mldf"};
@@ -324,7 +325,7 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("met",sample,20,0,400);
     // addHist1d("cutflow",sample,10,0.5,10.5,"br");
     //addHist1d("sr",sample,21,0.5,21.5);//,"br");
-    addHist1d("BDT_sr",sample,2,{0.0, 0.5, 1.0});//,"br");
+    addHist1d("BDT_sr",sample,2,0.0, 1.0);//,"br");
     // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
     // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
@@ -388,7 +389,8 @@ void HistContainer::write() {
 
 void HistContainer::fill1d(std::string quantity, std::string region, std::string sample, float value, float weight) {
     std::map<std::string,TH1D*>::iterator it1d;
-    // cout << quantity << " " << region << " " << sample << endl;
+    //std::raise(SIGINT);
+    //cout << quantity << " " << region << " " << sample << endl;
     for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {
         //cout << it1d->first << endl;
         if (it1d->first.find(sample)==std::string::npos)  continue;
@@ -404,7 +406,7 @@ void HistContainer::fill1d(std::string quantity, std::string region, std::string
         if (region.find("vr")==std::string::npos && it1d->first.find("vr")!=std::string::npos) continue;
         if (quantity.find("Chan")==std::string::npos && it1d->first.find("Chan")!=std::string::npos) continue;
         it1d->second->Fill(value,weight);
-        // cout << "filled " << it1d->first << " with weight " << weight << " for event " << nt.event() << endl;//<< " in bin " << value << endl;
+        cout << "filled " << it1d->first << " with weight " << weight << " for event " << nt.event() << " in bin " << value << endl;
         /*if (region.find("vrcr")!=std::string::npos){
             std::cout << "Filling hist " << quantity << " with value " << value << " and weight " << weight << std::endl;
         }*/
@@ -558,7 +560,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         fill1d("nleps",name,sample,nleps,fillWeight);
         fill1d("neles",name,sample,neles,fillWeight);
         fill1d("nmus",name,sample,nmus,fillWeight);
-        fill1d("BDT_score",name,sample,BDT_score,fillWeight);
+        fill1d("BDT_sr",name,sample,BDT_score,fillWeight);
         fill1d("nvtxs",name,sample,nt.PV_npvsGood(),fillWeight);
         if(leps.size()==2){
             if ((leps[0].absid()==11&&leps[1].absid()==13)||(leps[0].absid()==13&&leps[1].absid()==11)){fill1d("elpt_emu",name,sample,leps[0].pt(),fillWeight);}

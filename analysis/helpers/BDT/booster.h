@@ -43,8 +43,8 @@ BDT::BDT(std::string path_to_xml) {
     booster->AddVariable("SubLeadLep_eta", &(parameter_map["SubLeadLep_eta"]));
     booster->AddVariable("SubLeadLep_dxy", &(parameter_map["SubLeadLep_dxy"]));
     booster->AddVariable("SubLeadLep_dz", &(parameter_map["SubLeadLep_dz"]));
-    booster->AddVariable("nJet", &(parameter_map["nJets"]));
-    booster->AddVariable("nbtag", &(parameter_map["nBtag"]));
+    booster->AddVariable("nJets", &(parameter_map["nJets"]));
+    booster->AddVariable("nBtag", &(parameter_map["nBtag"]));
     booster->AddVariable("LeadJet_pt", &(parameter_map["LeadJet_pt"]));
     booster->AddVariable("SubLeadJet_pt", &(parameter_map["SubLeadJet_pt"]));
     booster->AddVariable("SubSubLeadJet_pt", &(parameter_map["SubSubLeadJet_pt"]));

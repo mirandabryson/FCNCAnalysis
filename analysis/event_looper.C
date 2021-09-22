@@ -471,7 +471,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     tqdm bar;
     // bar.set_theme_braille();
     // //BDT constructor
-    BDT booster("./helpers/BDT/BDT.xml");
+    BDT booster("./helpers/BDT/BDT_HCT.xml");
     std::string tmp_yr_str = std::to_string(year);
     BDTBabyMaker bdt_fakes_baby;
     BDTBabyMaker bdt_flips_baby;
@@ -1226,7 +1226,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             
         std::map<std::string, Float_t> BDT_params = booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
         booster.set_features(BDT_params);
-        Float_t BDT_score = booster.get_score();
+        float BDT_score = float(booster.get_score());
+        //std::cout << "BDT score: " << BDT_score << std::endl;
             // if we've reached here we've passed the baseline selection
             // cout << category << endl;
             // fill histograms
