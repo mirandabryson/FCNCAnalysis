@@ -1,4 +1,7 @@
+#ifndef BOOSTER
+#define BOOSTER
 #include <iostream>
+#include <string>
 #include "TMVA/Reader.h"
 #include "../../../../NanoTools/NanoCORE/SSSelections.h"
 #include "../../../../NanoTools/NanoCORE/Nano.h"
@@ -20,14 +23,16 @@ class BDT {
     // https://root.cern.ch/download/doc/tmva/TMVAUsersGuide.pdf
     unique_ptr<TMVA::Reader> booster;
     std::map<std::string, Float_t> parameter_map;
+    std::map<int, std::vector<float>> BDT_bins;
     public:
-        BDT(std::string);
+        BDT(std::string, std::string);
         void set_features(std::map<std::string, Float_t>, bool);
         Float_t get_score();
         std::map<std::string, Float_t> calculate_features(Jets, Jets, float, Leptons);
+        std::vector<float> get_BDT_bins(int);
 };
 
-BDT::BDT(std::string path_to_xml) {
+BDT::BDT(std::string path_to_xml, std::string path_to_csv="") {
     booster.reset( new TMVA::Reader( "!Color:Silent" ) );
     // Booster must be initialized with an xml file and the feature addresses.
     // The feature addresses cannot be changed, but the values can.
@@ -64,7 +69,26 @@ BDT::BDT(std::string path_to_xml) {
     booster->AddVariable("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
     booster->AddVariable("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
     booster->BookMVA("BDT", path_to_xml);
-
+    // read the BDT binning from a CSV file
+    ifstream fin;
+    fin.open(path_to_csv);
+    std::string line;
+    char delimiter = ',';
+    std::vector<int> years;
+    string record;
+    fin >> line;
+    stringstream head(line);
+    while (getline(head, record, delimiter)){
+        years.push_back(std::stoi(record));
+    }
+    while (!fin.eof()){
+        fin >> line;
+        for(int i : years){
+            stringstream s(line);
+            std::getline(s, record, delimiter);//get next entry in csv
+            BDT_bins[i].push_back(std::stof(record));
+        }
+    }
 }
 
 std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good_bjets, float ht, Leptons ordered_leptons) {
@@ -234,6 +258,10 @@ Float_t BDT::get_score() {
     return booster_score;
 }
 
+std::vector<float> BDT::get_BDT_bins(int year){
+    return BDT_bins[year];
+}
+
 //old function (~20ms per event because it makes a new BDT for every event)
 Float_t get_BDT_score(Leptons ordered_leptons, std::map<std::string, Float_t> BDT_params, bool debug=false){
     auto start_time = high_resolution_clock::now();
@@ -306,3 +334,4 @@ Float_t get_BDT_score(Leptons ordered_leptons, std::map<std::string, Float_t> BD
     cout << "BDT eval time: " << duration_cast<milliseconds>(high_resolution_clock::now() - start_time).count() << endl;
     return booster_score;
 }
+#endif

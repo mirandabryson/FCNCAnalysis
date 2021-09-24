@@ -7,6 +7,7 @@
 #include "TH1D.h"
 #include "TH2F.h"
 #include "THn.h"
+#include "BDT/booster.h"
 #include "../../../NanoTools/NanoCORE/SSSelections.h"
 
 class HistContainer {
@@ -39,7 +40,7 @@ class HistContainer {
                 float met, bool isVR_SR_fake, bool isVR_CR_fake, bool isVR_SR_flip, bool isVR_CR_flip, 
                 bool isEE, bool isEM, bool isME, bool isMM, bool isEFake, bool isMFake, bool isEE_flip, 
                 bool isEM_flip, float weight=1., float crWeight=1.,
-                bool doVariations=0, std::map<std::string, float> variationMap = {{"null", 0.}}, float BDT_score=0.0);
+                bool doVariations=0, std::map<std::string, float> variationMap = {{"null", 0.}}, float HCT_BDT_score=0.0, float HUT_BDT_score=0.0);
 };
 
 #endif
