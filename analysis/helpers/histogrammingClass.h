@@ -30,7 +30,7 @@ class HistContainer {
         void addHist2d(std::string quantity, std::string sample, int nbinsx, float xmin, float xmax, int nbinsy, float ymin, float ymax, std::string region="");
         void addHist2d(std::string quantity, std::string sample, int nbinsx, int nbinsy, std::vector<float> xbins, std::vector<float> ybins, std::string region="");
         void addHist4d(std::string quantity, std::string sample, int nbinsx, int nbinsy, std::vector<double> xedges, std::vector<double> yedges, std::string region="");
-        void loadHists(std::string sample);
+        void loadHists(std::string sample, vector<float> HCT_BDT_bins, vector<float> HUT_BDT_bins);
         void sumw2();
         void write();
         void fill1d(std::string quantity, std::string region, std::string sample, float value, float weight=1.);

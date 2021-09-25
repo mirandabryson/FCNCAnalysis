@@ -326,8 +326,8 @@ void HistContainer::loadHists(std::string sample, vector<float> HCT_BDT_bins, ve
     // addHist1d("met",sample,20,0,400);
     // addHist1d("cutflow",sample,10,0.5,10.5,"br");
     //addHist1d("sr",sample,21,0.5,21.5);//,"br");
-    addHist1d("HCT_BDT_sr",sample, HCT_BDT_bins.size(), HCT_BDT_bins);//,"br");
-    addHist1d("HUT_BDT_sr",sample, HUT_BDT_bins.size(), HUT_BDT_bins);//,"br");
+    addHist1d("HCT_BDT_sr",sample, (HCT_BDT_bins.size()-1), HCT_BDT_bins);//,"br");
+    addHist1d("HUT_BDT_sr",sample, (HUT_BDT_bins.size()-1), HUT_BDT_bins);//,"br");
     // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
     // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
@@ -408,7 +408,7 @@ void HistContainer::fill1d(std::string quantity, std::string region, std::string
         if (region.find("vr")==std::string::npos && it1d->first.find("vr")!=std::string::npos) continue;
         if (quantity.find("Chan")==std::string::npos && it1d->first.find("Chan")!=std::string::npos) continue;
         it1d->second->Fill(value,weight);
-        cout << "filled " << it1d->first << " with weight " << weight << " for event " << nt.event() << " in bin " << value << endl;
+        //cout << "filled " << it1d->first << " with weight " << weight << " for event " << nt.event() << " in bin " << value << endl;
         /*if (region.find("vrcr")!=std::string::npos){
             std::cout << "Filling hist " << quantity << " with value " << value << " and weight " << weight << std::endl;
         }*/

@@ -8,6 +8,8 @@
 
 using namespace std;
 using namespace std::chrono;
+//this makes debugging maps easier
+template class std::map<int, std::vector<float>>;
 
 double convert_tmva_to_prob(double score) {
     // Undo TMVA transformation
@@ -83,10 +85,19 @@ BDT::BDT(std::string path_to_xml, std::string path_to_csv="") {
     }
     while (!fin.eof()){
         fin >> line;
-        for(int i : years){
+        if (line.length() > 0) {
             stringstream s(line);
-            std::getline(s, record, delimiter);//get next entry in csv
-            BDT_bins[i].push_back(std::stof(record));
+            for(int i : years){
+                std::getline(s, record, delimiter);//get next entry in csv
+                BDT_bins[i].push_back(std::stof(record));
+            }
+        }
+        line.clear();
+    }
+    for (int i : {2016, 2017, 2018}){
+        std::cout << i << std::endl;
+        for (float b : BDT_bins[i]){
+            std::cout << "\t" << b << std::endl;
         }
     }
 }

@@ -452,6 +452,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
     //BDT constructor
     BDT hct_booster("./helpers/BDT/BDT_HCT.xml", "./helpers/BDT/BDT_HCT_bins.csv");
+    BDT hut_booster("./helpers/BDT/BDT_HUT.xml", "./helpers/BDT/BDT_HUT_bins.csv");
     std::string tmp_yr_str = std::to_string(year);
     BDTBabyMaker bdt_fakes_baby;
     BDTBabyMaker bdt_flips_baby;
