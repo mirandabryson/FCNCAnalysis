@@ -857,7 +857,10 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             sort(good_jets.begin(),good_jets.end(),jetptsort);
             sort(good_bjets.begin(),good_bjets.end(),jetptsort);
             float ht = 0.;
-
+            for (Jet j : good_jets){
+                ht += j.pt();
+            }
+            
             //BJET CUT
             // if(nbjets<1){continue;}
 
@@ -1209,7 +1212,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             bool fill_BDT_data_driven = (abs(crWeight) > 0.0);
             if (fill_BDT_MC) {
                 if (((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) && make_BDT_MC_babies) {
-                    std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
                     //std::cout << variationalWeights["LepSF_up"] << std::endl;
                     bdt_MC_baby.set_features(BDT_params,weight, variationalWeights);
                 }
@@ -1217,23 +1220,24 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             else if (fill_BDT_data_driven) {
                 if ((best_hyp_type == 5) && (make_BDT_flips_babies)){
                     Float_t BDT_crWeight = crWeight;
-                    std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
                     bdt_flips_baby.set_features(BDT_params, BDT_crWeight, variationalWeights);
             
                 } else if (make_BDT_fakes_babies && ((best_hyp_type==3) || (best_hyp_type>=6))) { 
                     Float_t BDT_crWeight = crWeight;
-                    std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+                    std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
                     bdt_fakes_baby.set_features(BDT_params, BDT_crWeight, variationalWeights);
                 }
             }
             
-        std::map<std::string, Float_t> HCT_BDT_params = hct_booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
-        std::map<std::string, Float_t> HUT_BDT_params = hut_booster.calculate_features(good_jets, good_bjets, ht, best_hyp);
+        std::map<std::string, Float_t> HCT_BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
+        std::map<std::string, Float_t> HUT_BDT_params = hut_booster.calculate_features(good_jets, good_bjets, best_hyp);
         hct_booster.set_features(HCT_BDT_params);
         hut_booster.set_features(HUT_BDT_params);
         float HCT_BDT_score = float(hct_booster.get_score());
         float HUT_BDT_score = float(hut_booster.get_score());
-        //std::cout << "BDT score: " << BDT_score << std::endl;
+        //std::cout << "HCT BDT score: " << HCT_BDT_score << std::endl;
+        //std::cout << "HUT BDT score: " << HUT_BDT_score << std::endl;
             // if we've reached here we've passed the baseline selection
             // cout << category << endl;
             // fill histograms
