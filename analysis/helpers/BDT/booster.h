@@ -27,14 +27,14 @@ class BDT {
     std::map<std::string, Float_t> parameter_map;
     std::map<int, std::vector<float>> BDT_bins;
     public:
-        BDT(std::string, std::string);
+        BDT(std::string, std::string, bool);
         void set_features(std::map<std::string, Float_t>, bool);
         Float_t get_score();
         std::map<std::string, Float_t> calculate_features(Jets, Jets, Leptons);
         std::vector<float> get_BDT_bins(int);
 };
 
-BDT::BDT(std::string path_to_xml, std::string path_to_csv="") {
+BDT::BDT(std::string path_to_xml, std::string path_to_csv="", bool debug=false) {
     booster.reset( new TMVA::Reader( "!Color:Silent" ) );
     // Booster must be initialized with an xml file and the feature addresses.
     // The feature addresses cannot be changed, but the values can.
@@ -94,10 +94,12 @@ BDT::BDT(std::string path_to_xml, std::string path_to_csv="") {
         }
         line.clear();
     }
-    for (int i : {2016, 2017, 2018}){
-        std::cout << i << std::endl;
-        for (float b : BDT_bins[i]){
-            std::cout << "\t" << b << std::endl;
+    if (debug) {
+        for (int i : {2016, 2017, 2018}){
+            std::cout << i << std::endl;
+            for (float b : BDT_bins[i]){
+                std::cout << "\t" << b << std::endl;
+            }
         }
     }
 }
@@ -241,36 +243,6 @@ void BDT::set_features(std::map<std::string, Float_t> BDT_params, bool debug=fal
         parameter_map[feat] = BDT_params[feat];
     }
 
-    //parameter_map["Most_Forward_pt"] = BDT_params["Most_Forward_pt"];
-    //parameter_map["HT"] = BDT_params["HT"];
-    //parameter_map["LeadLep_eta"] = BDT_params["LeadLep_eta"];
-    //parameter_map["LeadLep_pt"] = BDT_params["LeadLep_pt"];
-    //parameter_map["LeadLep_dxy"] = BDT_params["LeadLep_dxy"];
-    //parameter_map["LeadLep_dz"] = BDT_params["LeadLep_dz"];
-    //parameter_map["SubLeadLep_pt"] = BDT_params["SubLeadLep_pt"];
-    //parameter_map["SubLeadLep_eta"] = BDT_params["SubLeadLep_eta"];
-    //parameter_map["SubLeadLep_dxy"] = BDT_params["SubLeadLep_dxy"];
-    //parameter_map["SubLeadLep_dz"] = BDT_params["SubLeadLep_dz"];
-    //parameter_map["nJets"] = BDT_params["nJets"];
-    //parameter_map["nBtag"] = BDT_params["nBtag"];
-    //parameter_map["LeadJet_pt"] = BDT_params["LeadJet_pt"];
-    //parameter_map["SubLeadJet_pt"] = BDT_params["SubLeadJet_pt"];
-    //parameter_map["SubSubLeadJet_pt"] = BDT_params["SubSubLeadJet_pt"];
-    //parameter_map["LeadJet_BtagScore"] = BDT_params["LeadJet_BtagScore"];
-    //parameter_map["SubLeadJet_BtagScore"] = BDT_params["SubLeadJet_BtagScore"];
-    //parameter_map["SubSubLeadJet_BtagScore"] = BDT_params["SubSubLeadJet_BtagScore"];
-    //parameter_map["nElectron"] = BDT_params["nElectron"];
-    //parameter_map["MET_pt"] = BDT_params["MET_pt"];
-    //parameter_map["LeadBtag_pt"] = BDT_params["LeadBtag_pt"];
-    //parameter_map["MT_LeadLep_MET"] = BDT_params["MT_LeadLep_MET"];
-    //parameter_map["MT_SubLeadLep_MET"] = BDT_params["MT_SubLeadLep_MET"];
-    //parameter_map["LeadLep_SubLeadLep_Mass"] = BDT_params["LeadLep_SubLeadLep_Mass"];
-    //parameter_map["SubSubLeadLep_pt"] = BDT_params["SubSubLeadLep_pt"];
-    //parameter_map["SubSubLeadLep_eta"] = BDT_params["SubSubLeadLep_eta"];
-    //parameter_map["SubSubLeadLep_dxy"] = BDT_params["SubSubLeadLep_dxy"];
-    //parameter_map["SubSubLeadLep_dz"] = BDT_params["SubSubLeadLep_dz"];
-    //parameter_map["MT_SubSubLeadLep_MET"] = BDT_params["MT_SubSubLeadLep_MET"];
-    //parameter_map["LeadBtag_score"] = BDT_params["LeadBtag_score"];
     if (debug) {
         for (std::string feat : BDT_features) {
             std::cout << feat << ":\t" << parameter_map[feat] << std::endl;
