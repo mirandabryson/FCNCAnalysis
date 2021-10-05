@@ -389,6 +389,10 @@ void HistContainer::write() {
     return;
 }
 
+bool in_string(string s, string query){
+    return s.find(query) != std::string::npos;
+}
+
 void HistContainer::fill1d(std::string quantity, std::string region, std::string sample, float value, float weight) {
     std::map<std::string,TH1D*>::iterator it1d;
     //std::raise(SIGINT);
@@ -400,6 +404,7 @@ void HistContainer::fill1d(std::string quantity, std::string region, std::string
         if (it1d->first.find(region)==std::string::npos) continue;
         if (region.find("pp")==std::string::npos && it1d->first.find("pp")!=std::string::npos) continue;
         if (region.find("est")==std::string::npos && it1d->first.find("est")!=std::string::npos) continue;
+        if (in_string(quantity, "sr") && !in_string(quantity, "BDT") && in_string(it1d->first, "BDT")) continue;
         if (quantity.find("mll")!=std::string::npos){
             if (region.find("ml")==std::string::npos && (it1d->first.find("mlsf")!=std::string::npos||it1d->first.find("mldf")!=std::string::npos)) continue;
         }else{
@@ -534,7 +539,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         rnames.push_back("mldfpppest");}
 
     for (auto name : rnames) {
-        if(onZPeak && diEl && isSS){continue;}
+        //if(onZPeak && diEl && isSS){continue;}
 
         //for filling systematic variations:
         if(doVariations){
