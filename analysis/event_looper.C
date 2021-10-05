@@ -457,7 +457,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     BDTBabyMaker bdt_fakes_baby;
     BDTBabyMaker bdt_flips_baby;
     BDTBabyMaker bdt_MC_baby;
-    std::string BDT_base_dir = "./helpers/BDT/babies/data_driven_v2/";
+    std::string BDT_base_dir = "./helpers/BDT/babies/tmp/";
     if (make_BDT_fakes_babies){
         bdt_fakes_baby.Initialize(Form("%s/%s/data_driven/%s_fakes.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
         cout << Form("%s/%s/data_driven/%s_fakes.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh) << endl;
@@ -846,9 +846,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             // cout << "before get jets" << endl;
             //getJets parameters: Leptons &leps,float min_jet_pt=40., float min_bjet_pt=25.
             //central
-            //std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.,0);
+            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.,0);
             // //jes down
-            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.,-1);
+            //std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.,-1);
             // //jes up
             //std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,30.,25.,1);
             // std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp);
@@ -1212,7 +1212,6 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                                 ((chainTitle=="signal_tch"))                ||
                                 ((chainTitle=="signal_tuh"))                );
             bool fill_BDT_data_driven = (abs(crWeight) > 0.0);
-            cout << "crWeight: " << crWeight << "fill: " << fill_BDT_data_driven << endl;
             if (fill_BDT_MC) {
                 if (((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) && make_BDT_MC_babies) {
                     std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
@@ -1239,8 +1238,10 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
         hut_booster.set_features(HUT_BDT_params);
         float HCT_BDT_score = float(hct_booster.get_score());
         float HUT_BDT_score = float(hut_booster.get_score());
-        std::cout << "HCT BDT score: " << HCT_BDT_score << std::endl;
-        std::cout << "HUT BDT score: " << HUT_BDT_score << std::endl;
+        if (debugPrints) {
+            std::cout << "HCT BDT score: " << HCT_BDT_score << std::endl;
+            std::cout << "HUT BDT score: " << HUT_BDT_score << std::endl;
+        }
             // if we've reached here we've passed the baseline selection
             // cout << category << endl;
             // fill histograms
