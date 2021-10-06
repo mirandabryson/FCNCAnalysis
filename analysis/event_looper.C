@@ -457,7 +457,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     BDTBabyMaker bdt_fakes_baby;
     BDTBabyMaker bdt_flips_baby;
     BDTBabyMaker bdt_MC_baby;
-    std::string BDT_base_dir = "./helpers/BDT/babies/tmp/";
+    std::string BDT_base_dir = "./helpers/BDT/babies/top_only/";
     if (make_BDT_fakes_babies){
         bdt_fakes_baby.Initialize(Form("%s/%s/data_driven/%s_fakes.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
         cout << Form("%s/%s/data_driven/%s_fakes.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh) << endl;
@@ -1234,11 +1234,11 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             
         std::map<std::string, Float_t> HCT_BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
         std::map<std::string, Float_t> HUT_BDT_params = hut_booster.calculate_features(good_jets, good_bjets, best_hyp);
-        hct_booster.set_features(HCT_BDT_params);
-        hut_booster.set_features(HUT_BDT_params);
+        hct_booster.set_features(HCT_BDT_params, true);
+        hut_booster.set_features(HUT_BDT_params, true);
         float HCT_BDT_score = float(hct_booster.get_score());
         float HUT_BDT_score = float(hut_booster.get_score());
-        if (debugPrints) {
+        if (true) {
             std::cout << "HCT BDT score: " << HCT_BDT_score << std::endl;
             std::cout << "HUT BDT score: " << HUT_BDT_score << std::endl;
         }
