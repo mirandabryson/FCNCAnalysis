@@ -5,7 +5,7 @@
 #include "TMVA/Reader.h"
 #include "../../../../NanoTools/NanoCORE/SSSelections.h"
 #include "../../../../NanoTools/NanoCORE/Nano.h"
-#include "MVAUtils/BDT.h"
+//#include "MVAUtils/BDT.h"
 using namespace std;
 using namespace std::chrono;
 //this makes debugging maps easier
@@ -237,7 +237,7 @@ void BDT::set_features(std::map<std::string, Float_t> BDT_params, bool debug=fal
         "SubSubLeadLep_dxy",
         "SubSubLeadLep_dz",
         "MT_SubSubLeadLep_MET",
-        "LeadBtag_Score"
+        "LeadBtag_score"
     };
     for (std::string feat : BDT_features){
         parameter_map[feat] = BDT_params[feat];

@@ -1235,7 +1235,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             
         std::map<std::string, Float_t> HCT_BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
         std::map<std::string, Float_t> HUT_BDT_params = hut_booster.calculate_features(good_jets, good_bjets, best_hyp);
-        hct_booster.set_features(HCT_BDT_params);
+        hct_booster.set_features(HCT_BDT_params, true);
         hut_booster.set_features(HUT_BDT_params);
         float HCT_BDT_score = float(hct_booster.get_score());
         float HUT_BDT_score = float(hut_booster.get_score());
