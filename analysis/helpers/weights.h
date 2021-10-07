@@ -30,9 +30,9 @@ double getEventWeight (string fileName, string sampleName, int year, bool verbos
     }
     else if (TString(fileName).Contains("nfs")) {
         sName_short = ((TObjString*)tokens->At(nentries-1))->GetString();
-        TObjArray *tmp_string = sName_short.Tokenize(".");
+        TObjArray *tmp_string = sName_short.Tokenize("."); //memory leak workaround
         sName_short = ((TObjString*)(tmp_string->At(0)))->GetString();
-        delete tmp_string;
+        delete tmp_string; 
         //sName_short = ((TObjString*)sName_short.Tokenize(".")->At(0) )->GetString();
         if (verbose) std::cout << "sName: " << sName_short << std::endl;
         string fileEnding = "_n_events.txt";
@@ -69,6 +69,6 @@ double getEventWeight (string fileName, string sampleName, int year, bool verbos
     eventWeight = xsecWeight/nEvents;
     if (verbose) cout << "scale1fb: " << eventWeight << std::endl;
     inFile.close();
-    delete tokens; //potential memory leak
+    delete tokens; //second memory leak
     return eventWeight;
 }//close function

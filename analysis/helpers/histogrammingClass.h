@@ -7,6 +7,7 @@
 #include "TH1D.h"
 #include "TH2F.h"
 #include "THn.h"
+#include "BDT/booster.h"
 #include "../../../NanoTools/NanoCORE/SSSelections.h"
 
 class HistContainer {
@@ -25,10 +26,11 @@ class HistContainer {
     public:
         HistContainer () : counter_(0) {region_names_=getRegionNames();}
         void addHist1d(std::string quantity, std::string sample, int nbins, float min, float max, std::string region="");
+        void addHist1d(std::string quantity, std::string sample, int nbins, std::vector<float> bins, std::string region="");
         void addHist2d(std::string quantity, std::string sample, int nbinsx, float xmin, float xmax, int nbinsy, float ymin, float ymax, std::string region="");
         void addHist2d(std::string quantity, std::string sample, int nbinsx, int nbinsy, std::vector<float> xbins, std::vector<float> ybins, std::string region="");
         void addHist4d(std::string quantity, std::string sample, int nbinsx, int nbinsy, std::vector<double> xedges, std::vector<double> yedges, std::string region="");
-        void loadHists(std::string sample);
+        void loadHists(std::string sample, vector<float> HCT_BDT_bins, vector<float> HUT_BDT_bins);
         void sumw2();
         void write();
         void fill1d(std::string quantity, std::string region, std::string sample, float value, float weight=1.);
@@ -38,7 +40,7 @@ class HistContainer {
                 float met, bool isVR_SR_fake, bool isVR_CR_fake, bool isVR_SR_flip, bool isVR_CR_flip, 
                 bool isEE, bool isEM, bool isME, bool isMM, bool isEFake, bool isMFake, bool isEE_flip, 
                 bool isEM_flip, float weight=1., float crWeight=1.,
-                bool doVariations=0, std::map<std::string, float> variationMap = {{"null", 0.}});
+                bool doVariations=0, std::map<std::string, float> variationMap = {{"null", 0.}}, float HCT_BDT_score=0.0, float HUT_BDT_score=0.0);
 };
 
 #endif

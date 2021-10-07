@@ -53,29 +53,29 @@ int test()
     BTagCalibration deepjet_csv_2016 = BTagCalibration("csvv1", csv_path_2016);
     cout << "loaded btag calibration " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << " seconds" << endl;
     
-    BTagCalibrationReader deepjet_medium_reader_2016 = BTagCalibrationReader(BTagEntry::OP_RESHAPING,
-        "central",
-        {"up_lf","down_lf",
-        "up_hf","down_hf",
-        "up_hfstats1","down_hfstats1",
-        "up_hfstats2","down_hfstats2",
-        "up_lfstats1","down_lfstats1",
-        "up_lfstats2","down_lfstats2",
-        "up_cferr1","down_cferr1",
-        "up_cferr2","down_cferr2"}
-        );
+    //BTagCalibrationReader deepjet_medium_reader_2016 = BTagCalibrationReader(BTagEntry::OP_RESHAPING,
+    //    "central",
+    //    {"up_lf","down_lf",
+    //    "up_hf","down_hf",
+    //    "up_hfstats1","down_hfstats1",
+    //    "up_hfstats2","down_hfstats2",
+    //    "up_lfstats1","down_lfstats1",
+    //    "up_lfstats2","down_lfstats2",
+    //    "up_cferr1","down_cferr1",
+    //    "up_cferr2","down_cferr2"}
+    //    );
     // BTagCalibrationReader up_reader_2016 = BTagCalibrationReader(BTagEntry::OP_RESHAPING, "up");
     // BTagCalibrationReader down_reader_2016 = BTagCalibrationReader(BTagEntry::OP_RESHAPING, "down");
-    cout << "made central, up, and down readers " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << " seconds" << endl;
+    //cout << "made central, up, and down readers " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << " seconds" << endl;
     
-    deepjet_medium_reader_2016.load(deepjet_csv_2016, BTagEntry::FLAV_B, "iterativefit");
-    cout << "got iterativefit for b " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << " seconds" << endl;
+    //deepjet_medium_reader_2016.load(deepjet_csv_2016, BTagEntry::FLAV_B, "iterativefit");
+    //cout << "got iterativefit for b " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << " seconds" << endl;
     
-    deepjet_medium_reader_2016.load(deepjet_csv_2016, BTagEntry::FLAV_C, "iterativefit");
-    cout << "got iterativefit for c " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << " seconds" << endl;
+    //deepjet_medium_reader_2016.load(deepjet_csv_2016, BTagEntry::FLAV_C, "iterativefit");
+    //cout << "got iterativefit for c " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << " seconds" << endl;
     
-    deepjet_medium_reader_2016.load(deepjet_csv_2016, BTagEntry::FLAV_UDSG, "iterativefit");
-    cout << "got iterativefit for light " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << " seconds" << endl;
+    //deepjet_medium_reader_2016.load(deepjet_csv_2016, BTagEntry::FLAV_UDSG, "iterativefit");
+    //cout << "got iterativefit for light " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << " seconds" << endl;
 
     // BTagCalibration deepjet_csv_2017 = BTagCalibration("csvv1", csv_path_2017);
     // BTagCalibration deepjet_csv_2018 = BTagCalibration("csvv1", csv_path_2018);

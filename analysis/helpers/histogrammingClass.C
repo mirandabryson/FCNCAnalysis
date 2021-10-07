@@ -1,4 +1,6 @@
 #include "histogrammingClass.h"
+#include "BDT/booster.h"
+#include<csignal> 
 
 std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
     std::vector<std::string> rnames = {"br","mr","ml","mlsf","ss","os","sf","df","mldf"};
@@ -193,6 +195,29 @@ void HistContainer::addHist1d(std::string quantity, std::string sample, int nbin
     return;
 }
 
+void HistContainer::addHist1d(std::string quantity, std::string sample, int nbins, std::vector<float> bins, std::string region) {
+    float binsarr[nbins+1];
+    for (uint i=0; i<bins.size(); i++){
+        binsarr[i] = bins[i];
+    } 
+    if (region=="") {
+        for (auto name : region_names_) {
+            std::string htitle = name+"_"+quantity+"_"+sample;
+            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
+            TH1D *hist = new TH1D(hname.c_str(),htitle.c_str(),nbins, binsarr);
+            hists1d_[htitle] = hist;
+        }
+    }
+    else {
+        std::string htitle = region+"_"+quantity+"_"+sample;
+        std::string hname = "h_"+region+"_"+quantity+"_"+sample;
+        TH1D *hist = new TH1D(hname.c_str(),htitle.c_str(),nbins, binsarr);
+        hists1d_[htitle] = hist;
+    }
+    return;
+}
+
+
 void HistContainer::addHist2d(std::string quantity, std::string sample, int nbinsx, float xmin, float xmax, int nbinsy, float ymin, float ymax, std::string region) {
     if (region=="") {
         for (auto name : region_names_) {
@@ -223,7 +248,7 @@ void HistContainer::addHist2d(std::string quantity, std::string sample, int nbin
     if (region=="") {
         for (auto name : region_names_) {
             std::string htitle = name+"_"+quantity+"_"+sample;
-            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
+            std::string hname = "h_"+name+"_"+quantity+"_"+sample;          
             TH2F *hist = new TH2F(hname.c_str(),htitle.c_str(),nbinsx,xbinsarr,nbinsy,ybinsarr);
             hists2d_[htitle] = hist;
         }
@@ -270,7 +295,7 @@ void HistContainer::addHist4d(std::string quantity, std::string sample, int nbin
     return;
 }
 
-void HistContainer::loadHists(std::string sample) {
+void HistContainer::loadHists(std::string sample, vector<float> HCT_BDT_bins, vector<float> HUT_BDT_bins) {
     // addHist1d("njets",sample,7,-0.5,6.5);
     // addHist1d("nbjets",sample,5,-0.5,4.5);
     // addHist1d("nleps",sample,5,-0.5,4.5);
@@ -300,7 +325,9 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("ht",sample,50,0,1000);
     // addHist1d("met",sample,20,0,400);
     // addHist1d("cutflow",sample,10,0.5,10.5,"br");
-    addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    //addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    addHist1d("HCT_BDT_sr",sample, (HCT_BDT_bins.size()-1), HCT_BDT_bins);//,"br");
+    //addHist1d("HUT_BDT_sr",sample, (HUT_BDT_bins.size()-1), HUT_BDT_bins);//,"br");
     // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
     // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
@@ -362,9 +389,14 @@ void HistContainer::write() {
     return;
 }
 
+bool in_string(string s, string query){
+    return s.find(query) != std::string::npos;
+}
+
 void HistContainer::fill1d(std::string quantity, std::string region, std::string sample, float value, float weight) {
     std::map<std::string,TH1D*>::iterator it1d;
-    // cout << quantity << " " << region << " " << sample << endl;
+    //std::raise(SIGINT);
+    //cout << quantity << " " << region << " " << sample << endl;
     for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {
         //cout << it1d->first << endl;
         if (it1d->first.find(sample)==std::string::npos)  continue;
@@ -372,6 +404,7 @@ void HistContainer::fill1d(std::string quantity, std::string region, std::string
         if (it1d->first.find(region)==std::string::npos) continue;
         if (region.find("pp")==std::string::npos && it1d->first.find("pp")!=std::string::npos) continue;
         if (region.find("est")==std::string::npos && it1d->first.find("est")!=std::string::npos) continue;
+        if (in_string(quantity, "sr") && !in_string(quantity, "BDT") && in_string(it1d->first, "BDT")) continue;
         if (quantity.find("mll")!=std::string::npos){
             if (region.find("ml")==std::string::npos && (it1d->first.find("mlsf")!=std::string::npos||it1d->first.find("mldf")!=std::string::npos)) continue;
         }else{
@@ -380,7 +413,7 @@ void HistContainer::fill1d(std::string quantity, std::string region, std::string
         if (region.find("vr")==std::string::npos && it1d->first.find("vr")!=std::string::npos) continue;
         if (quantity.find("Chan")==std::string::npos && it1d->first.find("Chan")!=std::string::npos) continue;
         it1d->second->Fill(value,weight);
-        // cout << "filled " << it1d->first << " with weight " << weight << " for event " << nt.event() << endl;//<< " in bin " << value << endl;
+        //cout << "filled " << it1d->first << " with weight " << weight << " for event " << nt.event() << " in bin " << value << endl;
         /*if (region.find("vrcr")!=std::string::npos){
             std::cout << "Filling hist " << quantity << " with value " << value << " and weight " << weight << std::endl;
         }*/
@@ -435,7 +468,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
                         float met, bool isVR_SR_fake, bool isVR_CR_fake, bool isVR_SR_flip, bool isVR_CR_flip, 
                         bool isEE, bool isEM, bool isME, bool isMM, bool isEFake, bool isMFake, bool isEE_flip, 
                         bool isEM_flip, float weight, float crWeight,
-                        bool doVariations, std::map<std::string, float> variationMap) {
+                        bool doVariations, std::map<std::string, float> variationMap, float HCT_BDT_score, float HUT_BDT_score) {
     float fillWeight = 0;
     bool fillFakeCR = false;
     // fill 1d histograms first
@@ -506,7 +539,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         rnames.push_back("mldfpppest");}
 
     for (auto name : rnames) {
-        if(onZPeak && diEl && isSS){continue;}
+        //if(onZPeak && diEl && isSS){continue;}
 
         //for filling systematic variations:
         if(doVariations){
@@ -534,6 +567,8 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         fill1d("nleps",name,sample,nleps,fillWeight);
         fill1d("neles",name,sample,neles,fillWeight);
         fill1d("nmus",name,sample,nmus,fillWeight);
+        fill1d("HCT_BDT_sr",name,sample,HCT_BDT_score,fillWeight);
+        fill1d("HUT_BDT_sr",name,sample,HUT_BDT_score,fillWeight);
         fill1d("nvtxs",name,sample,nt.PV_npvsGood(),fillWeight);
         if(leps.size()==2){
             if ((leps[0].absid()==11&&leps[1].absid()==13)||(leps[0].absid()==13&&leps[1].absid()==11)){fill1d("elpt_emu",name,sample,leps[0].pt(),fillWeight);}
