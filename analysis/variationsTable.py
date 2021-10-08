@@ -7,12 +7,14 @@ r.TH1F.SetDefaultSumw2()
 pd.set_option('display.float_format', lambda x: '%.5f' % x)
 
 years=[2016,2017,2018]
+pdfyear = 2016
 # years=[2016]
 procs=['signal_tch','signal_tuh','rares']
 # procs=['signal_tuh','signal_tch']
 variations = ['up','central','down']
 # sources = ['pdf','renorm','LepSF','PU','Trigger','bTag','jes']
-sources = [ 'LepSF','PU','Trigger', 'jes',
+sources = [ 'pdf','renorm','LepSF','PU','Trigger', 'jes',
+# sources = [ 'LepSF','PU','Trigger', 'jes',
             'lf_up','lf_down',
             'hf_up','hf_down',
             'hfstats1_up','hfstats1_down',
@@ -28,7 +30,9 @@ basepath = os.path.realpath(__file__)
 basepath = basepath.replace("variationsTable.py","")
 centraldir=basepath+'outputs/aug19_centralValues_lead25_MET50_jet30/'
 nobsfdir=basepath+'outputs/sept3_nobsf/'
-variationdir=basepath+'outputs/sept3_btag_systematics/'
+pdfdir = basepath+'outputs/aug31_systematics/'
+variationdir=basepath+'outputs/aug19_variations_lead25_MET50_jet30/'
+bvariationdir=basepath+'outputs/sept3_btag_systematics/'
 jesupdir=basepath+'outputs/aug19_jesup_lead25_MET50_jet30/'
 jesdowndir=basepath+'outputs/aug19_jesdown_lead25_MET50_jet30/'
 outdir=basepath+'outputs/'
@@ -60,6 +64,9 @@ def writeToLatexFile(outName, df):
     outFile.close()
 
 for year in years:
+    tuhpdf_up = []
+    tuhpdf_down = []
+    tuhrenorm = []
     for proc in procs:
         sigregions =    {   
                             "nBtags": [0,0,0,1,1,1,2,2,2, 0,0,0,0,1,1,1,1,2,2,2,2],
@@ -70,7 +77,7 @@ for year in years:
 
         yields = []
         err = []
-        fname = variationdir+proc+'_{}_hists.root'.format(year)
+        fname = bvariationdir+proc+'_{}_hists.root'.format(year)
         hname = "h_btag_central_sr_syst_"+proc
         hist=getObjFromFile(fname,hname)
         for b in range(1,hist.GetNbinsX()+1):
@@ -103,9 +110,10 @@ for year in years:
             if "pdf" in s:
                 yields = []
                 err = []
-                fname = variationdir+proc+'_{}_hists.root'.format(year)
+                fname = pdfdir+proc+'_{}_hists.root'.format(pdfyear)
                 hname = "h_0_0_pdf_scale_sr_syst_"+proc
                 centhist=getObjFromFile(fname,hname)
+                # print(fname, hname)
                 for b in range(1,centhist.GetNbinsX()+1):
                     yields.append(centhist.GetBinContent(b))
                     err.append(centhist.GetBinError(b))
@@ -118,14 +126,15 @@ for year in years:
                 for b in range(1,centhist.GetNbinsX()+1):
                     srVar = []
                     for p in range(1,101):
-                        fname = variationdir+proc+'_{}_hists.root'.format(year)
+                        fname = pdfdir+proc+'_{}_hists.root'.format(pdfyear)
                         hname = "h_"+str(p)+"_"+str(p)+"_pdf_scale_sr_syst_"+proc
                         hist=getObjFromFile(fname,hname)
-                        srVar.append(hist.GetBinContent(b))
+                        srVar.append([hist.GetBinContent(b),p])
                         # print(p, b, hist.GetBinContent(b))
                     srVar.sort()
-                    yields_down.append(srVar[15])
-                    yields_up.append(srVar[83])
+                    yields_down.append(srVar[15][0])
+                    print(s, b, srVar[15][1], srVar[83][1])
+                    yields_up.append(srVar[83][0])
                     # srVar = srVar[15:83]
                     # srVar[:] = [val-centhist.GetBinContent(b) for val in srVar]
                     # srVar[:] = [val/centhist.GetBinContent(b) for val in srVar]
@@ -138,8 +147,10 @@ for year in years:
                 # print(yields)
                 df[proc + " " + s + " up"] = yields_up
                 df[proc + " " + s + " down"] = yields_down
-                df[proc + " " + s + " upVar"] = df[proc + " " + s + " up"]/df[proc + " " + s + " central"]
-                df[proc + " " + s + " downVar"] = df[proc + " " + s + " down"]/df[proc + " " + s + " central"]
+                df[proc + "_" + s + "_up"] = df[proc + " " + s + " up"]/df[proc + " " + s + " central"]
+                df[proc + "_" + s + "_down"] = df[proc + " " + s + " down"]/df[proc + " " + s + " central"]
+                tuhpdf_up = df[proc + "_" + s + "_up"]
+                tuhpdf_down = df[proc + "_" + s + "_down"]
                 df = df.drop([proc + " " + s + " central"],axis=1)
                 df = df.drop([proc + " " + s + " up"],axis=1)
                 df = df.drop([proc + " " + s + " down"],axis=1)
@@ -167,7 +178,7 @@ for year in years:
             elif "renorm" in s:
                 yields = []
                 err = []
-                fname = centraldir+proc+'_{}_hists.root'.format(year)
+                fname = centraldir+proc+'_{}_hists.root'.format(pdfyear)
                 hname = "h_br_sr_"+proc
                 hist=getObjFromFile(fname,hname)
                 for b in range(1,hist.GetNbinsX()+1):
@@ -179,7 +190,7 @@ for year in years:
                 for p in range(0,7):
                     yields = []
                     err = []
-                    fname = variationdir+proc+'_{}_hists.root'.format(year)
+                    fname = pdfdir+proc+'_{}_hists.root'.format(pdfyear)
                     hname = "h_"+str(p)+"_renorm_scale_sr_syst_"+proc
                     hist=getObjFromFile(fname,hname)
                     for b in range(1,hist.GetNbinsX()+1):
@@ -189,7 +200,7 @@ for year in years:
                     df[proc + " " + s + " " + str(p)] = yields
                     df[proc + " " + s + " " + str(p)] = abs(df[proc + " " + s + " " + str(p)]-df[proc+" "+s+" central"])
                     # print(df[proc + " " + s + " " + str(p)])
-                df[proc+" "+s+" variation"] = df[[  proc + " " + s + " 0",
+                df[proc+"_"+s+"_variation"] = df[[  proc + " " + s + " 0",
                                                     proc + " " + s + " 1",
                                                     proc + " " + s + " 2",
                                                     proc + " " + s + " 3",
@@ -204,16 +215,17 @@ for year in years:
                 #         # df = df.drop(df[proc + " " + s + " " + str(p)],axis=1)
                 for p in range(0,7):
                     df = df.drop([proc + " " + s + " " + str(p)],axis=1)
-                df[proc+" "+s+" variation"] = df[proc+" "+s+" variation"]/df[proc + " " + s + " central"]
-                df[proc+" "+s+" variation"] += [1.]*21
+                df[proc+"_"+s+"_variation"] = df[proc+"_"+s+"_variation"]/df[proc + " " + s + " central"]
+                df[proc+"_"+s+"_variation"] += [1.]*21
                 df = df.drop([proc + " " + s + " central"],axis=1)
-                print df
+                # print df
+                tuhrenorm = df[proc+"_"+s+"_variation"]
             elif "up" in s or "down" in s:
                 yields = []
                 err = []
-                fname = variationdir+proc+'_{}_hists.root'.format(year)
+                fname = bvariationdir+proc+'_{}_hists.root'.format(year)
                 hname = "h_"+s+"_sr_syst_"+proc
-                print(fname, hname)
+                # print(fname, hname)
                 hist=getObjFromFile(fname,hname)
                 for b in range(1,hist.GetNbinsX()+1):
                     yields.append(hist.GetBinContent(b))
@@ -251,6 +263,8 @@ for year in years:
                 # df.loc['Average',proc+'_'+s+'_up'] = df.mean(df[proc+'_'+s+'_up'])
                 # df.loc['Average',proc+'_'+s+'_down'] = df.mean(df[proc+'_'+s+'_down'])
 
+        
+        df = df.drop([proc+ " central"],axis=1)
         av_col = df.mean(axis=0)
         print(av_col)
         # df.append(av_col, ignore_index=True)
@@ -266,6 +280,13 @@ for year in years:
         # df.ix[9],df.ix[10],df.ix[11],df.ix[12] = df.ix[12],df.ix[9],df.ix[10],df.ix[11]
 
         # df = df.fillna("")
+        for column in df:
+            yields = df[column].tolist()
+            # print yields
+            yields = [round(abs(i-1)*100,0) for i in yields]
+            yields.sort()
+            # print yields
+            print (column, yields[3], yields[17])
         writeToLatexFile("variations/"+outtag+"/"+proc+"_"+str(year), df)
         outtxt = open(outdir+"variations/" +outtag+"/"+proc+"_"+str(year)+".txt","w")
         outtxt.write(df.to_csv(index=False))

@@ -169,11 +169,13 @@ if __name__ == "__main__":
                 # basedirs[2016] + get_sample_path("ttjets", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tw_top", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tw_atop", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("ttg_dilep", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("ttg_1lep", 2016,args.tag) + ".root",
 
                 ], options=options[2016] + " doStitch"),
             "wboson": make_obj([
                 basedirs[2016] + get_sample_path("wjets", 2016,args.tag) + ".root",
-                basedirs[2016] + get_sample_path("ww", 2016,args.tag) + ".root",
+                # basedirs[2016] + get_sample_path("wg", 2016,args.tag) + ".root",
                 ], options=options[2016] + " doStitch"),
             "tw": make_obj([
                 # basedirs[2016] + get_sample_path("tt2lep", 2016,args.tag) + ".root",
@@ -188,6 +190,9 @@ if __name__ == "__main__":
                 ], options=options[2016] + " doStitch"),
             "ttjets": make_obj([
                 basedirs[2016]+get_sample_path("ttjets", 2016,args.tag) + ".root",
+                ], options=options[2016]),
+            "wjets": make_obj([
+                basedirs[2016]+get_sample_path("wjets", 2016,args.tag) + ".root",
                 ], options=options[2016]),
             "ttw": make_obj(basedirs[2016]+get_sample_path("ttw",2016,args.tag)+".root", options=options[2016]),
             "tth": make_obj(basedirs[2016]+get_sample_path("tth_nobb",2016,args.tag)+".root", options=options[2016]),
@@ -310,6 +315,7 @@ if __name__ == "__main__":
             "www": make_obj([basedirs[2016]+get_sample_path("www", 2016,args.tag) + ".root",], options=options[2016]),
             "wwz": make_obj([basedirs[2016]+get_sample_path("wwz", 2016,args.tag) + ".root",], options=options[2016]),
             "wz": make_obj([basedirs[2016]+get_sample_path("wz", 2016,args.tag) + ".root",], options=options[2016]),
+            "ww": make_obj([basedirs[2016]+get_sample_path("ww", 2016,args.tag) + ".root",], options=options[2016]),
             "wzg": make_obj([basedirs[2016]+get_sample_path("wzg", 2016,args.tag) + ".root",], options=options[2016]),
             "wwg": make_obj([basedirs[2016]+get_sample_path("wwg", 2016,args.tag) + ".root",], options=options[2016]),
             "wzz": make_obj([basedirs[2016]+get_sample_path("wzz", 2016,args.tag) + ".root",], options=options[2016]),
@@ -401,10 +407,12 @@ if __name__ == "__main__":
                 # basedirs[2017] + get_sample_path("ttjets", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("tw_top", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("tw_atop", 2017,args.tag) + ".root",
+                basedirs[2017] + get_sample_path("ttg_dilep", 2017,args.tag) + ".root",
+                basedirs[2017] + get_sample_path("ttg_1lep", 2017,args.tag) + ".root",
                 ], options=options[2017] + " doStitch"),
             "wboson": make_obj([
                 basedirs[2017] + get_sample_path("wjets", 2017,args.tag) + ".root",
-                basedirs[2017] + get_sample_path("ww", 2017,args.tag) + ".root",
+                # basedirs[2017] + get_sample_path("wg", 2017,args.tag) + ".root",
                 ], options=options[2017] + " doStitch"),
             "tw": make_obj([
                 # basedirs[2017] + get_sample_path("tt2lep", 2017,args.tag) + ".root",
@@ -419,6 +427,9 @@ if __name__ == "__main__":
                 ], options=options[2017] + " doStitch"),
             "ttjets": make_obj([
                 basedirs[2017]+get_sample_path("ttjets", 2017,args.tag) + ".root",
+                ], options=options[2017]),
+            "wjets": make_obj([
+                basedirs[2017]+get_sample_path("wjets", 2017,args.tag) + ".root",
                 ], options=options[2017]),
             "ttw": make_obj(basedirs[2017]+get_sample_path("ttw",2017,args.tag)+".root", options=options[2017]),
             "tth": make_obj(basedirs[2017]+get_sample_path("tth_nobb",2017,args.tag)+".root", options=options[2017]),
@@ -539,6 +550,7 @@ if __name__ == "__main__":
             "www": make_obj([basedirs[2017]+get_sample_path("www", 2017,args.tag) + ".root",], options=options[2017]),
             "wwz": make_obj([basedirs[2017]+get_sample_path("wwz", 2017,args.tag) + ".root",], options=options[2017]),
             "wz": make_obj([basedirs[2017]+get_sample_path("wz", 2017,args.tag) + ".root",], options=options[2017]),
+            "ww": make_obj([basedirs[2017]+get_sample_path("ww", 2017,args.tag) + ".root",], options=options[2017]),
             "wzg": make_obj([basedirs[2017]+get_sample_path("wzg", 2017,args.tag) + ".root",], options=options[2017]),
             "wwg": make_obj([basedirs[2017]+get_sample_path("wwg", 2017,args.tag) + ".root",], options=options[2017]),
             "wzz": make_obj([basedirs[2017]+get_sample_path("wzz", 2017,args.tag) + ".root",], options=options[2017]),
@@ -730,10 +742,12 @@ if __name__ == "__main__":
                 # basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("tw_top", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("tw_atop", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttg_dilep", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("ttg_1lep", 2018,args.tag) + ".root",
                 ], options=options[2018] + " doStitch"),
             "wboson": make_obj([
                 basedirs[2018] + get_sample_path("wjets", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("ww", 2018,args.tag) + ".root",
+                # basedirs[2018] + get_sample_path("wg", 2018,args.tag) + ".root",
                 ], options=options[2018] + " doStitch"),
             "tw": make_obj([
                 # basedirs[2018] + get_sample_path("tt2lep", 2018,args.tag) + ".root",
@@ -926,6 +940,7 @@ if __name__ == "__main__":
             "www": make_obj(basedirs[2018] + get_sample_path("www", 2018,args.tag) + ".root", options=options[2018]),
             "wwz": make_obj(basedirs[2018] + get_sample_path("wwz", 2018,args.tag) + ".root", options=options[2018]),
             "wz": make_obj(basedirs[2018] + get_sample_path("wz", 2018,args.tag) + ".root", options=options[2018]),
+            "ww": make_obj(basedirs[2018] + get_sample_path("ww", 2018,args.tag) + ".root", options=options[2018]),
             "wzg": make_obj(basedirs[2018] + get_sample_path("wzg", 2018,args.tag) + ".root", options=options[2018]),
             "wwg": make_obj(basedirs[2018] + get_sample_path("wwg", 2018,args.tag) + ".root", options=options[2018]),
             "wzz": make_obj(basedirs[2018] + get_sample_path("wzz", 2018,args.tag) + ".root",options=options[2018]),

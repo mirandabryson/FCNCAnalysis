@@ -7,20 +7,21 @@ r.TH1F.SetDefaultSumw2()
 pd.set_option('display.float_format', lambda x: '%.5f' % x)
 
 years=[2016,2017,2018]
-# procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
-procs=['data']
+# years=[2018]
+procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
+# procs=['data']
 # procs=['signal_tch','signal_tuh']
-sigWeight = 0.01
-#procs=['signal_tch', 'signal_tuh','fakes_mc','dy','top','data']
+# procs=['signal_tuh']
+# procs=['signal_tch', 'signal_tuh','rares']
 sigWeight = 0.01
 # sigWeight = 1
 # years=[2016]
 blind = True
 
-doCutflow = 0
+doCutflow = 1
 doSRTable = 0
 doFakeCR  = 0
-doFakeEst = 1
+doFakeEst = 0
 doFakeVal = 0
 doFlipCR  = 0
 doFlipEst = 0
@@ -29,8 +30,8 @@ doFlipVal = 0
 br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
-histdir=basepath+'outputs/aug16_fakes_MET50_lead25_jet30/2_2_0/'
-sighistdir=basepath+'outputs/aug16_fakes_MET50_lead25_jet30/2_2_0/'
+histdir=basepath+'outputs/sept29_isoTest/'
+sighistdir=basepath+'outputs/sept29_isoTest/'
 outdir=basepath+'outputs/'
 outtag='test/'
 #files = glob.glob(histdir)
@@ -67,14 +68,12 @@ for year in years:
                     }
     cutregions =    {   
                         "cuts": [   'entry',
-                                    'loose lepton cut',
-                                    'tight lepton cut',
+                                    'MET>=50',
+                                    '2SS or 3 leptons',
+                                    'N_jets>=2 or N_jets>=1',
                                     'pass triggers',
                                     'pass filters',
-                                    'SS2l',
-                                    'onZveto',
-                                    'nJets>=2',
-                                    'MET>50',],
+                                    'onZveto',],
                     }
     df = pd.DataFrame(sigregions)
     fake_cr_df = pd.DataFrame(sigregions)
@@ -112,6 +111,7 @@ for year in years:
         # df_cutflow.ix[9],df_cutflow.ix[10],df_cutflow.ix[11],df_cutflow.ix[12] = df_cutflow.ix[12],df_cutflow.ix[9],df_cutflow.ix[10],df_cutflow.ix[11]
 
         df_cutflow = df_cutflow.fillna("")
+        df_cutflow = df_cutflow.round(1)
         writeToLatexFile("tables/cutflow_"+str(year), df_cutflow)
         print df_cutflow
 
@@ -158,6 +158,7 @@ for year in years:
         #df = df[df.nBtags!=0]
         # df["Signal/Background Ratio"] = (df["signal_tuh"] + df["signal_tch"]) / df["Total Background"]
         df = df.fillna("")
+        # df = df.round(1)
         writeToLatexFile("tables/SRyields_"+str(year), df)
         #save to txt file for datacards
         outtxt = open(outdir+"tables/"+outtag+"tableMaker_"+str(year)+".txt","w")
@@ -250,7 +251,7 @@ for year in years:
                 sfest_hist.Add(getObjFromFile(fname,h_sf))
                 dfest_hist.Add(getObjFromFile(fname,h_df))
                 fakeest_hist.Add(getObjFromFile(fname,h_sf))
-                # fakeest_hist.Add(getObjFromFile(fname,h_df),-1)
+                fakeest_hist.Add(getObjFromFile(fname,h_df),-1)
             # if proc == "data":
             #     for b in range(1,sfest_hist.GetNbinsX()+1):
             #         print(b, sfest_hist.GetBinContent(b), dfest_hist.GetBinContent(b), dfest_hist.GetBinContent(b)/sfest_hist.GetBinContent(b))
@@ -299,8 +300,8 @@ for year in years:
         # fakeEst_df.insert(3,"Total Background", totmcback)
         # fakeEst_df.insert(4,"Total Background error", totmcbackerr)
 
-        fakeEst_df.at["Total", "data"] = fakeEst_df["data"].sum()
-        fakeEst_df.at["Total", "data estimate"] = fakeEst_df["data estimate"].sum()
+        # fakeEst_df.at["Total", "data"] = fakeEst_df["data"].sum()
+        # fakeEst_df.at["Total", "data estimate"] = fakeEst_df["data estimate"].sum()
 
         # rarespp = fakeEst_df['rares prompt']
         # rarespperr = fakeEst_df['rares prompt error']

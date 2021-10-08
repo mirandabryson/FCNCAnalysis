@@ -228,7 +228,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     const char* chainTitleCh = chainTitle.Data();
     if (print_debug_file) {
         debug_file.open(Form("debug/%s.log",chainTitleCh));
-        debug_file << "run,lumi,evt"/*,cat,nloose,ntight,hyp_type,njets,nbjets"*/ << std::endl;
+        // debug_file << "run,lumi,evt"/*,cat,nloose,ntight,hyp_type,njets,nbjets"*/ << std::endl;
     }
     if (print_sample_file) {
         sample_file.open(Form("sampleYields_%s.txt",chainTitleCh));
@@ -520,42 +520,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 if ( duplicate_removal::is_duplicate(id) ) continue;
             }
 
-
-            // cutflow counter
-            int cutflow_counter=1;
-            hists.fill1d("cutflow","br",chainTitleCh,1,1);
-            cutflow_counter++;
-
-            //if(nt.event()!=313915097){continue;}
-
-            //MET CUT
-            // if(!(
-            //     (nt.run()==1&&nt.luminosityBlock()==18&&nt.event()==58202)||
-            //     (nt.run()==1&&nt.luminosityBlock()==18&&nt.event()==58711)||
-            //     (nt.run()==1&&nt.luminosityBlock()==19&&nt.event()==61371)||
-            //     (nt.run()==1&&nt.luminosityBlock()==19&&nt.event()==61708)||
-            //     (nt.run()==1&&nt.luminosityBlock()==19&&nt.event()==62287)||
-            //     (nt.run()==1&&nt.luminosityBlock()==21&&nt.event()==69743)||
-            //     (nt.run()==1&&nt.luminosityBlock()==22&&nt.event()==71508)||
-            //     (nt.run()==1&&nt.luminosityBlock()==23&&nt.event()==74924)||
-            //     (nt.run()==1&&nt.luminosityBlock()==23&&nt.event()==75432)||
-            //     (nt.run()==1&&nt.luminosityBlock()==23&&nt.event()==76150)
-            //     )){continue;}
-            // cout << "event passed skim: " << nt.event() << endl;
-            //jes central
-            if (nt.MET_pt() < 50.){continue;}
-            // cout << "event passed MET cut: " << nt.event() << endl;
-            //jes up
-            // if (nt.MET_T1_pt_jesTotalUp() < 50.){continue;}
-            //jes down
-            // if (nt.MET_T1_pt_jesTotalDown() < 50.){continue;}
-            hists.fill1d("cutflow","br",chainTitleCh,2,1);
-            if (debugPrints){std::cout << "passed MET cut for event " << nt.event() << ": " << nt.MET_pt() << endl;}
-            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
-            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
-
             //get event weight based on sample!
             // cout << nt.event() << endl;
+            // if(nt.event()!=95867469) continue;
             double weight = 1.;
             if (!isData){
                 weight = getEventWeight( file->GetName(), chainTitle.Data(), nt.year());
@@ -573,6 +540,35 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
+            // cutflow counter
+            int cutflow_counter=1;
+            hists.fill1d("cutflow","br",chainTitleCh,1,weight);
+            cutflow_counter++;
+
+            //if(nt.event()!=313915097){continue;}
+
+            //MET CUT
+            // if(!(
+            //     (nt.event()==1146236896)||
+            //     (nt.event()==704606819)
+            //     )){continue;}
+            // cout << "event passed skim: " << nt.event() << endl;
+            //jes central
+            float met = 0.;
+            if(nt.year()==2017){met = nt.METFixEE2017_T1_pt();}
+            else{met = nt.MET_T1_pt();}
+            // if (met < 50.){continue;}
+            if (met > 50.){continue;}
+
+            // cout << "event passed MET cut: " << nt.event() << endl;
+            //jes up
+            // if (nt.MET_T1_pt_jesTotalUp() < 50.){continue;}
+            //jes down
+            // if (nt.MET_T1_pt_jesTotalDown() < 50.){continue;}
+            hists.fill1d("cutflow","br",chainTitleCh,2,weight);
+            if (debugPrints){std::cout << "passed MET cut for event " << nt.event() << ": " << met << endl;}
+            if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
+            if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
             // load the leptons
             Leptons leptons = getLeptons();
@@ -599,34 +595,35 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
 
-            // for (auto lepton: leptons) {cout << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << ", " << lepton.genPartFlav() << ", " << lepton.isFake() << ", " << lepton.isFlip() << ", " << lepton.mcid() << ", " << lepton.id() << ", " << lepton.idlevel() << std::endl;}
-            // for (auto lepton: loose_leptons) {cout << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << ", " << lepton.genPartFlav() << ", " << lepton.isFake() << ", " << lepton.isFlip() << ", " << lepton.mcid() << ", " << lepton.id() << std::endl;}
-            // for (auto lepton: tight_leptons) {cout << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << ", " << lepton.genPartFlav() << ", " << lepton.isFake() << ", " << lepton.isFlip() << ", " << lepton.mcid() << ", " << lepton.id() << std::endl;}
+            // for (auto lepton: leptons)       {cout << "\tLep "   << lepton.id() << ", " << lepton.pt() << ", " << lepton.eta() << ", " << lepton.miniIso() << ", " << lepton.is_loose() << ", " << lepton.is_tight() << ", " << lepton.genPartFlav() << ", " << lepton.isFake() << ", " << lepton.isFlip() << ", " << lepton.mcid() << ", " << lepton.id() << ", " << lepton.idlevel() << std::endl;}
+            // for (auto lepton: loose_leptons) {cout << "\tLoose " << lepton.id() << ", " << lepton.pt() << ", " << lepton.eta() << ", " << lepton.miniIso() << ", " << lepton.is_loose() << ", " << lepton.is_tight() << ", " << lepton.genPartFlav() << ", " << lepton.isFake() << ", " << lepton.isFlip() << ", " << lepton.mcid() << ", " << lepton.id() << std::endl;}
+            // for (auto lepton: tight_leptons) {cout << "\tTight " << lepton.id() << ", " << lepton.pt() << ", " << lepton.eta() << ", " << lepton.miniIso() << ", " << lepton.is_loose() << ", " << lepton.is_tight() << ", " << lepton.genPartFlav() << ", " << lepton.isFake() << ", " << lepton.isFlip() << ", " << lepton.mcid() << ", " << lepton.id() << std::endl;}
             // if(nleps_tight!=2){continue;}
+            // hists.fill1d("cutflow","br",chainTitleCh,3,weight);
             // // cout << "event has TT: " << nt.event() << endl;
             // if(tight_leptons[0].charge()!=tight_leptons[1].charge()){continue;}
+            // hists.fill1d("cutflow","br",chainTitleCh,4,weight);
             // // cout << "event has SS: " << nt.event() << endl;
 
-            // if (print_debug_file) {
-            //     debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << endl;
-            //     continue;
-            // }
+            if (print_debug_file) {
+                debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << endl;
+            }
 
             // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, OS, TL, LL
             std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,!quiet);
             int best_hyp_type = best_hyp_info.first;
 
-            // if (best_hyp_type < 0 && print_debug_file) {
-            //     debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",";
-            //     debug_file << " ," << loose_leptons.size() << "," << tight_leptons.size();
-            //     debug_file << std::endl;
-            //     for (auto lepton: loose_leptons) {debug_file << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << std::endl;}
-            //     debug_file << std::endl;
-            //     continue;
-            // }
-            
+            if (best_hyp_type < 0 && print_debug_file) {
+                debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",";
+                debug_file << " ," << loose_leptons.size() << "," << tight_leptons.size();
+                debug_file << std::endl;
+                for (auto lepton: loose_leptons) {debug_file << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << std::endl;}
+                debug_file << std::endl;
+                continue;
+            }
+
             if (best_hyp_type < 0) continue;
-            else{hists.fill1d("cutflow","br",chainTitleCh,5,weight);}
+            // hists.fill1d("cutflow","br",chainTitleCh,5,weight);}
             
             if(!quiet) {std::cout << "best_hyp_type: " << best_hyp_type << std::endl;}
             Leptons best_hyp = best_hyp_info.second;
@@ -637,7 +634,6 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             Lepton trailing_lep = best_hyp[1];
             Lepton third_lep;
             if (best_hyp.size()>2) third_lep = best_hyp[2];
-
 
             if (!quiet) {
                 std::cout << "best hyp type: " << best_hyp_type << "; lepton ids: " << leading_lep.id()
@@ -855,6 +851,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             sort(good_jets.begin(),good_jets.end(),jetptsort);
             sort(good_bjets.begin(),good_bjets.end(),jetptsort);
             float ht = 0.;
+            for (auto jet : good_jets){
+                ht = ht + jet.pt();
+            }
 
             //BJET CUT
             // if(nbjets<1){continue;}
@@ -894,6 +893,12 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     else if (nt.year() == 2018){weight = weight * getIterativeBSF(nt.year(),good_jets,good_bjets,deepjet_medium_reader_2018,"central");}
                 }
                 // cout << "after b tag SF: " << weight << endl;
+
+                //if is signal, apply central pdf sf
+                //for now, only apply to 2016
+                if(isSignal && nt.year()==2016){
+                    weight = weight * nt.LHEPdfWeight()[0];
+                }
             }
             if(isnan(weight)||isinf(weight)){
                 cout << "found a wrong weight!!!!!" << endl;
@@ -916,14 +921,23 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
 
-            if (print_debug_file) {
-                debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",";
-                print_debug(debug_file,best_hyp_type,best_hyp,good_jets,good_bjets,category);
-                //debug_file << std::endl;
-            }
+            // if (print_debug_file) {
+            //     debug_file << nt.run() << "," << nt.luminosityBlock() << "," << nt.event() << ",";
+            //     print_debug(debug_file,best_hyp_type,best_hyp,good_jets,good_bjets,category);
+            //     //debug_file << std::endl;
+            // }
             
             // if there isn't a good lepton hypothesis
             if (best_hyp_type<0) continue;
+            // if (!(best_hyp_type==4 || best_hyp_type==2)) continue;
+            if ((category == 1 && chainTitle=="fakes_mc")||
+                (category == 2 && chainTitle=="flips_mc")||
+                (category == 3 && chainTitle=="rares")||
+                // (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData))||
+                (isSignal||isData)){
+                    hists.fill1d("cutflow","br",chainTitleCh,3,weight);
+            }
+
             //else {hists.fill1d("cutflow","br",chainTitleCh,2,weight);}
 
 
@@ -942,7 +956,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 (category == 3 && chainTitle=="rares")||
                 // (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData))||
                 (isSignal||isData)){
-                hists.fill1d("cutflow","br",chainTitleCh,7,weight);
+                hists.fill1d("cutflow","br",chainTitleCh,4,weight);
             }
 
             if (!quiet) {
@@ -981,7 +995,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 (category == 3 && chainTitle=="rares")||
                 // (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData))||
                 (isSignal||isData)){
-                hists.fill1d("cutflow","br",chainTitleCh,8,weight);
+                hists.fill1d("cutflow","br",chainTitleCh,5,weight);
             }
             if (debugPrints){std::cout << "passed triggers for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
@@ -1017,7 +1031,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 (category == 3 && chainTitle=="rares")||
                 // (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData))||
                 (isSignal||isData)){
-                hists.fill1d("cutflow","br",chainTitleCh,9,weight);
+                hists.fill1d("cutflow","br",chainTitleCh,6,weight);
             }
             if (debugPrints){std::cout << "passed filters for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
@@ -1212,7 +1226,11 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 if (doPdfs){
                     for(uint i=0; i<pdfWeights.size(); i++){
                         // cout << i << "   " << pdfWeights[i] << endl;
-                        variationalWeights[std::to_string(i)+"_"+std::to_string(i)+"_pdf_scale"]= weight*pdfWeights[i];
+                        if(isSignal){
+                            variationalWeights[std::to_string(i)+"_"+std::to_string(i)+"_pdf_scale"]= weight*pdfWeights[i]/pdfWeights[0];
+                        }else{
+                            variationalWeights[std::to_string(i)+"_"+std::to_string(i)+"_pdf_scale"]= weight*pdfWeights[i];
+                        }
                         // cout << "pdf_scale_"+std::to_string(i) << "  " << variationalWeights["pdf_scale_"+std::to_string(i)] << "  " << weight << endl;
                     }
                 }
@@ -1234,29 +1252,37 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             }
 
 
+            // if (!((category == 1 && chainTitle=="fakes_mc")||
+            //     (category == 2 && chainTitle=="flips_mc")||
+            //     (category == 3 && chainTitle=="rares")||
+            //     // (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData))||
+            //     (isSignal||isData))){
+            //     continue;
+            // }
+
             // if we've reached here we've passed the baseline selection
             // cout << category << endl;
             // fill histograms
             /*if ((chainTitle == "top"||chainTitle =="dy") && (best_hyp_type==4) ){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
             }*/
 
             if (category == 1 && !(isSignal||isData)){
-                // hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
+                // hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,met,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nFakes+=weight;}
             }else if (category == 2 && !(isSignal||isData)){
-                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
-                // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
+                // hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,met,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nFlips+=weight;}
             }else if (category == 3 && !(isSignal||isData)){
-                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
-                // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
+                // hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,met,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nRares+=weight;}
             }else if (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData)){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
             }else if (isSignal||isData){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,nt.MET_pt(),isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,weight,crWeight,doVariations,variationalWeights);
             }
             //cout << "**********" << endl;
         }//loop over events

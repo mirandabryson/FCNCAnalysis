@@ -12,7 +12,7 @@
 class HistContainer {
     private:
         std::map<std::string, TH1D*> hists1d_;
-        std::map<std::string, TH2F*> hists2d_;
+        std::map<std::string, TH2D*> hists2d_;
         std::map<std::string, THnF*> hists4d_;
         std::vector<std::string> region_names_;
         std::vector<std::string> getRegionNames();
@@ -21,6 +21,7 @@ class HistContainer {
         int getCRbin(int nleps, int njets, int nbjets);
         int getEtaBin(float lep_eta, int lep_id);
         std::vector<int> getDoubleFakeBin(float lep1_pt, float lep1_eta, int lep1_id, float lep2_pt, float lep2_eta, int lep2_id);
+        std::vector<int> getDoubleFlipBin(float lep1_pt, float lep1_eta, float lep2_pt, float lep2_eta);
         int counter_;
     public:
         HistContainer () : counter_(0) {region_names_=getRegionNames();}
