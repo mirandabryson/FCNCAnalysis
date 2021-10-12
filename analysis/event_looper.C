@@ -557,8 +557,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             float met = 0.;
             if(nt.year()==2017){met = nt.METFixEE2017_T1_pt();}
             else{met = nt.MET_T1_pt();}
-            // if (met < 50.){continue;}
-            if (met > 50.){continue;}
+            if (met < 50.){continue;}
+            // if (met > 50.){continue;}
 
             // cout << "event passed MET cut: " << nt.event() << endl;
             //jes up

@@ -2,7 +2,7 @@ import glob
 import tqdm
 import os
 
-VERSION = "fcnc_v10_SRonly_11june2021"
+VERSION = "fcnc_v13_SRandCR_30august2021"
 
 BABY_DIR = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}".format(VERSION)
 #BABY_DIR = "/hadoop/cms/store/user/dspitzba/FCNC_NanoSkim/{}".format(VERSION)

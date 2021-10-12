@@ -76,7 +76,7 @@ with open('./outputs/aug31_systematics/pdfErrorOutput.txt') as pdfShapeTxt:
 # print(tuhPDFShapeUnc)
 outdir = "/home/users/ksalyer/FranksFCNC/ana/analysis/datacards/"
 indir = "test/"
-outdir = outdir+indir+"/invertedPseudodata/"
+outdir = outdir+indir+"/"
 if not os.path.exists(outdir): os.makedirs(outdir)
 years = [2016, 2017, 2018]
 includeSignalInObs = False
@@ -290,6 +290,8 @@ for y in years:
     #first, we load the txt output from the tableMaker.py script into a dataframe
     #we will manipulate these data, save it into a different dataframe, and print to an output file
     df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
+    # fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
+    # flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
     fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/fakeEstyields_"+str(y)+".txt")
     flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/flipEstyields_"+str(y)+".txt")
     raresSyst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/variations/rares_"+str(y)+".txt")
@@ -573,6 +575,7 @@ for y in years:
                             yld = fakeCRStatYldDict[srbin]
                             row = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                             err = row["data estimate"].values[0]
+                            # err = row["fakes_mc"].values[0]
                             # print(yld, err, err/yld)
                         elif proc == "flips_mc":
                             if l == 3:
@@ -584,6 +587,7 @@ for y in years:
                                 yld = flipCRStatYldDict[srbin]
                                 row = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                                 err = row["data estimate"].values[0]
+                                # err = row["flips_mc"].values[0]
                                 # print(yld, err, err/yld)
                         else:
                             # print df
@@ -669,14 +673,14 @@ for y in years:
         #get MC yields in correct order of bins/processes
         rates = []
         observation = []
-        if "tch" in s:
-            # h_obs = getObjFromFile("./outputs/oct7_runSR/pseudodata.root","h_tch_out_"+str(y))
-            h_obs = getObjFromFile("./outputs/oct7_runSR/pseudodata.root","h_tuh_out_"+str(y))
-        elif "tuh" in s:
-            # h_obs = getObjFromFile("./outputs/oct7_runSR/pseudodata.root","h_tuh_out_"+str(y))
-            h_obs = getObjFromFile("./outputs/oct7_runSR/pseudodata.root","h_tch_out_"+str(y))
-        for b in range(1,h_obs.GetNbinsX()+1):
-            observation.append(str(h_obs.GetBinContent(b)))
+        # if "tch" in s:
+        #     # h_obs = getObjFromFile("./outputs/oct7_runSR/pseudodata.root","h_tch_out_"+str(y))
+        #     h_obs = getObjFromFile("./outputs/oct7_runSR/pseudodata.root","h_tuh_out_"+str(y))
+        # elif "tuh" in s:
+        #     # h_obs = getObjFromFile("./outputs/oct7_runSR/pseudodata.root","h_tuh_out_"+str(y))
+        #     h_obs = getObjFromFile("./outputs/oct7_runSR/pseudodata.root","h_tch_out_"+str(y))
+        # for b in range(1,h_obs.GetNbinsX()+1):
+        #     observation.append(str(h_obs.GetBinContent(b)))
         for l in nLeps:
             if l == 2:
                 numJets = list(nJets)
@@ -690,12 +694,13 @@ for y in years:
                     fliprow = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                     row     = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                     obsYld = row["rares"].values[0] + fakerow['data estimate'].values[0] + fliprow['data estimate'].values[0]
+                    # obsYld = row["rares"].values[0] + fakerow['fakes_mc'].values[0] + fliprow['flips_mc'].values[0]
                     # if includeSignalInObs: obsYld += row[s].values[0]
-                    # obsYld = round(obsYld,0)
-                    # obsString = str(obsYld)
-                    # while len(obsString)<20:
-                    #     obsString+=" "
-                    # observation.append(obsString)
+                    obsYld = round(obsYld,0)
+                    obsString = str(obsYld)
+                    while len(obsString)<20:
+                        obsString+=" "
+                    observation.append(obsString)
 
                     for p in nProc:
                         if p == "signal":
@@ -704,9 +709,11 @@ for y in years:
                         elif p == "fakes_mc":
                             fakerow = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                             yld = fakerow["data estimate"].values[0]
+                            # yld = fakerow["fakes_mc"].values[0]
                         elif p == "flips_mc":
                             fliprow = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                             yld = fliprow["data estimate"].values[0]
+                            # yld = fliprow["flips_mc"].values[0]
                         else:
                             yld = row[p].values[0]
 

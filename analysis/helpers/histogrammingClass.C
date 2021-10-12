@@ -11,9 +11,12 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 std::vector<std::string> HistContainer::getRegionNames() {
     std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
                                         "osest","mlsfest","sfest","mldfest","dfest",
+                                        "sfpp","dfpp","mlsfppp","mldfppp",
+                                        "sfppest","dfppest","mlsfpppest","mldfpppest"
                                         "vrcr","vrcrest","vrsr",
                                         "vrcr_flip","vrcrest_flip","vrsr_flip",};
 
+    // std::vector<std::string> rnames = {"br","ss","ml","os","osest"};
     // std::vector<std::string> rnames = {"os","osest"};
     // std::vector<std::string> rnames = {"os","osest","vrcr_flip","vrcrest_flip","vrsr_flip"};
     // std::vector<std::string> rnames = {"br","ss","ml"};
@@ -333,12 +336,13 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("ltminiiso",sample,16,0.,0.4);
     addHist1d("mll",sample,100,0,200);
     addHist1d("mbl",sample,100,0,200);
-    addHist1d("flipSF_inclMET_mee",sample,20,70,110);
-    addHist1d("flipSF_l50MET_mee",sample,20,70,110);
-    // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
-    // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
-    // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
-    // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
+    // // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
+    // // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
+    // addHist1d("flipSF_l50MET_mee",sample,35,55,125);
+    // // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
+    // // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
+    // // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
+    // // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
     addHist1d("ljpt",sample,50,0,500);
     addHist1d("tjpt",sample,50,0,500);
     addHist1d("ljbscore",sample,20,0,1);
@@ -352,15 +356,15 @@ void HistContainer::loadHists(std::string sample) {
     // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
     addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
-    addHist2d("fake2dcr_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
-    addHist2d("fake2dcr_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
-    addHist2d("fake2dcr_eefake",sample,21,0,21,21,0,21);
-    addHist2d("fake2dcr_emfake",sample,21,0,21,21,0,21);
-    addHist2d("fake2dcr_mmfake",sample,21,0,21,21,0,21);
-    addHist2d("flip2dcr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
-    addHist2d("flip2d2ecr",sample,18,0,18,18,0,18);//,"br");
+    // addHist2d("fake2dcr_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
+    // addHist2d("fake2dcr_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
+    // addHist2d("fake2dcr_eefake",sample,21,0,21,21,0,21);
+    // addHist2d("fake2dcr_emfake",sample,21,0,21,21,0,21);
+    // addHist2d("fake2dcr_mmfake",sample,21,0,21,21,0,21);
+    // addHist2d("flip2dcr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
+    // addHist2d("flip2d2ecr",sample,18,0,18,18,0,18);//,"br");
     addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
-    addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
+    // addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
 
     addHist1d("valSR_flip",sample,21,0.5,21.5,"vrsr_flip");
     addHist1d("valCR_flip",sample,21,0.5,21.5,"vrcr_flip");
@@ -543,6 +547,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     float mbl = 0.;
     float mass = 0.;
     if(leps.size()==2 && (leps[0].p4()+leps[1].p4()).M()>75 && (leps[0].p4()+leps[1].p4()).M()<105){
+    // if(leps.size()==2 && (leps[0].p4()+leps[1].p4()).M()>55 && (leps[0].p4()+leps[1].p4()).M()<125){
         onZPeak=1;
         mass = (leps[0].p4()+leps[1].p4()).M();
     }

@@ -18,22 +18,22 @@ sigWeight = 0.01
 # years=[2016]
 blind = True
 
-doCutflow = 1
-doSRTable = 0
+doCutflow = 0
+doSRTable = 1
 doFakeCR  = 0
-doFakeEst = 0
+doFakeEst = 1
 doFakeVal = 0
 doFlipCR  = 0
-doFlipEst = 0
+doFlipEst = 1
 doFlipVal = 0
 
 br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
-histdir=basepath+'outputs/sept29_isoTest/'
-sighistdir=basepath+'outputs/sept29_isoTest/'
+histdir=basepath+'outputs/oct12_runAll/'
+sighistdir=basepath+'outputs/oct12_runAll/'
 outdir=basepath+'outputs/'
-outtag='test/'
+outtag='oct12_runAll/'
 #files = glob.glob(histdir)
 if not os.path.exists(outdir+"tables/"+outtag): os.makedirs(outdir+"tables/"+outtag)
 
@@ -231,11 +231,11 @@ for year in years:
             sfEstimationHistsToAdd = [  "h_sfest_fakecr_"+proc,
                                         "h_mlsfest_fakecr_"+proc,
                                         ]
-            sfppEstimationHistsToAdd = [  "h_sfppest_fakecr_"+proc,
-                                          "h_mlsfpppest_fakecr_"+proc,
-                                          #"h_dfppest_fakecr_"+proc,
-                                          #"h_mldfpppest_fakecr_"+proc,
-                                        ]
+            # sfppEstimationHistsToAdd = [  "h_sfppest_fakecr_"+proc,
+            #                               "h_mlsfpppest_fakecr_"+proc,
+            #                               #"h_dfppest_fakecr_"+proc,
+            #                               #"h_mldfpppest_fakecr_"+proc,
+            #                             ]
             dfEstimationHistsToAdd = [  "h_dfest_fakecr_"+proc,
                                         "h_mldfest_fakecr_"+proc
                                         ]
@@ -243,7 +243,7 @@ for year in years:
             cr_hist = r.TH1F("fake_cr"+proc, "fake_cr"+proc, 21, 0.5, 21.5)
             sfest_hist = r.TH1F("fake_sfest"+proc, "fake_sfest"+proc, 21, 0.5, 21.5)
             dfest_hist = r.TH1F("fake_dfest"+proc, "fake_dfest"+proc, 21, 0.5, 21.5)
-            sfppest_hist = r.TH1F("fake_sfppest"+proc, "fake_sfppest"+proc, 21, 0.5, 21.5)
+            # sfppest_hist = r.TH1F("fake_sfppest"+proc, "fake_sfppest"+proc, 21, 0.5, 21.5)
             fakeest_hist = r.TH1F("fake_est"+proc, "fake_est"+proc, 21, 0.5, 21.5)
             for name in histsToAdd:
                 cr_hist.Add(getObjFromFile(fname,name))
@@ -255,8 +255,8 @@ for year in years:
             # if proc == "data":
             #     for b in range(1,sfest_hist.GetNbinsX()+1):
             #         print(b, sfest_hist.GetBinContent(b), dfest_hist.GetBinContent(b), dfest_hist.GetBinContent(b)/sfest_hist.GetBinContent(b))
-            for h_sfpp in sfppEstimationHistsToAdd:
-                sfppest_hist.Add(getObjFromFile(fname,h_sfpp))
+            # for h_sfpp in sfppEstimationHistsToAdd:
+            #     sfppest_hist.Add(getObjFromFile(fname,h_sfpp))
             for b in range(1,cr_hist.GetNbinsX()+1):
                 if 'signal' in proc:
                     yields.append(sigWeight*cr_hist.GetBinContent(b))
@@ -264,8 +264,8 @@ for year in years:
                 else:
                     yields.append(cr_hist.GetBinContent(b))
                     err.append(cr_hist.GetBinError(b))
-                    ppestyields.append(sfppest_hist.GetBinContent(b))
-                    ppesterr.append(sfppest_hist.GetBinError(b))
+                    # ppestyields.append(sfppest_hist.GetBinContent(b))
+                    # ppesterr.append(sfppest_hist.GetBinError(b))
                     if 'data' in proc:
                         #estyields.append(sfest_hist.GetBinContent(b)-dfest_hist.GetBinContent(b))
                         #esterr.append(sqrt(sfest_hist.GetBinError(b)**2+dfest_hist.GetBinError(b)**2))
@@ -274,10 +274,10 @@ for year in years:
             #print yields
             fakeEst_df[proc] = yields
             fakeEst_df[proc+" error"] = err
-            if 'rares' in proc:
-                # print ppestyields
-                fakeEst_df[proc+" prompt"] = ppestyields
-                fakeEst_df[proc+" prompt error"] = ppesterr
+            # if 'rares' in proc:
+            #     # print ppestyields
+            #     fakeEst_df[proc+" prompt"] = ppestyields
+            #     fakeEst_df[proc+" prompt error"] = ppesterr
             if 'data' in proc:
                 fakeEst_df[proc+" estimate"] = estyields
                 fakeEst_df[proc+" estimate error"] = esterr
