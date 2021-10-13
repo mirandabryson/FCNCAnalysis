@@ -9,7 +9,7 @@ from yahist import Hist1D, Hist2D
 
 f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/fakes_mc_2018_hists.root')
 
-path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug11_runall_MET50_lead25_jet30/'
+path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct12_runAll/'
 # sigpath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug09_lead25_MET50_jet30_newTriggers_tt2or1l/'
 
 regions =   [#"mr",
@@ -30,15 +30,17 @@ regions =   [#"mr",
              #"vrcr_flip",
              #"vrsr_flip"
             ]
-variables = [   ["njets", 1, r'$N_{jets}$'],
-                ["nbjets", 1, r'$N_{b-jets}$'],
+variables = [   #["njets", 1, r'$N_{jets}$'],
+                # ["nbjets", 1, r'$N_{b-jets}$'],
                 # ["nleps", 1, r'$N_{leptons}$'],
-                ["neles", 1, r'$N_{electrons}$'],
+                # ["neles", 1, r'$N_{electrons}$'],
                 # ["nmus", 1, r'$N_{muons}$'],
                 # ["ljpt", 5, r'$p_T\ (lead.\ jet)\ (GeV)$'],
                 # ["tjpt", 5, r'$p_T\ (sublead.\ jet)\ (GeV)$'],
-                ["llpt", 5, r'$p_T\ (lead.\ lep.)\ (GeV)$'],
-                ["ltpt", 5, r'$p_T\ (sublead.\ lep.)\ (GeV)$'],
+                ["ljbscore", 1, r'$lead.\ jet\ b-score$'],
+                ["tjbscore", 1, r'$sublead.\ jet\ b-score$'],
+                # ["llpt", 5, r'$p_T\ (lead.\ lep.)\ (GeV)$'],
+                # ["ltpt", 5, r'$p_T\ (sublead.\ lep.)\ (GeV)$'],
                 # ["mll", 4, r'$m_{ll}\ (GeV)$'],
                 # # ['flipSF_inclMET_mee', 1, r'$m_{ee}\ (GeV)$'],
                 # # ['flipSF_l50MET_mee', 1, r'$m_{ee}\ (GeV)$'],
@@ -50,7 +52,7 @@ variables = [   ["njets", 1, r'$N_{jets}$'],
                 # ["lteta", 4, r'$\eta\ (sublead.\ lep.)\ (GeV)$'],
                 # # ["llminiiso", 1, r'$miniIso\ (lead.\ lep.)\ (GeV)$'],
                 # # ["ltminiiso", 1, r'$miniIso\ (sublead.\ lep.)\ (GeV)$'],
-                ['met', 1, r'$MET\ (GeV)$'],
+                # ['met', 1, r'$MET\ (GeV)$'],
                 # ['flavorChannel', 1, r'$Flavor\ Channel$'],
                 # ['sr', 1, r'$SR\ bin$'],
                 # ['flipSFcr_inclMET', 1, r'$sr bin$'],
