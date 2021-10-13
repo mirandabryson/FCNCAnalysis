@@ -8,9 +8,9 @@ pd.set_option('display.float_format', lambda x: '%.5f' % x)
 
 years=[2016,2017,2018]
 # years=[2018]
-procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
+# procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
 # procs=['data']
-# procs=['signal_tch','signal_tuh']
+procs=['signal_tch','signal_tuh']
 # procs=['signal_tuh']
 # procs=['signal_tch', 'signal_tuh','rares']
 sigWeight = 0.01
@@ -21,10 +21,10 @@ blind = True
 doCutflow = 0
 doSRTable = 1
 doFakeCR  = 0
-doFakeEst = 1
+doFakeEst = 0
 doFakeVal = 0
 doFlipCR  = 0
-doFlipEst = 1
+doFlipEst = 0
 doFlipVal = 0
 
 br_hist_prefix='h_br_'
