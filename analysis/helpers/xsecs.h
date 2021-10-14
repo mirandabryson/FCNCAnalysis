@@ -222,10 +222,10 @@ double getXSec( string sampleName ){
 
     xsecs["signal_hct_ST"] = 1.01;
     xsecs["signal_hut_ST"] = 7.32;
-    xsecs["signal_hct_atop"] = 12.08/83.88144;
-    xsecs["signal_hut_atop"] = 12.08/83.88144;
-    xsecs["signal_hct_top"] = 12.08/83.88144;
-    xsecs["signal_hut_top"] = 12.08/83.88144;
+    xsecs["signal_hct_atop"] = 12.08;
+    xsecs["signal_hut_atop"] = 12.08;
+    xsecs["signal_hct_top"] = 12.08;
+    xsecs["signal_hut_top"] = 12.08;
 
     double xsecForWeight = xsecs[sampleName];
 

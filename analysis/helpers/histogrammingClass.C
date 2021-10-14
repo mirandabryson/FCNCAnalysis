@@ -15,8 +15,9 @@ std::vector<std::string> HistContainer::getRegionNames() {
     //                                     "sfppest","dfppest","mlsfpppest","mldfpppest"
     //                                     "vrcr","vrcrest","vrsr",
     //                                     "vrcr_flip","vrcrest_flip","vrsr_flip",};
-    std::vector<std::string> rnames = { "sf"};
+    // std::vector<std::string> rnames = { "os"};
 
+    std::vector<std::string> rnames = {"br","ss","ml"};
     // std::vector<std::string> rnames = {"br","ss","ml","os","osest"};
     // std::vector<std::string> rnames = {"os","osest"};
     // std::vector<std::string> rnames = {"os","osest","vrcr_flip","vrcrest_flip","vrsr_flip"};
@@ -346,13 +347,13 @@ void HistContainer::loadHists(std::string sample) {
     // // // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
     // addHist1d("ljpt",sample,50,0,500);
     // addHist1d("tjpt",sample,50,0,500);
-    addHist1d("ljbscore",sample,20,0,1);
-    addHist1d("tjbscore",sample,20,0,1);
+    // addHist1d("ljbscore",sample,20,0,1);
+    // addHist1d("tjbscore",sample,20,0,1);
     // addHist1d("lbpt",sample,50,0,500);    
     // addHist1d("ht",sample,50,0,1000);
     // addHist1d("met",sample,20,0,400);
     // addHist1d("cutflow",sample,7,0.5,7.5,"br");
-    // addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    addHist1d("sr",sample,21,0.5,21.5);//,"br");
     // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
     // // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
