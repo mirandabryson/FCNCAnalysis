@@ -10,11 +10,11 @@ years=[2016,2017,2018]
 # years=[2018]
 # procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
 # procs=['data']
-procs=['signal_tch','signal_tuh']
+# procs=['signal_tch','signal_tuh']
 # procs=['signal_tuh']
-# procs=['signal_tch', 'signal_tuh','rares']
-sigWeight = 0.01
-# sigWeight = 1
+procs=['signal_tch', 'signal_tuh','rares']
+# sigWeight = 0.01
+sigWeight = 1
 # years=[2016]
 blind = True
 
@@ -30,10 +30,10 @@ doFlipVal = 0
 br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
-histdir=basepath+'outputs/oct12_runAll/'
-sighistdir=basepath+'outputs/oct12_runAll/'
+histdir=basepath+'outputs/sept28_all/'
+sighistdir=basepath+'outputs/oct13_changeInSigBR/'
 outdir=basepath+'outputs/'
-outtag='oct12_runAll/'
+outtag='oct13_changeInSigBR/'
 #files = glob.glob(histdir)
 if not os.path.exists(outdir+"tables/"+outtag): os.makedirs(outdir+"tables/"+outtag)
 

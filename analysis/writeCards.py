@@ -76,7 +76,7 @@ with open('./outputs/aug31_systematics/pdfErrorOutput.txt') as pdfShapeTxt:
 # print(tuhPDFShapeUnc)
 outdir = "/home/users/ksalyer/FranksFCNC/ana/analysis/datacards/"
 indir = "test/"
-outdir = outdir+indir+"/"
+outdir = outdir+indir+"/oct13_changeInSigBR/"
 if not os.path.exists(outdir): os.makedirs(outdir)
 years = [2016, 2017, 2018]
 includeSignalInObs = False
@@ -290,6 +290,7 @@ for y in years:
     #first, we load the txt output from the tableMaker.py script into a dataframe
     #we will manipulate these data, save it into a different dataframe, and print to an output file
     df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
+    sig_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/oct13_changeInSigBR/tableMaker_"+str(y)+".txt")
     # fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
     # flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
     fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/fakeEstyields_"+str(y)+".txt")
@@ -589,12 +590,21 @@ for y in years:
                                 err = row["data estimate"].values[0]
                                 # err = row["flips_mc"].values[0]
                                 # print(yld, err, err/yld)
-                        else:
+                        elif proc == "rares":
                             # print df
                             # print df.loc[ (df["nLeptons"]==l) ]
                             # print df.loc[ (df["nJets"]==j) ]
                             # print df.loc[ (df["nBtags"]==b) ]
                             row = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                            # print row
+                            yld = row[proc].values[0]
+                            err = row[proc+" error"].values[0]
+                        else:
+                            # print df
+                            # print df.loc[ (df["nLeptons"]==l) ]
+                            # print df.loc[ (df["nJets"]==j) ]
+                            # print df.loc[ (df["nBtags"]==b) ]
+                            row = sig_df.loc[ (sig_df["nLeptons"]==l) & (sig_df["nJets"]==j) & (sig_df["nBtags"]==b) ]
                             # print row
                             yld = row[proc].values[0]
                             err = row[proc+" error"].values[0]
@@ -692,6 +702,7 @@ for y in years:
                     # # print fakeEst_df
                     fakerow = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                     fliprow = flipEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
+                    sigrow  = sig_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                     row     = df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                     obsYld = row["rares"].values[0] + fakerow['data estimate'].values[0] + fliprow['data estimate'].values[0]
                     # obsYld = row["rares"].values[0] + fakerow['fakes_mc'].values[0] + fliprow['flips_mc'].values[0]
@@ -705,7 +716,7 @@ for y in years:
                     for p in nProc:
                         if p == "signal":
                             p = s
-                            yld = row[p].values[0]
+                            yld = sigrow[p].values[0]
                         elif p == "fakes_mc":
                             fakerow = fakeEst_df.loc[ (df["nLeptons"]==l) & (df["nJets"]==j) & (df["nBtags"]==b) ]
                             yld = fakerow["data estimate"].values[0]

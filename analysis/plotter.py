@@ -9,12 +9,12 @@ from yahist import Hist1D, Hist2D
 
 f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/fakes_mc_2018_hists.root')
 
-path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct12_runAll/'
+path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct13_os/'
 # sigpath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug09_lead25_MET50_jet30_newTriggers_tt2or1l/'
 
 regions =   [#"mr",
-             # "os",
-             "sf",
+             "os",
+             # "sf",
              # "df",
              # "mlsf",
              # "mldf",
