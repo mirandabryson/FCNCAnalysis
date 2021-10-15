@@ -8,13 +8,13 @@ pd.set_option('display.float_format', lambda x: '%.5f' % x)
 
 years=[2016,2017,2018]
 # years=[2018]
-# procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
+procs=['signal_tch','signal_tuh','fakes_mc','flips_mc','rares','data']
 # procs=['data']
 # procs=['signal_tch','signal_tuh']
 # procs=['signal_tuh']
-procs=['signal_tch', 'signal_tuh','rares']
-# sigWeight = 0.01
-sigWeight = 1
+# procs=['signal_tch', 'signal_tuh','rares']
+sigWeight = 0.01
+# sigWeight = 1
 # years=[2016]
 blind = True
 
@@ -30,10 +30,10 @@ doFlipVal = 0
 br_hist_prefix='h_br_'
 basepath = os.path.realpath(__file__)
 basepath = basepath.replace("tableMaker.py","")
-histdir=basepath+'outputs/sept28_all/'
-sighistdir=basepath+'outputs/oct13_changeInSigBR/'
+histdir=basepath+'outputs/oct14_SR/'
+sighistdir=basepath+'outputs/oct14_SR/'
 outdir=basepath+'outputs/'
-outtag='oct13_changeInSigBR/'
+outtag='oct14_SR/'
 #files = glob.glob(histdir)
 if not os.path.exists(outdir+"tables/"+outtag): os.makedirs(outdir+"tables/"+outtag)
 
@@ -158,7 +158,7 @@ for year in years:
         #df = df[df.nBtags!=0]
         # df["Signal/Background Ratio"] = (df["signal_tuh"] + df["signal_tch"]) / df["Total Background"]
         df = df.fillna("")
-        # df = df.round(1)
+        df = df.round(1)
         writeToLatexFile("tables/SRyields_"+str(year), df)
         #save to txt file for datacards
         outtxt = open(outdir+"tables/"+outtag+"tableMaker_"+str(year)+".txt","w")

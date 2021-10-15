@@ -213,19 +213,19 @@ double getXSec( string sampleName ){
     xsecs["vh_nobb"] = 2.1360;
     xsecs["tzq"] = 0.0758;
     xsecs["tth_nobb"] = 0.2710;
-    // xsecs["signal_hct_ST"] = 6.99;
-    // xsecs["signal_hut_ST"] = 50.82;
-    // xsecs["signal_hct_atop"] = 83.88144;
-    // xsecs["signal_hut_atop"] = 83.88144;
-    // xsecs["signal_hct_top"] = 83.88144;
-    // xsecs["signal_hut_top"] = 83.88144;
+    xsecs["signal_hct_ST"] = 6.99;
+    xsecs["signal_hut_ST"] = 50.82;
+    xsecs["signal_hct_atop"] = 83.88144;
+    xsecs["signal_hut_atop"] = 83.88144;
+    xsecs["signal_hct_top"] = 83.88144;
+    xsecs["signal_hut_top"] = 83.88144;
 
-    xsecs["signal_hct_ST"] = 1.01;
-    xsecs["signal_hut_ST"] = 7.32;
-    xsecs["signal_hct_atop"] = 12.08;
-    xsecs["signal_hut_atop"] = 12.08;
-    xsecs["signal_hct_top"] = 12.08;
-    xsecs["signal_hut_top"] = 12.08;
+    // xsecs["signal_hct_ST"] = 1.01;
+    // xsecs["signal_hut_ST"] = 7.32;
+    // xsecs["signal_hct_atop"] = 12.08;
+    // xsecs["signal_hut_atop"] = 12.08;
+    // xsecs["signal_hct_top"] = 12.08;
+    // xsecs["signal_hut_top"] = 12.08;
 
     double xsecForWeight = xsecs[sampleName];
 

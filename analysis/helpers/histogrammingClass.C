@@ -9,15 +9,15 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 }
 
 std::vector<std::string> HistContainer::getRegionNames() {
-    // std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
-    //                                     "osest","mlsfest","sfest","mldfest","dfest",
-    //                                     "sfpp","dfpp","mlsfppp","mldfppp",
-    //                                     "sfppest","dfppest","mlsfpppest","mldfpppest"
-    //                                     "vrcr","vrcrest","vrsr",
-    //                                     "vrcr_flip","vrcrest_flip","vrsr_flip",};
+    std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
+                                        "osest","mlsfest","sfest","mldfest","dfest",
+                                        "sfpp","dfpp","mlsfppp","mldfppp",
+                                        "sfppest","dfppest","mlsfpppest","mldfpppest"
+                                        "vrcr","vrcrest","vrsr",
+                                        "vrcr_flip","vrcrest_flip","vrsr_flip",};
     // std::vector<std::string> rnames = { "os"};
 
-    std::vector<std::string> rnames = {"br","ss","ml"};
+    // std::vector<std::string> rnames = {"br","ss","ml"};
     // std::vector<std::string> rnames = {"br","ss","ml","os","osest"};
     // std::vector<std::string> rnames = {"os","osest"};
     // std::vector<std::string> rnames = {"os","osest","vrcr_flip","vrcrest_flip","vrsr_flip"};
@@ -323,41 +323,41 @@ void HistContainer::addHist4d(std::string quantity, std::string sample, int nbin
 }
 
 void HistContainer::loadHists(std::string sample) {
-    // addHist1d("njets",sample,5,-0.5,4.5);
-    // addHist1d("nbjets",sample,3,-0.5,2.5);
-    // addHist1d("nleps",sample,5,-0.5,4.5);
-    // addHist1d("neles",sample,5,-0.5,4.5);
-    // addHist1d("nmus",sample,5,-0.5,4.5);
-    // addHist1d("nvtxs",sample,100,0,100);
-    // addHist1d("elpt_emu",sample,100,0,200);
-    // addHist1d("llpt",sample,100,0,200);
-    // addHist1d("ltpt",sample,100,0,200);
-    // addHist1d("lleta",sample,100,-5.,-5.);
-    // addHist1d("lteta",sample,100,-5.,-5.);
-    // addHist1d("llminiiso",sample,16,0.,0.4);
-    // addHist1d("ltminiiso",sample,16,0.,0.4);
-    // addHist1d("mll",sample,100,0,200);
-    // addHist1d("mbl",sample,100,0,200);
-    // // // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
-    // // // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
-    // // addHist1d("flipSF_l50MET_mee",sample,35,55,125);
-    // // // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
-    // // // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
-    // // // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
-    // // // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
-    // addHist1d("ljpt",sample,50,0,500);
-    // addHist1d("tjpt",sample,50,0,500);
-    // addHist1d("ljbscore",sample,20,0,1);
-    // addHist1d("tjbscore",sample,20,0,1);
-    // addHist1d("lbpt",sample,50,0,500);    
-    // addHist1d("ht",sample,50,0,1000);
-    // addHist1d("met",sample,20,0,400);
-    // addHist1d("cutflow",sample,7,0.5,7.5,"br");
+    addHist1d("njets",sample,5,-0.5,4.5);
+    addHist1d("nbjets",sample,3,-0.5,2.5);
+    addHist1d("nleps",sample,5,-0.5,4.5);
+    addHist1d("neles",sample,5,-0.5,4.5);
+    addHist1d("nmus",sample,5,-0.5,4.5);
+    addHist1d("nvtxs",sample,100,0,100);
+    addHist1d("elpt_emu",sample,100,0,200);
+    addHist1d("llpt",sample,100,0,200);
+    addHist1d("ltpt",sample,100,0,200);
+    addHist1d("lleta",sample,100,-5.,-5.);
+    addHist1d("lteta",sample,100,-5.,-5.);
+    addHist1d("llminiiso",sample,16,0.,0.4);
+    addHist1d("ltminiiso",sample,16,0.,0.4);
+    addHist1d("mll",sample,100,0,200);
+    addHist1d("mbl",sample,100,0,200);
+    // // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
+    // // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
+    // addHist1d("flipSF_l50MET_mee",sample,35,55,125);
+    // // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
+    // // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
+    // // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
+    // // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
+    addHist1d("ljpt",sample,50,0,500);
+    addHist1d("tjpt",sample,50,0,500);
+    addHist1d("ljbscore",sample,20,0,1);
+    addHist1d("tjbscore",sample,20,0,1);
+    addHist1d("lbpt",sample,50,0,500);    
+    addHist1d("ht",sample,50,0,1000);
+    addHist1d("met",sample,20,0,400);
+    addHist1d("cutflow",sample,7,0.5,7.5,"br");
     addHist1d("sr",sample,21,0.5,21.5);//,"br");
-    // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
+    addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
     // // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
-    // addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
+    addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
     // // addHist2d("fake2dcr_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
     // // addHist2d("fake2dcr_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
     // // addHist2d("fake2dcr_eefake",sample,21,0,21,21,0,21);
@@ -365,12 +365,12 @@ void HistContainer::loadHists(std::string sample) {
     // // addHist2d("fake2dcr_mmfake",sample,21,0,21,21,0,21);
     // // addHist2d("flip2dcr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
     // // addHist2d("flip2d2ecr",sample,18,0,18,18,0,18);//,"br");
-    // addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
+    addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
     // // addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
 
-    // addHist1d("valSR_flip",sample,21,0.5,21.5,"vrsr_flip");
-    // addHist1d("valCR_flip",sample,21,0.5,21.5,"vrcr_flip");
-    // addHist1d("valCRest_flip",sample,21,0.5,21.5,"vrcrest_flip");
+    addHist1d("valSR_flip",sample,21,0.5,21.5,"vrsr_flip");
+    addHist1d("valCR_flip",sample,21,0.5,21.5,"vrcr_flip");
+    addHist1d("valCRest_flip",sample,21,0.5,21.5,"vrcrest_flip");
     // // // addHist1d("valSR_flip_eeChan",sample,21,0.5,21.5,"vrsr_flip");
     // // // addHist1d("valCR_flip_eeChan",sample,21,0.5,21.5,"vrcr_flip");
     // // // addHist1d("valCRest_flip_eeChan",sample,21,0.5,21.5,"vrcrest_flip");
@@ -378,9 +378,9 @@ void HistContainer::loadHists(std::string sample) {
     // // // addHist1d("valCR_flip_emChan",sample,21,0.5,21.5,"vrcr_flip");
     // // // addHist1d("valCRest_flip_emChan",sample,21,0.5,21.5,"vrcrest_flip");
 
-    // addHist1d("vrsr",sample,21,0.5,21.5,"vrsr");
-    // addHist1d("vrcr",sample,21,0.5,21.5,"vrcr");
-    // addHist1d("vrcrest",sample,21,0.5,21.5,"vrcrest");
+    addHist1d("vrsr",sample,21,0.5,21.5,"vrsr");
+    addHist1d("vrcr",sample,21,0.5,21.5,"vrcr");
+    addHist1d("vrcrest",sample,21,0.5,21.5,"vrcrest");
     // // addHist1d("vrsr_ee",sample,21,0.5,21.5,"vrsr");
     // // addHist1d("vrcr_ee",sample,21,0.5,21.5,"vrcr");
     // // addHist1d("vrcrest_ee",sample,21,0.5,21.5,"vrcrest");
