@@ -50,10 +50,10 @@ if __name__ == "__main__":
     args = parser.parse_args()
     excludeprocs = args.excludeproc.strip().split(',')
     myprocs = args.proc.strip().split(',')
-    print len(myprocs)
+    print(len(myprocs))
     if not args.datatag: args.datatag = args.tag
-    print "data tag", args.datatag
-    print "mc tag", args.tag
+    print("data tag", args.datatag)
+    print("mc tag", args.tag)
 
     plot_kwargs = {} if not args.plot_kwargs else ast.literal_eval(args.plot_kwargs)
 
@@ -70,7 +70,7 @@ if __name__ == "__main__":
             with open(".lastcompile.tmp","r") as fh:
                 lastcompile = fh.read().strip()
                 if lastcompile != ("fcnc"):
-                    print "Last compilation was different, so doing `rm event_looper_C.so"
+                    print("Last compilation was different, so doing `rm event_looper_C.so")
                     os.system("rm event_looper_C.so")
         r.gSystem.SetAclicMode(r.TSystem.kDebug)
         r.gROOT.ProcessLine(".L ../../NanoTools/NanoCORE/NANO_CORE.so")
@@ -165,7 +165,7 @@ if __name__ == "__main__":
                 ], options=options[2016] + "doTruthFlip doStitch"),
             "top": make_obj([
                 basedirs[2016] + get_sample_path("tt2lep", 2016,args.tag) + ".root",
-                basedirs[2016] + get_sample_path("tt1lep", 2016,args.tag) + ".root",
+                # basedirs[2016] + get_sample_path("tt1lep", 2016,args.tag) + ".root",
                 # # basedirs[2016] + get_sample_path("ttjets", 2016,args.tag) + ".root",
                 # basedirs[2016] + get_sample_path("tw_top", 2016,args.tag) + ".root",
                 # basedirs[2016] + get_sample_path("tw_atop", 2016,args.tag) + ".root",
@@ -233,13 +233,13 @@ if __name__ == "__main__":
 
                 basedirs[2016] + get_sample_path("ggh", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("qqww", 2016,args.tag) + ".root",
-                #basedirs[2016] + get_sample_path("twz", 2016,args.tag) + ".root",
-                basedirs[2016] + get_sample_path("tzq", 2016,args.tag) + ".root",
+                ###basedirs[2016] + get_sample_path("twz", 2016,args.tag) + ".root",
+                # basedirs[2016] + get_sample_path("tzq", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("vh_nobb", 2016,args.tag) + ".root",
-                #basedirs[2016] + get_sample_path("ww_dps", 2016,args.tag) + ".root",
+                ###basedirs[2016] + get_sample_path("ww_dps", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("www", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wwz", 2016,args.tag) + ".root",
-                basedirs[2016] + get_sample_path("wz", 2016,args.tag) + ".root",
+                # basedirs[2016] + get_sample_path("wz", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wzg", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wwg", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wzz", 2016,args.tag) + ".root",
@@ -257,9 +257,9 @@ if __name__ == "__main__":
                 basedirs[2016] + get_sample_path("tth_nobb", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("ttg_dilep", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tg", 2016,args.tag) + ".root",
-                basedirs[2016] + get_sample_path("ttw", 2016,args.tag) + ".root",
-                basedirs[2016] + get_sample_path("ttz_m1-10", 2016,args.tag) + ".root",
-                basedirs[2016] + get_sample_path("ttz_m10", 2016,args.tag) + ".root",
+                # basedirs[2016] + get_sample_path("ttw", 2016,args.tag) + ".root",
+                # basedirs[2016] + get_sample_path("ttz_m1-10", 2016,args.tag) + ".root",
+                # basedirs[2016] + get_sample_path("ttz_m10", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("zg", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wg", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tw_dilep", 2016,args.tag) + ".root",
@@ -403,7 +403,7 @@ if __name__ == "__main__":
                 ], options=options[2017] + "doTruthFlip doStitch"),
             "top": make_obj([
                 basedirs[2017] + get_sample_path("tt2lep", 2017,args.tag) + ".root",
-                basedirs[2017] + get_sample_path("tt1lep", 2017,args.tag) + ".root",
+                # basedirs[2017] + get_sample_path("tt1lep", 2017,args.tag) + ".root",
                 # # basedirs[2017] + get_sample_path("ttjets", 2017,args.tag) + ".root",
                 # basedirs[2017] + get_sample_path("tw_top", 2017,args.tag) + ".root",
                 # basedirs[2017] + get_sample_path("tw_atop", 2017,args.tag) + ".root",
@@ -738,7 +738,7 @@ if __name__ == "__main__":
                 ], options=options[2018] + "doTruthFlip doStitch"),
             "top": make_obj([
                 basedirs[2018] + get_sample_path("tt2lep", 2018,args.tag) + ".root",
-                basedirs[2018] + get_sample_path("tt1lep", 2018,args.tag) + ".root",
+                # basedirs[2018] + get_sample_path("tt1lep", 2018,args.tag) + ".root",
                 # # basedirs[2018] + get_sample_path("ttjets", 2018,args.tag) + ".root",
                 # basedirs[2018] + get_sample_path("tw_top", 2018,args.tag) + ".root",
                 # basedirs[2018] + get_sample_path("tw_atop", 2018,args.tag) + ".root",
@@ -963,11 +963,12 @@ if __name__ == "__main__":
     }
 
     if args.verbosity>=1:
-        print basedirs[2016]+get_sample_path("ttw",2016,args.tag)+".root"
+        print(basedirs[2016]+get_sample_path("ttw",2016,args.tag)+".root")
 
     do_slim = args.slim
 
-    def run_chain((index,info)):
+    def run_chain(xxx_todo_changeme):
+        (index,info) = xxx_todo_changeme
         ch, title, options, outputdir = info
         t0 = time.time()
         ret = r.event_looper(ch,title,options,args.nevts,outputdir)
@@ -978,12 +979,12 @@ if __name__ == "__main__":
     already_done = []
     if args.skip_already_done and os.path.exists("../limits/{}/".format(args.tag)):
         parse = lambda x: x.rsplit("/",1)[1].split("_histos")[0]
-        already_done = map(parse,glob.glob("../limits/{}/*_srhh_2016.root".format(args.tag)))
-        print "Skipping up to {} processes (e.g., {}, ...)".format(len(already_done),already_done[0])
+        already_done = list(map(parse,glob.glob("../limits/{}/*_srhh_2016.root".format(args.tag))))
+        print("Skipping up to {} processes (e.g., {}, ...)".format(len(already_done),already_done[0]))
     for year in years_to_consider:
         if (args.year) and (year != args.year): continue
-        print(chs[year].keys())
-        for proc in chs[year].keys():
+        print((list(chs[year].keys())))
+        for proc in list(chs[year].keys()):
             # if (len(args.proc) > 0) and (proc != args.proc): continue
             if (len(myprocs) > 0) and len(fnmatch.filter(myprocs,proc))==0: continue
             if (len(excludeprocs) > 0) and len(fnmatch.filter(excludeprocs,proc))>0: continue
@@ -1002,10 +1003,10 @@ if __name__ == "__main__":
             chTitle = r.TString("{}".format(proc))
             to_run.append([obj["ch"], chTitle, opts, outputdir])
             if args.verbosity >= 2:
-                print "Adding:", obj["ch"].GetTitle(), opts, outputdir, year
+                print("Adding:", obj["ch"].GetTitle(), opts, outputdir, year)
 
     if args.maxprocs > 0:
-        print "Actually, you specified a maximum of {} chains, so taking the first ones".format(args.maxprocs)
+        print("Actually, you specified a maximum of {} chains, so taking the first ones".format(args.maxprocs))
         to_run = to_run[:args.maxprocs]
 
     os.system("mkdir -p {}".format(outputdir))
@@ -1015,7 +1016,7 @@ if __name__ == "__main__":
         for fname in [str(x) for x in ch]:
             #print fname
             if not os.path.exists(fname):
-                print "[!] {} does not exist!".format(fname)
+                print("[!] {} does not exist!".format(fname))
 
     # to_run = [t for t in to_run if "doXgamma" in t[1]]
     # print to_run
@@ -1045,13 +1046,13 @@ if __name__ == "__main__":
         #         pass
 
         if len(to_run) > 3000:
-            print "[!] You might want to kill this at some point and run the rest with --skip_already_done because of memory leaks"
+            print("[!] You might want to kill this at some point and run the rest with --skip_already_done because of memory leaks")
 
         # Now run them
         if len(to_run) == 1:
-            print "Running one chain"
-            map(run_chain,enumerate(to_run))
-            print "Done"
+            print("Running one chain")
+            list(map(run_chain,enumerate(to_run)))
+            print("Done")
         else:
             os.nice(4)
             runner = pyrun.Runner(nproc=min(args.ncpu,len(to_run)), func=run_chain, dot_type=(3 if len(to_run)<500 else 0))
@@ -1136,4 +1137,4 @@ if __name__ == "__main__":
                     **plot_kwargs
                     )
 
-    print "end"
+    print("end")

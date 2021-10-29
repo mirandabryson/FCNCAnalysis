@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include "./xsecs.h"
+#include "TObjString.h"
 
 using namespace std;
 

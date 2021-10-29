@@ -1,5 +1,6 @@
 #include "histogrammingClass.h"
 
+
 std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
     std::vector<std::string> rnames = {"br","mr","ml","mlsf","ss","os","sf","df","mldf"};
     std::vector<std::string> jnames = {"0j","1j","2j","3j","ge4j"};
@@ -9,16 +10,17 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 }
 
 std::vector<std::string> HistContainer::getRegionNames() {
-    std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
-                                        "osest","mlsfest","sfest","mldfest","dfest",
-                                        "sfpp","dfpp","mlsfppp","mldfppp",
-                                        "sfppest","dfppest","mlsfpppest","mldfpppest"
-                                        "vrcr","vrcrest","vrsr",
-                                        "vrcr_flip","vrcrest_flip","vrsr_flip",};
+    // std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
+    //                                     "osest","mlsfest","sfest","mldfest","dfest",
+    //                                     "sfpp","dfpp","mlsfppp","mldfppp",
+    //                                     "sfppest","dfppest","mlsfpppest","mldfpppest"
+    //                                     "vrcr","vrcrest","vrsr",
+    //                                     "vrcr_flip","vrcrest_flip","vrsr_flip",};
     // std::vector<std::string> rnames = { "os"};
 
     // std::vector<std::string> rnames = {"br","ss","ml"};
     // std::vector<std::string> rnames = {"br","ss","ml","os","osest"};
+    std::vector<std::string> rnames = {"mr","br","ss","ml","sf","sfest","mlsf","mlsfest","os","osest"};
     // std::vector<std::string> rnames = {"os","osest"};
     // std::vector<std::string> rnames = {"os","osest","vrcr_flip","vrcrest_flip","vrsr_flip"};
     // std::vector<std::string> rnames = {"br","ss","ml"};
@@ -209,6 +211,7 @@ std::vector<int> HistContainer::getDoubleFlipBin(float lep1_pt, float lep1_eta, 
 
 
 void HistContainer::addHist1d(std::string quantity, std::string sample, int nbins, float xmin, float xmax, std::string region) {
+
     if (region=="") {
         for (auto name : region_names_) {
             std::string htitle = name+"_"+quantity+"_"+sample;
@@ -239,6 +242,30 @@ void HistContainer::addHist1d(std::string quantity, std::string sample, int nbin
         std::string htitle = region+"_"+quantity+"_"+sample;
         std::string hname = "h_"+region+"_"+quantity+"_"+sample;
         TH1D *hist = new TH1D(hname.c_str(),htitle.c_str(),nbins,xmin,xmax);
+        hists1d_[htitle] = hist;
+        //cout << htitle << "  " << hname << endl;
+    }
+    return;
+}
+void HistContainer::addHist1d(std::string quantity, std::string sample, int nbins, std::vector<double> xbins, std::string region) {
+
+    float xbinsarr[nbins+1];
+    for (uint i=0; i<xbins.size(); i++){
+        xbinsarr[i] = xbins[i];
+    }
+    if (region=="") {
+        for (auto name : region_names_) {
+            std::string htitle = name+"_"+quantity+"_"+sample;
+            std::string hname = "h_"+name+"_"+quantity+"_"+sample;
+            TH1D *hist = new TH1D(hname.c_str(),htitle.c_str(),nbins,xbinsarr);
+            hists1d_[htitle] = hist;
+        }
+    }
+    else {
+
+        std::string htitle = region+"_"+quantity+"_"+sample;
+        std::string hname = "h_"+region+"_"+quantity+"_"+sample;
+        TH1D *hist = new TH1D(hname.c_str(),htitle.c_str(),nbins,xbinsarr);
         hists1d_[htitle] = hist;
         //cout << htitle << "  " << hname << endl;
     }
@@ -323,54 +350,84 @@ void HistContainer::addHist4d(std::string quantity, std::string sample, int nbin
 }
 
 void HistContainer::loadHists(std::string sample) {
-    addHist1d("njets",sample,5,-0.5,4.5);
-    addHist1d("nbjets",sample,3,-0.5,2.5);
-    addHist1d("nleps",sample,5,-0.5,4.5);
-    addHist1d("neles",sample,5,-0.5,4.5);
-    addHist1d("nmus",sample,5,-0.5,4.5);
-    addHist1d("nvtxs",sample,100,0,100);
-    addHist1d("elpt_emu",sample,100,0,200);
-    addHist1d("llpt",sample,100,0,200);
-    addHist1d("ltpt",sample,100,0,200);
-    addHist1d("lleta",sample,100,-5.,-5.);
-    addHist1d("lteta",sample,100,-5.,-5.);
-    addHist1d("llminiiso",sample,16,0.,0.4);
-    addHist1d("ltminiiso",sample,16,0.,0.4);
-    addHist1d("mll",sample,100,0,200);
-    addHist1d("mbl",sample,100,0,200);
-    // // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
-    // // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
-    // addHist1d("flipSF_l50MET_mee",sample,35,55,125);
-    // // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
-    // // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
-    // // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
-    // // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
-    addHist1d("ljpt",sample,50,0,500);
-    addHist1d("tjpt",sample,50,0,500);
-    addHist1d("ljbscore",sample,20,0,1);
-    addHist1d("tjbscore",sample,20,0,1);
-    addHist1d("lbpt",sample,50,0,500);    
-    addHist1d("ht",sample,50,0,1000);
-    addHist1d("met",sample,20,0,400);
-    addHist1d("cutflow",sample,7,0.5,7.5,"br");
-    addHist1d("sr",sample,21,0.5,21.5);//,"br");
-    addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
-    // // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
-    // // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
-    addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
-    // // addHist2d("fake2dcr_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
-    // // addHist2d("fake2dcr_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
-    // // addHist2d("fake2dcr_eefake",sample,21,0,21,21,0,21);
-    // // addHist2d("fake2dcr_emfake",sample,21,0,21,21,0,21);
-    // // addHist2d("fake2dcr_mmfake",sample,21,0,21,21,0,21);
-    // // addHist2d("flip2dcr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
-    // // addHist2d("flip2d2ecr",sample,18,0,18,18,0,18);//,"br");
-    addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
-    // // addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
+    // addHist1d("njets",sample,5,-0.5,4.5);
+    // addHist1d("nbjets",sample,3,-0.5,2.5);
+    // addHist1d("nleps",sample,5,-0.5,4.5);
+    // addHist1d("neles",sample,5,-0.5,4.5);
+    // addHist1d("nmus",sample,5,-0.5,4.5);
+    // // addHist1d("nvtxs",sample,100,0,100);
+    // // addHist1d("elpt_emu",sample,100,0,200);
+    // addHist1d("llpt",sample,100,0,200);
+    // addHist1d("ltpt",sample,100,0,200);
+    // addHist1d("thirdlpt",sample,100,0,200);
+    // addHist1d("lleta",sample,100,-5.,-5.);
+    // addHist1d("lteta",sample,100,-5.,-5.);
+    // addHist1d("thirdleta",sample,100,-5.,-5.);
+    // addHist1d("lldxy",sample,100,0.,1.);
+    // addHist1d("ltdxy",sample,100,0.,1.);
+    // addHist1d("thirdldxy",sample,100,0.,1.);
+    // addHist1d("lldz",sample,100,0.,1.);
+    // addHist1d("ltdz",sample,100,0.,1.);
+    // addHist1d("thirdldz",sample,100,0.,1.);
+    // addHist1d("llminiiso",sample,16,0.,0.4);
+    // addHist1d("ltminiiso",sample,16,0.,0.4);
+    // addHist1d("mll",sample,100,0,200);
+    // addHist1d("mbl",sample,100,0,200);
+    // // // // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
+    // // // // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
+    // // // addHist1d("flipSF_l50MET_mee",sample,35,55,125);
+    // // // // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
+    // // // // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
+    // // // // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
+    // // // // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
+    // addHist1d("ljpt",sample,50,0,500);
+    // addHist1d("tjpt",sample,50,0,500);
+    // addHist1d("thirdjpt",sample,50,0,500);
+    // addHist1d("fwjpt",sample,50,0,500);
+    // addHist1d("ljbscore",sample,20,0,1);
+    // addHist1d("tjbscore",sample,20,0,1);
+    // addHist1d("thirdjbscore",sample,20,0,1);
+    // addHist1d("lbpt",sample,50,0,500);    
+    // addHist1d("lbscore",sample,20,0,1);    
+    // addHist1d("ht",sample,50,0,1000);
+    // addHist1d("met",sample,20,0,400);
+    // addHist1d("mt_ll_met",sample,20,0,400);
+    // addHist1d("mt_tl_met",sample,20,0,400);
+    // addHist1d("mt_thirdl_met",sample,20,0,400);
+    // addHist1d("cutflow",sample,7,0.5,7.5,"br");
+    // addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
+    addHist1d("njOnZ",sample,5,-0.5,4.5);
+    addHist1d("nbjOnZ",sample,3,-0.5,2.5);
+    addHist1d("mOnZ",sample,20,0,400);
+    addHist1d("bdtScoreOnZ_hct2016",sample,20,hct2016bins_);//,"br");
+    addHist1d("bdtScoreOnZ_hut2016",sample,20,hut2016bins_);//,"br");
+    addHist1d("bdtScoreOnZ_hct2017",sample,20,hct2017bins_);//,"br");
+    addHist1d("bdtScoreOnZ_hut2017",sample,20,hut2017bins_);//,"br");
+    addHist1d("bdtScoreOnZ_hct2018",sample,20,hct2018bins_);//,"br");
+    addHist1d("bdtScoreOnZ_hut2018",sample,20,hut2018bins_);//,"br");
+    addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
+    addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
+    addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
+    addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
+    addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
+    addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
+    // // // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
+    // // // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
+    // addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
+    // // // addHist2d("fake2dcr_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
+    // // // addHist2d("fake2dcr_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
+    // // // addHist2d("fake2dcr_eefake",sample,21,0,21,21,0,21);
+    // // // addHist2d("fake2dcr_emfake",sample,21,0,21,21,0,21);
+    // // // addHist2d("fake2dcr_mmfake",sample,21,0,21,21,0,21);
+    // // // addHist2d("flip2dcr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
+    // // // addHist2d("flip2d2ecr",sample,18,0,18,18,0,18);//,"br");
+    // addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
+    // // // addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
 
-    addHist1d("valSR_flip",sample,21,0.5,21.5,"vrsr_flip");
-    addHist1d("valCR_flip",sample,21,0.5,21.5,"vrcr_flip");
-    addHist1d("valCRest_flip",sample,21,0.5,21.5,"vrcrest_flip");
+    // addHist1d("valSR_flip",sample,21,0.5,21.5,"vrsr_flip");
+    // addHist1d("valCR_flip",sample,21,0.5,21.5,"vrcr_flip");
+    // addHist1d("valCRest_flip",sample,21,0.5,21.5,"vrcrest_flip");
     // // // addHist1d("valSR_flip_eeChan",sample,21,0.5,21.5,"vrsr_flip");
     // // // addHist1d("valCR_flip_eeChan",sample,21,0.5,21.5,"vrcr_flip");
     // // // addHist1d("valCRest_flip_eeChan",sample,21,0.5,21.5,"vrcrest_flip");
@@ -378,9 +435,9 @@ void HistContainer::loadHists(std::string sample) {
     // // // addHist1d("valCR_flip_emChan",sample,21,0.5,21.5,"vrcr_flip");
     // // // addHist1d("valCRest_flip_emChan",sample,21,0.5,21.5,"vrcrest_flip");
 
-    addHist1d("vrsr",sample,21,0.5,21.5,"vrsr");
-    addHist1d("vrcr",sample,21,0.5,21.5,"vrcr");
-    addHist1d("vrcrest",sample,21,0.5,21.5,"vrcrest");
+    // addHist1d("vrsr",sample,21,0.5,21.5,"vrsr");
+    // addHist1d("vrcr",sample,21,0.5,21.5,"vrcr");
+    // addHist1d("vrcrest",sample,21,0.5,21.5,"vrcrest");
     // // addHist1d("vrsr_ee",sample,21,0.5,21.5,"vrsr");
     // // addHist1d("vrcr_ee",sample,21,0.5,21.5,"vrcr");
     // // addHist1d("vrcrest_ee",sample,21,0.5,21.5,"vrcrest");
@@ -493,9 +550,9 @@ float get_sum_pt(Jets  &jets) {
 }
 
 void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, 
-                        float met, bool isVR_SR_fake, bool isVR_CR_fake, bool isVR_SR_flip, bool isVR_CR_flip, 
+                        float met, float metphi, bool isVR_SR_fake, bool isVR_CR_fake, bool isVR_SR_flip, bool isVR_CR_flip, 
                         bool isEE, bool isEM, bool isME, bool isMM, bool isEFake, bool isMFake, bool isEE_flip, 
-                        bool isEM_flip, float weight, float crWeight,
+                        bool isEM_flip, float hct_pred, float hut_pred, float weight, float crWeight,
                         bool doVariations, std::map<std::string, float> variationMap) {
     float fillWeight = 0;
     bool fillFakeCR = false;
@@ -546,6 +603,20 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     else if(neles==1&&nmus==1&&leps[0].absid()==11){flavChannelVal=3;}
     else if(neles==1&&nmus==1&&leps[0].absid()==13){flavChannelVal=4;}
 
+    float mostForwardJet = 0;
+    float mostForwardPt = 0;
+    for (auto j: jets){
+        if(abs(j.eta())>mostForwardJet){
+            mostForwardJet = abs(j.eta());
+            mostForwardPt = j.pt();
+        }
+    }
+
+    float mt_LeadLep_MET, mt_SubLeadLep_MET, mt_SubSubLeadLep_MET;
+    mt_LeadLep_MET = TMath::Sqrt(2*leps[0].pt()*met * (1 - TMath::Cos(leps[0].phi()-metphi)));
+    mt_SubLeadLep_MET = TMath::Sqrt(2*leps[1].pt()*met * (1 - TMath::Cos(leps[1].phi()-metphi)));
+    if(leps.size()>2){mt_SubSubLeadLep_MET = TMath::Sqrt(2*leps[2].pt()*met * (1 - TMath::Cos(leps[2].phi()-metphi)));}
+
     float mbl = 0.;
     float mass = 0.;
     if(leps.size()==2 && (leps[0].p4()+leps[1].p4()).M()>75 && (leps[0].p4()+leps[1].p4()).M()<105){
@@ -555,6 +626,16 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     }
     if(leps.size()==2 && leps[0].absid()==11 && leps[1].absid()==11){diEl=1;}
     if(leps.size()==2 && leps[0].charge()==leps[1].charge()){isSS=1;}
+
+    bool trilepOnZ = 0;
+    if(leps.size()==3){
+        if( (leps[0].p4()+leps[1].p4()).M()>75 && (leps[0].p4()+leps[1].p4()).M()<105 && 
+            leps[0].charge()+leps[1].charge()==0 && leps[0].absid()==leps[1].absid() ) {trilepOnZ=1;}
+        if( (leps[0].p4()+leps[2].p4()).M()>75 && (leps[0].p4()+leps[2].p4()).M()<105 && 
+            leps[0].charge()+leps[2].charge()==0 && leps[0].absid()==leps[2].absid() ) {trilepOnZ=1;}
+        if( (leps[1].p4()+leps[2].p4()).M()>75 && (leps[1].p4()+leps[2].p4()).M()<105 && 
+            leps[1].charge()+leps[2].charge()==0 && leps[1].absid()==leps[2].absid() ) {trilepOnZ=1;}
+    }
 
     if ( rname=="sf" && nPrompt==2 ){
         rnames.push_back("sfpp");
@@ -599,11 +680,22 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         fill1d("neles",name,sample,neles,fillWeight);
         fill1d("nmus",name,sample,nmus,fillWeight);
         fill1d("nvtxs",name,sample,nt.PV_npvsGood(),fillWeight);
+        if(hct_pred!=-999){fill1d("bdtScore_hct",name,sample,hct_pred,fillWeight);}
+        if(hut_pred!=-999){fill1d("bdtScore_hut",name,sample,hut_pred,fillWeight);}
+        if(hct_pred!=-999&&trilepOnZ){fill1d("bdtScoreOnZ_hct",name,sample,hct_pred,fillWeight);}
+        if(hut_pred!=-999&&trilepOnZ){fill1d("bdtScoreOnZ_hut",name,sample,hut_pred,fillWeight);}
+        if((hut_pred!=-999||hct_pred!=-999)&&trilepOnZ){
+            fill1d("njOnZ",name,sample,njets,fillWeight);
+            fill1d("nbjOnZ",name,sample,nbjets,fillWeight);
+            fill1d("mOnZ",name,sample,met,fillWeight);
+        }
         if(leps.size()==2){
             if ((leps[0].absid()==11&&leps[1].absid()==13)||(leps[0].absid()==13&&leps[1].absid()==11)){fill1d("elpt_emu",name,sample,leps[0].pt(),fillWeight);}
         }
         fill1d("llpt",name,sample,leps[0].pt(),fillWeight);
         fill1d("ltpt",name,sample,leps[1].pt(),fillWeight);
+        fill1d("thirdlpt",name,sample,leps[2].pt(),fillWeight);
+        fill1d("fwjpt",name,sample,mostForwardPt,fillWeight);
         if (fakeLeps.size()==1){
             float lep1_pt = fakeLeps[0].conecorrpt();
             if(lep1_pt>70){lep1_pt=80.;}
@@ -644,49 +736,64 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         }
         fill1d("lleta",name,sample,leps[0].eta(),fillWeight);
         fill1d("lteta",name,sample,leps[1].eta(),fillWeight);
+        fill1d("thirdleta",name,sample,leps[2].eta(),fillWeight);
+        fill1d("lldxy",name,sample,leps[0].dxy(),fillWeight);
+        fill1d("ltdxy",name,sample,leps[1].dxy(),fillWeight);
+        fill1d("thirdldxy",name,sample,leps[2].dxy(),fillWeight);
+        fill1d("lldz",name,sample,leps[0].dz(),fillWeight);
+        fill1d("ltdz",name,sample,leps[1].dz(),fillWeight);
+        fill1d("thirdldz",name,sample,leps[2].dz(),fillWeight);
         fill1d("llminiiso",name,sample,leps[0].miniIso(),fillWeight);
         fill1d("ltminiiso",name,sample,leps[1].miniIso(),fillWeight);
         fill1d("ljpt",name,sample,jets[0].pt(),fillWeight);
         fill1d("tjpt",name,sample,jets[1].pt(),fillWeight);
+        fill1d("thirdjpt",name,sample,jets[2].pt(),fillWeight);
         fill1d("ljbscore",name,sample,jets[0].bdisc(),fillWeight);
+        // fill1d("tjbscore",name,sample,jets[1].bdisc(),fillWeight);
         if(njets>=2){fill1d("tjbscore",name,sample,jets[1].bdisc(),fillWeight);}
-        else if(nbjets>0){fill1d("tjbscore",name,sample,bjets[0].bdisc(),fillWeight);}
+        // else if(nbjets>0){fill1d("tjbscore",name,sample,bjets[0].bdisc(),fillWeight);}
+        if(njets>=3){fill1d("thirdjbscore",name,sample,jets[2].bdisc(),fillWeight);}
         fill1d("met",name,sample,met,fillWeight);
         if (nbjets>0){
             fill1d("lbpt",name,sample,bjets[0].pt(),fillWeight);
+            fill1d("lbscore",name,sample,bjets[0].bdisc(),fillWeight);
             mbl = (leps[0].p4()+bjets[0].p4()).M();
             fill1d("mbl",name,sample,mbl,fillWeight);
         }
         float ht = get_sum_pt(jets);
         fill1d("ht",name,sample,ht,fillWeight);
-        if (fillWeight == weight && name != "br"){
-            //fill weight requirement prevents filling with the estimate weight (i.e. fake or flip weight)
-            //name requirement prevents double-filling for ss or ml events
+        fill1d("mt_ll_met",name,sample,mt_LeadLep_MET,fillWeight);
+        fill1d("mt_tl_met",name,sample,mt_SubLeadLep_MET,fillWeight);
+        if(leps.size()>2){fill1d("mt_thirdl_met",name,sample,mt_SubSubLeadLep_MET,fillWeight);}
+        fill1d("mll",name,sample,(leps[0].p4()+leps[1].p4()).M(),fillWeight);
+        // if (fillWeight == weight && name != "br"){
+        //     //fill weight requirement prevents filling with the estimate weight (i.e. fake or flip weight)
+        //     //name requirement prevents double-filling for ss or ml events
 
-            /*//this fills mll 3 times for ml events, so commenting it out
-            cout << "mll for event: " << nt.event() << endl;
-            for (unsigned int idx1=0; idx1<leps.size();idx1++) {
-                cout << "   index 1: " << idx1 << endl;
-                for (unsigned int idx2=idx1+1; idx2<leps.size();idx2++) {
-                    cout << "   index 2: " << idx2 << endl;
-                    float mass = (leps[idx1].p4()+leps[idx2].p4()).M();
-                    cout << "   mass: " << mass << endl;
-                    fill1d("mll",name,sample,mass,fillWeight);
-                    //cout << "filling mll for event " << nt.event() << " and region " << name << endl;
-                }
-            }*/
+        //     //this fills mll 3 times for ml events, so commenting it out
+        //     cout << "mll for event: " << nt.event() << endl;
+        //     for (unsigned int idx1=0; idx1<leps.size();idx1++) {
+        //         cout << "   index 1: " << idx1 << endl;
+        //         for (unsigned int idx2=idx1+1; idx2<leps.size();idx2++) {
+        //             cout << "   index 2: " << idx2 << endl;
+        //             float mass = (leps[idx1].p4()+leps[idx2].p4()).M();
+        //             cout << "   mass: " << mass << endl;
+        //             fill1d("mll",name,sample,mass,fillWeight);
+        //             //cout << "filling mll for event " << nt.event() << " and region " << name << endl;
+        //         }
+        //     }
 
-            //this fills mll with the leading two leptons. because best_hyp is fed to this function, this is the ss or os leptons in 2l events
-            //FIX ME: probably does not behave how we want for >2l cases
-            //cout << "leading 2 best_hyps for region " << name << endl;
-            //cout << "   id 1: " << leps[0].id() << " and id 2: " << leps[1].id() << endl;
-            mass = (leps[0].p4()+leps[1].p4()).M();
-            //cout << "   mll: " << mass << endl;
-            //cout << "   filled mll plot for event " << nt.event() << " with " << mass << endl;
+        //     //this fills mll with the leading two leptons. because best_hyp is fed to this function, this is the ss or os leptons in 2l events
+        //     //FIX ME: probably does not behave how we want for >2l cases
+        //     //cout << "leading 2 best_hyps for region " << name << endl;
+        //     //cout << "   id 1: " << leps[0].id() << " and id 2: " << leps[1].id() << endl;
+        //     mass = (leps[0].p4()+leps[1].p4()).M();
+        //     //cout << "   mll: " << mass << endl;
+        //     //cout << "   filled mll plot for event " << nt.event() << " with " << mass << endl;
             
-            // cout << "filling mll for " << name << " " << sample << " " << nt.event() << endl;
-            fill1d("mll",name,sample,mass,fillWeight);
-        }
+        //     // cout << "filling mll for " << name << " " << sample << " " << nt.event() << endl;
+        //     fill1d("mll",name,sample,mass,fillWeight);
+        // }
         if (name == "br") {
 
             int sr = getSR(best_hyp_type,njets,nbjets);

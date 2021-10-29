@@ -4,16 +4,22 @@
 
 class BDTBabyMaker{
     std::map<std::string, Float_t> parameter_map; 
+    std::map<std::string, Float_t> variationalWeights;
     TFile* BabyFile;
     TTree* BabyTree;
     Float_t weight;
+    Int_t eventNum;
+    Int_t runNum;
+    Int_t lumiNum;
     public:
-        void set_features(std::map<std::string, Float_t>, Float_t);
-        BDTBabyMaker(char*);
+        void set_features(std::map<std::string, Float_t>, Float_t, std::map<std::string, Float_t>);
+        //BDTBabyMaker(char*);
+        void Initialize(char*);
+        BDTBabyMaker(); //return empty object
         void close();
 };
-    
-BDTBabyMaker::BDTBabyMaker(char* output_name) {
+
+void BDTBabyMaker::Initialize(char* output_name) {
     BabyFile = new TFile(output_name, "RECREATE");
     BabyFile->cd();
     BabyTree = new TTree("T", "Events");
@@ -49,9 +55,29 @@ BDTBabyMaker::BDTBabyMaker(char* output_name) {
     BabyTree->Branch("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
     BabyTree->Branch("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
     BabyTree->Branch("Weight", &weight);
+    BabyTree->Branch("Event", &eventNum);
+    BabyTree->Branch("Run", &runNum);
+    BabyTree->Branch("Lumi", &lumiNum);
+    //BabyTree->Branch("Weight_LepSF_up", &variationalWeights["LepSF_up"]);
+    //BabyTree->Branch("Weight_LepSF_down", &variationalWeights["LepSF_down"]);
+    //BabyTree->Branch("Weight_Trigger_up", &variationalWeights["Trigger_up"]);
+    //BabyTree->Branch("Weight_Trigger_down", &variationalWeights["Trigger_down"]);
+    //BabyTree->Branch("Weight_PU_up", &variationalWeights["PU_up"]);
+    //BabyTree->Branch("Weight_PU_down", &variationalWeights["PU_down"]);
+    //BabyTree->Branch("Weight_bTag_up", &variationalWeights["bTag_up"]);
+    //BabyTree->Branch("Weight_bTag_down", &variationalWeights["bTag_down"]);
+    //vector<string> bVariations = {"lf","hf","hfstats1","hfstats2","lfstats1","lfstats2","cferr1","cferr2"};
+    //for (uint b = 0; b < bVariations.size(); b++){
+    //    BabyTree->Branch((bVariations[b]+"_up"), &variationalWeights[bVariations[b]+"_up"]);
+    //    BabyTree->Branch((bVariations[b]+"_down"), &variationalWeights[bVariations[b]+"_down"]);
+    //}
 }
 
-void BDTBabyMaker::set_features(std::map<std::string, Float_t> BDT_params, Float_t event_weight=1.0) {
+BDTBabyMaker::BDTBabyMaker() {
+    return;
+}
+
+void BDTBabyMaker::set_features(std::map<std::string, Float_t> BDT_params, Float_t event_weight, std::map<std::string, Float_t> var_weights) {
     //parameter_map["Event"] = nt.event();
     parameter_map["Most_Forward_pt"] = BDT_params["Most_Forward_pt"];
     parameter_map["HT"] = BDT_params["HT"];
@@ -84,6 +110,23 @@ void BDTBabyMaker::set_features(std::map<std::string, Float_t> BDT_params, Float
     parameter_map["MT_SubSubLeadLep_MET"] = BDT_params["MT_SubSubLeadLep_MET"];
     parameter_map["LeadBtag_score"] = BDT_params["LeadBtag_score"];
     weight = event_weight;
+    eventNum = nt.event();
+    runNum = nt.run();
+    lumiNum = nt.luminosityBlock();
+    //weights used for calculating systematic uncertainties
+    variationalWeights["PU_up"] = var_weights["PU_up"];
+    variationalWeights["PU_down"] = var_weights["PU_down"];
+    variationalWeights["LepSF_up"] = var_weights["LepSF_up"];
+    variationalWeights["LepSF_down"] = var_weights["LepSF_down"];
+    variationalWeights["Trigger_up"] = var_weights["Trigger_up"];
+    variationalWeights["Trigger_down"] = var_weights["Trigger_down"];
+    variationalWeights["bTag_up"] = var_weights["bTag_up"];
+    variationalWeights["bTag_down"] = var_weights["bTag_down"];
+    vector<string> bVariations = {"lf","hf","hfstats1","hfstats2","lfstats1","lfstats2","cferr1","cferr2"};
+    for (uint b = 0; b < bVariations.size(); b++){
+        variationalWeights[bVariations[b]+"_up"] = var_weights[bVariations[b]+"_up"];
+        variationalWeights[bVariations[b]+"_down"] = var_weights[bVariations[b]+"_down"];
+    }
     BabyTree->Fill();
 }
 

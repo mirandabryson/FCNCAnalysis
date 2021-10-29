@@ -1,10 +1,15 @@
+#ifndef BOOSTER
+#define BOOSTER
 #include <iostream>
+#include <string>
 #include "TMVA/Reader.h"
 #include "../../../../NanoTools/NanoCORE/SSSelections.h"
 #include "../../../../NanoTools/NanoCORE/Nano.h"
-
+//#include "MVAUtils/BDT.h"
 using namespace std;
 using namespace std::chrono;
+//this makes debugging maps easier
+template class std::map<int, std::vector<float>>;
 
 double convert_tmva_to_prob(double score) {
     // Undo TMVA transformation
@@ -20,14 +25,16 @@ class BDT {
     // https://root.cern.ch/download/doc/tmva/TMVAUsersGuide.pdf
     unique_ptr<TMVA::Reader> booster;
     std::map<std::string, Float_t> parameter_map;
+    std::map<int, std::vector<float>> BDT_bins;
     public:
-        BDT(std::string);
+        BDT(std::string, std::string, bool);
         void set_features(std::map<std::string, Float_t>, bool);
         Float_t get_score();
-        std::map<std::string, Float_t> calculate_features(Jets, Jets, float, Leptons);
+        std::map<std::string, Float_t> calculate_features(Jets, Jets, Leptons);
+        std::vector<float> get_BDT_bins(int);
 };
 
-BDT::BDT(std::string path_to_xml) {
+BDT::BDT(std::string path_to_xml, std::string path_to_csv="", bool debug=false) {
     booster.reset( new TMVA::Reader( "!Color:Silent" ) );
     // Booster must be initialized with an xml file and the feature addresses.
     // The feature addresses cannot be changed, but the values can.
@@ -43,29 +50,70 @@ BDT::BDT(std::string path_to_xml) {
     booster->AddVariable("SubLeadLep_eta", &(parameter_map["SubLeadLep_eta"]));
     booster->AddVariable("SubLeadLep_dxy", &(parameter_map["SubLeadLep_dxy"]));
     booster->AddVariable("SubLeadLep_dz", &(parameter_map["SubLeadLep_dz"]));
-    booster->AddVariable("nJet", &(parameter_map["nJets"]));
-    booster->AddVariable("nbtag", &(parameter_map["nBtag"]));
+    booster->AddVariable("nJets", &(parameter_map["nJets"]));
+    booster->AddVariable("nBtag", &(parameter_map["nBtag"]));
     booster->AddVariable("LeadJet_pt", &(parameter_map["LeadJet_pt"]));
     booster->AddVariable("SubLeadJet_pt", &(parameter_map["SubLeadJet_pt"]));
     booster->AddVariable("SubSubLeadJet_pt", &(parameter_map["SubSubLeadJet_pt"]));
+    booster->AddVariable("LeadJet_BtagScore", &(parameter_map["LeadJet_BtagScore"]));
+    booster->AddVariable("SubLeadJet_BtagScore", &(parameter_map["SubLeadJet_BtagScore"]));
+    booster->AddVariable("SubSubLeadJet_BtagScore", &(parameter_map["SubSubLeadJet_BtagScore"]));
     booster->AddVariable("nElectron", &(parameter_map["nElectron"]));
     booster->AddVariable("MET_pt", &(parameter_map["MET_pt"]));
     booster->AddVariable("LeadBtag_pt", &(parameter_map["LeadBtag_pt"]));
     booster->AddVariable("MT_LeadLep_MET", &(parameter_map["MT_LeadLep_MET"]));
     booster->AddVariable("MT_SubLeadLep_MET", &(parameter_map["MT_SubLeadLep_MET"]));
     booster->AddVariable("LeadLep_SubLeadLep_Mass", &(parameter_map["LeadLep_SubLeadLep_Mass"]));
-    //booster->AddVariable("SubSubLeadLep_pt", &(parameter_map["SubSubLeadLep_pt"]));
-    //booster->AddVariable("SubSubLeadLep_eta", &(parameter_map["SubSubLeadLep_eta"]));
-    //booster->AddVariable("SubSubLeadLep_dxy", &(parameter_map["SubSubLeadLep_dxy"]));
-    //booster->AddVariable("SubSubLeadLep_dz", &(parameter_map["SubSubLeadLep_dz"]));
-    //booster->AddVariable("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
-    //booster->AddVariable("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
+    booster->AddVariable("SubSubLeadLep_pt", &(parameter_map["SubSubLeadLep_pt"]));
+    booster->AddVariable("SubSubLeadLep_eta", &(parameter_map["SubSubLeadLep_eta"]));
+    booster->AddVariable("SubSubLeadLep_dxy", &(parameter_map["SubSubLeadLep_dxy"]));
+    booster->AddVariable("SubSubLeadLep_dz", &(parameter_map["SubSubLeadLep_dz"]));
+    booster->AddVariable("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
+    booster->AddVariable("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
     booster->BookMVA("BDT", path_to_xml);
-
+    // read the BDT binning from a CSV file
+    ifstream fin;
+    fin.open(path_to_csv);
+    std::string line;
+    char delimiter = ',';
+    std::vector<int> years;
+    string record;
+    fin >> line;
+    stringstream head(line);
+    while (getline(head, record, delimiter)){
+        years.push_back(std::stoi(record));
+    }
+    while (!fin.eof()){
+        fin >> line;
+        if (line.length() > 0) {
+            stringstream s(line);
+            for(int i : years){
+                std::getline(s, record, delimiter);//get next entry in csv
+                BDT_bins[i].push_back(std::stof(record));
+            }
+        }
+        line.clear();
+    }
+    if (debug) {
+        for (int i : {2016, 2017, 2018}){
+            std::cout << i << std::endl;
+            for (float b : BDT_bins[i]){
+                std::cout << "\t" << b << std::endl;
+            }
+        }
+    }
 }
 
-std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good_bjets, float ht, Leptons ordered_leptons) {
-    Float_t MET_pt = nt.MET_pt();
+std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good_bjets, Leptons ordered_leptons) {
+    Float_t MET_pt = -999.0;
+    Float_t MET_phi = -999.0;
+    if(nt.year()==2017){
+        MET_pt = nt.METFixEE2017_T1_pt();
+        MET_phi = nt.METFixEE2017_T1_phi();
+    }else{
+        MET_pt = nt.MET_T1_pt();
+        MET_phi = nt.MET_T1_phi();
+    }
     Lepton LeadLep = ordered_leptons[0];
     Lepton SubLeadLep = ordered_leptons[1];
     Float_t LeadLep_pt = LeadLep.pt();
@@ -92,7 +140,7 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
         SubSubLeadLep_eta = abs(SubSubLeadLep.eta());
         SubSubLeadLep_dxy = abs(SubSubLeadLep.dxy());
         SubSubLeadLep_dz = abs(SubSubLeadLep.dz());
-        MT_SubSubLeadLep_MET = TMath::Sqrt(2*ordered_leptons[2].pt()*nt.MET_pt() * (1 - TMath::Cos(ordered_leptons[2].phi()-nt.MET_phi())));
+        MT_SubSubLeadLep_MET = TMath::Sqrt(2*ordered_leptons[2].pt()*MET_pt * (1 - TMath::Cos(ordered_leptons[2].phi()-MET_phi)));
         }
 
     for(auto lep: ordered_leptons){//count nElectrons
@@ -101,10 +149,9 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
             }
         }
     //std::cout << "njets: " << njets << std::endl;
+    LeadJet_pt = good_jets[0].pt();
+    LeadJet_BtagScore = good_jets[0].bdisc();
     if (njets >= 2) {
-        LeadJet_pt = good_jets[0].pt();
-        LeadJet_BtagScore = good_jets[0].bdisc();
-        //std::cout << "LeadJet_BtagScore: " << LeadJet_BtagScore << std::endl;
         SubLeadJet_pt = good_jets[1].pt();
         SubLeadJet_BtagScore = good_jets[1].bdisc();
     }
@@ -123,10 +170,13 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
             Most_Forward_pt = good_jets[i].pt();
         }
     }
-    Float_t BDT_HT = ht;
+    Float_t BDT_HT = 0.0;
+    for (Jet j : good_jets){
+        BDT_HT += j.pt();
+    }
     Float_t MT_LeadLep_MET, MT_SubLeadLep_MET;
-    MT_LeadLep_MET = TMath::Sqrt(2*ordered_leptons[0].pt()*nt.MET_pt() * (1 - TMath::Cos(ordered_leptons[0].phi()-nt.MET_phi())));
-    MT_SubLeadLep_MET = TMath::Sqrt(2*ordered_leptons[1].pt()*nt.MET_pt() * (1 - TMath::Cos(ordered_leptons[1].phi()-nt.MET_phi())));
+    MT_LeadLep_MET = TMath::Sqrt(2*ordered_leptons[0].pt()*MET_pt * (1 - TMath::Cos(ordered_leptons[0].phi()-MET_phi)));
+    MT_SubLeadLep_MET = TMath::Sqrt(2*ordered_leptons[1].pt()*MET_pt * (1 - TMath::Cos(ordered_leptons[1].phi()-MET_phi)));
     std::map<std::string, Float_t> params = {
         {"nJets", njets},
         {"nBtag", nbjets},
@@ -164,64 +214,46 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
 
      
 void BDT::set_features(std::map<std::string, Float_t> BDT_params, bool debug=false){
-    parameter_map["Most_Forward_pt"] = BDT_params["Most_Forward_pt"];
-    parameter_map["HT"] = BDT_params["HT"];
-    parameter_map["LeadLep_eta"] = BDT_params["LeadLep_eta"];
-    parameter_map["LeadLep_pt"] = BDT_params["LeadLep_pt"];
-    parameter_map["LeadLep_dxy"] = BDT_params["LeadLep_dxy"];
-    parameter_map["LeadLep_dz"] = BDT_params["LeadLep_dz"];
-    parameter_map["SubLeadLep_pt"] = BDT_params["SubLeadLep_pt"];
-    parameter_map["SubLeadLep_eta"] = BDT_params["SubLeadLep_eta"];
-    parameter_map["SubLeadLep_dxy"] = BDT_params["SubLeadLep_dxy"];
-    parameter_map["SubLeadLep_dz"] = BDT_params["SubLeadLep_dz"];
-    parameter_map["nJets"] = BDT_params["nJets"];
-    parameter_map["nBtag"] = BDT_params["nBtag"];
-    parameter_map["LeadJet_pt"] = BDT_params["LeadJet_pt"];
-    parameter_map["SubLeadJet_pt"] = BDT_params["SubLeadJet_pt"];
-    parameter_map["SubSubLeadJet_pt"] = BDT_params["SubSubLeadJet_pt"];
-    //parameter_map["LeadJet_BtagScore"] = BDT_params["LeadJet_BtagScore"];
-    //parameter_map["SubLeadJet_BtagScore"] = BDT_params["SubLeadJet_BtagScore"];
-    //parameter_map["SubSubLeadJet_BtagScore"] = BDT_params["SubSubLeadJet_BtagScore"];
-    parameter_map["nElectron"] = BDT_params["nElectron"];
-    parameter_map["MET_pt"] = BDT_params["MET_pt"];
-    parameter_map["LeadBtag_pt"] = BDT_params["LeadBtag_pt"];
-    parameter_map["MT_LeadLep_MET"] = BDT_params["MT_LeadLep_MET"];
-    parameter_map["MT_SubLeadLep_MET"] = BDT_params["MT_SubLeadLep_MET"];
-    parameter_map["LeadLep_SubLeadLep_Mass"] = BDT_params["LeadLep_SubLeadLep_Mass"];
-    parameter_map["SubSubLeadLep_pt"] = BDT_params["SubSubLeadLep_pt"];
-    parameter_map["SubSubLeadLep_eta"] = BDT_params["SubSubLeadLep_eta"];
-    parameter_map["SubSubLeadLep_dxy"] = BDT_params["SubSubLeadLep_dxy"];
-    parameter_map["SubSubLeadLep_dz"] = BDT_params["SubSubLeadLep_dz"];
-    parameter_map["MT_SubSubLeadLep_MET"] = BDT_params["MT_SubSubLeadLep_MET"];
-    parameter_map["LeadBtag_score"] = BDT_params["LeadBtag_score"];
+    std::vector<std::string> BDT_features = {
+        "Most_Forward_pt",
+        "HT",
+        "LeadLep_eta",
+        "LeadLep_pt",
+        "LeadLep_dxy",
+        "LeadLep_dz",
+        "SubLeadLep_pt",
+        "SubLeadLep_eta",
+        "SubLeadLep_dxy",
+        "SubLeadLep_dz",
+        "nJets",
+        "nBtag",
+        "LeadJet_pt",
+        "SubLeadJet_pt",
+        "SubSubLeadJet_pt",
+        "LeadJet_BtagScore",
+        "SubLeadJet_BtagScore",
+        "SubSubLeadJet_BtagScore",
+        "nElectron",
+        "MET_pt",
+        "LeadBtag_pt",
+        "MT_LeadLep_MET",
+        "MT_SubLeadLep_MET",
+        "LeadLep_SubLeadLep_Mass",
+        "SubSubLeadLep_pt",
+        "SubSubLeadLep_eta",
+        "SubSubLeadLep_dxy",
+        "SubSubLeadLep_dz",
+        "MT_SubSubLeadLep_MET",
+        "LeadBtag_score"
+    };
+    for (std::string feat : BDT_features){
+        parameter_map[feat] = BDT_params[feat];
+    }
+
     if (debug) {
-        cout << "event: " << nt.event() << endl;
-        cout << "Most_Forward_pt: " << BDT_params["Most_Forward_pt"] << endl;
-        cout << "HT: " << BDT_params["HT"] << endl;
-        cout << "LeadLep_eta: " << BDT_params["LeadLep_eta"] << endl;
-        cout << "LeadLep_pt: " << BDT_params["LeadLep_pt"] << endl;
-        cout << "LeadLep_dxy: " << BDT_params["LeadLep_dxy"] << endl;
-        cout << "LeadLep_dz: " << BDT_params["LeadLep_dz"] << endl;
-        cout << "SubLeadLep_pt: " << BDT_params["SubLeadLep_pt"] << endl;
-        cout << "SubLeadLep_eta: " << BDT_params["SubLeadLep_eta"] << endl;
-        cout << "SubLeadLep_dxy: " << BDT_params["SubLeadLep_dxy"] << endl;
-        cout << "SubLeadLep_dz: " << BDT_params["SubLeadLep_dz"] << endl;
-        cout << "nJets: " << parameter_map["nJets"] << endl;
-        cout << "nBtag: " << parameter_map["nBtag"] << endl;
-        cout << "LeadJet_pt: " << parameter_map["LeadJet_pt"] << endl;
-        cout << "SubLeadJet_pt: " << parameter_map["SubLeadJet_pt"] << endl;
-        cout << "SubSubLeadJet_pt: " << parameter_map["SubSubLeadJet_pt"] << endl;
-        cout << "nElectron: " << BDT_params["nElectron"] << endl;
-        cout << "MET_pt: " << BDT_params["MET_pt"] << endl;
-        cout << "LeadBtag_pt: " << parameter_map["LeadBtag_pt"] << endl;
-        cout << "MT_LeadLep_MET: " << parameter_map["MT_LeadLep_MET"] << endl;
-        cout << "MT_SubLeadLep_MET: " << parameter_map["MT_SubLeadLep_MET"] << endl;
-        cout << "LeadLep_SubLeadLep_Mass: " << BDT_params["LeadLep_SubLeadLep_Mass"] << endl;
-        cout << "SubSubLeadLep_pt: " << BDT_params["SubSubLeadLep_pt"] << endl;
-        cout << "SubSubLeadLep_eta: " << BDT_params["SubSubLeadLep_eta"] << endl;
-        cout << "SubSubLeadLep_dxy: " << BDT_params["SubSubLeadLep_dxy"] << endl;
-        cout << "SubSubLeadLep_dz: " << BDT_params["SubSubLeadLep_dz"] << endl;
-        cout << "MT_SubSubLeadLep_MET: " << parameter_map["MT_SubSubLeadLep_MET"] << endl;
+        for (std::string feat : BDT_features) {
+            std::cout << feat << ":\t" << parameter_map[feat] << std::endl;
+        }
    }
 }
 
@@ -229,6 +261,10 @@ Float_t BDT::get_score() {
     //convert the TMVA output to a bdt score [0,1] using a sigmoid
     Float_t booster_score = convert_tmva_to_prob(booster->EvaluateMVA("BDT"));
     return booster_score;
+}
+
+std::vector<float> BDT::get_BDT_bins(int year){
+    return BDT_bins[year];
 }
 
 //old function (~20ms per event because it makes a new BDT for every event)
@@ -303,3 +339,4 @@ Float_t get_BDT_score(Leptons ordered_leptons, std::map<std::string, Float_t> BD
     cout << "BDT eval time: " << duration_cast<milliseconds>(high_resolution_clock::now() - start_time).count() << endl;
     return booster_score;
 }
+#endif
