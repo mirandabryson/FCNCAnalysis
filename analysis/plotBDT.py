@@ -174,15 +174,16 @@ for y in years:
                 }
             else:
                 hists = {
-                    # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
                     # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
-                    'fakes': uproot3.open(path+'data_'+y+'_hists.root')['h_mlsfest_'+v+'_data'],
+                    # 'fakes': uproot3.open(path+'data_'+y+'_hists.root')['h_mlsfest_'+v+'_data'],
                     # 'flips': uproot3.open(path+'data_'+y+'_hists.root')['h_osest_'+v+'_data'],
                     'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
                     'ttw': uproot3.open(path+'ttw_'+y+'_hists.root')['h_'+r+'_'+v+'_ttw'],
                     'ttz': uproot3.open(path+'ttz_'+y+'_hists.root')['h_'+r+'_'+v+'_ttz'],
                     'tzq': uproot3.open(path+'tzq_'+y+'_hists.root')['h_'+r+'_'+v+'_tzq'],
                     'wz': uproot3.open(path+'wz_'+y+'_hists.root')['h_'+r+'_'+v+'_wz'],
+                    'zz': uproot3.open(path+'zz_'+y+'_hists.root')['h_'+r+'_'+v+'_zz'],
                     'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
                     'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
                     'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
@@ -243,6 +244,9 @@ for y in years:
                 my_histos['wz'].label = 'WZ'
                 my_histos['wz'].color = '#08BDBD'
 
+                my_histos['zz'].label = 'ZZ'
+                my_histos['zz'].color = '#F96E46'
+
                 my_histos['rares'].label = 'OtherRares'
                 my_histos['rares'].color = '#6987C9'
 
@@ -277,7 +281,7 @@ for y in years:
                 # my_histos['multiboson'].color = '#FF595E'
 
                 # keys = ['flips', 'rares', 'fakes']
-                keys = [ 'rares','wz','tzq','ttz', 'ttw','fakes']
+                keys = [ 'rares','zz','wz','tzq','ttz', 'ttw','fakes']
                 # keys = ['Higgs','xg', 'ttxx','ttx', 'ttw','multiboson']
                 # keys = ['wboson','dy','top']
                 # keys = ['dy', 'xg', 'wboson','top']

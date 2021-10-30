@@ -2,7 +2,7 @@
 
 
 std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
-    std::vector<std::string> rnames = {"br","mr","ml","mlsf","ss","os","sf","df","mldf"};
+    std::vector<std::string> rnames = {"br","mr","ml","mlsf","ss","os","sf","df","mldf"/*,"tronz"*/};
     std::vector<std::string> jnames = {"0j","1j","2j","3j","ge4j"};
     std::vector<std::string> bnames = {"0j","1j","ge2j"};
     //return rnames[hyp_type]+"_"+jnames[std::min(njets,4)]+"_"+bnames[std::min(nbjets,2)];
@@ -20,7 +20,7 @@ std::vector<std::string> HistContainer::getRegionNames() {
 
     // std::vector<std::string> rnames = {"br","ss","ml"};
     // std::vector<std::string> rnames = {"br","ss","ml","os","osest"};
-    std::vector<std::string> rnames = {"mr","br","ss","ml","sf","sfest","mlsf","mlsfest","os","osest"};
+    std::vector<std::string> rnames = {"mr","br","ss","ml","sf","sfest","mlsf","mlsfest","os","osest"/*,"mlonz"*/};
     // std::vector<std::string> rnames = {"os","osest"};
     // std::vector<std::string> rnames = {"os","osest","vrcr_flip","vrcrest_flip","vrsr_flip"};
     // std::vector<std::string> rnames = {"br","ss","ml"};
@@ -400,6 +400,7 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("njOnZ",sample,5,-0.5,4.5);
     addHist1d("nbjOnZ",sample,3,-0.5,2.5);
     addHist1d("mOnZ",sample,20,0,400);
+    addHist1d("zll",sample,20,70,110);
     addHist1d("bdtScoreOnZ_hct2016",sample,20,hct2016bins_);//,"br");
     addHist1d("bdtScoreOnZ_hut2016",sample,20,hut2016bins_);//,"br");
     addHist1d("bdtScoreOnZ_hct2017",sample,20,hct2017bins_);//,"br");
@@ -579,6 +580,8 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     int nmus=0;
     int nPrompt=0;
     int flavChannelVal = 0;
+    int ntight = 0;
+    int nloose = 0;
     bool onZPeak = 0;
     bool diEl = 0;
     bool isSS = 0;
@@ -586,6 +589,8 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     Leptons flipLeps;
     std::vector<int> bin;
     for (auto lep: leps) {
+        if(lep.idlevel()==SS::IDLevel::IDtight){ntight++;}
+        if(lep.idlevel()<SS::IDLevel::IDtight){nloose++;}
         if (lep.genPartFlav()==1 || lep.genPartFlav()==15){nPrompt++;}
 
         if (lep.absid()==11){
@@ -628,13 +633,23 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     if(leps.size()==2 && leps[0].charge()==leps[1].charge()){isSS=1;}
 
     bool trilepOnZ = 0;
-    if(leps.size()==3){
+    float zll_val = 0.;
+    if(ntight==3 && nloose==0){
         if( (leps[0].p4()+leps[1].p4()).M()>75 && (leps[0].p4()+leps[1].p4()).M()<105 && 
-            leps[0].charge()+leps[1].charge()==0 && leps[0].absid()==leps[1].absid() ) {trilepOnZ=1;}
+            leps[0].charge()+leps[1].charge()==0 && leps[0].absid()==leps[1].absid() ) {
+            trilepOnZ=1;
+            zll_val = (leps[0].p4()+leps[1].p4()).M();
+        }
         if( (leps[0].p4()+leps[2].p4()).M()>75 && (leps[0].p4()+leps[2].p4()).M()<105 && 
-            leps[0].charge()+leps[2].charge()==0 && leps[0].absid()==leps[2].absid() ) {trilepOnZ=1;}
+            leps[0].charge()+leps[2].charge()==0 && leps[0].absid()==leps[2].absid() ) {
+            trilepOnZ=1;
+            zll_val = (leps[0].p4()+leps[2].p4()).M();
+        }
         if( (leps[1].p4()+leps[2].p4()).M()>75 && (leps[1].p4()+leps[2].p4()).M()<105 && 
-            leps[1].charge()+leps[2].charge()==0 && leps[1].absid()==leps[2].absid() ) {trilepOnZ=1;}
+            leps[1].charge()+leps[2].charge()==0 && leps[1].absid()==leps[2].absid() ) {
+            trilepOnZ=1;
+            zll_val = (leps[1].p4()+leps[2].p4()).M();
+        }
     }
 
     if ( rname=="sf" && nPrompt==2 ){
@@ -688,6 +703,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             fill1d("njOnZ",name,sample,njets,fillWeight);
             fill1d("nbjOnZ",name,sample,nbjets,fillWeight);
             fill1d("mOnZ",name,sample,met,fillWeight);
+            fill1d("zll",name,sample,zll_val,fillWeight);
         }
         if(leps.size()==2){
             if ((leps[0].absid()==11&&leps[1].absid()==13)||(leps[0].absid()==13&&leps[1].absid()==11)){fill1d("elpt_emu",name,sample,leps[0].pt(),fillWeight);}
