@@ -10,17 +10,17 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 }
 
 std::vector<std::string> HistContainer::getRegionNames() {
-    // std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
-    //                                     "osest","mlsfest","sfest","mldfest","dfest",
-    //                                     "sfpp","dfpp","mlsfppp","mldfppp",
-    //                                     "sfppest","dfppest","mlsfpppest","mldfpppest"
-    //                                     "vrcr","vrcrest","vrsr",
-    //                                     "vrcr_flip","vrcrest_flip","vrsr_flip",};
+    std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
+                                        "osest","mlsfest","sfest","mldfest","dfest",
+                                        "sfpp","dfpp","mlsfppp","mldfppp",
+                                        "sfppest","dfppest","mlsfpppest","mldfpppest",
+                                        /*"vrcr","vrcrest","vrsr",
+                                        "vrcr_flip","vrcrest_flip","vrsr_flip",*/};
     // std::vector<std::string> rnames = { "os"};
 
     // std::vector<std::string> rnames = {"br","ss","ml"};
     // std::vector<std::string> rnames = {"br","ss","ml","os","osest"};
-    std::vector<std::string> rnames = {"mr","br","ss","ml","sf","sfest","mlsf","mlsfest","os","osest"/*,"mlonz"*/};
+    // std::vector<std::string> rnames = {"mr","br","ss","ml","sf","sfest","mlsf","mlsfest","os","osest"/*,"mlonz"*/};
     // std::vector<std::string> rnames = {"os","osest"};
     // std::vector<std::string> rnames = {"os","osest","vrcr_flip","vrcrest_flip","vrsr_flip"};
     // std::vector<std::string> rnames = {"br","ss","ml"};
@@ -350,69 +350,69 @@ void HistContainer::addHist4d(std::string quantity, std::string sample, int nbin
 }
 
 void HistContainer::loadHists(std::string sample) {
-    // addHist1d("njets",sample,5,-0.5,4.5);
-    // addHist1d("nbjets",sample,3,-0.5,2.5);
-    // addHist1d("nleps",sample,5,-0.5,4.5);
-    // addHist1d("neles",sample,5,-0.5,4.5);
-    // addHist1d("nmus",sample,5,-0.5,4.5);
-    // // addHist1d("nvtxs",sample,100,0,100);
-    // // addHist1d("elpt_emu",sample,100,0,200);
-    // addHist1d("llpt",sample,100,0,200);
-    // addHist1d("ltpt",sample,100,0,200);
-    // addHist1d("thirdlpt",sample,100,0,200);
-    // addHist1d("lleta",sample,100,-5.,-5.);
-    // addHist1d("lteta",sample,100,-5.,-5.);
-    // addHist1d("thirdleta",sample,100,-5.,-5.);
-    // addHist1d("lldxy",sample,100,0.,1.);
-    // addHist1d("ltdxy",sample,100,0.,1.);
-    // addHist1d("thirdldxy",sample,100,0.,1.);
-    // addHist1d("lldz",sample,100,0.,1.);
-    // addHist1d("ltdz",sample,100,0.,1.);
-    // addHist1d("thirdldz",sample,100,0.,1.);
-    // addHist1d("llminiiso",sample,16,0.,0.4);
-    // addHist1d("ltminiiso",sample,16,0.,0.4);
-    // addHist1d("mll",sample,100,0,200);
-    // addHist1d("mbl",sample,100,0,200);
-    // // // // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
-    // // // // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
-    // // // addHist1d("flipSF_l50MET_mee",sample,35,55,125);
-    // // // // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
-    // // // // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
-    // // // // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
-    // // // // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
-    // addHist1d("ljpt",sample,50,0,500);
-    // addHist1d("tjpt",sample,50,0,500);
-    // addHist1d("thirdjpt",sample,50,0,500);
-    // addHist1d("fwjpt",sample,50,0,500);
-    // addHist1d("ljbscore",sample,20,0,1);
-    // addHist1d("tjbscore",sample,20,0,1);
-    // addHist1d("thirdjbscore",sample,20,0,1);
-    // addHist1d("lbpt",sample,50,0,500);    
-    // addHist1d("lbscore",sample,20,0,1);    
-    // addHist1d("ht",sample,50,0,1000);
-    // addHist1d("met",sample,20,0,400);
-    // addHist1d("mt_ll_met",sample,20,0,400);
-    // addHist1d("mt_tl_met",sample,20,0,400);
-    // addHist1d("mt_thirdl_met",sample,20,0,400);
-    // addHist1d("cutflow",sample,7,0.5,7.5,"br");
-    // addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    addHist1d("njets",sample,5,-0.5,4.5);
+    addHist1d("nbjets",sample,3,-0.5,2.5);
+    addHist1d("nleps",sample,5,-0.5,4.5);
+    addHist1d("neles",sample,5,-0.5,4.5);
+    addHist1d("nmus",sample,5,-0.5,4.5);
+    // addHist1d("nvtxs",sample,100,0,100);
+    // addHist1d("elpt_emu",sample,100,0,200);
+    addHist1d("llpt",sample,100,0,200);
+    addHist1d("ltpt",sample,100,0,200);
+    addHist1d("thirdlpt",sample,100,0,200);
+    addHist1d("lleta",sample,100,-5.,-5.);
+    addHist1d("lteta",sample,100,-5.,-5.);
+    addHist1d("thirdleta",sample,100,-5.,-5.);
+    addHist1d("lldxy",sample,100,0.,1.);
+    addHist1d("ltdxy",sample,100,0.,1.);
+    addHist1d("thirdldxy",sample,100,0.,1.);
+    addHist1d("lldz",sample,100,0.,1.);
+    addHist1d("ltdz",sample,100,0.,1.);
+    addHist1d("thirdldz",sample,100,0.,1.);
+    addHist1d("llminiiso",sample,16,0.,0.4);
+    addHist1d("ltminiiso",sample,16,0.,0.4);
+    addHist1d("mll",sample,100,0,200);
+    addHist1d("mbl",sample,100,0,200);
+    // // // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
+    // // // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
+    // // addHist1d("flipSF_l50MET_mee",sample,35,55,125);
+    // // // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
+    // // // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
+    // // // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
+    // // // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
+    addHist1d("ljpt",sample,50,0,500);
+    addHist1d("tjpt",sample,50,0,500);
+    addHist1d("thirdjpt",sample,50,0,500);
+    addHist1d("fwjpt",sample,50,0,500);
+    addHist1d("ljbscore",sample,20,0,1);
+    addHist1d("tjbscore",sample,20,0,1);
+    addHist1d("thirdjbscore",sample,20,0,1);
+    addHist1d("lbpt",sample,50,0,500);    
+    addHist1d("lbscore",sample,20,0,1);    
+    addHist1d("ht",sample,50,0,1000);
+    addHist1d("met",sample,20,0,400);
+    addHist1d("mt_ll_met",sample,20,0,400);
+    addHist1d("mt_tl_met",sample,20,0,400);
+    addHist1d("mt_thirdl_met",sample,20,0,400);
+    addHist1d("cutflow",sample,7,0.5,7.5,"br");
+    addHist1d("sr",sample,21,0.5,21.5);//,"br");
     // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
-    addHist1d("njOnZ",sample,5,-0.5,4.5);
-    addHist1d("nbjOnZ",sample,3,-0.5,2.5);
-    addHist1d("mOnZ",sample,20,0,400);
-    addHist1d("zll",sample,20,70,110);
-    addHist1d("bdtScoreOnZ_hct2016",sample,20,hct2016bins_);//,"br");
-    addHist1d("bdtScoreOnZ_hut2016",sample,20,hut2016bins_);//,"br");
-    addHist1d("bdtScoreOnZ_hct2017",sample,20,hct2017bins_);//,"br");
-    addHist1d("bdtScoreOnZ_hut2017",sample,20,hut2017bins_);//,"br");
-    addHist1d("bdtScoreOnZ_hct2018",sample,20,hct2018bins_);//,"br");
-    addHist1d("bdtScoreOnZ_hut2018",sample,20,hut2018bins_);//,"br");
-    addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
-    addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
-    addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
-    addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
-    addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
-    addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
+    // addHist1d("njOnZ",sample,5,-0.5,4.5);
+    // addHist1d("nbjOnZ",sample,3,-0.5,2.5);
+    // addHist1d("mOnZ",sample,20,0,400);
+    // addHist1d("zll",sample,20,70,110);
+    // addHist1d("bdtScoreOnZ_hct2016",sample,20,hct2016bins_);//,"br");
+    // addHist1d("bdtScoreOnZ_hut2016",sample,20,hut2016bins_);//,"br");
+    // addHist1d("bdtScoreOnZ_hct2017",sample,20,hct2017bins_);//,"br");
+    // addHist1d("bdtScoreOnZ_hut2017",sample,20,hut2017bins_);//,"br");
+    // addHist1d("bdtScoreOnZ_hct2018",sample,20,hct2018bins_);//,"br");
+    // addHist1d("bdtScoreOnZ_hut2018",sample,20,hut2018bins_);//,"br");
+    // addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
+    // addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
+    // addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
+    // addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
+    // addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
+    // addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
     // // // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
     // addHist1d("fakecr",sample,21,0.5,21.5);//,"br");

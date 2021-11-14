@@ -10,7 +10,7 @@ import glob
 import ast
 import time
 #sys.path.append('/home/users/fgolf/fcnc/current/samples/')
-sys.path.append('/home/users/ksalyer/FranksFCNC/ana/samples/')
+sys.path.append('/home/users/ksalyer/FCNCAnalysis/samples/')
 import samples
 from samples import get_sample_path
 
@@ -102,9 +102,9 @@ if __name__ == "__main__":
     outputdir = args.out
     extra_global_options = args.extra_options
     options = {
-            2016: "Data2016 quiet {} evaluateBDT ".format(extra_global_options),
-            2017: "Data2017 quiet {} evaluateBDT minPtFake18 ".format(extra_global_options),
-            2018: "Data2018 quiet {} evaluateBDT minPtFake18 ".format(extra_global_options),
+            2016: "Data2016 quiet {} ".format(extra_global_options),
+            2017: "Data2017 quiet {} minPtFake18 ".format(extra_global_options),
+            2018: "Data2018 quiet {} minPtFake18 ".format(extra_global_options),
             }
 
     chs = {
@@ -234,12 +234,12 @@ if __name__ == "__main__":
                 basedirs[2016] + get_sample_path("ggh", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("qqww", 2016,args.tag) + ".root",
                 ###basedirs[2016] + get_sample_path("twz", 2016,args.tag) + ".root",
-                # basedirs[2016] + get_sample_path("tzq", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("tzq", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("vh_nobb", 2016,args.tag) + ".root",
                 ###basedirs[2016] + get_sample_path("ww_dps", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("www", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wwz", 2016,args.tag) + ".root",
-                # basedirs[2016] + get_sample_path("wz", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("wz", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wzg", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wwg", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wzz", 2016,args.tag) + ".root",
@@ -257,9 +257,9 @@ if __name__ == "__main__":
                 basedirs[2016] + get_sample_path("tth_nobb", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("ttg_dilep", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tg", 2016,args.tag) + ".root",
-                # basedirs[2016] + get_sample_path("ttw", 2016,args.tag) + ".root",
-                # basedirs[2016] + get_sample_path("ttz_m1-10", 2016,args.tag) + ".root",
-                # basedirs[2016] + get_sample_path("ttz_m10", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("ttw", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("ttz_m1-10", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("ttz_m10", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("zg", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wg", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("tw_dilep", 2016,args.tag) + ".root",
@@ -470,10 +470,10 @@ if __name__ == "__main__":
 
                 basedirs[2017] + get_sample_path("ggh", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("qqww", 2017,args.tag) + ".root",
-                #basedirs[2017] + get_sample_path("twz", 2017,args.tag) + ".root",
+                ###basedirs[2017] + get_sample_path("twz", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("tzq", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("vh_nobb", 2017,args.tag) + ".root",
-                #basedirs[2017] + get_sample_path("ww_dps", 2017,args.tag) + ".root",
+                ###basedirs[2017] + get_sample_path("ww_dps", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("www", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("wwz", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("wz", 2017,args.tag) + ".root",
@@ -820,10 +820,10 @@ if __name__ == "__main__":
 
                 basedirs[2018] + get_sample_path("ggh", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("qqww", 2018,args.tag) + ".root",
-                #basedirs[2018] + get_sample_path("twz", 2018,args.tag) + ".root",
+                ###basedirs[2018] + get_sample_path("twz", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("tzq", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("vh_nobb", 2018,args.tag) + ".root",
-                #basedirs[2018] + get_sample_path("ww_dps", 2018,args.tag) + ".root",
+                ###basedirs[2018] + get_sample_path("ww_dps", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("www", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("wwz", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("wz", 2018,args.tag) + ".root",

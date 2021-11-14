@@ -2,7 +2,7 @@ import glob
 import tqdm
 import os
 
-VERSION = "fcnc_v13_SRandCR_30august2021"
+VERSION = "fcnc_v14_SRonly_30august2021"
 
 BABY_DIR = "/hadoop/cms/store/user/ksalyer/FCNC_NanoSkim/{}".format(VERSION)
 #BABY_DIR = "/hadoop/cms/store/user/dspitzba/FCNC_NanoSkim/{}".format(VERSION)
@@ -13,7 +13,7 @@ if not os.path.exists(N_EVENTS_DIR): os.makedirs(N_EVENTS_DIR)
 sample_dirs = glob.glob(BABY_DIR+"/*")
 
 for sample_dir in tqdm.tqdm(sample_dirs):
-    print(sample_dir)
+    # print(sample_dir)
     n_events_files = glob.glob(sample_dir+"/output_*_nevents.txt")
     n_total_events = 0
     n_effective_events = 0
@@ -25,7 +25,9 @@ for sample_dir in tqdm.tqdm(sample_dirs):
             lines = f_in.readlines()
             for line in lines:
                 line = line.split("\n")[0]
-                if unicode(line, "utf-8").isnumeric():
+                # print(type(line))
+                # print(line.isnumeric())
+                if line.isnumeric():
                     if not counted_total:
                         n_total_events += int(line)
                         counted_total = True
