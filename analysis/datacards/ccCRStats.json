@@ -109,49 +109,49 @@
         },
         "flips_mc":{
             "l2_j2_b0":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":125726,
+                "error":0.81,
+                "syst":1.27
             },
             "l2_j3_b0":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":37572,
+                "error":1.48,
+                "syst":1.51
             },
             "l2_j4_b0":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":14587,
+                "error":2.38,
+                "syst":1.82
             },
             "l2_j2_b1":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":73898,
+                "error":0.94,
+                "syst":1.06
             },
             "l2_j3_b1":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":35239,
+                "error":1.38,
+                "syst":1.16
             },
             "l2_j4_b1":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":18934,
+                "error":1.93,
+                "syst":1.28
             },
             "l2_j2_b2":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":48135,
+                "error":1.15,
+                "syst":1.08
             },
             "l2_j3_b2":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":30968,
+                "error":1.48,
+                "syst":2.53
             },
             "l2_j4_b2":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":20408,
+                "error":1.85,
+                "syst":1.24
             },
             "l3_j1_b0":{
                 "yield":0,
@@ -310,7 +310,7 @@
             "l3_j2_b2":{
                 "yield":30,
                 "error":26.9341,
-                "syst":7.21745,
+                "syst":7.21745
             },
             "l3_j3_b2":{
                 "yield":32,
@@ -325,49 +325,49 @@
         },
         "flips_mc":{
             "l2_j2_b0":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":273827,
+                "error":0.62,
+                "syst":2.79
             },
             "l2_j3_b0":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":71287,
+                "error":1.18,
+                "syst":3.49
             },
             "l2_j4_b0":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":24608,
+                "error":1.95,
+                "syst":4.14
             },
             "l2_j2_b1":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":102000,
+                "error":0.91,
+                "syst":2.41
             },
             "l2_j3_b1":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":45551,
+                "error":1.36,
+                "syst":2.71
             },
             "l2_j4_b1":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":23271,
+                "error":1.89,
+                "syst":2.99
             },
             "l2_j2_b2":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":65279,
+                "error":1.08,
+                "syst":1.08
             },
             "l2_j3_b2":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":41915,
+                "error":1.37,
+                "syst":2.53
             },
             "l2_j4_b2":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":27962,
+                "error":1.69,
+                "syst":2.95
             },
             "l3_j1_b0":{
                 "yield":0,
@@ -541,49 +541,49 @@
         },
         "flips_mc":{
             "l2_j2_b0":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":347375,
+                "error":0.74,
+                "syst":1.72
             },
             "l2_j3_b0":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":91727,
+                "error":1.38,
+                "syst":1.97
             },
             "l2_j4_b0":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":31803,
+                "error":2.29,
+                "syst":2.14
             },
             "l2_j2_b1":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":147152,
+                "error":0.79,
+                "syst":1.49
             },
             "l2_j3_b1":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":64814,
+                "error":1.18,
+                "syst":1.59
             },
             "l2_j4_b1":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":32500,
+                "error":1.66,
+                "syst":2.99
             },
             "l2_j2_b2":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":98626,
+                "error":0.86,
+                "syst":1.56
             },
             "l2_j3_b2":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":63185,
+                "error":1.08,
+                "syst":1.6
             },
             "l2_j4_b2":{
-                "yield":,
-                "error":,
-                "syst":
+                "yield":40965,
+                "error":1.36,
+                "syst":1.71
             },
             "l3_j1_b0":{
                 "yield":0,

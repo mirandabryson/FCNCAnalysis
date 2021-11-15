@@ -8,6 +8,10 @@ import os
 import json
 
 
+## HARDCODED PATHS TO INPUT HISTOS ##
+inFilePath = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov14_hists/"
+#inFilePath = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_yields/"
+
 ##define functions
 #function to get multiplicities for a given cc bin
 def getCCSRBin(binIdx, hist, ccSRDict):
@@ -47,6 +51,44 @@ def getSRStatRows(processes, numSRs):
             titles.append(rowTitle)
     return titles
 
+#function to make the CR stat and dd rate Syst row titles
+def getCRStatRows(year, processes, SRs, CRDict):
+    titles = []
+    for p in processes:
+        for i in range(len(SRs)): 
+            if "flips" in p and CRDict[str(year)][p][SRs[i]]["yield"]==0: continue
+            rowTitle = p[:2]
+            rowTitle += "_st"
+            rowTitle += str(i)
+            rowTitle += "_"+str(y)[-2:]+" "
+            rowTitle += str(CRDict[str(year)][p][SRs[i]]["yield"])
+            while len(rowTitle) < 17: rowTitle += " "
+            rowTitle += "gmN"
+            titles.append(rowTitle)
+        rowTitle = p[:4]
+        rowTitle += "RateSyst_"
+        rowTitle += str(y)[-2:]
+        while len(rowTitle) < 17: rowTitle += " "
+        rowTitle += "lnN"
+        titles.append(rowTitle)
+    return titles
+
+#function to make the Syst row titles
+def getSystRows(year, correlated, uncorrelated):
+    titles = []
+    for c in correlated:
+        rowTitle = c
+        while len(rowTitle)<17: rowTitle+=" "
+        rowTitle += "lnN"
+        titles.append(rowTitle)
+    for u in uncorrelated:
+        rowTitle = u
+        rowTitle += "_" + str(year)[-2:]
+        while len(rowTitle)<17: rowTitle+=" "
+        rowTitle += "lnN"
+        titles.append(rowTitle)
+    return titles
+
 #function to get histogram from root file
 def getObjFromFile(fname, hname):
     f = ROOT.TFile(fname)
@@ -61,24 +103,111 @@ def getObjFromFile(fname, hname):
 
 ##load useful jsons
 with open('./ccSRbins.json') as ccbins_json: ccSRDict = json.load(ccbins_json)
+with open('./ccCRStats.json') as ccCR_json: ccCRDict = json.load(ccCR_json)
 
 ##lists to loop
 numCCSRs = 21
+numBDTSRs = 20
+years = [2016,2017,2018]
 signals = ["tch","tuh"]
 procs   = ["signal","rares","fakes_mc","flips_mc"]
 mcProcs = ["signal","rares"]
 ddProcs = ["fakes_mc","flips_mc"]
+corrSyst = ["rarTh","sigTh","pdfShp","rarScShp","sigScShp","PU","lf","hf","cferr1","cferr2"]
+uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
 
-##main loop
-for s in signals:
-    ccSRs = getCCColumns(ccSRDict, numCCSRs)
-    ccDFCols = [b+"_"+p[:3] for b in ccSRs for p in procs]
-    print(ccDFCols)
-    ccRows = []
-    ccRows += getSRStatRows(mcProcs, numCCSRs)
+## main loop
+for y in years:
+    for s in signals:
+        ## CUT AND COUNT COLUMNS, ROWS, AND DATAFRAME ##
+        ccSRs = getCCColumns(ccSRDict, numCCSRs)
+        ccDFCols = [b+"_"+p[:3] for b in ccSRs for p in procs]
 
-    cc_df = pd.DataFrame(columns = ccDFCols, index = ccRows)
-    print(cc_df)
+        ccRows = []
+        ccRows += getSRStatRows(mcProcs, numCCSRs)
+        ccRows += getCRStatRows(y, ddProcs, ccSRs, ccCRDict)
+        ccRows += getSystRows(y, corrSyst, uncorrSyst)
+
+        cc_df = pd.DataFrame(columns = ccDFCols, index = ccRows)
+
+        ## BDT COLUMNS, ROWS, AND DATAFRAME ##
+        bdtSRs = ["bin_"+str(x) for x in range(20)]
+        bdtDFCols = [b+"_"+p[:3] for b in bdtSRs for p in procs]
+
+        bdtRows = []
+        bdtRows += getSRStatRows(mcProcs, numBDTSRs)
+        # bdtRows += getCRStatRows(y, ddProcs, ccSRs, ccCRDict)
+        bdtRows += getSystRows(y, corrSyst, uncorrSyst)
+
+        bdt_df = pd.DataFrame(columns = bdtDFCols, index = bdtRows)
+
+
+        ## FILL MC ESTIMATES ##
+        for p in mcProcs:
+            if "signal" in p:
+                fileName = inFilePath + p + "_" + s + "_" + str(y) + "_hists.root"
+                srHist = getObjFromFile(fileName, "h_br_sr_signal_"+s)
+            else:
+                fileName = inFilePath + p + "_" + str(y) + "_hists.root"
+                srHist = getObjFromFile(fileName, "h_br_sr_"+p)
+            for i in range(1, numCCSRs+1):
+                binDict = getCCSRBin(i, srHist, ccSRDict)
+                colTitle = binDict["name"] + "_" + p[:3]
+                rowTitle = p[:3] + "_stat_" + str(i-1)
+                while len(rowTitle)<17: rowTitle += " "
+                rowTitle += "lnN"
+                fill = 1+round(binDict["error"]/binDict["yield"], 8)
+                fill = str(fill)
+                while len(fill) <20: fill += " "
+                cc_df[colTitle][rowTitle] = fill
+
+
+        ## FILL DATA DRIVEN ESTIMATES ##
+        for p in ddProcs:
+            fileName = inFilePath + "data_" + str(y) + "_hists.root" 
+            
+            # this is the correct name, but these histograms aren't made yet, so for the sake of testing this script,
+            # I'm using the uncommented version
+            # if "fakes" in p: 
+            #     raresFile = inFilePath + "rares_" + str(y) + "_hists.root"
+
+            #     sfHist = getObjFromFile(fileName, "h_sfest_fakecr_data")
+            #     mlsfHist = getObjFromFile(fileName, "h_mlsfest_fakecr_data")
+            #     dfHist = getObjFromFile(fileName, "h_dfest_fakecr_data")
+            #     mldfHist = getObjFromFile(fileName, "h_mldfest_fakecr_data")
+            #     sfppHist = getObjFromFile(raresFile, "h_sfppest_fakecr_rares")
+            #     mlsfppHist = getObjFromFile(raresFile, "h_mlsfppest_fakecr_rares")
+
+            #     srHist = sfHist.Clone()
+            #     srHist.Add(mlsfHist)
+            #     srHist.Add(dfHist, -2)
+            #     srHist.Add(mldfHist, -2)
+            #     srHist.Add(sfppHist, -1)
+            #     srHist.Add(mlsfppHist, -1)
+            # else: srHist = getObjFromFile(fileName, "h_osest_flipcr_data")
+            if "fakes" in p: srHist = getObjFromFile(fileName, "h_sfest_sr_data")
+            else: srHist = getObjFromFile(fileName, "h_osest_sr_data")
+
+            for i in range(1, numCCSRs+1):
+                binDict = getCCSRBin(i, srHist, ccSRDict)
+                if "flip" in p and ccCRDict[str(y)][p][binDict["name"]]["yield"]==0: continue
+                coltitle = binDict["name"] + "_" + p[:3]
+                rowTitle = p[:2] + "_st" + str(i-1) + "_" + str(y)[-2:] + " "
+                rowTitle += str(ccCRDict[str(y)][p][binDict["name"]]["yield"])
+                while len(rowTitle)<17: rowTitle += " "
+                rowTitle += "gmN"
+                fill = round(binDict["yield"]/ccCRDict[str(y)][p][binDict["name"]]["yield"], 8)
+                fill = str(fill)
+                while len(fill)<20: fill += " "
+                cc_df[colTitle][rowTitle] = fill
+                rowTitle = p[:4] + "RateSyst_" + str(r)[-2:]
+                while len(rowTitle)<17: rowTitle += " "
+                fill = round(1+ (ccCRDict[str(y)][p][binDict["name"]]["syst"]/100), 8)
+                fill = str(fill)
+                while len(fill)<20: fill += " "
+                cc_df[colTitle][rowTitle] = fill
+
+        print(cc_df)
 
 
 
@@ -94,29 +223,9 @@ for s in signals:
 
 
 
-# #code to write datacard from tableMaker.py output
-# #run with python writeCards.py
-# #Kaitlin Salyer, April 2021
 
-# #import some useful packages
-# import ROOT
-# import time
-# import numpy as np
-# import sys
-# import pandas as pd
-# import os
-# import json
 
-# def getObjFromFile(fname, hname):
-#     f = ROOT.TFile(fname)
-#     assert not f.IsZombie()
-#     f.cd()
-#     htmp = f.Get(hname)
-#     if not htmp:  return htmp
-#     ROOT.gDirectory.cd('PyROOT:/')
-#     res = htmp.Clone()
-#     f.Close()
-#     return res
+
 
 
 # #hardcoded variables other users should customize
@@ -178,269 +287,9 @@ for s in signals:
 # includeSignalInObs = False
 
 
-# fakeCRStatYld_2016 = [  1507,1342,104,
-#                         757,1162,155,
-#                         439,847,222,
-#                         282,376,5,
-#                         167,210,15,
-#                         46,80,15,
-#                         22,48,8
-#                         ]
-# fakeCRStatYld_2017 = [  2304,2282,222,
-#                         1191,1908,278,
-#                         629,1302,416,
-#                         328,508,5,
-#                         171,300,30,
-#                         62,137,32,
-#                         38,50,28
-#                         ]
-# fakeCRStatYld_2018 = [  2919,3112,297,
-#                         1431,2452,425,
-#                         766,1774,612,
-#                         503,766,13,
-#                         211,467,54,
-#                         93,167,49,
-#                         35,89,35
-#                         ]
-
-
-# fakeCRStatYldDict_2016 = {  "2_2_0":1507,"2_3_0":757,"2_4_0":439,
-#                             "2_2_1":1342,"2_3_1":1162,"2_4_1":847,
-#                             "2_2_2":104,"2_3_2":155,"2_4_2":222,
-#                             "3_1_0":282,"3_2_0":167,"3_3_0":46,"3_4_0":22,
-#                             "3_1_1":376,"3_2_1":210,"3_3_1":80,"3_4_1":48,
-#                             "3_1_2":5,"3_2_2":15,"3_3_2":15,"3_4_2":8
-#                             }
-# fakeCRStatYldDict_2017 = {  "2_2_0":2304,"2_3_0":1191,"2_4_0":629,
-#                             "2_2_1":2282,"2_3_1":1908,"2_4_1":1302,
-#                             "2_2_2":222,"2_3_2":278,"2_4_2":416,
-#                             "3_1_0":328,"3_2_0":171,"3_3_0":62,"3_4_0":38,
-#                             "3_1_1":508,"3_2_1":300,"3_3_1":137,"3_4_1":50,
-#                             "3_1_2":5,"3_2_2":30,"3_3_2":32,"3_4_2":28
-#                             }
-# fakeCRStatYldDict_2018 = {  "2_2_0":2919,"2_3_0":1431,"2_4_0":766,
-#                             "2_2_1":3112,"2_3_1":2452,"2_4_1":1774,
-#                             "2_2_2":297,"2_3_2":425,"2_4_2":612,
-#                             "3_1_0":503,"3_2_0":211,"3_3_0":93,"3_4_0":35,
-#                             "3_1_1":766,"3_2_1":467,"3_3_1":167,"3_4_1":89,
-#                             "3_1_2":13,"3_2_2":54,"3_3_2":49,"3_4_2":35
-#                             }
-
-
-# fakeCRStatErr_2016 = {  "2_2_0":3.50365,"2_3_0":4.99353,"2_4_0":6.52687,
-#                         "2_2_1":3.60495,"2_3_1":3.88372,"2_4_1":4.56676,
-#                         "2_2_2":13.1561,"2_3_2":10.5987,"2_4_2":8.83165,
-#                         "3_1_0":8.31807,"3_2_0":10.6145,"3_3_0":17.0339,"3_4_0":29.254,
-#                         "3_1_1":7.11159,"3_2_1":9.03126,"3_3_1":16.6831,"3_4_1":19.3909,
-#                         "3_1_2":53.7054,"3_2_2":33.4056,"3_3_2":31.4495,"3_4_2":66.0103
-#                         }
-# fakeCRStatErr_2017 = {  "2_2_0":3.33519,"2_3_0":4.41385,"2_4_0":6.08993,
-#                         "2_2_1":3.11701,"2_3_1":3.30036,"2_4_1":4.05022,
-#                         "2_2_2":10.4076,"2_3_2":9.20855,"2_4_2":7.40525,
-#                         "3_1_0":8.19731,"3_2_0":11.5854,"3_3_0":19.1633,"3_4_0":23.6831,
-#                         "3_1_1":6.19351,"3_2_1":8.0818,"3_3_1":12.7294,"3_4_1":25.1242,
-#                         "3_1_2":53.354,"3_2_2":26.9341,"3_3_2":25.3507,"3_4_2":26.0582,
-#                         }
-# fakeCRStatErr_2018 = {  "2_2_0":3.22747,"2_3_0":4.51919,"2_4_0":6.10372,
-#                         "2_2_1":2.9054,"2_3_1":3.22509,"2_4_1":3.87638,
-#                         "2_2_2":9.39522,"2_3_2":8.25866,"2_4_2":6.87119,
-#                         "3_1_0":7.3366,"3_2_0":11.4367,"3_3_0":17.4301,"3_4_0":27.1185,
-#                         "3_1_1":5.62841,"3_2_1":7.37149,"3_3_1":13.5088,"3_4_1":19.717,
-#                         "3_1_2":59.9883,"3_2_2":23.2358,"3_3_2":23.367,"3_4_2":26.6004
-#                         }
-
-
-# fakeSystErr_2016 = [    4.46067,4.76551,5.03131,
-#                         5.62097,4.84993,5.98169,
-#                         6.07675,5.59812,6.29573,
-#                         6.79787,6.49155,8.72948,
-#                         6.70704,5.32922,5.47438,
-#                         9.27242,8.69589,7.82636,
-#                         8.82801,6.4532,19.5941
-#                         ]
-# # print(sum(fakeSystErr_2016)/len(fakeSystErr_2016))
-# fakeSystErr_2017 = [    6.63146,8.08039,7.74266,
-#                         7.24731,7.56606,7.26889,
-#                         9.42543,9.85621,8.45383,
-#                         6.98604,8.04912,40.6501,
-#                         9.96351,9.18872,7.21745,
-#                         10.7108,7.79917,10.4827,
-#                         8.9602,13.3502,10.228
-#                         ]
-# # print(sum(fakeSystErr_2017)/len(fakeSystErr_2017))
-# fakeSystErr_2018 = [    7.71618,8.71154,7.85155,
-#                         7.72384,9.50327,7.64877,
-#                         7.31554,10.0837,8.39966,
-#                         7.96532,9.96087,16.6508,
-#                         10.14,10.1111,10.7022,
-#                         14.7398,10.4591,13.3193,
-#                         21.8245,13.9245,11.5897
-#                         ]
-# # print(sum(fakeSystErr_2018)/len(fakeSystErr_2018))
-
-
-# flipCRStatYld_2016 = [  125726,73898,48135,
-#                         37572,35239,30968,
-#                         14587,18934,20408,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0
-#                         ]
-# flipCRStatYld_2017 = [  273827,102000,65279,
-#                         71287,45551,41915,
-#                         24608,23271,27962,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0
-#                         ]
-# flipCRStatYld_2018 = [  347375,147152,98626,
-#                         91727,64814,63185,
-#                         31803,32500,40965,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0
-#                         ]
-
-
-# flipCRStatYldDict_2016 = {  "2_2_0":125726,"2_3_0":37572,"2_4_0":14587,
-#                             "2_2_1":73898,"2_3_1":35239,"2_4_1":18934,
-#                             "2_2_2":48135,"2_3_2":30968,"2_4_2":20408,
-#                             "3_1_0":0,"3_2_0":0,"3_3_0":0,"3_4_0":0,
-#                             "3_1_1":0,"3_2_1":0,"3_3_1":0,"3_4_1":0,
-#                             "3_1_2":0,"3_2_2":0,"3_3_2":0,"3_4_2":0
-#                             }
-# flipCRStatYldDict_2017 = {  "2_2_0":273827,"2_3_0":71287,"2_4_0":24608,
-#                             "2_2_1":102000,"2_3_1":45551,"2_4_1":23271,
-#                             "2_2_2":65279,"2_3_2":41915,"2_4_2":27962,
-#                             "3_1_0":0,"3_2_0":0,"3_3_0":0,"3_4_0":0,
-#                             "3_1_1":0,"3_2_1":0,"3_3_1":0,"3_4_1":0,
-#                             "3_1_2":0,"3_2_2":0,"3_3_2":0,"3_4_2":0
-#                             }
-# flipCRStatYldDict_2018 = {  "2_2_0":347375,"2_3_0":91727,"2_4_0":31803,
-#                             "2_2_1":147152,"2_3_1":64814,"2_4_1":32500,
-#                             "2_2_2":98626,"2_3_2":63185,"2_4_2":40965,
-#                             "3_1_0":0,"3_2_0":0,"3_3_0":0,"3_4_0":0,
-#                             "3_1_1":0,"3_2_1":0,"3_3_1":0,"3_4_1":0,
-#                             "3_1_2":0,"3_2_2":0,"3_3_2":0,"3_4_2":0
-#                             }
-
-
-# flipCRStatErr_2016 = {  "2_2_0":0.81,"2_3_0":1.48,"2_4_0":2.38,
-#                         "2_2_1":0.94,"2_3_1":1.38,"2_4_1":1.93,
-#                         "2_2_2":1.15,"2_3_2":1.48,"2_4_2":1.85,
-#                         "3_1_0":0,"3_2_0":0,"3_3_0":0,"3_4_0":0,
-#                         "3_1_1":0,"3_2_1":0,"3_3_1":0,"3_4_1":0,
-#                         "3_1_2":0,"3_2_2":0,"3_3_2":0,"3_4_2":0
-#                         }
-# flipCRStatErr_2017 = {  "2_2_0":0.62,"2_3_0":1.18,"2_4_0":1.95,
-#                         "2_2_1":0.91,"2_3_1":1.36,"2_4_1":1.89,
-#                         "2_2_2":1.08,"2_3_2":1.37,"2_4_2":1.69,
-#                         "3_1_0":0,"3_2_0":0,"3_3_0":0,"3_4_0":0,
-#                         "3_1_1":0,"3_2_1":0,"3_3_1":0,"3_4_1":0,
-#                         "3_1_2":0,"3_2_2":0,"3_3_2":0,"3_4_2":0
-#                         }
-# flipCRStatErr_2018 = {  "2_2_0":0.74,"2_3_0":1.38,"2_4_0":2.29,
-#                         "2_2_1":0.79,"2_3_1":1.18,"2_4_1":1.66,
-#                         "2_2_2":0.86,"2_3_2":1.08,"2_4_2":1.36,
-#                         "3_1_0":0,"3_2_0":0,"3_3_0":0,"3_4_0":0,
-#                         "3_1_1":0,"3_2_1":0,"3_3_1":0,"3_4_1":0,
-#                         "3_1_2":0,"3_2_2":0,"3_3_2":0,"3_4_2":0
-#                         }
-
-
-# flipSystErr_2016 = [    1.27,1.06,1.08,
-#                         1.51,1.16,2.53,
-#                         1.82,1.28,1.24,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0
-#                         ]
-# # print(sum(flipSystErr_2016)/len(flipSystErr_2016))
-# flipSystErr_2017 = [    2.79,2.41,1.08,
-#                         3.49,2.71,2.53,
-#                         4.14,2.99,2.95,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0
-#                         ]
-# # print(sum(flipSystErr_2017)/len(flipSystErr_2017))
-# flipSystErr_2018 = [    1.72,1.49,1.56,
-#                         1.97,1.59,1.6,
-#                         2.14,2.99,1.71,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0,
-#                         0,0,0
-#                         ]
-# # print(sum(flipSystErr_2018)/len(flipSystErr_2018))
-
-
 # if not os.path.exists(outdir): os.makedirs(outdir)
 
 # for y in years:
-#     #first, we load the txt output from the tableMaker.py script into a dataframe
-#     #we will manipulate these data, save it into a different dataframe, and print to an output file
-#     df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
-#     sig_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/oct13_changeInSigBR/tableMaker_"+str(y)+".txt")
-#     # fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
-#     # flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/tableMaker_"+str(y)+".txt")
-#     fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/fakeEstyields_"+str(y)+".txt")
-#     flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/"+indir+"/flipEstyields_"+str(y)+".txt")
-#     raresSyst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/variations/rares_"+str(y)+".txt")
-#     tchSyst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/variations/signal_tch_"+str(y)+".txt")
-#     tuhSyst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/variations/signal_tuh_"+str(y)+".txt")
-#     # print (fakeEst_df)
-#     # print (flipEst_df)
-#     # df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/aug09_withST/tableMaker_"+str(y)+".txt")
-#     # fakeEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/aug09_withST/fakeEstyields_"+str(y)+".txt")
-#     # flipEst_df = pd.read_csv("/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/tables/aug09_withST/flipEstyields_"+str(y)+".txt")
-#     # # print df
-#     # print fakeEst_df
-#     # print flipEst_df
-#     fakeCRStatYld = []
-#     fakeCRStatYldDict = {}
-#     fakeCRStatErr = {}
-#     fakeSystErr = []
-#     flipCRStatYld = []
-#     flipCRStatYldDict = {}
-#     flipCRStatErr = {}
-#     flipSystErr = []
-#     if y == 2016: 
-#         fakeCRStatYld = fakeCRStatYld_2016
-#         fakeCRStatYldDict = fakeCRStatYldDict_2016
-#         fakeCRStatErr = fakeCRStatErr_2016
-#         fakeSystErr = fakeSystErr_2016
-#         flipCRStatYld = flipCRStatYld_2016
-#         flipCRStatYldDict = flipCRStatYldDict_2016
-#         flipCRStatErr = flipCRStatErr_2016
-#         flipSystErr = flipSystErr_2016
-#         yr = "16"
-#     if y == 2017: 
-#         fakeCRStatYld = fakeCRStatYld_2017
-#         fakeCRStatYldDict = fakeCRStatYldDict_2017
-#         fakeCRStatErr = fakeCRStatErr_2017
-#         fakeSystErr = fakeSystErr_2017
-#         flipCRStatYld = flipCRStatYld_2017
-#         flipCRStatYldDict = flipCRStatYldDict_2017
-#         flipCRStatErr = flipCRStatErr_2017
-#         flipSystErr = flipSystErr_2017
-#         yr = "17"
-#     if y == 2018: 
-#         fakeCRStatYld = fakeCRStatYld_2018
-#         fakeCRStatYldDict = fakeCRStatYldDict_2018
-#         fakeCRStatErr = fakeCRStatErr_2018
-#         fakeSystErr = fakeSystErr_2018
-#         flipCRStatYld = flipCRStatYld_2018
-#         flipCRStatYldDict = flipCRStatYldDict_2018
-#         flipCRStatErr = flipCRStatErr_2018
-#         flipSystErr = flipSystErr_2018
-#         yr = "18"
-#     print("got yields and stat errors")
 
 #     #now we have imported the data and manipulated it into the categories we want
 #     #we will do the rest in a loop over signals
