@@ -9,8 +9,8 @@ import json
 
 
 ## HARDCODED PATHS TO INPUT HISTOS ##
-inFilePath = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov14_hists/"
-#inFilePath = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_yields/"
+# inFilePath = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov14_hists/"
+inFilePath = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_yields/"
 
 ##define functions
 #function to get multiplicities for a given cc bin
@@ -168,25 +168,25 @@ for y in years:
             
             # this is the correct name, but these histograms aren't made yet, so for the sake of testing this script,
             # I'm using the uncommented version
-            # if "fakes" in p: 
-            #     raresFile = inFilePath + "rares_" + str(y) + "_hists.root"
+            if "fakes" in p: 
+                raresFile = inFilePath + "rares_" + str(y) + "_hists.root"
 
-            #     sfHist = getObjFromFile(fileName, "h_sfest_fakecr_data")
-            #     mlsfHist = getObjFromFile(fileName, "h_mlsfest_fakecr_data")
-            #     dfHist = getObjFromFile(fileName, "h_dfest_fakecr_data")
-            #     mldfHist = getObjFromFile(fileName, "h_mldfest_fakecr_data")
-            #     sfppHist = getObjFromFile(raresFile, "h_sfppest_fakecr_rares")
-            #     mlsfppHist = getObjFromFile(raresFile, "h_mlsfppest_fakecr_rares")
+                sfHist = getObjFromFile(fileName, "h_sfest_fakecr_data")
+                mlsfHist = getObjFromFile(fileName, "h_mlsfest_fakecr_data")
+                dfHist = getObjFromFile(fileName, "h_dfest_fakecr_data")
+                mldfHist = getObjFromFile(fileName, "h_mldfest_fakecr_data")
+                sfppHist = getObjFromFile(raresFile, "h_sfppest_fakecr_rares")
+                mlsfpppHist = getObjFromFile(raresFile, "h_mlsfpppest_fakecr_rares")
 
-            #     srHist = sfHist.Clone()
-            #     srHist.Add(mlsfHist)
-            #     srHist.Add(dfHist, -2)
-            #     srHist.Add(mldfHist, -2)
-            #     srHist.Add(sfppHist, -1)
-            #     srHist.Add(mlsfppHist, -1)
-            # else: srHist = getObjFromFile(fileName, "h_osest_flipcr_data")
-            if "fakes" in p: srHist = getObjFromFile(fileName, "h_sfest_sr_data")
-            else: srHist = getObjFromFile(fileName, "h_osest_sr_data")
+                srHist = sfHist.Clone()
+                srHist.Add(mlsfHist)
+                srHist.Add(dfHist, -2)
+                srHist.Add(mldfHist, -2)
+                srHist.Add(sfppHist, -1)
+                srHist.Add(mlsfpppHist, -1)
+            else: srHist = getObjFromFile(fileName, "h_osest_flipcr_data")
+            # if "fakes" in p: srHist = getObjFromFile(fileName, "h_sfest_sr_data")
+            # else: srHist = getObjFromFile(fileName, "h_osest_sr_data")
 
             for i in range(1, numCCSRs+1):
                 binDict = getCCSRBin(i, srHist, ccSRDict)
@@ -200,7 +200,7 @@ for y in years:
                 fill = str(fill)
                 while len(fill)<20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
-                rowTitle = p[:4] + "RateSyst_" + str(r)[-2:]
+                rowTitle = p[:4] + "RateSyst_" + str(y)[-2:]
                 while len(rowTitle)<17: rowTitle += " "
                 fill = round(1+ (ccCRDict[str(y)][p][binDict["name"]]["syst"]/100), 8)
                 fill = str(fill)
