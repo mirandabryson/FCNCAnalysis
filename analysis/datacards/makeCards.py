@@ -164,22 +164,24 @@ def writeToTxt(df, filename, SRlist, processes, observations, yields):
     line = "process"
     while len(line)<20: line+=" "
     line += "\t"
+    subline = ""
     for p in processes:
         while len(p)<20: p+=" "
-        line += p
-        line += "\t"
-    line = line*len(SRlist)
+        subline += p
+        subline += "\t"
+    line += subline*len(SRlist)
     outFile.write(line+"\n")
 
     line = "process"
     while len(line)<20: line+=" "
     line += "\t"
+    subline = ""
     for i in range(len(processes)):
         i = str(i)
         while len(i)<20: i+=" "
-        line += i
-        line += "\t"
-    line = line*len(SRlist)
+        subline += i
+        subline += "\t"
+    line += subline*len(SRlist)
     outFile.write(line+"\n")
 
     line = "rate"

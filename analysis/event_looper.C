@@ -510,8 +510,10 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
         bdt_MC_baby.Initialize(Form("%s/%s/MC/%s.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
         cout << Form("%s/%s/MC/%s.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh) << endl;
     }
-    TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HCT/model.root");
-    TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HUT/model.root");
+    // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HCT/model.root");
+    // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HUT/model.root");
+    TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_jet25/HCT/model.root");
+    TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_jet25/HUT/model.root");
 
 
     auto start = high_resolution_clock::now();
@@ -1129,18 +1131,20 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
             //we need to weight MC BDT evaluation events by a factor of 2 to accomodate the split:
             //doing it here, so that all weight-based calculations will get the same factor
-            if( ((category==3) && (chainTitle=="rares") && (nt.event()%2!=0)) ||
-                ((chainTitle=="signal_tch") && (nt.event()%2!=0)) ||
-                ((chainTitle=="signal_tuh") && (nt.event()%2!=0)) /*||
-                ((category==3) && (chainTitle=="dy") && (nt.event()%2!=0)) ||
-                ((category==3) && (chainTitle=="ttz") && (nt.event()%2!=0)) ||
-                ((category==3) && (chainTitle=="wz") && (nt.event()%2!=0)) ||
-                (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData) && (nt.event()%2!=0))*/
-                ) {weight = weight*2;}
-            if( ((category==3) && (chainTitle=="rares") && (nt.event()%2==0)) ||
-                ((chainTitle=="signal_tch") && (nt.event()%2==0)) ||
-                ((chainTitle=="signal_tuh") && (nt.event()%2==0))
-                ) {weight = weight*2;}
+            if(evaluateBDT){
+                if( ((category==3) && (chainTitle=="rares") && (nt.event()%2!=0)) ||
+                    ((chainTitle=="signal_tch") && (nt.event()%2!=0)) ||
+                    ((chainTitle=="signal_tuh") && (nt.event()%2!=0)) /*||
+                    ((category==3) && (chainTitle=="dy") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="ttz") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="wz") && (nt.event()%2!=0)) ||
+                    (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData) && (nt.event()%2!=0))*/
+                    ) {weight = weight*2;}
+                if( ((category==3) && (chainTitle=="rares") && (nt.event()%2==0)) ||
+                    ((chainTitle=="signal_tch") && (nt.event()%2==0)) ||
+                    ((chainTitle=="signal_tuh") && (nt.event()%2==0))
+                    ) {weight = weight*2;}
+            }
 
 
             //calculate control region weights for background estimates
@@ -1347,119 +1351,120 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             //first, skip MC events used for training/testing:
             float hct_pred_value = -999;
             float hut_pred_value = -999;
-            if( ((category==1) && (chainTitle=="fakes_mc")) ||
-                ((category==2) && (chainTitle=="flips_mc")) ||
-                ((category==3) && (chainTitle=="rares") && (nt.event()%2!=0)) ||
-                /*((category==3) && (chainTitle=="dy") && (nt.event()%2!=0)) ||
-                ((category==3) && (chainTitle=="ttz") && (nt.event()%2!=0)) ||
-                ((category==3) && (chainTitle=="wz") && (nt.event()%2!=0)) ||*/
-                (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData) && (nt.event()%2!=0)) ||
-                ((chainTitle=="signal_tch") && (nt.event()%2!=0)) ||
-                ((chainTitle=="signal_tuh") && (nt.event()%2!=0)) ||
-                ((chainTitle=="data"))
-                ){
-                //to ensure I get the values in the correct order,
-                //let's fill a map and then loop through the vector of input names from the BDT
-                vector<string> trainingFeatures = {"Most_Forward_pt","HT","LeadLep_eta",
-                                                "LeadLep_pt","LeadLep_dxy","LeadLep_dz",
-                                                "SubLeadLep_pt","SubLeadLep_eta","SubLeadLep_dxy",
-                                                "SubLeadLep_dz","nJets","nBtag",
-                                                "LeadJet_pt","SubLeadJet_pt","SubSubLeadJet_pt",
-                                                "LeadJet_BtagScore","SubLeadJet_BtagScore","SubSubLeadJet_BtagScore",
-                                                "nElectron","MET_pt","LeadBtag_pt",
-                                                "MT_LeadLep_MET","MT_SubLeadLep_MET","LeadLep_SubLeadLep_Mass",
-                                                "SubSubLeadLep_pt","SubSubLeadLep_eta","SubSubLeadLep_dxy",
-                                                "SubSubLeadLep_dz","MT_SubSubLeadLep_MET","LeadBtag_score"};
-                map<string, float> eventValues;
-                float Most_Forward_pt = -999.0, highest_abs_eta=-999.0;
-                for(int i=0; i < njets; i++){
-                    if (abs(good_jets[i].eta()) >= highest_abs_eta) {
-                        highest_abs_eta = abs(good_jets[i].eta());
-                        Most_Forward_pt = good_jets[i].pt();
+            if (evaluateBDT){
+                if( ((category==1) && (chainTitle=="fakes_mc")) ||
+                    ((category==2) && (chainTitle=="flips_mc")) ||
+                    ((category==3) && (chainTitle=="rares") && (nt.event()%2!=0)) ||
+                    /*((category==3) && (chainTitle=="dy") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="ttz") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="wz") && (nt.event()%2!=0)) ||*/
+                    (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData) && (nt.event()%2!=0)) ||
+                    ((chainTitle=="signal_tch") && (nt.event()%2!=0)) ||
+                    ((chainTitle=="signal_tuh") && (nt.event()%2!=0)) ||
+                    ((chainTitle=="data"))
+                    ){
+                    //to ensure I get the values in the correct order,
+                    //let's fill a map and then loop through the vector of input names from the BDT
+                    vector<string> trainingFeatures = {"Most_Forward_pt","HT","LeadLep_eta",
+                                                    "LeadLep_pt","LeadLep_dxy","LeadLep_dz",
+                                                    "SubLeadLep_pt","SubLeadLep_eta","SubLeadLep_dxy",
+                                                    "SubLeadLep_dz","nJets","nBtag",
+                                                    "LeadJet_pt","SubLeadJet_pt","SubSubLeadJet_pt",
+                                                    "LeadJet_BtagScore","SubLeadJet_BtagScore","SubSubLeadJet_BtagScore",
+                                                    "nElectron","MET_pt","LeadBtag_pt",
+                                                    "MT_LeadLep_MET","MT_SubLeadLep_MET","LeadLep_SubLeadLep_Mass",
+                                                    "SubSubLeadLep_pt","SubSubLeadLep_eta","SubSubLeadLep_dxy",
+                                                    "SubSubLeadLep_dz","MT_SubSubLeadLep_MET","LeadBtag_score"};
+                    map<string, float> eventValues;
+                    float Most_Forward_pt = -999.0, highest_abs_eta=-999.0;
+                    for(int i=0; i < njets; i++){
+                        if (abs(good_jets[i].eta()) >= highest_abs_eta) {
+                            highest_abs_eta = abs(good_jets[i].eta());
+                            Most_Forward_pt = good_jets[i].pt();
+                        }
                     }
-                }
-                int nelectrons = 0;
-                for(auto lep : best_hyp){
-                    if(lep.absid()==11) nelectrons++;
-                }
-                float MT_LeadLep_MET, MT_SubLeadLep_MET;
-                MT_LeadLep_MET = TMath::Sqrt(2*best_hyp[0].pt()*met * (1 - TMath::Cos(best_hyp[0].phi()-metphi)));
-                MT_SubLeadLep_MET = TMath::Sqrt(2*best_hyp[1].pt()*met * (1 - TMath::Cos(best_hyp[1].phi()-metphi)));
-                float LeadLep_SubLeadLep_Mass = (best_hyp[0].p4() + best_hyp[1].p4()).M();
-                float MT_SubSubLeadLep_MET = -999.0;
-                if(best_hyp.size()>2) MT_SubSubLeadLep_MET = TMath::Sqrt(2*best_hyp[2].pt()*met * (1 - TMath::Cos(best_hyp[2].phi()-metphi)));
+                    int nelectrons = 0;
+                    for(auto lep : best_hyp){
+                        if(lep.absid()==11) nelectrons++;
+                    }
+                    float MT_LeadLep_MET, MT_SubLeadLep_MET;
+                    MT_LeadLep_MET = TMath::Sqrt(2*best_hyp[0].pt()*met * (1 - TMath::Cos(best_hyp[0].phi()-metphi)));
+                    MT_SubLeadLep_MET = TMath::Sqrt(2*best_hyp[1].pt()*met * (1 - TMath::Cos(best_hyp[1].phi()-metphi)));
+                    float LeadLep_SubLeadLep_Mass = (best_hyp[0].p4() + best_hyp[1].p4()).M();
+                    float MT_SubSubLeadLep_MET = -999.0;
+                    if(best_hyp.size()>2) MT_SubSubLeadLep_MET = TMath::Sqrt(2*best_hyp[2].pt()*met * (1 - TMath::Cos(best_hyp[2].phi()-metphi)));
 
-                eventValues["Most_Forward_pt"]         = Most_Forward_pt;
-                eventValues["HT"]                      = ht;
-                eventValues["nJets"]                   = njets;
-                eventValues["nBtag"]                   = nbjets;
-                eventValues["nElectron"]               = nelectrons;
-                eventValues["MET_pt"]                  = met;
-                eventValues["MT_LeadLep_MET"]          = MT_LeadLep_MET;
-                eventValues["MT_SubLeadLep_MET"]       = MT_SubLeadLep_MET;
-                eventValues["MT_SubSubLeadLep_MET"]    = MT_SubSubLeadLep_MET;
-                eventValues["LeadLep_SubLeadLep_Mass"] = LeadLep_SubLeadLep_Mass;
-                eventValues["LeadLep_eta"]             = abs(best_hyp[0].eta());
-                eventValues["LeadLep_pt"]              = best_hyp[0].pt();
-                eventValues["LeadLep_dxy"]             = abs(best_hyp[0].dxy());
-                eventValues["LeadLep_dz"]              = abs(best_hyp[0].dz());
-                eventValues["SubLeadLep_pt"]           = best_hyp[1].pt();
-                eventValues["SubLeadLep_eta"]          = abs(best_hyp[1].eta());
-                eventValues["SubLeadLep_dxy"]          = abs(best_hyp[1].dxy());
-                eventValues["SubLeadLep_dz"]           = abs(best_hyp[1].dz());
-                if(best_hyp.size()>2){
-                    eventValues["SubSubLeadLep_pt"]        = best_hyp[2].pt();
-                    eventValues["SubSubLeadLep_eta"]       = abs(best_hyp[2].eta());
-                    eventValues["SubSubLeadLep_dxy"]       = abs(best_hyp[2].dxy());
-                    eventValues["SubSubLeadLep_dz"]        = abs(best_hyp[2].dz());
-                }else{
-                    eventValues["SubSubLeadLep_pt"]        = -999.0;
-                    eventValues["SubSubLeadLep_eta"]       = -999.0;
-                    eventValues["SubSubLeadLep_dxy"]       = -999.0;
-                    eventValues["SubSubLeadLep_dz"]        = -999.0;
-                }
-                eventValues["LeadJet_pt"]              = good_jets[0].pt();
-                eventValues["LeadJet_BtagScore"]       = good_jets[0].bdisc();
-                if(good_jets.size()>1){
-                    eventValues["SubLeadJet_pt"]           = good_jets[1].pt();
-                    eventValues["SubLeadJet_BtagScore"]    = good_jets[1].bdisc();
-                }else{
-                    eventValues["SubLeadJet_pt"]           = -999.0;
-                    eventValues["SubLeadJet_BtagScore"]    = -999.0;
-                }
-                if(good_jets.size()>2){
-                    eventValues["SubSubLeadJet_pt"]        = good_jets[2].pt();
-                    eventValues["SubSubLeadJet_BtagScore"] = good_jets[2].bdisc();
-                }else{
-                    eventValues["SubSubLeadJet_pt"]        = -999.0;
-                    eventValues["SubSubLeadJet_BtagScore"] = -999.0;
-                }
-                if(good_bjets.size()>0){
-                    eventValues["LeadBtag_pt"]             = good_bjets[0].pt();
-                    eventValues["LeadBtag_score"]          = good_bjets[0].bdisc();
-                }else{
-                    eventValues["LeadBtag_pt"]             = -999.0;
-                    eventValues["LeadBtag_score"]          = -999.0;
-                }
+                    eventValues["Most_Forward_pt"]         = Most_Forward_pt;
+                    eventValues["HT"]                      = ht;
+                    eventValues["nJets"]                   = njets;
+                    eventValues["nBtag"]                   = nbjets;
+                    eventValues["nElectron"]               = nelectrons;
+                    eventValues["MET_pt"]                  = met;
+                    eventValues["MT_LeadLep_MET"]          = MT_LeadLep_MET;
+                    eventValues["MT_SubLeadLep_MET"]       = MT_SubLeadLep_MET;
+                    eventValues["MT_SubSubLeadLep_MET"]    = MT_SubSubLeadLep_MET;
+                    eventValues["LeadLep_SubLeadLep_Mass"] = LeadLep_SubLeadLep_Mass;
+                    eventValues["LeadLep_eta"]             = abs(best_hyp[0].eta());
+                    eventValues["LeadLep_pt"]              = best_hyp[0].pt();
+                    eventValues["LeadLep_dxy"]             = abs(best_hyp[0].dxy());
+                    eventValues["LeadLep_dz"]              = abs(best_hyp[0].dz());
+                    eventValues["SubLeadLep_pt"]           = best_hyp[1].pt();
+                    eventValues["SubLeadLep_eta"]          = abs(best_hyp[1].eta());
+                    eventValues["SubLeadLep_dxy"]          = abs(best_hyp[1].dxy());
+                    eventValues["SubLeadLep_dz"]           = abs(best_hyp[1].dz());
+                    if(best_hyp.size()>2){
+                        eventValues["SubSubLeadLep_pt"]        = best_hyp[2].pt();
+                        eventValues["SubSubLeadLep_eta"]       = abs(best_hyp[2].eta());
+                        eventValues["SubSubLeadLep_dxy"]       = abs(best_hyp[2].dxy());
+                        eventValues["SubSubLeadLep_dz"]        = abs(best_hyp[2].dz());
+                    }else{
+                        eventValues["SubSubLeadLep_pt"]        = -999.0;
+                        eventValues["SubSubLeadLep_eta"]       = -999.0;
+                        eventValues["SubSubLeadLep_dxy"]       = -999.0;
+                        eventValues["SubSubLeadLep_dz"]        = -999.0;
+                    }
+                    eventValues["LeadJet_pt"]              = good_jets[0].pt();
+                    eventValues["LeadJet_BtagScore"]       = good_jets[0].bdisc();
+                    if(good_jets.size()>1){
+                        eventValues["SubLeadJet_pt"]           = good_jets[1].pt();
+                        eventValues["SubLeadJet_BtagScore"]    = good_jets[1].bdisc();
+                    }else{
+                        eventValues["SubLeadJet_pt"]           = -999.0;
+                        eventValues["SubLeadJet_BtagScore"]    = -999.0;
+                    }
+                    if(good_jets.size()>2){
+                        eventValues["SubSubLeadJet_pt"]        = good_jets[2].pt();
+                        eventValues["SubSubLeadJet_BtagScore"] = good_jets[2].bdisc();
+                    }else{
+                        eventValues["SubSubLeadJet_pt"]        = -999.0;
+                        eventValues["SubSubLeadJet_BtagScore"] = -999.0;
+                    }
+                    if(good_bjets.size()>0){
+                        eventValues["LeadBtag_pt"]             = good_bjets[0].pt();
+                        eventValues["LeadBtag_score"]          = good_bjets[0].bdisc();
+                    }else{
+                        eventValues["LeadBtag_pt"]             = -999.0;
+                        eventValues["LeadBtag_score"]          = -999.0;
+                    }
 
-                vector<float> inputFeatures;
-                for(uint i = 0; i < trainingFeatures.size(); i++){
-                    inputFeatures.push_back(eventValues[trainingFeatures[i]]);
-                    // cout << trainingFeatures[i] << "   " << eventValues[trainingFeatures[i]] << "   " << inputFeatures[i] << endl;
+                    vector<float> inputFeatures;
+                    for(uint i = 0; i < trainingFeatures.size(); i++){
+                        inputFeatures.push_back(eventValues[trainingFeatures[i]]);
+                        // cout << trainingFeatures[i] << "   " << eventValues[trainingFeatures[i]] << "   " << inputFeatures[i] << endl;
+                    }
+
+                    auto hct_pred = hct_bdt.Compute(inputFeatures);
+                    auto hut_pred = hut_bdt.Compute(inputFeatures);
+                    hct_pred_value = hct_pred[0];
+                    hut_pred_value = hut_pred[0];
+                    // cout << "hct: " << hct_pred[0] << endl;
+                    // cout << "hut: " << hut_pred[0] << endl;
+
+                    if(print_comparison_file){print_comparison(comparison_file,hct_pred[0],hut_pred[0],inputFeatures);}
+
+                    if(hct_pred_value<0){cout << hct_pred_value << endl;}
                 }
-
-                auto hct_pred = hct_bdt.Compute(inputFeatures);
-                auto hut_pred = hut_bdt.Compute(inputFeatures);
-                hct_pred_value = hct_pred[0];
-                hut_pred_value = hut_pred[0];
-                // cout << "hct: " << hct_pred[0] << endl;
-                // cout << "hut: " << hut_pred[0] << endl;
-
-                if(print_comparison_file){print_comparison(comparison_file,hct_pred[0],hut_pred[0],inputFeatures);}
-
-                if(hct_pred_value<0){cout << hct_pred_value << endl;}
             }
-
             
 
 
