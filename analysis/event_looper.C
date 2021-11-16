@@ -496,7 +496,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     BDTBabyMaker bdt_fakes_baby;
     BDTBabyMaker bdt_flips_baby;
     BDTBabyMaker bdt_MC_baby;
-    std::string BDT_base_dir = "./helpers/BDT/fcncBabies";
+    std::string BDT_base_dir = "./helpers/BDT/fcncBabies_jet25/";
     // std::string BDT_base_dir = "/hadoop/cms/store/user/ksalyer/fcncBabies";
     if (make_BDT_fakes_babies){
         bdt_fakes_baby.Initialize(Form("%s/%s/data_driven/%s_fakes.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
@@ -510,8 +510,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
         bdt_MC_baby.Initialize(Form("%s/%s/MC/%s.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
         cout << Form("%s/%s/MC/%s.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh) << endl;
     }
-    //TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/public_html/BDT/HCT/model.root");
-    //TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/public_html/BDT/HUT/model.root");
+    TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HCT/model.root");
+    TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HUT/model.root");
 
 
     auto start = high_resolution_clock::now();
@@ -1447,16 +1447,16 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     // cout << trainingFeatures[i] << "   " << eventValues[trainingFeatures[i]] << "   " << inputFeatures[i] << endl;
                 }
 
-                // auto hct_pred = hct_bdt.Compute(inputFeatures);
-                // auto hut_pred = hut_bdt.Compute(inputFeatures);
-                // hct_pred_value = hct_pred[0];
-                // hut_pred_value = hut_pred[0];
+                auto hct_pred = hct_bdt.Compute(inputFeatures);
+                auto hut_pred = hut_bdt.Compute(inputFeatures);
+                hct_pred_value = hct_pred[0];
+                hut_pred_value = hut_pred[0];
                 // cout << "hct: " << hct_pred[0] << endl;
                 // cout << "hut: " << hut_pred[0] << endl;
 
-                // if(print_comparison_file){print_comparison(comparison_file,hct_pred[0],hut_pred[0],inputFeatures);}
+                if(print_comparison_file){print_comparison(comparison_file,hct_pred[0],hut_pred[0],inputFeatures);}
 
-                // if(hct_pred_value<0){cout << hct_pred_value << endl;}
+                if(hct_pred_value<0){cout << hct_pred_value << endl;}
             }
 
             
