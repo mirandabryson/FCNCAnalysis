@@ -10,7 +10,8 @@ import json
 
 ## HARDCODED PATHS TO INPUT HISTOS ##
 # inFilePath = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov14_hists/"
-inFilePath = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_yields/"
+inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_yields/"
+inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_bdtYields/"
 
 ##define functions
 #function to get multiplicities for a given cc bin
@@ -51,8 +52,8 @@ def getSRStatRows(processes, numSRs):
             titles.append(rowTitle)
     return titles
 
-#function to make the CR stat and dd rate Syst row titles
-def getCRStatRows(year, processes, SRs, CRDict):
+#function to make the CC CR stat and dd rate Syst row titles
+def getCCCRStatRows(year, processes, SRs, CRDict):
     titles = []
     for p in processes:
         for i in range(len(SRs)): 
@@ -62,6 +63,27 @@ def getCRStatRows(year, processes, SRs, CRDict):
             rowTitle += str(i)
             rowTitle += "_"+str(y)[-2:]+" "
             rowTitle += str(CRDict[str(year)][p][SRs[i]]["yield"])
+            while len(rowTitle) < 17: rowTitle += " "
+            rowTitle += "gmN"
+            titles.append(rowTitle)
+        rowTitle = p[:4]
+        rowTitle += "RateSyst_"
+        rowTitle += str(y)[-2:]
+        while len(rowTitle) < 17: rowTitle += " "
+        rowTitle += "lnN"
+        titles.append(rowTitle)
+    return titles
+
+#function to make the bdt CR stat and dd rate Syst row titles
+def getBDTCRStatRows(year, processes, SRs, CRDict, signal):
+    titles = []
+    for p in processes:
+        for i in range(len(SRs)): 
+            rowTitle = p[:2]
+            rowTitle += "_st"
+            rowTitle += str(i)
+            rowTitle += "_"+str(y)[-2:]+" "
+            rowTitle += str(int(CRDict[str(year)][signal][p][SRs[i]]["yield"]))
             while len(rowTitle) < 17: rowTitle += " "
             rowTitle += "gmN"
             titles.append(rowTitle)
@@ -101,14 +123,93 @@ def getObjFromFile(fname, hname):
     f.Close()
     return res
 
+#function to write output text file
+def writeToTxt(df, filename, SRlist, processes, observations, yields):
+    outFile = open(filename, "w+")
+
+    outFile.write("imax "+str(len(SRlist))+ " number of channels\n")
+    outFile.write("jmax "+str(len(processes)-1)+ " number of backgrounds\n")
+    outFile.write("kmax "+str(len(df.index))+ " number of nuisance parameters\n")
+    outFile.write("shapes * * FAKE\n\n")
+
+    line = "bin"
+    while len(line)<20: line+=" "
+    line += "\t"
+    for reg in SRlist:
+        while len(reg)<20: reg+=" "
+        line += reg
+        line += "\t"
+    outFile.write(line+"\n")
+
+    line = "observation"
+    while len(line)<20: line+=" "
+    line += "\t"
+    for reg in SRlist:
+        obs = observations[reg]
+        obs = str(int(obs))
+        while len(obs)<20: obs+=" "
+        line += obs
+        line += "\t"
+    outFile.write(line+"\n\n")
+
+    line = "bin"
+    while len(line)<20: line+=" "
+    line += "\t"
+    for reg in SRlist:
+        while len(reg)<20: reg+=" "
+        reg += "\t"
+        line += reg*len(processes)
+    outFile.write(line+"\n")
+
+    line = "process"
+    while len(line)<20: line+=" "
+    line += "\t"
+    for p in processes:
+        while len(p)<20: p+=" "
+        line += p
+        line += "\t"
+    line = line*len(SRlist)
+    outFile.write(line+"\n")
+
+    line = "process"
+    while len(line)<20: line+=" "
+    line += "\t"
+    for i in range(len(processes)):
+        i = str(i)
+        while len(i)<20: i+=" "
+        line += i
+        line += "\t"
+    line = line*len(SRlist)
+    outFile.write(line+"\n")
+
+    line = "rate"
+    while len(line)<20: line+=" "
+    line += "\t"
+    for reg in SRlist:
+        for p in processes:
+            yld = str(round(yields[reg][p], 8))
+            while len(yld)<20: yld+=" "
+            line += yld
+            line += "\t"
+    outFile.write(line+"\n")
+
+    filler = "-"
+    while len(filler)<20: filler+=" "
+    df = df.fillna(filler)
+    outFile.write(df.to_csv(sep="\t",index=True,header=False))
+
+    outFile.close()
+
 ##load useful jsons
 with open('./ccSRbins.json') as ccbins_json: ccSRDict = json.load(ccbins_json)
 with open('./ccCRStats.json') as ccCR_json: ccCRDict = json.load(ccCR_json)
+with open('./bdtCRStats.json') as bdtCR_json: bdtCRDict = json.load(bdtCR_json)
 
 ##lists to loop
 numCCSRs = 21
 numBDTSRs = 20
 years = [2016,2017,2018]
+signalNorm = 0.01
 signals = ["tch","tuh"]
 procs   = ["signal","rares","fakes_mc","flips_mc"]
 mcProcs = ["signal","rares"]
@@ -119,16 +220,25 @@ uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2
 ## main loop
 for y in years:
     for s in signals:
+        if "tch" in s: altSig = "hct"
+        if "tuh" in s: altSig = "hut"
+
         ## CUT AND COUNT COLUMNS, ROWS, AND DATAFRAME ##
         ccSRs = getCCColumns(ccSRDict, numCCSRs)
         ccDFCols = [b+"_"+p[:3] for b in ccSRs for p in procs]
 
         ccRows = []
         ccRows += getSRStatRows(mcProcs, numCCSRs)
-        ccRows += getCRStatRows(y, ddProcs, ccSRs, ccCRDict)
+        ccRows += getCCCRStatRows(y, ddProcs, ccSRs, ccCRDict)
         ccRows += getSystRows(y, corrSyst, uncorrSyst)
 
         cc_df = pd.DataFrame(columns = ccDFCols, index = ccRows)
+        ccObs = {x:0 for x in ccSRs}
+        ccYld = {}
+        for a in ccSRs: 
+            ccYld[a] = {}
+            for b in procs: 
+                ccYld[a][b] = 0
 
         ## BDT COLUMNS, ROWS, AND DATAFRAME ##
         bdtSRs = ["bin_"+str(x) for x in range(20)]
@@ -136,22 +246,40 @@ for y in years:
 
         bdtRows = []
         bdtRows += getSRStatRows(mcProcs, numBDTSRs)
-        # bdtRows += getCRStatRows(y, ddProcs, ccSRs, ccCRDict)
+        bdtRows += getBDTCRStatRows(y, ddProcs, bdtSRs, bdtCRDict, s)
         bdtRows += getSystRows(y, corrSyst, uncorrSyst)
 
         bdt_df = pd.DataFrame(columns = bdtDFCols, index = bdtRows)
+        bdtObs = {x:0 for x in bdtSRs}
+        bdtYld = {}
+        for a in bdtSRs: 
+            bdtYld[a] = {}
+            for b in procs: 
+                bdtYld[a][b] = 0
 
 
         ## FILL MC ESTIMATES ##
         for p in mcProcs:
             if "signal" in p:
-                fileName = inFilePath + p + "_" + s + "_" + str(y) + "_hists.root"
-                srHist = getObjFromFile(fileName, "h_br_sr_signal_"+s)
+                ccFileName = inFileCC + p + "_" + s + "_" + str(y) + "_hists.root"
+                ccHist = getObjFromFile(ccFileName, "h_br_sr_signal_"+s)
+
+                bdtFileName = inFileBDT + p + "_" + s + "_" + str(y) + "_hists.root"
+                bdtHist = getObjFromFile(bdtFileName, "h_br_bdtScore_"+altSig+str(y)+"_"+ p + "_" + s)
             else:
-                fileName = inFilePath + p + "_" + str(y) + "_hists.root"
-                srHist = getObjFromFile(fileName, "h_br_sr_"+p)
+                ccFileName = inFileCC + p + "_" + str(y) + "_hists.root"
+                ccHist = getObjFromFile(ccFileName, "h_br_sr_"+p)
+
+                bdtFileName = inFileBDT + p + "_" + str(y) + "_hists.root"
+                bdtHist = getObjFromFile(bdtFileName, "h_br_bdtScore_"+altSig+str(y)+"_"+ p)
+
+            ##LOOP TO FILL CUT AND COUNT##
             for i in range(1, numCCSRs+1):
-                binDict = getCCSRBin(i, srHist, ccSRDict)
+                binDict = getCCSRBin(i, ccHist, ccSRDict)
+                if "signal" in p: ccYld[binDict["name"]][p] = signalNorm*binDict["yield"]
+                else:
+                    ccYld[binDict["name"]][p] = binDict["yield"]
+                    ccObs[binDict["name"]] += binDict["yield"]
                 colTitle = binDict["name"] + "_" + p[:3]
                 rowTitle = p[:3] + "_stat_" + str(i-1)
                 while len(rowTitle)<17: rowTitle += " "
@@ -161,37 +289,73 @@ for y in years:
                 while len(fill) <20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
 
+            ##LOOP TO FILL BDT##
+            for i in range(1, numBDTSRs+1):
+                yld = bdtHist.GetBinContent(i)
+                err = bdtHist.GetBinError(i)
+                if "signal" in p: bdtYld["bin_"+str(i-1)][p] = signalNorm*yld
+                else:
+                    bdtYld["bin_"+str(i-1)][p] = yld
+                    bdtObs["bin_"+str(i-1)] += yld
+                colTitle = "bin_"+str(i-1) + "_" + p[:3]
+                rowTitle = p[:3] + "_stat_" + str(i-1)
+                while len(rowTitle)<17: rowTitle += " "
+                rowTitle += "lnN"
+                fill = 1+round(err/yld, 8)
+                fill = str(fill)
+                while len(fill) <20: fill += " "
+                bdt_df[colTitle][rowTitle] = fill
+
 
         ## FILL DATA DRIVEN ESTIMATES ##
         for p in ddProcs:
-            fileName = inFilePath + "data_" + str(y) + "_hists.root" 
+            ccFileName = inFileCC + "data_" + str(y) + "_hists.root" 
+            bdtFileName = inFileBDT + "data_" + str(y) + "_hists.root" 
             
-            # this is the correct name, but these histograms aren't made yet, so for the sake of testing this script,
-            # I'm using the uncommented version
             if "fakes" in p: 
-                raresFile = inFilePath + "rares_" + str(y) + "_hists.root"
+                raresFilecc = inFileCC + "rares_" + str(y) + "_hists.root"
+                raresFilebdt = inFileBDT + "rares_" + str(y) + "_hists.root"
 
-                sfHist = getObjFromFile(fileName, "h_sfest_fakecr_data")
-                mlsfHist = getObjFromFile(fileName, "h_mlsfest_fakecr_data")
-                dfHist = getObjFromFile(fileName, "h_dfest_fakecr_data")
-                mldfHist = getObjFromFile(fileName, "h_mldfest_fakecr_data")
-                sfppHist = getObjFromFile(raresFile, "h_sfppest_fakecr_rares")
-                mlsfpppHist = getObjFromFile(raresFile, "h_mlsfpppest_fakecr_rares")
+                sfHist = getObjFromFile(ccFileName, "h_sfest_fakecr_data")
+                mlsfHist = getObjFromFile(ccFileName, "h_mlsfest_fakecr_data")
+                dfHist = getObjFromFile(ccFileName, "h_dfest_fakecr_data")
+                mldfHist = getObjFromFile(ccFileName, "h_mldfest_fakecr_data")
+                sfppHist = getObjFromFile(raresFilecc, "h_sfppest_fakecr_rares")
+                mlsfpppHist = getObjFromFile(raresFilecc, "h_mlsfpppest_fakecr_rares")
 
-                srHist = sfHist.Clone()
-                srHist.Add(mlsfHist)
-                srHist.Add(dfHist, -2)
-                srHist.Add(mldfHist, -2)
-                srHist.Add(sfppHist, -1)
-                srHist.Add(mlsfpppHist, -1)
-            else: srHist = getObjFromFile(fileName, "h_osest_flipcr_data")
-            # if "fakes" in p: srHist = getObjFromFile(fileName, "h_sfest_sr_data")
-            # else: srHist = getObjFromFile(fileName, "h_osest_sr_data")
+                ccHist = sfHist.Clone()
+                ccHist.Add(mlsfHist)
+                ccHist.Add(dfHist, -2)
+                ccHist.Add(mldfHist, -2)
+                ccHist.Add(sfppHist, -1)
+                ccHist.Add(mlsfpppHist, -1)
 
+                sfHist = getObjFromFile(bdtFileName, "h_sfest_bdtScore_"+altSig+str(y)+"_data")
+                mlsfHist = getObjFromFile(bdtFileName, "h_mlsfest_bdtScore_"+altSig+str(y)+"_data")
+                dfHist = getObjFromFile(bdtFileName, "h_dfest_bdtScore_"+altSig+str(y)+"_data")
+                mldfHist = getObjFromFile(bdtFileName, "h_mldfest_bdtScore_"+altSig+str(y)+"_data")
+                sfppHist = getObjFromFile(raresFilebdt, "h_sfppest_bdtScore_"+altSig+str(y)+"_rares")
+                mlsfpppHist = getObjFromFile(raresFilebdt, "h_mlsfpppest_bdtScore_"+altSig+str(y)+"_rares")
+
+                bdtHist = sfHist.Clone()
+                bdtHist.Add(mlsfHist)
+                bdtHist.Add(dfHist, -2)
+                bdtHist.Add(mldfHist, -2)
+                bdtHist.Add(sfppHist, -1)
+                bdtHist.Add(mlsfpppHist, -1)
+            else:
+                ccHist = getObjFromFile(ccFileName, "h_osest_flipcr_data")
+                bdtHist = getObjFromFile(bdtFileName, "h_osest_bdtScore_"+altSig+str(y)+"_data")
+
+            ##LOOP TO FILL CC##
             for i in range(1, numCCSRs+1):
-                binDict = getCCSRBin(i, srHist, ccSRDict)
+                binDict = getCCSRBin(i, ccHist, ccSRDict)
+
+                ccYld[binDict["name"]][p] = binDict["yield"]
+                if "signal" not in p: ccObs[binDict["name"]] += binDict["yield"]
+
                 if "flip" in p and ccCRDict[str(y)][p][binDict["name"]]["yield"]==0: continue
-                coltitle = binDict["name"] + "_" + p[:3]
+                colTitle = binDict["name"] + "_" + p[:3]
                 rowTitle = p[:2] + "_st" + str(i-1) + "_" + str(y)[-2:] + " "
                 rowTitle += str(ccCRDict[str(y)][p][binDict["name"]]["yield"])
                 while len(rowTitle)<17: rowTitle += " "
@@ -207,7 +371,34 @@ for y in years:
                 while len(fill)<20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
 
-        print(cc_df)
+            ##LOOP TO FILL BDT##
+            for i in range(1, numBDTSRs+1):
+                yld = bdtHist.GetBinContent(i)
+                err = bdtHist.GetBinError(i)
+
+                bdtYld["bin_"+str(i-1)][p] = yld
+                if "signal" not in p: bdtObs["bin_"+str(i-1)] += yld
+
+                colTitle = "bin_"+str(i-1) + "_" + p[:3]
+                rowTitle = p[:2] + "_st" + str(i-1) + "_" + str(y)[-2:] + " "
+                rowTitle += str(int(bdtCRDict[str(y)][s][p]["bin_"+str(i-1)]["yield"]))
+                while len(rowTitle)<17: rowTitle += " "
+                rowTitle += "gmN"
+                fill = round(yld/bdtCRDict[str(y)][s][p]["bin_"+str(i-1)]["yield"], 8)
+                fill = str(fill)
+                while len(fill)<20: fill += " "
+                bdt_df[colTitle][rowTitle] = fill
+                # rowTitle = p[:4] + "RateSyst_" + str(y)[-2:]
+                # while len(rowTitle)<17: rowTitle += " "
+                # fill = round(1+ (bdtCRDict[str(y)][p]["bin_"+str(i-1)]["syst"]/100), 8)
+                # fill = str(fill)
+                # while len(fill)<20: fill += " "
+                # bdt_df[colTitle][rowTitle] = fill
+
+        ## write to output file
+        writeToTxt(cc_df, "/home/users/ksalyer/FCNCAnalysis/analysis/datacards/CC/datacard_"+s+"_"+str(y)+".txt", ccSRs, procs, ccObs, ccYld)
+        writeToTxt(bdt_df, "/home/users/ksalyer/FCNCAnalysis/analysis/datacards/BDT/datacard_"+s+"_"+str(y)+".txt", bdtSRs, procs, bdtObs, bdtYld)
+
 
 
 
