@@ -66,8 +66,8 @@ def getCCCRStatRows(year, processes, SRs, CRDict):
             rowTitle += "_"+str(y)[-2:]+" "
             rowTitle2 = str(CRDict[str(year)][p][SRs[i]]["yield"])
             while len(rowTitle+rowTitle2) < 16: rowTitle += " "
+            rowTitle += "gmN "
             rowTitle += rowTitle2
-            rowTitle += " gmN"
             titles.append(rowTitle)
         rowTitle = p[:4]
         rowTitle += "RateSyst_"
@@ -88,8 +88,8 @@ def getBDTCRStatRows(year, processes, SRs, CRDict, signal):
             rowTitle += "_"+str(y)[-2:]+" "
             rowTitle2 = str(int(CRDict[str(year)][signal][p][SRs[i]]["yield"]))
             while len(rowTitle+rowTitle2) < 16: rowTitle += " "
+            rowTitle += "gmN "
             rowTitle += rowTitle2
-            rowTitle += " gmN"
             titles.append(rowTitle)
         rowTitle = p[:4]
         rowTitle += "RateSyst_"
@@ -110,6 +110,18 @@ def getSystRows(year, correlated, uncorrelated):
     for u in uncorrelated:
         rowTitle = u
         rowTitle += "_" + str(year)[-2:]
+        while len(rowTitle)<17: rowTitle+=" "
+        rowTitle += "lnN"
+        titles.append(rowTitle)
+    return titles
+
+#function to make the norm row titles
+def getNormRows(year, processes):
+    titles = []
+    for p in processes:
+        rowTitle = p[:3]
+        rowTitle += "_norm"
+        rowTitle += str(year)[-2:]
         while len(rowTitle)<17: rowTitle+=" "
         rowTitle += "lnN"
         titles.append(rowTitle)
@@ -237,6 +249,7 @@ for y in years:
         ccRows += getSRStatRows(mcProcs, numCCSRs)
         ccRows += getCCCRStatRows(y, ddProcs, ccSRs, ccCRDict)
         ccRows += getSystRows(y, corrSyst, uncorrSyst)
+        ccRows += getNormRows(y, procs)
 
         cc_df = pd.DataFrame(columns = ccDFCols, index = ccRows)
         ccObs = {x:0 for x in ccSRs}
@@ -254,6 +267,7 @@ for y in years:
         bdtRows += getSRStatRows(mcProcs, numBDTSRs)
         bdtRows += getBDTCRStatRows(y, ddProcs, bdtSRs, bdtCRDict, s)
         bdtRows += getSystRows(y, corrSyst, uncorrSyst)
+        bdtRows += getNormRows(y, procs)
 
         bdt_df = pd.DataFrame(columns = bdtDFCols, index = bdtRows)
         bdtObs = {x:0 for x in bdtSRs}
@@ -294,6 +308,13 @@ for y in years:
                 fill = str(fill)
                 while len(fill) <20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
+                rowTitle = p[:3] + "_norm" + str(y)[-2:]
+                while len(rowTitle)<17: rowTitle+=" "
+                rowTitle += "lnN"
+                if "signal" in p: fill = "0.8/1.2"
+                else: fill = "0.7/1.3"
+                while len(fill)<20: fill += " "
+                cc_df[colTitle][rowTitle] = fill
 
             ##LOOP TO FILL BDT##
             for i in range(1, numBDTSRs+1):
@@ -310,6 +331,13 @@ for y in years:
                 fill = 1+round(err/yld, 6)
                 fill = str(fill)
                 while len(fill) <20: fill += " "
+                bdt_df[colTitle][rowTitle] = fill
+                rowTitle = p[:3] + "_norm" + str(y)[-2:]
+                while len(rowTitle)<17: rowTitle+=" "
+                rowTitle += "lnN"
+                if "signal" in p: fill = "0.8/1.2"
+                else: fill = "0.7/1.3"
+                while len(fill)<20: fill += " "
                 bdt_df[colTitle][rowTitle] = fill
 
 
@@ -365,16 +393,24 @@ for y in years:
                 rowTitle = p[:2] + "_st" + str(i-1) + "_" + str(y)[-2:] + " "
                 rowTitle2 = str(ccCRDict[str(y)][p][binDict["name"]]["yield"])
                 while len(rowTitle+rowTitle2)<16: rowTitle += " "
+                rowTitle += "gmN "
                 rowTitle += rowTitle2
-                rowTitle += " gmN"
                 fill = round(binDict["yield"]/ccCRDict[str(y)][p][binDict["name"]]["yield"], 6)
                 fill = str(fill)
                 while len(fill)<20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
                 rowTitle = p[:4] + "RateSyst_" + str(y)[-2:]
                 while len(rowTitle)<17: rowTitle += " "
+                rowTitle += "lnN"
                 fill = round(1+ (ccCRDict[str(y)][p][binDict["name"]]["syst"]/100), 6)
                 fill = str(fill)
+                while len(fill)<20: fill += " "
+                cc_df[colTitle][rowTitle] = fill
+                rowTitle = p[:3] + "_norm" + str(y)[-2:]
+                while len(rowTitle)<17: rowTitle+=" "
+                rowTitle += "lnN"
+                if "fakes" in p: fill = "0.6/1.4"
+                else: fill = "0.7/1.3"
                 while len(fill)<20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
 
@@ -390,18 +426,23 @@ for y in years:
                 rowTitle = p[:2] + "_st" + str(i-1) + "_" + str(y)[-2:] + " "
                 rowTitle2 = str(int(bdtCRDict[str(y)][s][p]["bin_"+str(i-1)]["yield"]))
                 while len(rowTitle+rowTitle2)<16: rowTitle += " "
+                rowTitle += "gmN "
                 rowTitle += rowTitle2
-                rowTitle += " gmN"
                 fill = round(yld/bdtCRDict[str(y)][s][p]["bin_"+str(i-1)]["yield"], 6)
                 fill = str(fill)
                 while len(fill)<20: fill += " "
                 bdt_df[colTitle][rowTitle] = fill
                 # rowTitle = p[:4] + "RateSyst_" + str(y)[-2:]
                 # while len(rowTitle)<17: rowTitle += " "
+                rowTitle += "lnN"
                 # fill = round(1+ (bdtCRDict[str(y)][p]["bin_"+str(i-1)]["syst"]/100), 6)
                 # fill = str(fill)
                 # while len(fill)<20: fill += " "
                 # bdt_df[colTitle][rowTitle] = fill
+                if "fakes" in p: fill = "0.6/1.4"
+                else: fill = "0.7/1.3"
+                while len(fill)<20: fill += " "
+                bdt_df[colTitle][rowTitle] = fill
 
         ## write to output file
         writeToTxt(cc_df, "/home/users/ksalyer/FCNCAnalysis/analysis/datacards/CC/datacard_"+s+"_"+str(y)+".txt", ccSRs, procs, ccObs, ccYld)
