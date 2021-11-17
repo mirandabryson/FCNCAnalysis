@@ -10,7 +10,8 @@ import json
 
 ## HARDCODED PATHS TO INPUT HISTOS ##
 # inFilePath = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov14_hists/"
-inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_yields/"
+#inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_yields/"
+inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
 inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_bdtYields/"
 
 ##define functions
