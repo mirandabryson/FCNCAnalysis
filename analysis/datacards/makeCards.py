@@ -11,8 +11,9 @@ import json
 ## HARDCODED PATHS TO INPUT HISTOS ##
 # inFilePath = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov14_hists/"
 #inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_yields/"
+#inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_bdtYields/"
 inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
-inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_bdtYields/"
+inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_bdtYields/"
 
 ##define functions
 #function to get multiplicities for a given cc bin
@@ -63,9 +64,10 @@ def getCCCRStatRows(year, processes, SRs, CRDict):
             rowTitle += "_st"
             rowTitle += str(i)
             rowTitle += "_"+str(y)[-2:]+" "
-            rowTitle += str(CRDict[str(year)][p][SRs[i]]["yield"])
-            while len(rowTitle) < 17: rowTitle += " "
-            rowTitle += "gmN"
+            rowTitle2 = str(CRDict[str(year)][p][SRs[i]]["yield"])
+            while len(rowTitle+rowTitle2) < 16: rowTitle += " "
+            rowTitle += rowTitle2
+            rowTitle += " gmN"
             titles.append(rowTitle)
         rowTitle = p[:4]
         rowTitle += "RateSyst_"
@@ -84,9 +86,10 @@ def getBDTCRStatRows(year, processes, SRs, CRDict, signal):
             rowTitle += "_st"
             rowTitle += str(i)
             rowTitle += "_"+str(y)[-2:]+" "
-            rowTitle += str(int(CRDict[str(year)][signal][p][SRs[i]]["yield"]))
-            while len(rowTitle) < 17: rowTitle += " "
-            rowTitle += "gmN"
+            rowTitle2 = str(int(CRDict[str(year)][signal][p][SRs[i]]["yield"]))
+            while len(rowTitle+rowTitle2) < 16: rowTitle += " "
+            rowTitle += rowTitle2
+            rowTitle += " gmN"
             titles.append(rowTitle)
         rowTitle = p[:4]
         rowTitle += "RateSyst_"
@@ -190,7 +193,7 @@ def writeToTxt(df, filename, SRlist, processes, observations, yields):
     line += "\t"
     for reg in SRlist:
         for p in processes:
-            yld = str(round(yields[reg][p], 8))
+            yld = str(round(yields[reg][p], 6))
             while len(yld)<20: yld+=" "
             line += yld
             line += "\t"
@@ -287,7 +290,7 @@ for y in years:
                 rowTitle = p[:3] + "_stat_" + str(i-1)
                 while len(rowTitle)<17: rowTitle += " "
                 rowTitle += "lnN"
-                fill = 1+round(binDict["error"]/binDict["yield"], 8)
+                fill = 1+round(binDict["error"]/binDict["yield"], 6)
                 fill = str(fill)
                 while len(fill) <20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
@@ -304,7 +307,7 @@ for y in years:
                 rowTitle = p[:3] + "_stat_" + str(i-1)
                 while len(rowTitle)<17: rowTitle += " "
                 rowTitle += "lnN"
-                fill = 1+round(err/yld, 8)
+                fill = 1+round(err/yld, 6)
                 fill = str(fill)
                 while len(fill) <20: fill += " "
                 bdt_df[colTitle][rowTitle] = fill
@@ -360,16 +363,17 @@ for y in years:
                 if "flip" in p and ccCRDict[str(y)][p][binDict["name"]]["yield"]==0: continue
                 colTitle = binDict["name"] + "_" + p[:3]
                 rowTitle = p[:2] + "_st" + str(i-1) + "_" + str(y)[-2:] + " "
-                rowTitle += str(ccCRDict[str(y)][p][binDict["name"]]["yield"])
-                while len(rowTitle)<17: rowTitle += " "
-                rowTitle += "gmN"
-                fill = round(binDict["yield"]/ccCRDict[str(y)][p][binDict["name"]]["yield"], 8)
+                rowTitle2 = str(ccCRDict[str(y)][p][binDict["name"]]["yield"])
+                while len(rowTitle+rowTitle2)<16: rowTitle += " "
+                rowTitle += rowTitle2
+                rowTitle += " gmN"
+                fill = round(binDict["yield"]/ccCRDict[str(y)][p][binDict["name"]]["yield"], 6)
                 fill = str(fill)
                 while len(fill)<20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
                 rowTitle = p[:4] + "RateSyst_" + str(y)[-2:]
                 while len(rowTitle)<17: rowTitle += " "
-                fill = round(1+ (ccCRDict[str(y)][p][binDict["name"]]["syst"]/100), 8)
+                fill = round(1+ (ccCRDict[str(y)][p][binDict["name"]]["syst"]/100), 6)
                 fill = str(fill)
                 while len(fill)<20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
@@ -384,16 +388,17 @@ for y in years:
 
                 colTitle = "bin_"+str(i-1) + "_" + p[:3]
                 rowTitle = p[:2] + "_st" + str(i-1) + "_" + str(y)[-2:] + " "
-                rowTitle += str(int(bdtCRDict[str(y)][s][p]["bin_"+str(i-1)]["yield"]))
-                while len(rowTitle)<17: rowTitle += " "
-                rowTitle += "gmN"
-                fill = round(yld/bdtCRDict[str(y)][s][p]["bin_"+str(i-1)]["yield"], 8)
+                rowTitle2 = str(int(bdtCRDict[str(y)][s][p]["bin_"+str(i-1)]["yield"]))
+                while len(rowTitle+rowTitle2)<16: rowTitle += " "
+                rowTitle += rowTitle2
+                rowTitle += " gmN"
+                fill = round(yld/bdtCRDict[str(y)][s][p]["bin_"+str(i-1)]["yield"], 6)
                 fill = str(fill)
                 while len(fill)<20: fill += " "
                 bdt_df[colTitle][rowTitle] = fill
                 # rowTitle = p[:4] + "RateSyst_" + str(y)[-2:]
                 # while len(rowTitle)<17: rowTitle += " "
-                # fill = round(1+ (bdtCRDict[str(y)][p]["bin_"+str(i-1)]["syst"]/100), 8)
+                # fill = round(1+ (bdtCRDict[str(y)][p]["bin_"+str(i-1)]["syst"]/100), 6)
                 # fill = str(fill)
                 # while len(fill)<20: fill += " "
                 # bdt_df[colTitle][rowTitle] = fill
