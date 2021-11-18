@@ -10,9 +10,9 @@ import json
 
 ## HARDCODED PATHS TO INPUT HISTOS ##
 inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
-inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_bdtYields/"
+inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/"
 # inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
-# inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_bdtYields_jet25/"
+# inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields_jet25/"
 
 ##define functions
 #function to get multiplicities for a given cc bin
