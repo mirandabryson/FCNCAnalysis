@@ -7,7 +7,8 @@ import pandas as pd
 import os
 import json
 
-inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_bdtYields/"
+inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_bdtYields/"
+# inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_bdtYields_jet25/"
 
 #function to get histogram from root file
 def getObjFromFile(fname, hname):

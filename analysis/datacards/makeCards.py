@@ -9,11 +9,10 @@ import json
 
 
 ## HARDCODED PATHS TO INPUT HISTOS ##
-# inFilePath = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov14_hists/"
-#inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_yields/"
-#inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_bdtYields/"
 inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
 inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_bdtYields/"
+# inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
+# inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_bdtYields_jet25/"
 
 ##define functions
 #function to get multiplicities for a given cc bin
@@ -434,11 +433,14 @@ for y in years:
                 bdt_df[colTitle][rowTitle] = fill
                 # rowTitle = p[:4] + "RateSyst_" + str(y)[-2:]
                 # while len(rowTitle)<17: rowTitle += " "
-                rowTitle += "lnN"
+                # rowTitle += "lnN"
                 # fill = round(1+ (bdtCRDict[str(y)][p]["bin_"+str(i-1)]["syst"]/100), 6)
                 # fill = str(fill)
                 # while len(fill)<20: fill += " "
                 # bdt_df[colTitle][rowTitle] = fill
+                rowTitle = p[:3] + "_norm" + str(y)[-2:]
+                while len(rowTitle)<17: rowTitle+=" "
+                rowTitle += "lnN"
                 if "fakes" in p: fill = "0.6/1.4"
                 else: fill = "0.7/1.3"
                 while len(fill)<20: fill += " "
