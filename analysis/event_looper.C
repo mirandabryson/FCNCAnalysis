@@ -411,56 +411,57 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
         cout << "got paths" << endl;
 
         BTagCalibration deepjet_csv_2016 = BTagCalibration("csvv1", csv_path_2016);
-        BTagCalibration deepjet_csv_2017 = BTagCalibration("csvv1", csv_path_2017);
-        BTagCalibration deepjet_csv_2018 = BTagCalibration("csvv1", csv_path_2018);
+        // BTagCalibration deepjet_csv_2017 = BTagCalibration("csvv1", csv_path_2017);
+        // BTagCalibration deepjet_csv_2018 = BTagCalibration("csvv1", csv_path_2018);
         cout << "loaded calibration" << endl;
 
         BTagCalibrationReader deepjet_medium_reader_2016 = BTagCalibrationReader(BTagEntry::OP_RESHAPING,
             "central",
-            {"up_lf","down_lf",
-            "up_hf","down_hf",
-            "up_hfstats1","down_hfstats1",
-            "up_hfstats2","down_hfstats2",
-            "up_lfstats1","down_lfstats1",
-            "up_lfstats2","down_lfstats2",
-            "up_cferr1","down_cferr1",
-            "up_cferr2","down_cferr2"}
+            {"up_lf"}
+            // {"up_lf","down_lf",
+            // "up_hf","down_hf",
+            // "up_hfstats1","down_hfstats1",
+            // "up_hfstats2","down_hfstats2",
+            // "up_lfstats1","down_lfstats1",
+            // "up_lfstats2","down_lfstats2",
+            // "up_cferr1","down_cferr1",
+            // "up_cferr2","down_cferr2"}
             );
 
-        BTagCalibrationReader deepjet_medium_reader_2017 = BTagCalibrationReader(BTagEntry::OP_RESHAPING,
-            "central",
-            {"up_lf","down_lf",
-            "up_hf","down_hf",
-            "up_hfstats1","down_hfstats1",
-            "up_hfstats2","down_hfstats2",
-            "up_lfstats1","down_lfstats1",
-            "up_lfstats2","down_lfstats2",
-            "up_cferr1","down_cferr1",
-            "up_cferr2","down_cferr2"}
-            );
+        // BTagCalibrationReader deepjet_medium_reader_2017 = BTagCalibrationReader(BTagEntry::OP_RESHAPING,
+        //     "central",
+        //     {"up_lf","down_lf",
+        //     "up_hf","down_hf",
+        //     "up_hfstats1","down_hfstats1",
+        //     "up_hfstats2","down_hfstats2",
+        //     "up_lfstats1","down_lfstats1",
+        //     "up_lfstats2","down_lfstats2",
+        //     "up_cferr1","down_cferr1",
+        //     "up_cferr2","down_cferr2"}
+        //     );
 
-        BTagCalibrationReader deepjet_medium_reader_2018 = BTagCalibrationReader(BTagEntry::OP_RESHAPING,
-            "central",
-            {"up_lf","down_lf",
-            "up_hf","down_hf",
-            "up_hfstats1","down_hfstats1",
-            "up_hfstats2","down_hfstats2",
-            "up_lfstats1","down_lfstats1",
-            "up_lfstats2","down_lfstats2",
-            "up_cferr1","down_cferr1",
-            "up_cferr2","down_cferr2"}
-            );
+        // BTagCalibrationReader deepjet_medium_reader_2018 = BTagCalibrationReader(BTagEntry::OP_RESHAPING,
+        //     "central",
+        //     {"up_lf","down_lf",
+        //     "up_hf","down_hf",
+        //     "up_hfstats1","down_hfstats1",
+        //     "up_hfstats2","down_hfstats2",
+        //     "up_lfstats1","down_lfstats1",
+        //     "up_lfstats2","down_lfstats2",
+        //     "up_cferr1","down_cferr1",
+        //     "up_cferr2","down_cferr2"}
+        //     );
         cout << "loaded OP and syst unc" << endl;
 
         deepjet_medium_reader_2016.load(deepjet_csv_2016, BTagEntry::FLAV_B, "iterativefit");
         deepjet_medium_reader_2016.load(deepjet_csv_2016, BTagEntry::FLAV_C, "iterativefit");
         deepjet_medium_reader_2016.load(deepjet_csv_2016, BTagEntry::FLAV_UDSG, "iterativefit");
-        deepjet_medium_reader_2017.load(deepjet_csv_2017, BTagEntry::FLAV_B, "iterativefit");
-        deepjet_medium_reader_2017.load(deepjet_csv_2017, BTagEntry::FLAV_C, "iterativefit");
-        deepjet_medium_reader_2017.load(deepjet_csv_2017, BTagEntry::FLAV_UDSG, "iterativefit");
-        deepjet_medium_reader_2018.load(deepjet_csv_2018, BTagEntry::FLAV_B, "iterativefit");
-        deepjet_medium_reader_2018.load(deepjet_csv_2018, BTagEntry::FLAV_C, "iterativefit");
-        deepjet_medium_reader_2018.load(deepjet_csv_2018, BTagEntry::FLAV_UDSG, "iterativefit");
+        // deepjet_medium_reader_2017.load(deepjet_csv_2017, BTagEntry::FLAV_B, "iterativefit");
+        // deepjet_medium_reader_2017.load(deepjet_csv_2017, BTagEntry::FLAV_C, "iterativefit");
+        // deepjet_medium_reader_2017.load(deepjet_csv_2017, BTagEntry::FLAV_UDSG, "iterativefit");
+        // deepjet_medium_reader_2018.load(deepjet_csv_2018, BTagEntry::FLAV_B, "iterativefit");
+        // deepjet_medium_reader_2018.load(deepjet_csv_2018, BTagEntry::FLAV_C, "iterativefit");
+        // deepjet_medium_reader_2018.load(deepjet_csv_2018, BTagEntry::FLAV_UDSG, "iterativefit");
         cout << "loaded flavors for iterativefit" << endl;
     }
 
@@ -947,7 +948,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     else if (nt.year() == 2017){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017);}
                     else if (nt.year() == 2018){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018);}
                 }else{
-                    if (nt.year() == 2016){weight = weight * getIterativeBSF(nt.year(),good_jets,good_bjets,deepjet_medium_reader_2016,"central");}
+                    cout << "in function call: " << nt.event() << endl;
+                    if (nt.year() == 2016){
+                        weight = weight * getIterativeBSF(nt.year(),good_jets,good_bjets,deepjet_medium_reader_2016,"central");}
                     else if (nt.year() == 2017){weight = weight * getIterativeBSF(nt.year(),good_jets,good_bjets,deepjet_medium_reader_2017,"central");}
                     else if (nt.year() == 2018){weight = weight * getIterativeBSF(nt.year(),good_jets,good_bjets,deepjet_medium_reader_2018,"central");}
                 }
@@ -1224,6 +1227,12 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     variationalWeights["bTag_down"]=    weightBtagSFdown;
                 }else{
 
+                    cout << nt.event() << endl;
+                    cout << deepjet_medium_reader_2016.eval_auto_bounds(  "up_lf",
+                                                            BTagEntry::FLAV_B,
+                                                            0.822876,
+                                                            91.875,
+                                                            0.970703) << endl;
                     vector<string> bVariations = {"lf","hf","hfstats1","hfstats2","lfstats1","lfstats2","cferr1","cferr2"};
 
                     for (uint b = 0; b < bVariations.size(); b++){

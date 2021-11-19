@@ -63,7 +63,7 @@ def getCCCRStatRows(year, processes, SRs, CRDict):
             rowTitle += "_st"
             rowTitle += str(i)
             rowTitle += "_"+str(y)[-2:]+" "
-            rowTitle2 = str(CRDict[str(year)][p][SRs[i]]["yield"])
+            rowTitle2 = str(int(CRDict[str(year)][p][SRs[i]]["yield"]))
             while len(rowTitle+rowTitle2) < 16: rowTitle += " "
             rowTitle += "gmN "
             rowTitle += rowTitle2
@@ -221,6 +221,7 @@ def writeToTxt(df, filename, SRlist, processes, observations, yields):
 with open('./ccSRbins.json') as ccbins_json: ccSRDict = json.load(ccbins_json)
 with open('./ccCRStats.json') as ccCR_json: ccCRDict = json.load(ccCR_json)
 with open('./bdtCRStats.json') as bdtCR_json: bdtCRDict = json.load(bdtCR_json)
+with open('./ccMCsyst.json') as ccSyst_json: ccSystDict = json.load(ccSyst_json)
 
 ##lists to loop
 numCCSRs = 21
@@ -231,8 +232,10 @@ signals = ["tch","tuh"]
 procs   = ["signal","rares","fakes_mc","flips_mc"]
 mcProcs = ["signal","rares"]
 ddProcs = ["fakes_mc","flips_mc"]
-corrSyst = ["rarTh","sigTh","pdfShp","rarScShp","sigScShp","PU","lf","hf","cferr1","cferr2"]
-uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
+# corrSyst = ["rarTh","sigTh","pdfShp","rarScShp","sigScShp","PU","lf","hf","cferr1","cferr2"]
+# uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
+corrSyst = ["PU"]
+uncorrSyst = ["Trigger","LepSF","bTag"]
 
 ## main loop
 for y in years:
@@ -307,13 +310,35 @@ for y in years:
                 fill = str(fill)
                 while len(fill) <20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
-                rowTitle = p[:3] + "_norm" + str(y)[-2:]
-                while len(rowTitle)<17: rowTitle+=" "
-                rowTitle += "lnN"
-                if "signal" in p: fill = "0.8/1.2"
-                else: fill = "0.7/1.3"
-                while len(fill)<20: fill += " "
-                cc_df[colTitle][rowTitle] = fill
+
+                if "signal" in p: pname = p + "_" + s
+                else: pname = p
+                for c in corrSyst:
+                    rowTitle = c
+                    while len(rowTitle)<17: rowTitle += " "
+                    rowTitle += "lnN"
+                    fill = str(round(ccSystDict[str(y)][pname][c][colTitle[:-4]]["down"],6))
+                    fill += "/"
+                    fill += str(round(ccSystDict[str(y)][pname][c][colTitle[:-4]]["up"],6))
+                    while len(fill)<20: fill += " "
+                    cc_df[colTitle][rowTitle] = fill
+                for u in uncorrSyst:
+                    rowTitle = u
+                    rowTitle += "_" + str(y)[-2:]
+                    while len(rowTitle)<17: rowTitle += " "
+                    rowTitle += "lnN"
+                    fill = str(round(ccSystDict[str(y)][pname][u][colTitle[:-4]]["down"],6))
+                    fill += "/"
+                    fill += str(round(ccSystDict[str(y)][pname][u][colTitle[:-4]]["up"],6))
+                    while len(fill)<20: fill += " "
+                    cc_df[colTitle][rowTitle] = fill
+                # rowTitle = p[:3] + "_norm" + str(y)[-2:]
+                # while len(rowTitle)<17: rowTitle+=" "
+                # rowTitle += "lnN"
+                # if "signal" in p: fill = "0.8/1.2"
+                # else: fill = "0.7/1.3"
+                # while len(fill)<20: fill += " "
+                # cc_df[colTitle][rowTitle] = fill
 
             ##LOOP TO FILL BDT##
             for i in range(1, numBDTSRs+1):
@@ -390,7 +415,7 @@ for y in years:
                 if "flip" in p and ccCRDict[str(y)][p][binDict["name"]]["yield"]==0: continue
                 colTitle = binDict["name"] + "_" + p[:3]
                 rowTitle = p[:2] + "_st" + str(i-1) + "_" + str(y)[-2:] + " "
-                rowTitle2 = str(ccCRDict[str(y)][p][binDict["name"]]["yield"])
+                rowTitle2 = str(int(ccCRDict[str(y)][p][binDict["name"]]["yield"]))
                 while len(rowTitle+rowTitle2)<16: rowTitle += " "
                 rowTitle += "gmN "
                 rowTitle += rowTitle2

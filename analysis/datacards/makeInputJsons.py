@@ -140,7 +140,7 @@ for y in years:
         ccFileName = inputCCHistos + p + "_" + str(y) + "_hists.root"
         centralHist = getObjFromFile(ccFileName, "h_br_sr_"+p)
         for s in systSources:
-            ccMCsyst[str(y)][p][s] ={}
+            ccMCsyst[str(y)][p][s] = {}
             ccSystFileName = inputCCSyst + p + "_" + str(y) + "_hists.root"
             upHist = getObjFromFile(ccSystFileName, "h_"+s+"_up_sr_syst_"+p)
             downHist = getObjFromFile(ccSystFileName, "h_"+s+"_down_sr_syst_"+p)
@@ -151,6 +151,19 @@ for y in years:
                 ccMCsyst[str(y)][p][s][r] = {}
                 ccMCsyst[str(y)][p][s][r]["up"] = upHist.GetBinContent(iterator)
                 ccMCsyst[str(y)][p][s][r]["down"] = downHist.GetBinContent(iterator)
+                iterator += 1
+        ccMCsyst[str(y)][p]["bTag"] = {}
+        ccSystFileName = inputCCSyst + p + "_" + str(y) + "_hists.root"
+        centralHist = getObjFromFile(ccSystFileName, "h_btag_central_sr_syst_"+p)
+        upHist = getObjFromFile(ccSystFileName, "h_bTag_up_sr_syst_"+p)
+        downHist = getObjFromFile(ccSystFileName, "h_bTag_down_sr_syst_"+p)
+        upHist.Divide(centralHist)
+        downHist.Divide(centralHist)
+        iterator = 1
+        for r in ccSRs:
+                ccMCsyst[str(y)][p]["bTag"][r] = {}
+                ccMCsyst[str(y)][p]["bTag"][r]["up"] = upHist.GetBinContent(iterator)
+                ccMCsyst[str(y)][p]["bTag"][r]["down"] = downHist.GetBinContent(iterator)
                 iterator += 1
 
 with open("./ccMCsyst.json", "w") as f_out: json.dump(ccMCsyst, f_out, indent=4)
