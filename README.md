@@ -1,8 +1,11 @@
 # FCNCAnalysis
 mkdir fcnc <br>
 cd fcnc <br>
-git clone https://github.com/fgolf/FCNCAnalysis.git ana <br>
-git clone https://github.com/fgolf/NanoTools.git <br>
+git clone https://github.com/ksalyer/FCNCAnalysis.git ana <br>
+cd FCNCAnalysis <br>
+git checkout franksFork <br>
+cd .. <br>
+git clone https://github.com/ksalyer/NanoTools.git <br>
 pushd . <br>
 cd NanoTools/NanoCORE <br>
 make -j8 <br>
