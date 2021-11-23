@@ -7,14 +7,14 @@ plt.style.use(hep.style.CMS)
 
 from yahist import Hist1D, Hist2D
 
-f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/fakes_mc_2018_hists.root')
+# f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/fakes_mc_2018_hists.root')
 
 # path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct27_bdtScore/'
-path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct28_bdtScoreRaresCheck/'
+path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/'
 # path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct28_BDTInputs/'
 # sigpath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug09_lead25_MET50_jet30_newTriggers_tt2or1l/'
 
-regions =   [ "mr",
+regions =   [ #"mr",
              # "os",
              # "sf",
              # "df",
@@ -23,7 +23,7 @@ regions =   [ "mr",
              # "ss",
              # "ml",
              # "mlonz"
-             #"br",
+             "br",
              #"vrsr_ss",
              #"vrsr_ml",
              #"vrcr_sf",
@@ -33,16 +33,16 @@ regions =   [ "mr",
              #"vrcr_flip",
              #"vrsr_flip"
             ]
-variables = [   #["bdtScore_hct", 1, r'$HCT\ BDT\ score$'],
-                #["bdtScore_hut", 1, r'$HUT\ BDT\ score$'],
-                ["bdtScoreOnZ_hct", 1, r'$HCT\ BDT\ score$'],
-                ["bdtScoreOnZ_hut", 1, r'$HUT\ BDT\ score$'],
+variables = [   ["bdtScore_hct", 1, r'$HCT\ BDT\ score$'],
+                ["bdtScore_hut", 1, r'$HUT\ BDT\ score$'],
+                # ["bdtScoreOnZ_hct", 1, r'$HCT\ BDT\ score$'],
+                # ["bdtScoreOnZ_hut", 1, r'$HUT\ BDT\ score$'],
 
-                #onZ
-                ["njOnZ", 1, r'$njets$'],
-                ["nbjOnZ", 1, r'$nbtags$'],
-                ["mOnZ", 1, r'$met$'],
-                ["zll", 1, r'$mll$'],
+                # #onZ
+                # ["njOnZ", 1, r'$njets$'],
+                # ["nbjOnZ", 1, r'$nbtags$'],
+                # ["mOnZ", 1, r'$met$'],
+                # ["zll", 1, r'$mll$'],
                 
                 #jets
                 # ["njets", 1, r'$N_{jets}$'],
@@ -165,7 +165,10 @@ for y in years:
                 hists = {
                     # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
                     # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
-                    'fakes': uproot3.open(path+'data_'+y+'_hists.root')['h_sfest_'+v+'_data'],
+                    'sf': uproot3.open(path+'data_'+y+'_hists.root')['h_sfest_'+v+'_data'],
+                    'mlsf': uproot3.open(path+'data_'+y+'_hists.root')['h_mlsfest_'+v+'_data'],
+                    'df': uproot3.open(path+'data_'+y+'_hists.root')['h_dfest_'+v+'_data'],
+                    'mldf': uproot3.open(path+'data_'+y+'_hists.root')['h_mldfest_'+v+'_data'],
                     'flips': uproot3.open(path+'data_'+y+'_hists.root')['h_osest_'+v+'_data'],
                     'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
                     #'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
@@ -200,6 +203,8 @@ for y in years:
             # print(flipDataSF)
             # my_histos['data_est'] *= flipDataSF
             # my_histos['dy'] *= flipDataSF
+            if r == 'br':
+                my_histos['fakes'] = my_histos['sf']+my_histos['mlsf']-my_histos['df']-my_histos['df']-my_histos['mldf']-my_histos['mldf']
 
 
             if r == 'os':
@@ -226,29 +231,29 @@ for y in years:
                 my_histos['fakes'].label = 'Nonprompt'
                 my_histos['fakes'].color = '#FF595E'
 
-                # my_histos['flips'].label = 'Charge flip'
-                # my_histos['flips'].color = '#FFCA3A'
+                my_histos['flips'].label = 'Charge flip'
+                my_histos['flips'].color = '#FFCA3A'
 
-                # my_histos['rares'].label = 'Other'
-                # my_histos['rares'].color = '#8AC926'
+                my_histos['rares'].label = 'Other'
+                my_histos['rares'].color = '#8AC926'
 
-                my_histos['ttz'].label = 'ttZ'
-                my_histos['ttz'].color = '#8AC926'
+                # my_histos['ttz'].label = 'ttZ'
+                # my_histos['ttz'].color = '#8AC926'
 
-                my_histos['ttw'].label = 'ttW'
-                my_histos['ttw'].color = '#FFCA3A'
+                # my_histos['ttw'].label = 'ttW'
+                # my_histos['ttw'].color = '#FFCA3A'
 
-                my_histos['tzq'].label = 'tZq'
-                my_histos['tzq'].color = '#FF99C9'
+                # my_histos['tzq'].label = 'tZq'
+                # my_histos['tzq'].color = '#FF99C9'
 
-                my_histos['wz'].label = 'WZ'
-                my_histos['wz'].color = '#08BDBD'
+                # my_histos['wz'].label = 'WZ'
+                # my_histos['wz'].color = '#08BDBD'
 
-                my_histos['zz'].label = 'ZZ'
-                my_histos['zz'].color = '#F96E46'
+                # my_histos['zz'].label = 'ZZ'
+                # my_histos['zz'].color = '#F96E46'
 
-                my_histos['rares'].label = 'OtherRares'
-                my_histos['rares'].color = '#6987C9'
+                # my_histos['rares'].label = 'OtherRares'
+                # my_histos['rares'].color = '#6987C9'
 
                 # my_histos['top'].label = 'tt/tw/ttg'
                 # my_histos['top'].color = '#FF595E'
@@ -280,8 +285,8 @@ for y in years:
                 # my_histos['multiboson'].label = 'VV/VVV'
                 # my_histos['multiboson'].color = '#FF595E'
 
-                # keys = ['flips', 'rares', 'fakes']
-                keys = [ 'rares','zz','wz','tzq','ttz', 'ttw','fakes']
+                keys = ['flips', 'rares', 'fakes']
+                # keys = [ 'rares','zz','wz','tzq','ttz', 'ttw','fakes']
                 # keys = ['Higgs','xg', 'ttxx','ttx', 'ttw','multiboson']
                 # keys = ['wboson','dy','top']
                 # keys = ['dy', 'xg', 'wboson','top']
@@ -414,6 +419,6 @@ for y in years:
 
             #plt.show()
 
-            fig.savefig('/home/users/ksalyer/public_html/dump/FCNC_plots/'+histName+'.png')
-            fig.savefig('/home/users/ksalyer/public_html/dump/FCNC_plots/'+histName+'.pdf')
+            fig.savefig('/home/users/ksalyer/public_html/FCNC_plots/'+histName+'.png')
+            fig.savefig('/home/users/ksalyer/public_html/FCNC_plots/'+histName+'.pdf')
             #plt.close()

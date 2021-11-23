@@ -222,11 +222,13 @@ with open('./ccSRbins.json') as ccbins_json: ccSRDict = json.load(ccbins_json)
 with open('./ccCRStats.json') as ccCR_json: ccCRDict = json.load(ccCR_json)
 with open('./bdtCRStats.json') as bdtCR_json: bdtCRDict = json.load(bdtCR_json)
 with open('./ccMCsyst.json') as ccSyst_json: ccSystDict = json.load(ccSyst_json)
+with open('./bdtMCsyst.json') as bdtSyst_json: bdtSystDict = json.load(bdtSyst_json)
 
 ##lists to loop
 numCCSRs = 21
 numBDTSRs = 20
-years = [2016,2017,2018]
+# years = [2016,2017,2018]
+years = [2018]
 signalNorm = 0.01
 signals = ["tch","tuh"]
 procs   = ["signal","rares","fakes_mc","flips_mc"]
@@ -236,6 +238,8 @@ ddProcs = ["fakes_mc","flips_mc"]
 # uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
 corrSyst = ["PU"]
 uncorrSyst = ["Trigger","LepSF","bTag"]
+bdtSystCorr = ["lf","hf","cferr1","cferr2"]
+bdtSystUncorr = ["lfstats1","lfstats2","hfstats1","hfstats2"]
 
 ## main loop
 for y in years:
@@ -269,6 +273,7 @@ for y in years:
         bdtRows += getSRStatRows(mcProcs, numBDTSRs)
         bdtRows += getBDTCRStatRows(y, ddProcs, bdtSRs, bdtCRDict, s)
         bdtRows += getSystRows(y, corrSyst, uncorrSyst)
+        bdtRows += getSystRows(y, bdtSystCorr, bdtSystUncorr)
         bdtRows += getNormRows(y, procs)
 
         bdt_df = pd.DataFrame(columns = bdtDFCols, index = bdtRows)
@@ -363,6 +368,28 @@ for y in years:
                 else: fill = "0.7/1.3"
                 while len(fill)<20: fill += " "
                 bdt_df[colTitle][rowTitle] = fill
+
+                if "signal" in p: pname = p + "_" + s
+                else: pname = p
+                for c in bdtSystCorr:
+                    rowTitle = c
+                    while len(rowTitle)<17: rowTitle += " "
+                    rowTitle += "lnN"
+                    fill = str(round(bdtSystDict[str(y)][s][pname][c][colTitle[:-4]]["down"],6))
+                    fill += "/"
+                    fill += str(round(bdtSystDict[str(y)][s][pname][c][colTitle[:-4]]["up"],6))
+                    while len(fill)<20: fill += " "
+                    bdt_df[colTitle][rowTitle] = fill
+                for u in bdtSystUncorr:
+                    rowTitle = u
+                    rowTitle += "_" + str(y)[-2:]
+                    while len(rowTitle)<17: rowTitle += " "
+                    rowTitle += "lnN"
+                    fill = str(round(bdtSystDict[str(y)][s][pname][u][colTitle[:-4]]["down"],6))
+                    fill += "/"
+                    fill += str(round(bdtSystDict[str(y)][s][pname][u][colTitle[:-4]]["up"],6))
+                    while len(fill)<20: fill += " "
+                    bdt_df[colTitle][rowTitle] = fill
 
 
         ## FILL DATA DRIVEN ESTIMATES ##

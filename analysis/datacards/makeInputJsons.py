@@ -12,6 +12,7 @@ inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYie
 # inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields_jet25/"
 
 inputCCSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_ccSystematics/"
+inputBDTBTagSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtBTagSyst/"
 
 #function to get CC SR titles
 def getCCColumns(ccSRDict, numSRs):
@@ -37,13 +38,15 @@ def getObjFromFile(fname, hname):
 
 with open('./ccSRbins.json') as ccbins_json: ccSRDict = json.load(ccbins_json)
 
-years = [2016, 2017, 2018]
+# years = [2016, 2017, 2018]
+years = [2018]
 signals = ["tch", "tuh"]
 procs = ["signal","rares","fakes_mc","flips_mc"]
 mcProcs = ["signal_tch", "signal_tuh", "rares"]
 ddProcs = ["fakes_mc","flips_mc"]
 
 systSources = ["LepSF","PU","Trigger","cferr1","cferr2","hf","hfstats1","hfstats2","lf","lfstats1","lfstats2"]
+btagsystSources = ["cferr1","cferr2","hf","hfstats1","hfstats2","lf","lfstats1","lfstats2"]
 otherShitToComeBackTo = ["bTag","jes","pdfScale","renormScale"]
 
 bdtSRs = ["bin_"+str(x) for x in range(20)]
@@ -104,30 +107,31 @@ with open("./ccCRStats.json", "w") as f_out: json.dump(ccCRstats, f_out, indent=
 
 
 ##BDT Systematics JSON##
-# bdtMCsyst = {}
-# for y in years:
-#     bdtMCsyst[str(y)] = {}
-#     for s in signals:
-#         bdtMCsyst[str(y)][s] = {}
-#         if "tch" in s: altSig = "hct"
-#         else: altSig = "hut"
-#         for p in mcProcs:
-#             bdtMCsyst[str(y)][s][p] ={}
-#             bdtFileName = inputBDTHistos + "data_" + str(y) + "_hists.root"
-#             if "fakes" in p:
-#                 sf = getObjFromFile(bdtFileName, "h_sf_bdtScore_"+altSig+str(y)+"_data")
-#                 mlsf = getObjFromFile(bdtFileName, "h_mlsf_bdtScore_"+altSig+str(y)+"_data")
-#                 hist = sf.Clone()
-#                 hist.Add(mlsf)
-#             elif "flips" in p: hist = getObjFromFile(bdtFileName, "h_os_bdtScore_"+altSig+str(y)+"_data")
-#             iterator = 1
-#             for r in bdtSRs:
-#                 bdtMCsyst[str(y)][s][p][r] = {}
-#                 bdtMCsyst[str(y)][s][p][r]["yield"] = hist.GetBinContent(iterator)
-#                 bdtMCsyst[str(y)][s][p][r]["error"] = hist.GetBinError(iterator)
-#                 iterator += 1
+bdtMCsyst = {}
+for y in years:
+    bdtMCsyst[str(y)] = {}
+    for s in signals:
+        bdtMCsyst[str(y)][s] = {}
+        if "tch" in s: altSig = "hct"
+        else: altSig = "hut"
+        for p in mcProcs:
+            bdtMCsyst[str(y)][s][p] ={}
+            bdtFileName = inputBDTBTagSyst + p + "_" + str(y) + "_hists.root"
+            centralHist = getObjFromFile(bdtFileName, "h_btag_central_bdtScore_syst_" + altSig + str(y) + "_" + p)
+            for b in btagsystSources:
+                bdtMCsyst[str(y)][s][p][b] ={}
+                upHist = getObjFromFile(bdtFileName, "h_" + b + "_up_bdtScore_syst_" + altSig + str(y) + "_" + p)
+                downHist = getObjFromFile(bdtFileName, "h_" + b + "_down_bdtScore_syst_" + altSig + str(y) + "_" + p)
+                upHist.Divide(centralHist)
+                downHist.Divide(centralHist)
+                iterator = 1
+                for r in bdtSRs:
+                    bdtMCsyst[str(y)][s][p][b][r] = {}
+                    bdtMCsyst[str(y)][s][p][b][r]["up"] = upHist.GetBinContent(iterator)
+                    bdtMCsyst[str(y)][s][p][b][r]["down"] = downHist.GetBinContent(iterator)
+                    iterator += 1
 
-# with open("./bdtMCsyst.json", "w") as f_out: json.dump(bdtMCsyst, f_out, indent=4)
+with open("./bdtMCsyst.json", "w") as f_out: json.dump(bdtMCsyst, f_out, indent=4)
 
 
 
