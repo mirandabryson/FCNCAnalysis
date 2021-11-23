@@ -10,27 +10,27 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 }
 
 std::vector<std::string> HistContainer::getRegionNames() {
-    std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
-                                        "osest","mlsfest","sfest","mldfest","dfest",
-                                        "sfpp","dfpp","mlsfppp","mldfppp",
-                                        "sfppest","dfppest","mlsfpppest","mldfpppest",
-                                        /*"vrcr","vrcrest","vrsr",
-                                        "vrcr_flip","vrcrest_flip","vrsr_flip",*/};
+    // std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
+    //                                     "osest","mlsfest","sfest","mldfest","dfest",
+    //                                     "sfpp","dfpp","mlsfppp","mldfppp",
+    //                                     "sfppest","dfppest","mlsfpppest","mldfpppest",
+    //                                     /*"vrcr","vrcrest","vrsr",
+    //                                     "vrcr_flip","vrcrest_flip","vrsr_flip",*/};
 
-    // std::vector<std::string> rnames = { "PU_up","PU_down",
-    //                                     "LepSF_up","LepSF_down",
-    //                                     "Trigger_up","Trigger_down",
-    //                                     "lf_up","lf_down",
-    //                                     "hf_up","hf_down",
-    //                                     "hfstats1_up","hfstats1_down",
-    //                                     "hfstats2_up","hfstats2_down",
-    //                                     "lfstats1_up","lfstats1_down",
-    //                                     "lfstats2_up","lfstats2_down",
-    //                                     "cferr1_up","cferr1_down",
-    //                                     "cferr2_up","cferr2_down",
-    //                                     "btag_central",
-    //                                     "bTag_up","bTag_down",
-    //                                     /*"renorm_scale","pdf_scale"*/};
+    std::vector<std::string> rnames = { /*"PU_up","PU_down",
+                                        "LepSF_up","LepSF_down",
+                                        "Trigger_up","Trigger_down",*/
+                                        "lf_up","lf_down",
+                                        "hf_up","hf_down",
+                                        "hfstats1_up","hfstats1_down",
+                                        "hfstats2_up","hfstats2_down",
+                                        "lfstats1_up","lfstats1_down",
+                                        "lfstats2_up","lfstats2_down",
+                                        "cferr1_up","cferr1_down",
+                                        "cferr2_up","cferr2_down",
+                                        "btag_central",
+                                        "bTag_up","bTag_down",
+                                        /*"renorm_scale","pdf_scale"*/};
     // for(int i = 0; i < 101; i++){
     //     std::string i_str = std::to_string(i);
     //     rnames.push_back(i_str+"_"+i_str+"_pdf_scale");
@@ -361,8 +361,11 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("mt_tl_met",sample,20,0,400);
     // addHist1d("mt_thirdl_met",sample,20,0,400);
     // addHist1d("cutflow",sample,7,0.5,7.5,"br");
-    addHist1d("sr",sample,21,0.5,21.5);//,"br");
-    // // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
+    // addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
+    addHist1d("lj_syst_bscore",sample,20,0,1);
+    addHist1d("tj_syst_bscore",sample,20,0,1);
+    addHist1d("thirdj_syst_bscore",sample,20,0,1);
     // // addHist1d("njOnZ",sample,5,-0.5,4.5);
     // // addHist1d("nbjOnZ",sample,3,-0.5,2.5);
     // // addHist1d("mOnZ",sample,20,0,400);
@@ -373,15 +376,21 @@ void HistContainer::loadHists(std::string sample) {
     // // addHist1d("bdtScoreOnZ_hut2017",sample,20,hut2017bins_);//,"br");
     // // addHist1d("bdtScoreOnZ_hct2018",sample,20,hct2018bins_);//,"br");
     // // addHist1d("bdtScoreOnZ_hut2018",sample,20,hut2018bins_);//,"br");
-    addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
-    addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
-    addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
-    addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
-    addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
-    addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
+    // addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
+    // addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
+    // addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
+    // addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
+    // addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
+    // addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
+    // addHist1d("bdtScore_syst_hct2016",sample,20,hct2016bins_);//,"br");
+    // addHist1d("bdtScore_syst_hut2016",sample,20,hut2016bins_);//,"br");
+    // addHist1d("bdtScore_syst_hct2017",sample,20,hct2017bins_);//,"br");
+    // addHist1d("bdtScore_syst_hut2017",sample,20,hut2017bins_);//,"br");
+    addHist1d("bdtScore_syst_hct2018",sample,20,hct2018bins_);//,"br");
+    addHist1d("bdtScore_syst_hut2018",sample,20,hut2018bins_);//,"br");
     // // // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
-    addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
+    // addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
     // // // // addHist2d("fake2dcr_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
     // // // // addHist2d("fake2dcr_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
     // // // // addHist2d("fake2dcr_eefake",sample,21,0,21,21,0,21);
@@ -389,7 +398,7 @@ void HistContainer::loadHists(std::string sample) {
     // // // // addHist2d("fake2dcr_mmfake",sample,21,0,21,21,0,21);
     // // // // addHist2d("flip2dcr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
     // // // // addHist2d("flip2d2ecr",sample,18,0,18,18,0,18);//,"br");
-    addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
+    // addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
     // // // addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
 
     // addHist1d("valSR_flip",sample,21,0.5,21.5,"vrsr_flip");
@@ -638,6 +647,11 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         if(doVariations){
             int sr = getSR(best_hyp_type,njets,nbjets);
             fill1d("sr_syst",name,sample,sr,variationMap[name]);
+            fill1d("lj_syst_bscore",name,sample,jets[0].bdisc(),variationMap[name]);
+            if(njets>=2){fill1d("tj_syst_bscore",name,sample,jets[1].bdisc(),variationMap[name]);}
+            if(njets>=3){fill1d("thirdj_syst_bscore",name,sample,jets[2].bdisc(),variationMap[name]);}
+            if(hct_pred!=-999){fill1d("bdtScore_syst_hct",name,sample,hct_pred,variationMap[name]);}
+            if(hut_pred!=-999){fill1d("bdtScore_syst_hut",name,sample,hut_pred,variationMap[name]);}
             // cout << "filled " << name << " with weight " << variationMap[name] << endl;
             // if(isnan(variationMap[name])){cout << "nan weight: " << name << " event: " << nt.event() << endl;}
         }
