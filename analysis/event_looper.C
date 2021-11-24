@@ -575,7 +575,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
             //get event weight based on sample!
             // cout << nt.event() << endl;
-            // if(nt.event()!=95867469) continue;
+            // if(nt.event()!=856383) continue;
             double weight = 1.;
             if (!isData){
                 weight = getEventWeight( file->GetName(), chainTitle.Data(), nt.year());
@@ -707,7 +707,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 std::cout << "best hyp type: " << best_hyp_type << "; lepton ids: " << leading_lep.id()
                                                                 << ", " << trailing_lep.id() << std::endl;
             }
-            if (debugPrints){std::cout << "got best hyp for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "got best hyp for event " << nt.event() << " : " << best_hyp_type << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
@@ -772,7 +772,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             //         // cout << "sf dilep flip: " << nt.event() << endl;
             //     }
             // }
-            if (debugPrints){std::cout << "got category for event " << nt.event() << endl;}
+            if (debugPrints){std::cout << "got category for event " << nt.event() << " : " << category << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
@@ -953,9 +953,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
                 // //applying b-tag SFs
                 if(!iterativeBTag){
-                    if (nt.year() == 2016){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016);}
-                    else if (nt.year() == 2017){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017);}
-                    else if (nt.year() == 2018){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018);}
+                    if (nt.year() == 2016){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016,"central");}
+                    else if (nt.year() == 2017){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017,"central");}
+                    else if (nt.year() == 2018){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018,"central");}
                 }else{
                     if (nt.year() == 2016){weight = weight * getIterativeBSF(nt.year(),good_jets,good_bjets,deepjet_medium_reader_2016,"central");}
                     else if (nt.year() == 2017){weight = weight * getIterativeBSF(nt.year(),good_jets,good_bjets,deepjet_medium_reader_2017,"central");}
@@ -1216,20 +1216,20 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 if(!iterativeBTag){
                     float weightBtagSFup = weight;
                     float weightBtagSFdown = weight;
-                    // if (nt.year() == 2016){ weightBtagSFup = (weightBtagSFup/getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016))*
-                    //                                         getBSF(nt.year(),good_jets,good_bjets,eff2016,up_reader_2016);
-                    //                         weightBtagSFdown = (weightBtagSFdown/getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016))*
-                    //                                         getBSF(nt.year(),good_jets,good_bjets,eff2016,down_reader_2016);}
+                    if (nt.year() == 2016){ weightBtagSFup = (weightBtagSFup/getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016,"central"))*
+                                                            getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016,"up");
+                                            weightBtagSFdown = (weightBtagSFdown/getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016,"central"))*
+                                                            getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016,"down");}
                     
-                    // else if (nt.year() == 2017){weightBtagSFup = (weightBtagSFup/getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017))*
-                    //                                         getBSF(nt.year(),good_jets,good_bjets,eff2017,up_reader_2017);
-                    //                             weightBtagSFdown = (weightBtagSFdown/getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017))*
-                    //                                         getBSF(nt.year(),good_jets,good_bjets,eff2017,down_reader_2017);}
+                    else if (nt.year() == 2017){weightBtagSFup = (weightBtagSFup/getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017,"central"))*
+                                                            getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017,"up");
+                                                weightBtagSFdown = (weightBtagSFdown/getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017,"central"))*
+                                                            getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017,"down");}
                     
-                    // else if (nt.year() == 2018){weightBtagSFup = (weightBtagSFup/getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018))*
-                    //                                         getBSF(nt.year(),good_jets,good_bjets,eff2018,up_reader_2018);
-                    //                             weightBtagSFdown = (weightBtagSFdown/getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018))*
-                    //                                         getBSF(nt.year(),good_jets,good_bjets,eff2018,down_reader_2018);}
+                    else if (nt.year() == 2018){weightBtagSFup = (weightBtagSFup/getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018,"central"))*
+                                                            getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018,"up");
+                                                weightBtagSFdown = (weightBtagSFdown/getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018,"central"))*
+                                                            getBSF(nt.year(),good_jets,good_bjets,eff2018,deepjet_medium_reader_2018,"down");}
                     variationalWeights["bTag_up"]=      weightBtagSFup;
                     variationalWeights["bTag_down"]=    weightBtagSFdown;
                 }else{

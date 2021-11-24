@@ -10,14 +10,15 @@ float getBtagEffFromFile(float pt, int mcFlavour, std::map<std::string, TH1D*> e
     return h->GetBinContent(binx);
 }
 
-float getBSF(int year, Jets &jets, Jets &bjets, std::map<std::string, TH1D*> effMap, BTagCalibrationReader &deepjet_medium_reader){
+float getBSF(int year, Jets &jets, Jets &bjets, std::map<std::string, TH1D*> effMap, BTagCalibrationReader &deepjet_medium_reader, string variation){
     float weight = 1.;
     float btag_data = 1.;
     float btag_mc = 1.;
 
     for ( auto bjet : bjets ){
         float pt_cutoff = std::max(20.,std::min(999.,double(bjet.pt())));
-        float sf = deepjet_medium_reader.eval(  BTagEntry::FLAV_B,
+        float sf = deepjet_medium_reader.eval_auto_bounds(  variation,
+                                                BTagEntry::FLAV_B,
                                                 bjet.eta(),
                                                 pt_cutoff,
                                                 bjet.bdisc());
@@ -32,7 +33,8 @@ float getBSF(int year, Jets &jets, Jets &bjets, std::map<std::string, TH1D*> eff
         if (jet.hadronFlavor()==5) flavor = BTagEntry::FLAV_B;
         if (jet.hadronFlavor()==4) flavor = BTagEntry::FLAV_C;
         float pt_cutoff = std::max(20.,std::min(999.,double(jet.pt())));
-        float sf = deepjet_medium_reader.eval(  flavor,
+        float sf = deepjet_medium_reader.eval_auto_bounds(  variation,
+                                                flavor,
                                                 jet.eta(),
                                                 pt_cutoff,
                                                 jet.bdisc());

@@ -227,19 +227,19 @@ with open('./bdtMCsyst.json') as bdtSyst_json: bdtSystDict = json.load(bdtSyst_j
 ##lists to loop
 numCCSRs = 21
 numBDTSRs = 20
-# years = [2016,2017,2018]
-years = [2018]
+years = [2016,2017,2018]
+# years = [2016]
 signalNorm = 0.01
 signals = ["tch","tuh"]
 procs   = ["signal","rares","fakes_mc","flips_mc"]
 mcProcs = ["signal","rares"]
 ddProcs = ["fakes_mc","flips_mc"]
 # corrSyst = ["rarTh","sigTh","pdfShp","rarScShp","sigScShp","PU","lf","hf","cferr1","cferr2"]
-# uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
-corrSyst = ["PU"]
-uncorrSyst = ["Trigger","LepSF","bTag"]
+uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
+corrSyst = ["PU","lf","hf","cferr1","cferr2"]
+# uncorrSyst = ["Trigger","LepSF","bTag"]
 bdtSystCorr = ["lf","hf","cferr1","cferr2"]
-bdtSystUncorr = ["lfstats1","lfstats2","hfstats1","hfstats2"]
+bdtSystUncorr = ["jes","lfstats1","lfstats2","hfstats1","hfstats2"]
 
 ## main loop
 for y in years:
@@ -273,7 +273,6 @@ for y in years:
         bdtRows += getSRStatRows(mcProcs, numBDTSRs)
         bdtRows += getBDTCRStatRows(y, ddProcs, bdtSRs, bdtCRDict, s)
         bdtRows += getSystRows(y, corrSyst, uncorrSyst)
-        bdtRows += getSystRows(y, bdtSystCorr, bdtSystUncorr)
         bdtRows += getNormRows(y, procs)
 
         bdt_df = pd.DataFrame(columns = bdtDFCols, index = bdtRows)
@@ -361,13 +360,13 @@ for y in years:
                 fill = str(fill)
                 while len(fill) <20: fill += " "
                 bdt_df[colTitle][rowTitle] = fill
-                rowTitle = p[:3] + "_norm" + str(y)[-2:]
-                while len(rowTitle)<17: rowTitle+=" "
-                rowTitle += "lnN"
-                if "signal" in p: fill = "0.8/1.2"
-                else: fill = "0.7/1.3"
-                while len(fill)<20: fill += " "
-                bdt_df[colTitle][rowTitle] = fill
+                # rowTitle = p[:3] + "_norm" + str(y)[-2:]
+                # while len(rowTitle)<17: rowTitle+=" "
+                # rowTitle += "lnN"
+                # if "signal" in p: fill = "0.8/1.2"
+                # else: fill = "0.7/1.3"
+                # while len(fill)<20: fill += " "
+                # bdt_df[colTitle][rowTitle] = fill
 
                 if "signal" in p: pname = p + "_" + s
                 else: pname = p

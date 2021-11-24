@@ -15,7 +15,7 @@ std::vector<std::string> HistContainer::getRegionNames() {
     //                                     "sfpp","dfpp","mlsfppp","mldfppp",
     //                                     "sfppest","dfppest","mlsfpppest","mldfpppest",
     //                                     /*"vrcr","vrcrest","vrsr",
-    //                                     "vrcr_flip","vrcrest_flip","vrsr_flip",*/};
+    //                                      "vrcr_flip","vrcrest_flip","vrsr_flip",*/};
 
     std::vector<std::string> rnames = { "PU_up","PU_down",
                                         "LepSF_up","LepSF_down",
@@ -31,6 +31,7 @@ std::vector<std::string> HistContainer::getRegionNames() {
                                         "btag_central",
                                         "bTag_up","bTag_down",
                                         /*"renorm_scale","pdf_scale"*/};
+    // std::vector<std::string> rnames;
     // for(int i = 0; i < 101; i++){
     //     std::string i_str = std::to_string(i);
     //     rnames.push_back(i_str+"_"+i_str+"_pdf_scale");
@@ -382,12 +383,12 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
     // addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
     // addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
-    addHist1d("bdtScore_syst_hct2016",sample,20,hct2016bins_);//,"br");
-    addHist1d("bdtScore_syst_hut2016",sample,20,hut2016bins_);//,"br");
-    addHist1d("bdtScore_syst_hct2017",sample,20,hct2017bins_);//,"br");
-    addHist1d("bdtScore_syst_hut2017",sample,20,hut2017bins_);//,"br");
-    addHist1d("bdtScore_syst_hct2018",sample,20,hct2018bins_);//,"br");
-    addHist1d("bdtScore_syst_hut2018",sample,20,hut2018bins_);//,"br");
+    // addHist1d("bdtScore_syst_hct2016",sample,20,hct2016bins_);//,"br");
+    // addHist1d("bdtScore_syst_hut2016",sample,20,hut2016bins_);//,"br");
+    // addHist1d("bdtScore_syst_hct2017",sample,20,hct2017bins_);//,"br");
+    // addHist1d("bdtScore_syst_hut2017",sample,20,hut2017bins_);//,"br");
+    // addHist1d("bdtScore_syst_hct2018",sample,20,hct2018bins_);//,"br");
+    // addHist1d("bdtScore_syst_hut2018",sample,20,hut2018bins_);//,"br");
     // // // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
     // addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
@@ -534,7 +535,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     bool fillFakeCR = false;
     // fill 1d histograms first
     std::string rname = getRegionName(best_hyp_type,jets.size(),bjets.size());
-    //std::cout << "SR: " << rname << std::endl;
+    // std::cout << "SR: " << rname << std::endl;
     std::vector<std::string> rnames = {rname};
     if(doVariations){rnames = getRegionNames();}
     std::vector<std::string> brmap = {"ml","ss"};
@@ -644,7 +645,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         if(onZPeak && diEl && isSS){continue;}
 
         //for filling systematic variations:
-        if(doVariations){
+        if(doVariations && (best_hyp_type==2 || best_hyp_type==4) ){
             int sr = getSR(best_hyp_type,njets,nbjets);
             fill1d("sr_syst",name,sample,sr,variationMap[name]);
             fill1d("lj_syst_bscore",name,sample,jets[0].bdisc(),variationMap[name]);
