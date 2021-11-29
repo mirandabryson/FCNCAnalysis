@@ -11,7 +11,7 @@ inputCCHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYield
 inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/"
 # inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields_jet25/"
 
-inputCCSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov15_ccSystematics/"
+inputCCSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_ccSystematics/"
 inputBDTSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtSystematics/"
 inputBDTBTagSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtBTagSyst/"
 inputCCBTagSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_ccBTagSyst/"
@@ -52,8 +52,8 @@ procs = ["signal","rares","fakes_mc","flips_mc"]
 mcProcs = ["signal_tch", "signal_tuh", "rares"]
 ddProcs = ["fakes_mc","flips_mc"]
 
-# systSources = ["LepSF","PU","Trigger","cferr1","cferr2","hf","hfstats1","hfstats2","lf","lfstats1","lfstats2"]
-systSources = ["LepSF","PU","Trigger"]
+systSources = ["LepSF","PU","Trigger","cferr1","cferr2","hf","hfstats1","hfstats2","lf","lfstats1","lfstats2"]
+# systSources = ["LepSF","PU","Trigger"]
 btagsystSources = ["cferr1","cferr2","hf","hfstats1","hfstats2","lf","lfstats1","lfstats2"]
 otherSyst = ["jes"]#,"pdfScale","renormScale"]
 
@@ -123,39 +123,39 @@ for y in years:
         if "tch" in s: altSig = "hct"
         else: altSig = "hut"
         for p in mcProcs:
-            # bdtMCsyst[str(y)][s][p] = {}
-            # bdtFileName = inputBDTHistos + p + "_" + str(y) + "_hists.root"
-            # centralHist = getObjFromFile(bdtFileName, "h_br_bdtScore_" + altSig + str(y) + "_" + p)
-            # ##Trigger,Lepton,PU,BTagging
-            # for t in systSources:
-            #     bdtMCsyst[str(y)][s][p][t] = {}
-            #     bdtSystFileName = inputBDTSyst + p + "_" + str(y) + "_hists.root"
-            #     upHist = getObjFromFile(bdtSystFileName, "h_"+t+"_up_bdtScore_syst_"+ altSig + str(y) + "_" +p)
-            #     downHist = getObjFromFile(bdtSystFileName, "h_"+t+"_down_bdtScore_syst_"+ altSig + str(y) + "_" +p)
-            #     upHist.Divide(centralHist)
-            #     downHist.Divide(centralHist)
-            #     iterator = 1
-            #     for r in bdtSRs:
-            #         bdtMCsyst[str(y)][s][p][t][r] = {}
-            #         bdtMCsyst[str(y)][s][p][t][r]["up"] = upHist.GetBinContent(iterator)
-            #         bdtMCsyst[str(y)][s][p][t][r]["down"] = downHist.GetBinContent(iterator)
-            #         iterator += 1
-            ##BTAGGING
-            bdtMCsyst[str(y)][s][p] ={}
-            bdtFileName = inputBDTBTagSyst + p + "_" + str(y) + "_hists.root"
-            centralHist = getObjFromFile(bdtFileName, "h_btag_central_bdtScore_syst_" + altSig + str(y) + "_" + p)
-            for b in btagsystSources:
-                bdtMCsyst[str(y)][s][p][b] ={}
-                upHist = getObjFromFile(bdtFileName, "h_" + b + "_up_bdtScore_syst_" + altSig + str(y) + "_" + p)
-                downHist = getObjFromFile(bdtFileName, "h_" + b + "_down_bdtScore_syst_" + altSig + str(y) + "_" + p)
+            bdtMCsyst[str(y)][s][p] = {}
+            bdtFileName = inputBDTHistos + p + "_" + str(y) + "_hists.root"
+            centralHist = getObjFromFile(bdtFileName, "h_br_bdtScore_" + altSig + str(y) + "_" + p)
+            ##Trigger,Lepton,PU,BTagging
+            for t in systSources:
+                bdtMCsyst[str(y)][s][p][t] = {}
+                bdtSystFileName = inputBDTSyst + p + "_" + str(y) + "_hists.root"
+                upHist = getObjFromFile(bdtSystFileName, "h_"+t+"_up_bdtScore_syst_"+ altSig + str(y) + "_" +p)
+                downHist = getObjFromFile(bdtSystFileName, "h_"+t+"_down_bdtScore_syst_"+ altSig + str(y) + "_" +p)
                 upHist.Divide(centralHist)
                 downHist.Divide(centralHist)
                 iterator = 1
                 for r in bdtSRs:
-                    bdtMCsyst[str(y)][s][p][b][r] = {}
-                    bdtMCsyst[str(y)][s][p][b][r]["up"] = upHist.GetBinContent(iterator)
-                    bdtMCsyst[str(y)][s][p][b][r]["down"] = downHist.GetBinContent(iterator)
+                    bdtMCsyst[str(y)][s][p][t][r] = {}
+                    bdtMCsyst[str(y)][s][p][t][r]["up"] = upHist.GetBinContent(iterator)
+                    bdtMCsyst[str(y)][s][p][t][r]["down"] = downHist.GetBinContent(iterator)
                     iterator += 1
+            # ##BTAGGING
+            # bdtMCsyst[str(y)][s][p] ={}
+            # bdtFileName = inputBDTBTagSyst + p + "_" + str(y) + "_hists.root"
+            # centralHist = getObjFromFile(bdtFileName, "h_btag_central_bdtScore_syst_" + altSig + str(y) + "_" + p)
+            # for b in btagsystSources:
+            #     bdtMCsyst[str(y)][s][p][b] ={}
+            #     upHist = getObjFromFile(bdtFileName, "h_" + b + "_up_bdtScore_syst_" + altSig + str(y) + "_" + p)
+            #     downHist = getObjFromFile(bdtFileName, "h_" + b + "_down_bdtScore_syst_" + altSig + str(y) + "_" + p)
+            #     upHist.Divide(centralHist)
+            #     downHist.Divide(centralHist)
+            #     iterator = 1
+            #     for r in bdtSRs:
+            #         bdtMCsyst[str(y)][s][p][b][r] = {}
+            #         bdtMCsyst[str(y)][s][p][b][r]["up"] = upHist.GetBinContent(iterator)
+            #         bdtMCsyst[str(y)][s][p][b][r]["down"] = downHist.GetBinContent(iterator)
+            #         iterator += 1
             ##JES
             bdtFileName = inputBDTHistos + p + "_" + str(y) + "_hists.root"
             centralHist = getObjFromFile(bdtFileName, "h_br_bdtScore_" + altSig + str(y) + "_" + p)

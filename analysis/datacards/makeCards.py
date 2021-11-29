@@ -235,11 +235,13 @@ procs   = ["signal","rares","fakes_mc","flips_mc"]
 mcProcs = ["signal","rares"]
 ddProcs = ["fakes_mc","flips_mc"]
 # corrSyst = ["rarTh","sigTh","pdfShp","rarScShp","sigScShp","PU","lf","hf","cferr1","cferr2"]
+# uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
 uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
 corrSyst = ["PU","lf","hf","cferr1","cferr2"]
 # uncorrSyst = ["Trigger","LepSF","bTag"]
-bdtSystCorr = ["lf","hf","cferr1","cferr2"]
-bdtSystUncorr = ["jes","lfstats1","lfstats2","hfstats1","hfstats2"]
+bdtSystCorr = ["PU","lf","hf","cferr1","cferr2"]
+# bdtSystUncorr = ["jes","lfstats1","lfstats2","hfstats1","hfstats2"]
+bdtSystUncorr = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
 
 ## main loop
 for y in years:
