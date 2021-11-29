@@ -1,0 +1,323 @@
+{
+	"signal_tch":{
+        "l2_j2_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j3_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j4_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j2_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j3_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j4_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j2_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j3_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j4_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j1_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j2_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j3_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j4_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j1_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j2_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j3_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j4_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j1_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j2_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j3_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j4_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        }
+    },
+    "signal_tuh":{
+        "l2_j2_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j3_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j4_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j2_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j3_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j4_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j2_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j3_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j4_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j1_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j2_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j3_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j4_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j1_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j2_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j3_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j4_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j1_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j2_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j3_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j4_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        }
+    },
+    "rares":{
+        "l2_j2_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j3_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j4_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j2_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j3_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j4_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j2_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j3_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l2_j4_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j1_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j2_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j3_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j4_b0": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j1_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j2_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j3_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j4_b1": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j1_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j2_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j3_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        },
+        "l3_j4_b2": {
+        	"pdf_down":,
+        	"pdf_up":,
+        	"scale"
+        }
+    }
+}

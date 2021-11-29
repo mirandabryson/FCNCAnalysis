@@ -17,7 +17,7 @@
 
 using namespace std;
 
-int scaleError(std::string inputDir)
+int scaleError(std::string inputDir, bool isBDT=0)
 {
     std::string outputFileName = inputDir+"/scaleErrorOutput.root";
     TFile* outputFile = new TFile(outputFileName.c_str(),"recreate"); 
@@ -38,29 +38,105 @@ int scaleError(std::string inputDir)
         TFile* tuhFile = new TFile(tuh_fileName.Data());
         TFile* raresFile = new TFile(rares_fileName.Data());
 
-        TH2D* tch0_temp = (TH2D*) tchFile->Get("h_0_renorm_scale_sr_syst_signal_tch");
-        TH2D* tch1_temp = (TH2D*) tchFile->Get("h_1_renorm_scale_sr_syst_signal_tch");
-        TH2D* tch2_temp = (TH2D*) tchFile->Get("h_2_renorm_scale_sr_syst_signal_tch");
-        TH2D* tch3_temp = (TH2D*) tchFile->Get("h_3_renorm_scale_sr_syst_signal_tch");
-        TH2D* tch4_temp = (TH2D*) tchFile->Get("h_4_renorm_scale_sr_syst_signal_tch");
-        TH2D* tch5_temp = (TH2D*) tchFile->Get("h_5_renorm_scale_sr_syst_signal_tch");
-        TH2D* tch6_temp = (TH2D*) tchFile->Get("h_6_renorm_scale_sr_syst_signal_tch");
+        TH2D* tch0_temp;
+        TH2D* tch1_temp;
+        TH2D* tch2_temp;
+        TH2D* tch3_temp;
+        TH2D* tch4_temp;
+        TH2D* tch5_temp;
+        TH2D* tch6_temp;
 
-        TH2D* tuh0_temp = (TH2D*) tuhFile->Get("h_0_renorm_scale_sr_syst_signal_tuh");
-        TH2D* tuh1_temp = (TH2D*) tuhFile->Get("h_1_renorm_scale_sr_syst_signal_tuh");
-        TH2D* tuh2_temp = (TH2D*) tuhFile->Get("h_2_renorm_scale_sr_syst_signal_tuh");
-        TH2D* tuh3_temp = (TH2D*) tuhFile->Get("h_3_renorm_scale_sr_syst_signal_tuh");
-        TH2D* tuh4_temp = (TH2D*) tuhFile->Get("h_4_renorm_scale_sr_syst_signal_tuh");
-        TH2D* tuh5_temp = (TH2D*) tuhFile->Get("h_5_renorm_scale_sr_syst_signal_tuh");
-        TH2D* tuh6_temp = (TH2D*) tuhFile->Get("h_6_renorm_scale_sr_syst_signal_tuh");
+        TH2D* tuh0_temp;
+        TH2D* tuh1_temp;
+        TH2D* tuh2_temp;
+        TH2D* tuh3_temp;
+        TH2D* tuh4_temp;
+        TH2D* tuh5_temp;
+        TH2D* tuh6_temp;
 
-        TH2D* rares0_temp = (TH2D*) raresFile->Get("h_0_renorm_scale_sr_syst_rares");
-        TH2D* rares1_temp = (TH2D*) raresFile->Get("h_1_renorm_scale_sr_syst_rares");
-        TH2D* rares2_temp = (TH2D*) raresFile->Get("h_2_renorm_scale_sr_syst_rares");
-        TH2D* rares3_temp = (TH2D*) raresFile->Get("h_3_renorm_scale_sr_syst_rares");
-        TH2D* rares4_temp = (TH2D*) raresFile->Get("h_4_renorm_scale_sr_syst_rares");
-        TH2D* rares5_temp = (TH2D*) raresFile->Get("h_5_renorm_scale_sr_syst_rares");
-        TH2D* rares6_temp = (TH2D*) raresFile->Get("h_6_renorm_scale_sr_syst_rares");
+        TH2D* rares0_temp;
+        TH2D* rares1_temp;
+        TH2D* rares2_temp;
+        TH2D* rares3_temp;
+        TH2D* rares4_temp;
+        TH2D* rares5_temp;
+        TH2D* rares6_temp;
+
+        TH2D* rares0_temp_tch;
+        TH2D* rares1_temp_tch;
+        TH2D* rares2_temp_tch;
+        TH2D* rares3_temp_tch;
+        TH2D* rares4_temp_tch;
+        TH2D* rares5_temp_tch;
+        TH2D* rares6_temp_tch;
+
+        TH2D* rares0_temp_tuh;
+        TH2D* rares1_temp_tuh;
+        TH2D* rares2_temp_tuh;
+        TH2D* rares3_temp_tuh;
+        TH2D* rares4_temp_tuh;
+        TH2D* rares5_temp_tuh;
+        TH2D* rares6_temp_tuh;
+        
+        if (isBDT){
+            tch0_temp = (TH2D*) tchFile->Get("h_0_renorm_scale_bdtScore_syst_hct2016_signal_tch");
+            tch1_temp = (TH2D*) tchFile->Get("h_1_renorm_scale_bdtScore_syst_hct2016_signal_tch");
+            tch2_temp = (TH2D*) tchFile->Get("h_2_renorm_scale_bdtScore_syst_hct2016_signal_tch");
+            tch3_temp = (TH2D*) tchFile->Get("h_3_renorm_scale_bdtScore_syst_hct2016_signal_tch");
+            tch4_temp = (TH2D*) tchFile->Get("h_4_renorm_scale_bdtScore_syst_hct2016_signal_tch");
+            tch5_temp = (TH2D*) tchFile->Get("h_5_renorm_scale_bdtScore_syst_hct2016_signal_tch");
+            tch6_temp = (TH2D*) tchFile->Get("h_6_renorm_scale_bdtScore_syst_hct2016_signal_tch");
+
+            tuh0_temp = (TH2D*) tuhFile->Get("h_0_renorm_scale_bdtScore_syst_hut2016_signal_tuh");
+            tuh1_temp = (TH2D*) tuhFile->Get("h_1_renorm_scale_bdtScore_syst_hut2016_signal_tuh");
+            tuh2_temp = (TH2D*) tuhFile->Get("h_2_renorm_scale_bdtScore_syst_hut2016_signal_tuh");
+            tuh3_temp = (TH2D*) tuhFile->Get("h_3_renorm_scale_bdtScore_syst_hut2016_signal_tuh");
+            tuh4_temp = (TH2D*) tuhFile->Get("h_4_renorm_scale_bdtScore_syst_hut2016_signal_tuh");
+            tuh5_temp = (TH2D*) tuhFile->Get("h_5_renorm_scale_bdtScore_syst_hut2016_signal_tuh");
+            tuh6_temp = (TH2D*) tuhFile->Get("h_6_renorm_scale_bdtScore_syst_hut2016_signal_tuh");
+
+            rares0_temp_tch = (TH2D*) raresFile->Get("h_0_renorm_scale_bdtScore_syst_hct2016_rares");
+            rares1_temp_tch = (TH2D*) raresFile->Get("h_1_renorm_scale_bdtScore_syst_hct2016_rares");
+            rares2_temp_tch = (TH2D*) raresFile->Get("h_2_renorm_scale_bdtScore_syst_hct2016_rares");
+            rares3_temp_tch = (TH2D*) raresFile->Get("h_3_renorm_scale_bdtScore_syst_hct2016_rares");
+            rares4_temp_tch = (TH2D*) raresFile->Get("h_4_renorm_scale_bdtScore_syst_hct2016_rares");
+            rares5_temp_tch = (TH2D*) raresFile->Get("h_5_renorm_scale_bdtScore_syst_hct2016_rares");
+            rares6_temp_tch = (TH2D*) raresFile->Get("h_6_renorm_scale_bdtScore_syst_hct2016_rares");
+
+            rares0_temp_tuh = (TH2D*) raresFile->Get("h_0_renorm_scale_bdtScore_syst_hut2016_rares");
+            rares1_temp_tuh = (TH2D*) raresFile->Get("h_1_renorm_scale_bdtScore_syst_hut2016_rares");
+            rares2_temp_tuh = (TH2D*) raresFile->Get("h_2_renorm_scale_bdtScore_syst_hut2016_rares");
+            rares3_temp_tuh = (TH2D*) raresFile->Get("h_3_renorm_scale_bdtScore_syst_hut2016_rares");
+            rares4_temp_tuh = (TH2D*) raresFile->Get("h_4_renorm_scale_bdtScore_syst_hut2016_rares");
+            rares5_temp_tuh = (TH2D*) raresFile->Get("h_5_renorm_scale_bdtScore_syst_hut2016_rares");
+            rares6_temp_tuh = (TH2D*) raresFile->Get("h_6_renorm_scale_bdtScore_syst_hut2016_rares");
+        }else{
+            tch0_temp = (TH2D*) tchFile->Get("h_0_renorm_scale_sr_syst_signal_tch");
+            tch1_temp = (TH2D*) tchFile->Get("h_1_renorm_scale_sr_syst_signal_tch");
+            tch2_temp = (TH2D*) tchFile->Get("h_2_renorm_scale_sr_syst_signal_tch");
+            tch3_temp = (TH2D*) tchFile->Get("h_3_renorm_scale_sr_syst_signal_tch");
+            tch4_temp = (TH2D*) tchFile->Get("h_4_renorm_scale_sr_syst_signal_tch");
+            tch5_temp = (TH2D*) tchFile->Get("h_5_renorm_scale_sr_syst_signal_tch");
+            tch6_temp = (TH2D*) tchFile->Get("h_6_renorm_scale_sr_syst_signal_tch");
+
+            tuh0_temp = (TH2D*) tuhFile->Get("h_0_renorm_scale_sr_syst_signal_tuh");
+            tuh1_temp = (TH2D*) tuhFile->Get("h_1_renorm_scale_sr_syst_signal_tuh");
+            tuh2_temp = (TH2D*) tuhFile->Get("h_2_renorm_scale_sr_syst_signal_tuh");
+            tuh3_temp = (TH2D*) tuhFile->Get("h_3_renorm_scale_sr_syst_signal_tuh");
+            tuh4_temp = (TH2D*) tuhFile->Get("h_4_renorm_scale_sr_syst_signal_tuh");
+            tuh5_temp = (TH2D*) tuhFile->Get("h_5_renorm_scale_sr_syst_signal_tuh");
+            tuh6_temp = (TH2D*) tuhFile->Get("h_6_renorm_scale_sr_syst_signal_tuh");
+
+            rares0_temp = (TH2D*) raresFile->Get("h_0_renorm_scale_sr_syst_rares");
+            rares1_temp = (TH2D*) raresFile->Get("h_1_renorm_scale_sr_syst_rares");
+            rares2_temp = (TH2D*) raresFile->Get("h_2_renorm_scale_sr_syst_rares");
+            rares3_temp = (TH2D*) raresFile->Get("h_3_renorm_scale_sr_syst_rares");
+            rares4_temp = (TH2D*) raresFile->Get("h_4_renorm_scale_sr_syst_rares");
+            rares5_temp = (TH2D*) raresFile->Get("h_5_renorm_scale_sr_syst_rares");
+            rares6_temp = (TH2D*) raresFile->Get("h_6_renorm_scale_sr_syst_rares");
+        }
+
+        std::cout << "got histos" << std::endl;
 
         TH2D* tch0      = (TH2D*) tch0_temp->Clone();
         TH2D* tch1      = (TH2D*) tch1_temp->Clone();
@@ -78,13 +154,57 @@ int scaleError(std::string inputDir)
         TH2D* tuh5      = (TH2D*) tuh5_temp->Clone();
         TH2D* tuh6      = (TH2D*) tuh6_temp->Clone();
 
-        TH2D* rares0      = (TH2D*) rares0_temp->Clone();
-        TH2D* rares1      = (TH2D*) rares1_temp->Clone();
-        TH2D* rares2      = (TH2D*) rares2_temp->Clone();
-        TH2D* rares3      = (TH2D*) rares3_temp->Clone();
-        TH2D* rares4      = (TH2D*) rares4_temp->Clone();
-        TH2D* rares5      = (TH2D*) rares5_temp->Clone();
-        TH2D* rares6      = (TH2D*) rares6_temp->Clone();
+        TH2D* rares0;
+        TH2D* rares1;
+        TH2D* rares2;
+        TH2D* rares3;
+        TH2D* rares4;
+        TH2D* rares5;
+        TH2D* rares6;
+
+        TH2D* rares0_tch;
+        TH2D* rares1_tch;
+        TH2D* rares2_tch;
+        TH2D* rares3_tch;
+        TH2D* rares4_tch;
+        TH2D* rares5_tch;
+        TH2D* rares6_tch;
+
+        TH2D* rares0_tuh;
+        TH2D* rares1_tuh;
+        TH2D* rares2_tuh;
+        TH2D* rares3_tuh;
+        TH2D* rares4_tuh;
+        TH2D* rares5_tuh;
+        TH2D* rares6_tuh;
+
+        if(isBDT){
+            rares0_tch      = (TH2D*) rares0_temp_tch->Clone();
+            rares1_tch      = (TH2D*) rares1_temp_tch->Clone();
+            rares2_tch      = (TH2D*) rares2_temp_tch->Clone();
+            rares3_tch      = (TH2D*) rares3_temp_tch->Clone();
+            rares4_tch      = (TH2D*) rares4_temp_tch->Clone();
+            rares5_tch      = (TH2D*) rares5_temp_tch->Clone();
+            rares6_tch      = (TH2D*) rares6_temp_tch->Clone();
+
+            rares0_tuh      = (TH2D*) rares0_temp_tuh->Clone();
+            rares1_tuh      = (TH2D*) rares1_temp_tuh->Clone();
+            rares2_tuh      = (TH2D*) rares2_temp_tuh->Clone();
+            rares3_tuh      = (TH2D*) rares3_temp_tuh->Clone();
+            rares4_tuh      = (TH2D*) rares4_temp_tuh->Clone();
+            rares5_tuh      = (TH2D*) rares5_temp_tuh->Clone();
+            rares6_tuh      = (TH2D*) rares6_temp_tuh->Clone();
+        }else{
+            rares0      = (TH2D*) rares0_temp->Clone();
+            rares1      = (TH2D*) rares1_temp->Clone();
+            rares2      = (TH2D*) rares2_temp->Clone();
+            rares3      = (TH2D*) rares3_temp->Clone();
+            rares4      = (TH2D*) rares4_temp->Clone();
+            rares5      = (TH2D*) rares5_temp->Clone();
+            rares6      = (TH2D*) rares6_temp->Clone();
+        }
+
+        std::cout << "cloned histos" << std::endl;
 
         // cout << "tch0 normalization: " << 1./tch0->Integral() << endl;
         // cout << "tch1 normalization: " << 1./tch1->Integral() << endl;
@@ -118,13 +238,34 @@ int scaleError(std::string inputDir)
         tuh5->Scale(1.13681);
         tuh6->Scale(1.20029);
 
-        rares0->Scale(1.);
-        rares1->Scale(1.0085);
-        rares2->Scale(0.958036);
-        rares3->Scale(1.06402);
-        rares4->Scale(0.962392);
-        rares5->Scale(1.03512);
-        rares6->Scale(0.987866);
+        if (isBDT){
+            rares0_tch->Scale(1.);
+            rares1_tch->Scale(1.0085);
+            rares2_tch->Scale(0.958036);
+            rares3_tch->Scale(1.06402);
+            rares4_tch->Scale(0.962392);
+            rares5_tch->Scale(1.03512);
+            rares6_tch->Scale(0.987866);
+
+            rares0_tuh->Scale(1.);
+            rares1_tuh->Scale(1.0085);
+            rares2_tuh->Scale(0.958036);
+            rares3_tuh->Scale(1.06402);
+            rares4_tuh->Scale(0.962392);
+            rares5_tuh->Scale(1.03512);
+            rares6_tuh->Scale(0.987866);
+        }else{
+            rares0->Scale(1.);
+            rares1->Scale(1.0085);
+            rares2->Scale(0.958036);
+            rares3->Scale(1.06402);
+            rares4->Scale(0.962392);
+            rares5->Scale(1.03512);
+            rares6->Scale(0.987866);
+        }
+
+        std::cout<< "scaled histos" << endl;
+
 
         // tch0->Scale(1./tch0->Integral());
         // tch1->Scale(1./tch1->Integral());
@@ -175,21 +316,58 @@ int scaleError(std::string inputDir)
         }
         vector< vector<double> > tuh_vecs = {tuh1_vec,tuh2_vec,tuh3_vec,tuh4_vec,tuh5_vec,tuh6_vec};
 
-        vector<double> rares1_vec;
-        vector<double> rares2_vec;
-        vector<double> rares3_vec;
-        vector<double> rares4_vec;
-        vector<double> rares5_vec;
-        vector<double> rares6_vec;
-        for(int i = 0; i < 22; i++){
-            rares1_vec.push_back(rares1->GetBinContent(i)/rares0->GetBinContent(i));
-            rares2_vec.push_back(rares2->GetBinContent(i)/rares0->GetBinContent(i));
-            rares3_vec.push_back(rares3->GetBinContent(i)/rares0->GetBinContent(i));
-            rares4_vec.push_back(rares4->GetBinContent(i)/rares0->GetBinContent(i));
-            rares5_vec.push_back(rares5->GetBinContent(i)/rares0->GetBinContent(i));
-            rares6_vec.push_back(rares6->GetBinContent(i)/rares0->GetBinContent(i));
+        vector< vector<double> > rares_vecs;
+        if (isBDT){
+            vector<double> rares1_tch_vec;
+            vector<double> rares2_tch_vec;
+            vector<double> rares3_tch_vec;
+            vector<double> rares4_tch_vec;
+            vector<double> rares5_tch_vec;
+            vector<double> rares6_tch_vec;
+
+            vector<double> rares1_tuh_vec;
+            vector<double> rares2_tuh_vec;
+            vector<double> rares3_tuh_vec;
+            vector<double> rares4_tuh_vec;
+            vector<double> rares5_tuh_vec;
+            vector<double> rares6_tuh_vec;
+
+            for(int i = 0; i < 22; i++){
+                rares1_tch_vec.push_back(rares1_tch->GetBinContent(i)/rares0_tch->GetBinContent(i));
+                rares2_tch_vec.push_back(rares2_tch->GetBinContent(i)/rares0_tch->GetBinContent(i));
+                rares3_tch_vec.push_back(rares3_tch->GetBinContent(i)/rares0_tch->GetBinContent(i));
+                rares4_tch_vec.push_back(rares4_tch->GetBinContent(i)/rares0_tch->GetBinContent(i));
+                rares5_tch_vec.push_back(rares5_tch->GetBinContent(i)/rares0_tch->GetBinContent(i));
+                rares6_tch_vec.push_back(rares6_tch->GetBinContent(i)/rares0_tch->GetBinContent(i));
+
+                rares1_tuh_vec.push_back(rares1_tuh->GetBinContent(i)/rares0_tuh->GetBinContent(i));
+                rares2_tuh_vec.push_back(rares2_tuh->GetBinContent(i)/rares0_tuh->GetBinContent(i));
+                rares3_tuh_vec.push_back(rares3_tuh->GetBinContent(i)/rares0_tuh->GetBinContent(i));
+                rares4_tuh_vec.push_back(rares4_tuh->GetBinContent(i)/rares0_tuh->GetBinContent(i));
+                rares5_tuh_vec.push_back(rares5_tuh->GetBinContent(i)/rares0_tuh->GetBinContent(i));
+                rares6_tuh_vec.push_back(rares6_tuh->GetBinContent(i)/rares0_tuh->GetBinContent(i));
+            }
+            rares_vecs = {  rares1_tch_vec,rares2_tch_vec,rares3_tch_vec,rares4_tch_vec,rares5_tch_vec,rares6_tch_vec,
+                            rares1_tuh_vec,rares2_tuh_vec,rares3_tuh_vec,rares4_tuh_vec,rares5_tuh_vec,rares6_tuh_vec};   
+        }else{
+            vector<double> rares1_vec;
+            vector<double> rares2_vec;
+            vector<double> rares3_vec;
+            vector<double> rares4_vec;
+            vector<double> rares5_vec;
+            vector<double> rares6_vec;
+            for(int i = 0; i < 22; i++){
+                rares1_vec.push_back(rares1->GetBinContent(i)/rares0->GetBinContent(i));
+                rares2_vec.push_back(rares2->GetBinContent(i)/rares0->GetBinContent(i));
+                rares3_vec.push_back(rares3->GetBinContent(i)/rares0->GetBinContent(i));
+                rares4_vec.push_back(rares4->GetBinContent(i)/rares0->GetBinContent(i));
+                rares5_vec.push_back(rares5->GetBinContent(i)/rares0->GetBinContent(i));
+                rares6_vec.push_back(rares6->GetBinContent(i)/rares0->GetBinContent(i));
+            }
+            rares_vecs = {rares1_vec,rares2_vec,rares3_vec,rares4_vec,rares5_vec,rares6_vec};   
         }
-        vector< vector<double> > rares_vecs = {rares1_vec,rares2_vec,rares3_vec,rares4_vec,rares5_vec,rares6_vec};
+
+        std::cout << "filled vectors" << std::endl;
 
         if(outputTxtFile.is_open()){
             outputTxtFile << "tch:";
@@ -221,21 +399,52 @@ int scaleError(std::string inputDir)
             }
             outputTxtFile << endl;
 
-
-            outputTxtFile << "rares:";
-            for (int i = 0; i < rares_vecs[0].size(); i++){
-                float biggestUnc = 0.;
-                float uncertainty = 0.;
-                for (int j = 0; j < rares_vecs.size(); j++){
-                    if (fabs(rares_vecs[j][i]-1.)>biggestUnc){
-                        biggestUnc = fabs(rares_vecs[j][i]-1.);
-                        uncertainty = rares_vecs[j][i];
+            if(isBDT){
+                outputTxtFile << "rares_tch:";
+                for (int i = 0; i < rares_vecs[0].size(); i++){
+                    float biggestUnc = 0.;
+                    float uncertainty = 0.;
+                    for (int j = 0; j < rares_vecs.size()/2; j++){
+                        if (fabs(rares_vecs[j][i]-1.)>biggestUnc){
+                            biggestUnc = fabs(rares_vecs[j][i]-1.);
+                            uncertainty = rares_vecs[j][i];
+                        }
                     }
+                    outputTxtFile << "\t" << uncertainty;
                 }
-                outputTxtFile << "\t" << uncertainty;
+                outputTxtFile << endl;
+
+                outputTxtFile << "rares_tuh:";
+                for (int i = 0; i < rares_vecs[0].size(); i++){
+                    float biggestUnc = 0.;
+                    float uncertainty = 0.;
+                    for (int j = rares_vecs.size()/2; j < rares_vecs.size(); j++){
+                        if (fabs(rares_vecs[j][i]-1.)>biggestUnc){
+                            biggestUnc = fabs(rares_vecs[j][i]-1.);
+                            uncertainty = rares_vecs[j][i];
+                        }
+                    }
+                    outputTxtFile << "\t" << uncertainty;
+                }
+                outputTxtFile << endl;
+            }else{
+                outputTxtFile << "rares:";
+                for (int i = 0; i < rares_vecs[0].size(); i++){
+                    float biggestUnc = 0.;
+                    float uncertainty = 0.;
+                    for (int j = 0; j < rares_vecs.size(); j++){
+                        if (fabs(rares_vecs[j][i]-1.)>biggestUnc){
+                            biggestUnc = fabs(rares_vecs[j][i]-1.);
+                            uncertainty = rares_vecs[j][i];
+                        }
+                    }
+                    outputTxtFile << "\t" << uncertainty;
+                }
+                outputTxtFile << endl;
             }
-            outputTxtFile << endl;
         }
+
+        std::cout << "wrote to output txt file" << std::endl;
 
         tch0->SetLineColor(kBlue);
         tch1->SetLineColor(kRed);
@@ -253,16 +462,36 @@ int scaleError(std::string inputDir)
         tuh5->SetLineColor(kMagenta);
         tuh6->SetLineColor(kBlack);
 
-        rares0->SetLineColor(kBlue);
-        rares1->SetLineColor(kRed);
-        rares2->SetLineColor(kGreen);
-        rares3->SetLineColor(kViolet);
-        rares4->SetLineColor(kPink);
-        rares5->SetLineColor(kMagenta);
-        rares6->SetLineColor(kBlack);
+        if(isBDT){ 
+            rares0_tch->SetLineColor(kBlue);
+            rares1_tch->SetLineColor(kRed);
+            rares2_tch->SetLineColor(kGreen);
+            rares3_tch->SetLineColor(kViolet);
+            rares4_tch->SetLineColor(kPink);
+            rares5_tch->SetLineColor(kMagenta);
+            rares6_tch->SetLineColor(kBlack);
+
+            rares0_tuh->SetLineColor(kBlue);
+            rares1_tuh->SetLineColor(kRed);
+            rares2_tuh->SetLineColor(kGreen);
+            rares3_tuh->SetLineColor(kViolet);
+            rares4_tuh->SetLineColor(kPink);
+            rares5_tuh->SetLineColor(kMagenta);
+            rares6_tuh->SetLineColor(kBlack);
+        }else{
+            rares0->SetLineColor(kBlue);
+            rares1->SetLineColor(kRed);
+            rares2->SetLineColor(kGreen);
+            rares3->SetLineColor(kViolet);
+            rares4->SetLineColor(kPink);
+            rares5->SetLineColor(kMagenta);
+            rares6->SetLineColor(kBlack);
+        }
 
         auto c_tch = new TCanvas("tch","tch",600,600);
         auto c_tuh = new TCanvas("tuh","tuh",600,600);
+        auto c_rares_tch = new TCanvas("rares_tch","rares_tch",600,600);
+        auto c_rares_tuh = new TCanvas("rares_tuh","rares_tuh",600,600);
         auto c_rares = new TCanvas("rares","rares",600,600);
 
         c_tch->cd();
@@ -283,19 +512,45 @@ int scaleError(std::string inputDir)
         tuh5->Draw("same");
         tuh6->Draw("same");
 
-        c_rares->cd();
-        rares0->Draw();
-        rares1->Draw("same");
-        rares2->Draw("same");
-        rares3->Draw("same");
-        rares4->Draw("same");
-        rares5->Draw("same");
-        rares6->Draw("same");
+        if(isBDT){
+            c_rares_tch->cd();
+            rares0_tch->Draw();
+            rares1_tch->Draw("same");
+            rares2_tch->Draw("same");
+            rares3_tch->Draw("same");
+            rares4_tch->Draw("same");
+            rares5_tch->Draw("same");
+            rares6_tch->Draw("same"); 
+
+            c_rares_tuh->cd();
+            rares0_tuh->Draw();
+            rares1_tuh->Draw("same");
+            rares2_tuh->Draw("same");
+            rares3_tuh->Draw("same");
+            rares4_tuh->Draw("same");
+            rares5_tuh->Draw("same");
+            rares6_tuh->Draw("same"); 
+
+        }else{
+            c_rares->cd();
+            rares0->Draw();
+            rares1->Draw("same");
+            rares2->Draw("same");
+            rares3->Draw("same");
+            rares4->Draw("same");
+            rares5->Draw("same");
+            rares6->Draw("same"); 
+        }
 
         outputFile->cd();
         c_tch->Write();
         c_tuh->Write();
-        c_rares->Write();
+        if(isBDT){
+            c_rares_tch->Write();
+            c_rares_tuh->Write();
+        }else{
+            c_rares->Write();
+        }
 
         tch0_temp->Delete();
         tch1_temp->Delete();
@@ -313,13 +568,31 @@ int scaleError(std::string inputDir)
         tuh5_temp->Delete();
         tuh6_temp->Delete();
 
-        rares0_temp->Delete();
-        rares1_temp->Delete();
-        rares2_temp->Delete();
-        rares3_temp->Delete();
-        rares4_temp->Delete();
-        rares5_temp->Delete();
-        rares6_temp->Delete();
+        if(isBDT){
+            rares0_temp_tch->Delete();
+            rares1_temp_tch->Delete();
+            rares2_temp_tch->Delete();
+            rares3_temp_tch->Delete();
+            rares4_temp_tch->Delete();
+            rares5_temp_tch->Delete();
+            rares6_temp_tch->Delete();
+
+            rares0_temp_tuh->Delete();
+            rares1_temp_tuh->Delete();
+            rares2_temp_tuh->Delete();
+            rares3_temp_tuh->Delete();
+            rares4_temp_tuh->Delete();
+            rares5_temp_tuh->Delete();
+            rares6_temp_tuh->Delete();
+        }else{
+            rares0_temp->Delete();
+            rares1_temp->Delete();
+            rares2_temp->Delete();
+            rares3_temp->Delete();
+            rares4_temp->Delete();
+            rares5_temp->Delete();
+            rares6_temp->Delete();
+        }
 
 
     }

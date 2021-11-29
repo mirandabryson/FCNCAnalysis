@@ -2,6 +2,7 @@
 #include "TFile.h"
 #include "TH1F.h"
 #include "TH1D.h"
+#include "TH2D.h"
 #include "TTree.h"
 #include "TCanvas.h"
 // #include "TChain.h"
@@ -9,15 +10,12 @@
 #include "TTreeCacheUnzip.h"
 #include "TTreePerfStats.h"
 
-#include <bits/stdc++.h>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
 
 
-using namespace std;
-
-int pdfError(std::string inputDir)
+int pdfError(std::string inputDir, bool isBDT=0)
 {
     std::string outputTxtFileName = inputDir+"/pdfErrorOutput.txt";
     ofstream outputTxtFile (outputTxtFileName.c_str());
@@ -25,7 +23,9 @@ int pdfError(std::string inputDir)
 
     // std::vector<std::string> years = {"2016", "2017", "2018"};
     std::vector<std::string> years = {"2016"};
-    std::vector<std::string> samples = {"signal_tch","signal_tuh","rares"};
+    std::vector<std::string> samples;
+    if(isBDT){samples = {"signal_tch","signal_tuh","rares_tch","rares_tuh"};}
+    else{samples = {"signal_tch","signal_tuh","rares"};}
     std::vector<float> tuhScales = {1.,0.173061,1.04433,0.154513,1.00851,0.0340528,1.02598,0.964487,0.0837268,1.00252,
                                     1.06095,0.118896,0.851838,0.0360263,0.863192,1.02527,1.03578,1.01024,0.867273,0.350178,
                                     0.0346282,0.997886,0.136668,0.538447,0.0795671,0.877956,0.93457,1.01015,0.942823,0.285507,
@@ -72,6 +72,9 @@ int pdfError(std::string inputDir)
         TFile* tuhFile = new TFile(tuh_fileName.Data());
         TFile* raresFile = new TFile(rares_fileName.Data());
 
+        string histName;
+        string samp;
+
 
         for (int s = 0; s < samples.size(); s++){
             TFile* file;
@@ -79,117 +82,141 @@ int pdfError(std::string inputDir)
             if(samples[s]=="signal_tch"){
                 file = tchFile;
                 scales = tchScales;
+                if(isBDT){histName = "bdtScore_syst_hct"+years[y];}
+                else{histName = "sr_syst";}
+                samp = "signal_tch";
             }
             if(samples[s]=="signal_tuh"){
                 file = tuhFile;
                 scales = tuhScales;
+                if(isBDT){histName = "bdtScore_syst_hut"+years[y];}
+                else{histName = "sr_syst";}
+                samp = "signal_tuh";
             }
             if(samples[s]=="rares"){
                 file = raresFile;
                 scales = raresScales;
+                histName = "sr_syst";
+                samp = "rares";
+            }
+            if(samples[s]=="rares_tch"){
+                file = raresFile;
+                scales = raresScales;
+                histName = "bdtScore_syst_hct"+years[y];
+                samp = "rares";
+            }
+            if(samples[s]=="rares_tuh"){
+                file = raresFile;
+                scales = raresScales;
+                histName = "bdtScore_syst_hut"+years[y];
+                samp = "rares";
             }
 
-            TH1D* temp_0 = (TH1D*) file->Get(TString("h_0_0_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_1 = (TH1D*) file->Get(TString("h_1_1_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_2 = (TH1D*) file->Get(TString("h_2_2_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_3 = (TH1D*) file->Get(TString("h_3_3_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_4 = (TH1D*) file->Get(TString("h_4_4_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_5 = (TH1D*) file->Get(TString("h_5_5_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_6 = (TH1D*) file->Get(TString("h_6_6_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_7 = (TH1D*) file->Get(TString("h_7_7_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_8 = (TH1D*) file->Get(TString("h_8_8_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_9 = (TH1D*) file->Get(TString("h_9_9_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_10 = (TH1D*) file->Get(TString("h_10_10_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_11 = (TH1D*) file->Get(TString("h_11_11_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_12 = (TH1D*) file->Get(TString("h_12_12_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_13 = (TH1D*) file->Get(TString("h_13_13_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_14 = (TH1D*) file->Get(TString("h_14_14_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_15 = (TH1D*) file->Get(TString("h_15_15_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_16 = (TH1D*) file->Get(TString("h_16_16_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_17 = (TH1D*) file->Get(TString("h_17_17_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_18 = (TH1D*) file->Get(TString("h_18_18_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_19 = (TH1D*) file->Get(TString("h_19_19_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_20 = (TH1D*) file->Get(TString("h_20_20_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_21 = (TH1D*) file->Get(TString("h_21_21_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_22 = (TH1D*) file->Get(TString("h_22_22_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_23 = (TH1D*) file->Get(TString("h_23_23_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_24 = (TH1D*) file->Get(TString("h_24_24_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_25 = (TH1D*) file->Get(TString("h_25_25_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_26 = (TH1D*) file->Get(TString("h_26_26_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_27 = (TH1D*) file->Get(TString("h_27_27_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_28 = (TH1D*) file->Get(TString("h_28_28_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_29 = (TH1D*) file->Get(TString("h_29_29_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_30 = (TH1D*) file->Get(TString("h_30_30_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_31 = (TH1D*) file->Get(TString("h_31_31_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_32 = (TH1D*) file->Get(TString("h_32_32_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_33 = (TH1D*) file->Get(TString("h_33_33_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_34 = (TH1D*) file->Get(TString("h_34_34_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_35 = (TH1D*) file->Get(TString("h_35_35_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_36 = (TH1D*) file->Get(TString("h_36_36_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_37 = (TH1D*) file->Get(TString("h_37_37_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_38 = (TH1D*) file->Get(TString("h_38_38_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_39 = (TH1D*) file->Get(TString("h_39_39_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_40 = (TH1D*) file->Get(TString("h_40_40_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_41 = (TH1D*) file->Get(TString("h_41_41_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_42 = (TH1D*) file->Get(TString("h_42_42_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_43 = (TH1D*) file->Get(TString("h_43_43_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_44 = (TH1D*) file->Get(TString("h_44_44_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_45 = (TH1D*) file->Get(TString("h_45_45_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_46 = (TH1D*) file->Get(TString("h_46_46_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_47 = (TH1D*) file->Get(TString("h_47_47_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_48 = (TH1D*) file->Get(TString("h_48_48_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_49 = (TH1D*) file->Get(TString("h_49_49_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_50 = (TH1D*) file->Get(TString("h_50_50_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_51 = (TH1D*) file->Get(TString("h_51_51_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_52 = (TH1D*) file->Get(TString("h_52_52_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_53 = (TH1D*) file->Get(TString("h_53_53_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_54 = (TH1D*) file->Get(TString("h_54_54_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_55 = (TH1D*) file->Get(TString("h_55_55_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_56 = (TH1D*) file->Get(TString("h_56_56_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_57 = (TH1D*) file->Get(TString("h_57_57_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_58 = (TH1D*) file->Get(TString("h_58_58_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_59 = (TH1D*) file->Get(TString("h_59_59_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_60 = (TH1D*) file->Get(TString("h_60_60_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_61 = (TH1D*) file->Get(TString("h_61_61_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_62 = (TH1D*) file->Get(TString("h_62_62_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_63 = (TH1D*) file->Get(TString("h_63_63_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_64 = (TH1D*) file->Get(TString("h_64_64_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_65 = (TH1D*) file->Get(TString("h_65_65_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_66 = (TH1D*) file->Get(TString("h_66_66_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_67 = (TH1D*) file->Get(TString("h_67_67_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_68 = (TH1D*) file->Get(TString("h_68_68_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_69 = (TH1D*) file->Get(TString("h_69_69_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_70 = (TH1D*) file->Get(TString("h_70_70_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_71 = (TH1D*) file->Get(TString("h_71_71_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_72 = (TH1D*) file->Get(TString("h_72_72_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_73 = (TH1D*) file->Get(TString("h_73_73_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_74 = (TH1D*) file->Get(TString("h_74_74_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_75 = (TH1D*) file->Get(TString("h_75_75_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_76 = (TH1D*) file->Get(TString("h_76_76_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_77 = (TH1D*) file->Get(TString("h_77_77_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_78 = (TH1D*) file->Get(TString("h_78_78_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_79 = (TH1D*) file->Get(TString("h_79_79_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_80 = (TH1D*) file->Get(TString("h_80_80_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_81 = (TH1D*) file->Get(TString("h_81_81_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_82 = (TH1D*) file->Get(TString("h_82_82_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_83 = (TH1D*) file->Get(TString("h_83_83_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_84 = (TH1D*) file->Get(TString("h_84_84_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_85 = (TH1D*) file->Get(TString("h_85_85_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_86 = (TH1D*) file->Get(TString("h_86_86_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_87 = (TH1D*) file->Get(TString("h_87_87_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_88 = (TH1D*) file->Get(TString("h_88_88_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_89 = (TH1D*) file->Get(TString("h_89_89_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_90 = (TH1D*) file->Get(TString("h_90_90_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_91 = (TH1D*) file->Get(TString("h_91_91_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_92 = (TH1D*) file->Get(TString("h_92_92_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_93 = (TH1D*) file->Get(TString("h_93_93_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_94 = (TH1D*) file->Get(TString("h_94_94_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_95 = (TH1D*) file->Get(TString("h_95_95_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_96 = (TH1D*) file->Get(TString("h_96_96_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_97 = (TH1D*) file->Get(TString("h_97_97_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_98 = (TH1D*) file->Get(TString("h_98_98_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_99 = (TH1D*) file->Get(TString("h_99_99_pdf_scale_sr_syst_"+samples[s]).Data());
-            TH1D* temp_100 = (TH1D*) file->Get(TString("h_100_100_pdf_scale_sr_syst_"+samples[s]).Data());
+            std::cout << samples[s] << std::endl;
+
+            TH1D* temp_0 = (TH1D*) file->Get(TString("h_0_0_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_1 = (TH1D*) file->Get(TString("h_1_1_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_2 = (TH1D*) file->Get(TString("h_2_2_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_3 = (TH1D*) file->Get(TString("h_3_3_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_4 = (TH1D*) file->Get(TString("h_4_4_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_5 = (TH1D*) file->Get(TString("h_5_5_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_6 = (TH1D*) file->Get(TString("h_6_6_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_7 = (TH1D*) file->Get(TString("h_7_7_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_8 = (TH1D*) file->Get(TString("h_8_8_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_9 = (TH1D*) file->Get(TString("h_9_9_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_10 = (TH1D*) file->Get(TString("h_10_10_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_11 = (TH1D*) file->Get(TString("h_11_11_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_12 = (TH1D*) file->Get(TString("h_12_12_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_13 = (TH1D*) file->Get(TString("h_13_13_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_14 = (TH1D*) file->Get(TString("h_14_14_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_15 = (TH1D*) file->Get(TString("h_15_15_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_16 = (TH1D*) file->Get(TString("h_16_16_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_17 = (TH1D*) file->Get(TString("h_17_17_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_18 = (TH1D*) file->Get(TString("h_18_18_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_19 = (TH1D*) file->Get(TString("h_19_19_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_20 = (TH1D*) file->Get(TString("h_20_20_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_21 = (TH1D*) file->Get(TString("h_21_21_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_22 = (TH1D*) file->Get(TString("h_22_22_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_23 = (TH1D*) file->Get(TString("h_23_23_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_24 = (TH1D*) file->Get(TString("h_24_24_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_25 = (TH1D*) file->Get(TString("h_25_25_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_26 = (TH1D*) file->Get(TString("h_26_26_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_27 = (TH1D*) file->Get(TString("h_27_27_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_28 = (TH1D*) file->Get(TString("h_28_28_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_29 = (TH1D*) file->Get(TString("h_29_29_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_30 = (TH1D*) file->Get(TString("h_30_30_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_31 = (TH1D*) file->Get(TString("h_31_31_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_32 = (TH1D*) file->Get(TString("h_32_32_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_33 = (TH1D*) file->Get(TString("h_33_33_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_34 = (TH1D*) file->Get(TString("h_34_34_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_35 = (TH1D*) file->Get(TString("h_35_35_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_36 = (TH1D*) file->Get(TString("h_36_36_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_37 = (TH1D*) file->Get(TString("h_37_37_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_38 = (TH1D*) file->Get(TString("h_38_38_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_39 = (TH1D*) file->Get(TString("h_39_39_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_40 = (TH1D*) file->Get(TString("h_40_40_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_41 = (TH1D*) file->Get(TString("h_41_41_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_42 = (TH1D*) file->Get(TString("h_42_42_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_43 = (TH1D*) file->Get(TString("h_43_43_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_44 = (TH1D*) file->Get(TString("h_44_44_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_45 = (TH1D*) file->Get(TString("h_45_45_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_46 = (TH1D*) file->Get(TString("h_46_46_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_47 = (TH1D*) file->Get(TString("h_47_47_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_48 = (TH1D*) file->Get(TString("h_48_48_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_49 = (TH1D*) file->Get(TString("h_49_49_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_50 = (TH1D*) file->Get(TString("h_50_50_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_51 = (TH1D*) file->Get(TString("h_51_51_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_52 = (TH1D*) file->Get(TString("h_52_52_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_53 = (TH1D*) file->Get(TString("h_53_53_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_54 = (TH1D*) file->Get(TString("h_54_54_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_55 = (TH1D*) file->Get(TString("h_55_55_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_56 = (TH1D*) file->Get(TString("h_56_56_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_57 = (TH1D*) file->Get(TString("h_57_57_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_58 = (TH1D*) file->Get(TString("h_58_58_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_59 = (TH1D*) file->Get(TString("h_59_59_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_60 = (TH1D*) file->Get(TString("h_60_60_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_61 = (TH1D*) file->Get(TString("h_61_61_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_62 = (TH1D*) file->Get(TString("h_62_62_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_63 = (TH1D*) file->Get(TString("h_63_63_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_64 = (TH1D*) file->Get(TString("h_64_64_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_65 = (TH1D*) file->Get(TString("h_65_65_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_66 = (TH1D*) file->Get(TString("h_66_66_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_67 = (TH1D*) file->Get(TString("h_67_67_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_68 = (TH1D*) file->Get(TString("h_68_68_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_69 = (TH1D*) file->Get(TString("h_69_69_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_70 = (TH1D*) file->Get(TString("h_70_70_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_71 = (TH1D*) file->Get(TString("h_71_71_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_72 = (TH1D*) file->Get(TString("h_72_72_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_73 = (TH1D*) file->Get(TString("h_73_73_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_74 = (TH1D*) file->Get(TString("h_74_74_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_75 = (TH1D*) file->Get(TString("h_75_75_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_76 = (TH1D*) file->Get(TString("h_76_76_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_77 = (TH1D*) file->Get(TString("h_77_77_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_78 = (TH1D*) file->Get(TString("h_78_78_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_79 = (TH1D*) file->Get(TString("h_79_79_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_80 = (TH1D*) file->Get(TString("h_80_80_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_81 = (TH1D*) file->Get(TString("h_81_81_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_82 = (TH1D*) file->Get(TString("h_82_82_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_83 = (TH1D*) file->Get(TString("h_83_83_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_84 = (TH1D*) file->Get(TString("h_84_84_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_85 = (TH1D*) file->Get(TString("h_85_85_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_86 = (TH1D*) file->Get(TString("h_86_86_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_87 = (TH1D*) file->Get(TString("h_87_87_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_88 = (TH1D*) file->Get(TString("h_88_88_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_89 = (TH1D*) file->Get(TString("h_89_89_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_90 = (TH1D*) file->Get(TString("h_90_90_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_91 = (TH1D*) file->Get(TString("h_91_91_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_92 = (TH1D*) file->Get(TString("h_92_92_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_93 = (TH1D*) file->Get(TString("h_93_93_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_94 = (TH1D*) file->Get(TString("h_94_94_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_95 = (TH1D*) file->Get(TString("h_95_95_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_96 = (TH1D*) file->Get(TString("h_96_96_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_97 = (TH1D*) file->Get(TString("h_97_97_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_98 = (TH1D*) file->Get(TString("h_98_98_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_99 = (TH1D*) file->Get(TString("h_99_99_pdf_scale_"+histName+"_"+samp).Data());
+            TH1D* temp_100 = (TH1D*) file->Get(TString("h_100_100_pdf_scale_"+histName+"_"+samp).Data());
+
+            std::cout << "got histos" << std::endl;
 
             TH1D* pdf_0 = (TH1D*) temp_0->Clone();
             TH1D* pdf_1 = (TH1D*) temp_1->Clone();
@@ -293,6 +320,8 @@ int pdfError(std::string inputDir)
             TH1D* pdf_99 = (TH1D*) temp_99->Clone();
             TH1D* pdf_100 = (TH1D*) temp_100->Clone();
 
+            std::cout << "cloned histos" << std::endl;
+
             pdf_0->Scale(scales[0]);
             pdf_1->Scale(scales[1]);
             pdf_2->Scale(scales[2]);
@@ -395,6 +424,8 @@ int pdfError(std::string inputDir)
             pdf_99->Scale(scales[99]);
             pdf_100->Scale(scales[100]);
 
+            std::cout << "scaled histos" << std::endl;
+
             std::vector<TH1D*> histograms = {
                 pdf_0,pdf_1,pdf_2,pdf_3,pdf_4,pdf_5,pdf_6,pdf_7,pdf_8,pdf_9,
                 pdf_10,pdf_11,pdf_12,pdf_13,pdf_14,pdf_15,pdf_16,pdf_17,pdf_18,pdf_19,
@@ -411,27 +442,34 @@ int pdfError(std::string inputDir)
             std::vector<float> upVariations;
             std::vector<float> downVariations;
 
-            for (int b=0; b<pdf_0->GetNbinsX(); b++){
+            for (int b=1; b<pdf_0->GetNbinsX()+1; b++){
                 std::vector<float> srVariation;
                 for (int h=0; h<histograms.size(); h++){
                     srVariation.push_back(histograms[h]->GetBinContent(b));
+                    // std::cout << "pdf" << h << " " << histograms[h]->GetBinContent(b) << std::endl;
                 }
                 std::sort(srVariation.begin(),srVariation.end());
+                std::cout << srVariation[83] << " " << srVariation[15] << " " << pdf_0->GetBinContent(b) << std::endl;
                 upVariations.push_back(srVariation[83]/pdf_0->GetBinContent(b));
                 downVariations.push_back(srVariation[15]/pdf_0->GetBinContent(b));
             }
 
+            std::cout << "got variations" << std::endl;
+
             if(outputTxtFile.is_open()){
                 outputTxtFile << samples[s] << ":";
                 for(int i = 0; i < upVariations.size(); i++){
-                    if(samples[s]=="rares"){
+                    if(samp=="rares"){
                         outputTxtFile << "\t" << 1.+(1.-upVariations[i]) << "/" << upVariations[i];
                     }else{
+                        std::cout << downVariations[i] << " " << upVariations[i] << std::endl;
                         outputTxtFile << "\t" << 1.-downVariations[i] << "/" << upVariations[i];
                     }
                 }
                 outputTxtFile << endl;
             }
+
+            std::cout << "wrote to txt file" << std::endl;
 
             temp_0->Delete();
             temp_1->Delete();
