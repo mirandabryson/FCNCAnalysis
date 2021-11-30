@@ -237,9 +237,9 @@ ddProcs = ["fakes_mc","flips_mc"]
 # corrSyst = ["rarTh","sigTh","pdfShp","rarScShp","sigScShp","PU","lf","hf","cferr1","cferr2"]
 # uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
 uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
-corrSyst = ["PU","lf","hf","cferr1","cferr2"]
+corrSyst = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU","lf","hf","cferr1","cferr2"]
 # uncorrSyst = ["Trigger","LepSF","bTag"]
-bdtSystCorr = ["PU","lf","hf","cferr1","cferr2"]
+bdtSystCorr = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU","lf","hf","cferr1","cferr2"]
 # bdtSystUncorr = ["jes","lfstats1","lfstats2","hfstats1","hfstats2"]
 bdtSystUncorr = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
 
@@ -320,6 +320,7 @@ for y in years:
                 if "signal" in p: pname = p + "_" + s
                 else: pname = p
                 for c in corrSyst:
+                    if (("ScShp" in c) and p[:3] not in c): continue
                     rowTitle = c
                     while len(rowTitle)<17: rowTitle += " "
                     rowTitle += "lnN"
@@ -373,6 +374,7 @@ for y in years:
                 if "signal" in p: pname = p + "_" + s
                 else: pname = p
                 for c in bdtSystCorr:
+                    if (("ScShp" in c) and p[:3] not in c): continue
                     rowTitle = c
                     while len(rowTitle)<17: rowTitle += " "
                     rowTitle += "lnN"

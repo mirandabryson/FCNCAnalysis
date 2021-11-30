@@ -21,6 +21,9 @@ inputCCJESDown = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_ccJESD
 inputBDTJESUp = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtJESUp/"
 inputBDTJESDown = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtJESDown/"
 
+with open('./ccPDFScale.json') as ccScale_json: ccScale = json.load(ccScale_json)
+with open('./bdtPDFScale.json') as bdtScale_json: bdtScale = json.load(bdtScale_json)
+
 #function to get CC SR titles
 def getCCColumns(ccSRDict, numSRs):
     columns = []
@@ -172,6 +175,39 @@ for y in years:
                 bdtMCsyst[str(y)][s][p]["jes"][r]["up"] = upHist.GetBinContent(iterator)
                 bdtMCsyst[str(y)][s][p]["jes"][r]["down"] = downHist.GetBinContent(iterator)
                 iterator += 1
+            ##PDF,SCALE
+            bdtMCsyst[str(y)][s][p]["pdfShp"] = {}
+            iterator = 1
+            for r in bdtSRs:
+                if (("signal" in p) and (s not in p)): continue 
+                bdtMCsyst[str(y)][s][p]["pdfShp"][r] = {}
+                bdtMCsyst[str(y)][s][p]["pdfShp"][r]["up"] = bdtScale[s][p]["bin_"+str(iterator-1)]["pdf_up"]
+                bdtMCsyst[str(y)][s][p]["pdfShp"][r]["down"] = bdtScale[s][p]["bin_"+str(iterator-1)]["pdf_down"]
+                iterator += 1
+            bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"] = {}
+            iterator = 1
+            for r in bdtSRs:
+                if (("signal" in p) and (s not in p)): continue 
+                bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r] = {}
+                bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["up"] = bdtScale[s][p]["bin_"+str(iterator-1)]["scale"]
+                if(bdtScale[s][p]["bin_"+str(iterator-1)]["scale"] > 1):
+                    bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["down"] = 2-bdtScale[s][p]["bin_"+str(iterator-1)]["scale"]
+                else:
+                    bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["down"] = 1+(1-bdtScale[s][p]["bin_"+str(iterator-1)]["scale"])
+                iterator += 1
+            # bdtMCsyst[str(y)][s][p][p[:3]+"Th"] = {}
+            # iterator = 1
+            # for r in bdtSRs:
+            #     if ("rare" in p): 
+            #         fill_up = 1.25 
+            #         fill_down = 0.75
+            #     bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r] = {}
+            #     bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["up"] = bdtScale[s][p]["bin_"+str(iterator-1)]["scale"]
+            #     if(bdtScale[s][p]["bin_"+str(iterator-1)]["scale"] > 1):
+            #         bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["down"] = 2-bdtScale[s][p]["bin_"+str(iterator-1)]["scale"]
+            #     else:
+            #         bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["down"] = 1+(1-bdtScale[s][p]["bin_"+str(iterator-1)]["scale"])
+            #     iterator += 1
 
 with open("./bdtMCsyst.json", "w") as f_out: json.dump(bdtMCsyst, f_out, indent=4)
 
@@ -232,5 +268,25 @@ for y in years:
             ccMCsyst[str(y)][p]["jes"][r]["down"] = downHist.GetBinContent(iterator)
             iterator += 1
 
+        ##PDF,SCALE
+        ccMCsyst[str(y)][p]["pdfShp"] = {}
+        iterator = 1
+        for r in ccSRs:
+            ccMCsyst[str(y)][p]["pdfShp"][r] = {}
+            ccMCsyst[str(y)][p]["pdfShp"][r]["up"] = ccScale[p][r]["pdf_up"]
+            ccMCsyst[str(y)][p]["pdfShp"][r]["down"] = ccScale[p][r]["pdf_down"]
+            iterator += 1
+
+        ccMCsyst[str(y)][p][p[:3]+"ScShp"] = {}
+        iterator = 1
+        for r in ccSRs:
+            # if (("signal" in p) and (s not in p)): continue 
+            ccMCsyst[str(y)][p][p[:3]+"ScShp"][r] = {}
+            ccMCsyst[str(y)][p][p[:3]+"ScShp"][r]["up"] = ccScale[p][r]["scale"]
+            if(ccScale[p][r]["scale"] > 1):
+                ccMCsyst[str(y)][p][p[:3]+"ScShp"][r]["down"] = 2-ccScale[p][r]["scale"]
+            else:
+                ccMCsyst[str(y)][p][p[:3]+"ScShp"][r]["down"] = 1+(1-ccScale[p][r]["scale"])
+            iterator += 1
 with open("./ccMCsyst.json", "w") as f_out: json.dump(ccMCsyst, f_out, indent=4)
 
