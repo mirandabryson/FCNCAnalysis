@@ -10,27 +10,27 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 }
 
 std::vector<std::string> HistContainer::getRegionNames() {
-    // std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
-    //                                     "osest","mlsfest","sfest","mldfest","dfest",
-    //                                     "sfpp","dfpp","mlsfppp","mldfppp",
-    //                                     "sfppest","dfppest","mlsfpppest","mldfpppest",
-    //                                     /*"vrcr","vrcrest","vrsr",
-    //                                      "vrcr_flip","vrcrest_flip","vrsr_flip",*/};
+    std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
+                                        "osest","mlsfest","sfest","mldfest","dfest",
+                                        "sfpp","dfpp","mlsfppp","mldfppp",
+                                        "sfppest","dfppest","mlsfpppest","mldfpppest",
+                                        /*"vrcr","vrcrest","vrsr",
+                                         "vrcr_flip","vrcrest_flip","vrsr_flip",*/};
 
-    std::vector<std::string> rnames = { "PU_up","PU_down",
-                                        "LepSF_up","LepSF_down",
-                                        "Trigger_up","Trigger_down",
-                                        "lf_up","lf_down",
-                                        "hf_up","hf_down",
-                                        "hfstats1_up","hfstats1_down",
-                                        "hfstats2_up","hfstats2_down",
-                                        "lfstats1_up","lfstats1_down",
-                                        "lfstats2_up","lfstats2_down",
-                                        "cferr1_up","cferr1_down",
-                                        "cferr2_up","cferr2_down",
-                                        "btag_central",
-                                        "bTag_up","bTag_down",
-                                        /*"renorm_scale","pdf_scale"*/};
+    // std::vector<std::string> rnames = { "PU_up","PU_down",
+    //                                     "LepSF_up","LepSF_down",
+    //                                     "Trigger_up","Trigger_down",
+    //                                     "lf_up","lf_down",
+    //                                     "hf_up","hf_down",
+    //                                     "hfstats1_up","hfstats1_down",
+    //                                     "hfstats2_up","hfstats2_down",
+    //                                     "lfstats1_up","lfstats1_down",
+    //                                     "lfstats2_up","lfstats2_down",
+    //                                     "cferr1_up","cferr1_down",
+    //                                     "cferr2_up","cferr2_down",
+    //                                     "btag_central",
+    //                                     "bTag_up","bTag_down",
+    //                                     /*"renorm_scale","pdf_scale"*/};
     // std::vector<std::string> rnames;
     // for(int i = 0; i < 101; i++){
     //     std::string i_str = std::to_string(i);
@@ -362,8 +362,8 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("mt_tl_met",sample,20,0,400);
     // addHist1d("mt_thirdl_met",sample,20,0,400);
     // addHist1d("cutflow",sample,7,0.5,7.5,"br");
-    // addHist1d("sr",sample,21,0.5,21.5);//,"br");
-    addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
+    addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
     // addHist1d("lj_syst_bscore",sample,20,0,1);
     // addHist1d("tj_syst_bscore",sample,20,0,1);
     // addHist1d("thirdj_syst_bscore",sample,20,0,1);
@@ -377,12 +377,12 @@ void HistContainer::loadHists(std::string sample) {
     // // addHist1d("bdtScoreOnZ_hut2017",sample,20,hut2017bins_);//,"br");
     // // addHist1d("bdtScoreOnZ_hct2018",sample,20,hct2018bins_);//,"br");
     // // addHist1d("bdtScoreOnZ_hut2018",sample,20,hut2018bins_);//,"br");
-    // addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
-    // addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
-    // addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
-    // addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
-    // addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
-    // addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
+    addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
+    addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
+    addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
+    addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
+    addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
+    addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
     // addHist1d("bdtScore_syst_hct2016",sample,20,hct2016bins_);//,"br");
     // addHist1d("bdtScore_syst_hut2016",sample,20,hut2016bins_);//,"br");
     // addHist1d("bdtScore_syst_hct2017",sample,20,hct2017bins_);//,"br");

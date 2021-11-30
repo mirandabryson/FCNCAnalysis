@@ -23,6 +23,8 @@ inputBDTJESDown = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtJE
 
 with open('./ccPDFScale.json') as ccScale_json: ccScale = json.load(ccScale_json)
 with open('./bdtPDFScale.json') as bdtScale_json: bdtScale = json.load(bdtScale_json)
+with open('./cc_fcnc_individual_uncs.json') as ccTh_json: ccThDict = json.load(ccTh_json)
+with open('./bdt_fcnc_individual_uncs.json') as bdtTh_json: bdtThDict = json.load(bdtTh_json)
 
 #function to get CC SR titles
 def getCCColumns(ccSRDict, numSRs):
@@ -126,6 +128,7 @@ for y in years:
         if "tch" in s: altSig = "hct"
         else: altSig = "hut"
         for p in mcProcs:
+            if ("signal" in p) and (s not in p): continue
             bdtMCsyst[str(y)][s][p] = {}
             bdtFileName = inputBDTHistos + p + "_" + str(y) + "_hists.root"
             centralHist = getObjFromFile(bdtFileName, "h_br_bdtScore_" + altSig + str(y) + "_" + p)
@@ -195,19 +198,17 @@ for y in years:
                 else:
                     bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["down"] = 1+(1-bdtScale[s][p]["bin_"+str(iterator-1)]["scale"])
                 iterator += 1
-            # bdtMCsyst[str(y)][s][p][p[:3]+"Th"] = {}
-            # iterator = 1
-            # for r in bdtSRs:
-            #     if ("rare" in p): 
-            #         fill_up = 1.25 
-            #         fill_down = 0.75
-            #     bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r] = {}
-            #     bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["up"] = bdtScale[s][p]["bin_"+str(iterator-1)]["scale"]
-            #     if(bdtScale[s][p]["bin_"+str(iterator-1)]["scale"] > 1):
-            #         bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["down"] = 2-bdtScale[s][p]["bin_"+str(iterator-1)]["scale"]
-            #     else:
-            #         bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["down"] = 1+(1-bdtScale[s][p]["bin_"+str(iterator-1)]["scale"])
-            #     iterator += 1
+            bdtMCsyst[str(y)][s][p][p[:3]+"Th"] = {}
+            for r in bdtSRs:
+                if ("rare" in p): 
+                    fill_up = 1.25 
+                    fill_down = 0.75
+                else:
+                    fill_up = bdtThDict[str(y)][s][r]["up"]
+                    fill_down = bdtThDict[str(y)][s][r]["down"]
+                bdtMCsyst[str(y)][s][p][p[:3]+"Th"][r] = {}
+                bdtMCsyst[str(y)][s][p][p[:3]+"Th"][r]["up"] = fill_up
+                bdtMCsyst[str(y)][s][p][p[:3]+"Th"][r]["down"] = fill_down
 
 with open("./bdtMCsyst.json", "w") as f_out: json.dump(bdtMCsyst, f_out, indent=4)
 
@@ -288,5 +289,17 @@ for y in years:
             else:
                 ccMCsyst[str(y)][p][p[:3]+"ScShp"][r]["down"] = 1+(1-ccScale[p][r]["scale"])
             iterator += 1
+
+        ccMCsyst[str(y)][p][p[:3]+"Th"] = {}
+        for r in ccSRs:
+            if ("rare" in p): 
+                fill_up = 1.25 
+                fill_down = 0.75
+            else:
+                fill_up = ccThDict[str(y)][p[-3:]][r]["up"]
+                fill_down = ccThDict[str(y)][p[-3:]][r]["down"]
+            ccMCsyst[str(y)][p][p[:3]+"Th"][r] = {}
+            ccMCsyst[str(y)][p][p[:3]+"Th"][r]["up"] = fill_up
+            ccMCsyst[str(y)][p][p[:3]+"Th"][r]["down"] = fill_down
 with open("./ccMCsyst.json", "w") as f_out: json.dump(ccMCsyst, f_out, indent=4)
 

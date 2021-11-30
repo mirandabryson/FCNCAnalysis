@@ -321,6 +321,7 @@ for y in years:
                 else: pname = p
                 for c in corrSyst:
                     if (("ScShp" in c) and p[:3] not in c): continue
+                    if (("Th" in c) and p[:3] not in c): continue
                     rowTitle = c
                     while len(rowTitle)<17: rowTitle += " "
                     rowTitle += "lnN"
@@ -375,6 +376,7 @@ for y in years:
                 else: pname = p
                 for c in bdtSystCorr:
                     if (("ScShp" in c) and p[:3] not in c): continue
+                    if (("Th" in c) and p[:3] not in c): continue
                     rowTitle = c
                     while len(rowTitle)<17: rowTitle += " "
                     rowTitle += "lnN"

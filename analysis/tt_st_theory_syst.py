@@ -15,13 +15,17 @@ st_unc = [1.3, 0.7]
 #lists to loop through
 years = ["2016", "2017", "2018"]
 couplings = ["tch","tuh"]
-srbins = [  "2_2_0","2_3_0","2_4_0",
-            "2_2_1","2_3_1","2_4_1",
-            "2_2_2","2_3_2","2_4_2",
-            "3_1_0","3_2_0","3_3_0","3_4_0",
-            "3_1_1","3_2_1","3_3_1","3_4_1",
-            "3_1_2","3_2_2","3_3_2","3_4_2",
+ccbins = [  "l2_j2_b0","l2_j3_b0","l2_j4_b0",
+            "l2_j2_b1","l2_j3_b1","l2_j4_b1",
+            "l2_j2_b2","l2_j3_b2","l2_j4_b2",
+            "l3_j1_b0","l3_j2_b0","l3_j3_b0","l3_j4_b0",
+            "l3_j1_b1","l3_j2_b1","l3_j3_b1","l3_j4_b1",
+            "l3_j1_b2","l3_j2_b2","l3_j3_b2","l3_j4_b2",
             ]
+srbins = ["bin_"+str(x) for x in range(20)]
+
+isBDT = 0
+isCC = 0
 
 def calculate_total_unc_asymmetric(yield_tt, yield_st, verbose=False):
     #raw_unc_up = (tt_unc[0] * yield_tt) + (st_unc[0] * yield_st)
@@ -60,19 +64,24 @@ for y in years:
     uncertainties[y] = {}
     for c in couplings:
         uncertainties[y][c] = {}
+        if("tch" in c): altSig = "hct"
+        else: altSig = "hut"
         
-        tt_file = "./outputs/aug31_systematics/TT_only/signal_{0}_{1}_hists.root".format(c,y)
-        st_file = "./outputs/aug31_systematics/ST_only/signal_{0}_{1}_hists.root".format(c,y)
+        tt_file = "./outputs/nov30_bdtTTonly/signal_{0}_{1}_hists.root".format(c,y)
+        st_file = "./outputs/nov30_bdtSTonly/signal_{0}_{1}_hists.root".format(c,y)
 
-        tt_hist = getObjFromFile(tt_file, "h_br_sr_signal_{0}".format(c))
-        st_hist = getObjFromFile(st_file, "h_br_sr_signal_{0}".format(c))
+        # tt_hist = getObjFromFile(tt_file, "h_br_sr_signal_{0}".format(c))
+        # st_hist = getObjFromFile(st_file, "h_br_sr_signal_{0}".format(c))
+
+        tt_hist = getObjFromFile(tt_file, "h_br_bdtScore_{0}{1}_signal_{2}".format(altSig,y,c))
+        st_hist = getObjFromFile(st_file, "h_br_bdtScore_{0}{1}_signal_{2}".format(altSig,y,c))
         it = 0
         for b in range(1,tt_hist.GetNbinsX()+1):
             up,down = calculate_total_unc_asymmetric(tt_hist.GetBinContent(b),st_hist.GetBinContent(b))
             print(up,down)
 
-            uncertainties[y][c][srbins[it]] = {"up":up,"down":down}
+            uncertainties[y][c][srbins[it]] = {"up":1+up,"down":1-down}
             it+=1
 
-with open("./outputs/aug31_systematics/fcnc_individual_uncs.json", "w") as f_out:
+with open("./datacards/bdt_fcnc_individual_uncs.json", "w") as f_out:
     json.dump(uncertainties, f_out, sort_keys=True, indent=4)
