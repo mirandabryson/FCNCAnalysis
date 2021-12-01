@@ -66,6 +66,7 @@ bdtSRs = ["bin_"+str(x) for x in range(20)]
 ccSRs = getCCColumns(ccSRDict, 21)
 
 ##BDT CR JSON##
+with open("./bdtRates.json") as bdtRates_json: bdtRates = json.load(bdtRates_json)
 bdtCRstats = {}
 for y in years:
     bdtCRstats[str(y)] = {}
@@ -87,6 +88,7 @@ for y in years:
                 bdtCRstats[str(y)][s][p][r] = {}
                 bdtCRstats[str(y)][s][p][r]["yield"] = hist.GetBinContent(iterator)
                 bdtCRstats[str(y)][s][p][r]["error"] = hist.GetBinError(iterator)
+                bdtCRstats[str(y)][s][p][r]["syst"] = bdtRates[str(y)][s][r][p[:4]+"_syst"]
                 iterator += 1
 
 with open("./bdtCRStats.json", "w") as f_out: json.dump(bdtCRstats, f_out, indent=4)

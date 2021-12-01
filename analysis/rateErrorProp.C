@@ -116,7 +116,7 @@ TH2F* fillFakeRateHistos(TH2F* inputHisto, string year, string flavor){
             vector<int> bin = {i,j};
             // if (year == "2016" && flavor=="muon"){cout << bin[0] << " " << bin[1] << " " << fillingMap[bin][0] << endl;}
             inputHisto->SetBinContent(i,j,fillingMap[bin][0]);
-            // inputHisto->SetBinError(i,j,fillingMap[bin][1]);
+            inputHisto->SetBinError(i,j,fillingMap[bin][1]);
             // inputHisto->SetBinError(i,j,0);
         }
     }
@@ -188,7 +188,7 @@ int integral(TH2F* inputHisto){
 
 int rateMultiplication(std::string inputDir)
 {
-    std::string outputFileName = inputDir+"/fakesProp_hists.root";
+    std::string outputFileName = inputDir+"/fakesProp_hut_hists.root";
     TFile* outputFile = new TFile(outputFileName.c_str(),"recreate"); 
 
     std::vector<std::string> years = {"2016", "2017", "2018"};
@@ -205,16 +205,16 @@ int rateMultiplication(std::string inputDir)
 
         TFile* inputFile = new TFile(fileName.Data());
 
-        TH2F* sf_e_in_temp = (TH2F*) inputFile->Get("h_sf_fake2dcr_efake_data");
-        TH2F* sf_m_in_temp = (TH2F*) inputFile->Get("h_sf_fake2dcr_mfake_data");
-        TH2F* mlsf_e_in_temp = (TH2F*) inputFile->Get("h_mlsf_fake2dcr_efake_data");
-        TH2F* mlsf_m_in_temp = (TH2F*) inputFile->Get("h_mlsf_fake2dcr_mfake_data");
-        TH2F* df_ee_in_temp = (TH2F*) inputFile->Get("h_df_fake2dcr_eefake_data");
-        TH2F* df_em_in_temp = (TH2F*) inputFile->Get("h_df_fake2dcr_emfake_data");
-        TH2F* df_mm_in_temp = (TH2F*) inputFile->Get("h_df_fake2dcr_mmfake_data");
-        TH2F* mldf_ee_in_temp = (TH2F*) inputFile->Get("h_mldf_fake2dcr_eefake_data");
-        TH2F* mldf_em_in_temp = (TH2F*) inputFile->Get("h_mldf_fake2dcr_emfake_data");
-        TH2F* mldf_mm_in_temp = (TH2F*) inputFile->Get("h_mldf_fake2dcr_mmfake_data");
+        TH2F* sf_e_in_temp = (TH2F*) inputFile->Get("h_sf_fake2dcr_hut_efake_data");
+        TH2F* sf_m_in_temp = (TH2F*) inputFile->Get("h_sf_fake2dcr_hut_mfake_data");
+        TH2F* mlsf_e_in_temp = (TH2F*) inputFile->Get("h_mlsf_fake2dcr_hut_efake_data");
+        TH2F* mlsf_m_in_temp = (TH2F*) inputFile->Get("h_mlsf_fake2dcr_hut_mfake_data");
+        TH2F* df_ee_in_temp = (TH2F*) inputFile->Get("h_df_fake2dcr_hut_eefake_data");
+        TH2F* df_em_in_temp = (TH2F*) inputFile->Get("h_df_fake2dcr_hut_emfake_data");
+        TH2F* df_mm_in_temp = (TH2F*) inputFile->Get("h_df_fake2dcr_hut_mmfake_data");
+        TH2F* mldf_ee_in_temp = (TH2F*) inputFile->Get("h_mldf_fake2dcr_hut_eefake_data");
+        TH2F* mldf_em_in_temp = (TH2F*) inputFile->Get("h_mldf_fake2dcr_hut_emfake_data");
+        TH2F* mldf_mm_in_temp = (TH2F*) inputFile->Get("h_mldf_fake2dcr_hut_mmfake_data");
 
         TH2F* sf_e_in = (TH2F*) sf_e_in_temp->Clone(TString::Format("h_sf_e_in_%s",years[y].c_str()).Data());
         TH2F* sf_m_in = (TH2F*) sf_m_in_temp->Clone(TString::Format("h_sf_m_in_%s",years[y].c_str()).Data());
@@ -266,6 +266,7 @@ int rateMultiplication(std::string inputDir)
         ee_fakeRate_hist = fillDoubleFakeRateHistos(e_fakeRate_hist, e_fakeRate_hist, e_hist_ones, "ee");
         em_fakeRate_hist = fillDoubleFakeRateHistos(e_fakeRate_hist, m_fakeRate_hist, e_hist_ones, "em");
         mm_fakeRate_hist = fillDoubleFakeRateHistos(m_fakeRate_hist, m_fakeRate_hist, m_hist_ones, "mm");
+
         // outputFile->cd();
         // e_fakeRate_hist->Write();
         // m_fakeRate_hist->Write();
@@ -273,14 +274,14 @@ int rateMultiplication(std::string inputDir)
         // sf_m_in->Write();
 
 
-        // for(int r = 0; r < 4; r++){
-        //     for(int c = 0; c < 8; c++){
-        //         sf_e_in->SetBinError(c,r,0);
-        //         sf_m_in->SetBinError(c,r,0);
-        //         mlsf_e_in->SetBinError(c,r,0);
-        //         mlsf_m_in->SetBinError(c,r,0); 
-        //     }
-        // }
+        for(int r = 0; r < 4; r++){
+            for(int c = 0; c < 8; c++){
+                sf_e_in->SetBinError(c,r,0);
+                sf_m_in->SetBinError(c,r,0);
+                mlsf_e_in->SetBinError(c,r,0);
+                mlsf_m_in->SetBinError(c,r,0); 
+            }
+        }
 
         //sf events
         sfcr_hist->Add(sf_e_in);

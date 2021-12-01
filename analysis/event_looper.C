@@ -85,6 +85,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     //*************************** begin set options ***************************//
     bool quiet = options.Contains("quiet");
     bool evaluateBDT = options.Contains("evaluateBDT") && not options.Contains("noBDT");
+    bool bdtBinCut = options.Contains("bdtBinCut");
     bool write_tree = options.Contains("writeTree");
     bool minPtFake18 = options.Contains("minPtFake18");
     bool new2016FRBins = options.Contains("new2016FRBins");
@@ -165,6 +166,30 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     if(options.Contains("nbtags0")){exactBs=0;}
     if(options.Contains("nbtags1")){exactBs=1;}
     if(options.Contains("nbtags2")){exactBs=2;}
+
+    int bdtbin=-1;
+    if(options.Contains("bdtbin0")){bdtbin=0;}
+    if(options.Contains("bdtbin1")){bdtbin=1;}
+    if(options.Contains("bdtbin2")){bdtbin=2;}
+    if(options.Contains("bdtbin3")){bdtbin=3;}
+    if(options.Contains("bdtbin4")){bdtbin=4;}
+    if(options.Contains("bdtbin5")){bdtbin=5;}
+    if(options.Contains("bdtbin6")){bdtbin=6;}
+    if(options.Contains("bdtbin7")){bdtbin=7;}
+    if(options.Contains("bdtbin8")){bdtbin=8;}
+    if(options.Contains("bdtbin9")){bdtbin=9;}
+    if(options.Contains("bdtbin10")){bdtbin=10;}
+    if(options.Contains("bdtbin11")){bdtbin=11;}
+    if(options.Contains("bdtbin12")){bdtbin=12;}
+    if(options.Contains("bdtbin13")){bdtbin=13;}
+    if(options.Contains("bdtbin14")){bdtbin=14;}
+    if(options.Contains("bdtbin15")){bdtbin=15;}
+    if(options.Contains("bdtbin16")){bdtbin=16;}
+    if(options.Contains("bdtbin17")){bdtbin=17;}
+    if(options.Contains("bdtbin18")){bdtbin=18;}
+    if(options.Contains("bdtbin19")){bdtbin=19;}
+    if(options.Contains("bdtbin20")){bdtbin=20;}
+    std::cout << "bdtbin: " << bdtbin << std::endl;
 
     bool doVarArg = 0;
     if(options.Contains("variations")){doVarArg = 1;}
@@ -1481,7 +1506,62 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     if(hct_pred_value<0){cout << hct_pred_value << endl;}
                 }
             }
-            
+            if(bdtBinCut){
+                std::vector<double> hct2016bins = {0.00664381,0.19700572,0.28762238,0.35702177,0.41852485,0.46981504,
+                                                    0.5140483,0.55344284,0.5878852,0.61896108,0.64749079,0.67274341,
+                                                    0.69721056,0.71897993,0.74007495,0.7596258,0.77943377,0.80007322,
+                                                    0.82212229,0.84957791,0.95174003};
+                std::vector<double> hct2017bins = {0.00315058,0.19431175,0.29736627,0.37752346,0.44127761,0.49327968,
+                                                    0.53875172,0.57723496,0.61170031,0.64185643,0.66889886,0.6938042,
+                                                    0.71576739,0.73608911,0.75571284,0.77392217,0.79224801,0.81161177,
+                                                    0.83241789,0.85775793,0.95619053};
+                std::vector<double> hct2018bins = {0.00479198,0.17966878,0.27458878,0.35070238,0.41352009,0.46567807,
+                                                    0.51136807,0.55213587,0.58714796,0.61819961,0.64662389,0.67340356,
+                                                    0.69772793,0.7197811,0.74084001,0.76107035,0.78023184,0.80087946,
+                                                    0.82352064,0.85020101,0.95095789};
+                std::vector<double> hut2016bins = {0.00736403,0.21426591,0.29383466,0.35855735,0.41314251,0.45857105,
+                                                    0.49965322,0.53653497,0.56925915,0.59906112,0.62709959,0.6521008,
+                                                    0.67643466,0.69947938,0.72162078,0.7430641,0.76410061,0.78568389,
+                                                    0.80855299,0.83609562,0.93626601};
+                std::vector<double> hut2017bins = {0.01559662,0.22217794,0.3075743,0.37751087,0.43626528,0.48550959,
+                                                    0.52909791,0.56672765,0.60022287,0.62953208,0.6559299,0.68061894,
+                                                    0.70287784,0.72394461,0.74388685,0.7637161,0.7830119,0.80281474,
+                                                    0.82358046,0.84841615,0.95985132};
+                std::vector<double> hut2018bins = {0.00556834,0.20800883,0.29165759,0.3579802,0.41477358,0.46250958,
+                                                    0.50522264,0.542203,0.57576577,0.60614129,0.63435366,0.65923017,
+                                                    0.68383075,0.70642107,0.72871006,0.74944134,0.77037494,0.79134813,
+                                                    0.81379657,0.84081843,0.95217699};
+
+                std::vector<double> hctBins;
+                std::vector<double> hutBins;
+
+                if(nt.year()==2016){
+                    hctBins = hct2016bins;
+                    hutBins = hut2016bins;
+                }
+                if(nt.year()==2017){
+                    hctBins = hct2017bins;
+                    hutBins = hut2017bins;
+                }
+                if(nt.year()==2018){
+                    hctBins = hct2018bins;
+                    hutBins = hut2018bins;
+                }
+
+                float hctLow = hctBins[bdtbin];
+                float hctHigh = hctBins[bdtbin+1];
+                float hutLow = hutBins[bdtbin];
+                float hutHigh = hutBins[bdtbin+1];
+
+                // cout << "event: " << nt.event() << "\t bdtbin: " << bdtbin << "\t hctLow: " << hctLow << "\t hctHigh: " << hctHigh << "\t hct: " << hct_pred_value << endl;
+
+                if(!(hct_pred_value > hctLow && hct_pred_value < hctHigh)) {hct_pred_value=-999;}
+                if(!(hut_pred_value > hutLow && hut_pred_value < hutHigh)) {hut_pred_value=-999;}
+
+                if(hct_pred_value==-999 && hut_pred_value==-999){continue;}
+
+                // cout << "event: " << nt.event() << endl;
+            }
 
 
 

@@ -362,7 +362,7 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("mt_tl_met",sample,20,0,400);
     // addHist1d("mt_thirdl_met",sample,20,0,400);
     // addHist1d("cutflow",sample,7,0.5,7.5,"br");
-    addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    // addHist1d("sr",sample,21,0.5,21.5);//,"br");
     // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
     // addHist1d("lj_syst_bscore",sample,20,0,1);
     // addHist1d("tj_syst_bscore",sample,20,0,1);
@@ -377,12 +377,12 @@ void HistContainer::loadHists(std::string sample) {
     // // addHist1d("bdtScoreOnZ_hut2017",sample,20,hut2017bins_);//,"br");
     // // addHist1d("bdtScoreOnZ_hct2018",sample,20,hct2018bins_);//,"br");
     // // addHist1d("bdtScoreOnZ_hut2018",sample,20,hut2018bins_);//,"br");
-    addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
-    addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
-    addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
-    addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
-    addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
-    addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
+    // addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
+    // addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
+    // addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
+    // addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
+    // addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
+    // addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
     // addHist1d("bdtScore_syst_hct2016",sample,20,hct2016bins_);//,"br");
     // addHist1d("bdtScore_syst_hut2016",sample,20,hut2016bins_);//,"br");
     // addHist1d("bdtScore_syst_hct2017",sample,20,hct2017bins_);//,"br");
@@ -392,13 +392,27 @@ void HistContainer::loadHists(std::string sample) {
     // // // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
     // addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
-    // // // // addHist2d("fake2dcr_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
-    // // // // addHist2d("fake2dcr_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
-    // // // // addHist2d("fake2dcr_eefake",sample,21,0,21,21,0,21);
-    // // // // addHist2d("fake2dcr_emfake",sample,21,0,21,21,0,21);
-    // // // // addHist2d("fake2dcr_mmfake",sample,21,0,21,21,0,21);
-    // // // // addHist2d("flip2dcr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
-    // // // // addHist2d("flip2d2ecr",sample,18,0,18,18,0,18);//,"br");
+    // addHist2d("fake2dcr_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
+    // addHist2d("fake2dcr_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
+    // addHist2d("fake2dcr_eefake",sample,21,0,21,21,0,21);
+    // addHist2d("fake2dcr_emfake",sample,21,0,21,21,0,21);
+    // addHist2d("fake2dcr_mmfake",sample,21,0,21,21,0,21);
+    // addHist2d("fake2dcr_hct_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
+    // addHist2d("fake2dcr_hct_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
+    // addHist2d("fake2dcr_hct_eefake",sample,21,0,21,21,0,21);
+    // addHist2d("fake2dcr_hct_emfake",sample,21,0,21,21,0,21);
+    // addHist2d("fake2dcr_hct_mmfake",sample,21,0,21,21,0,21);
+    // addHist2d("fake2dcr_hut_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
+    // addHist2d("fake2dcr_hut_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
+    // addHist2d("fake2dcr_hut_eefake",sample,21,0,21,21,0,21);
+    // addHist2d("fake2dcr_hut_emfake",sample,21,0,21,21,0,21);
+    // addHist2d("fake2dcr_hut_mmfake",sample,21,0,21,21,0,21);
+    // addHist2d("flip2dcr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
+    // addHist2d("flip2d2ecr",sample,18,0,18,18,0,18);//,"br");
+    addHist2d("flip2d_hct_cr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
+    addHist2d("flip2d_hct_2ecr",sample,18,0,18,18,0,18);//,"br");
+    addHist2d("flip2d_hut_cr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
+    addHist2d("flip2d_hut_2ecr",sample,18,0,18,18,0,18);//,"br");
     // addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
     // // // addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
 
@@ -698,10 +712,16 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             if(lep1_pt>70){lep1_pt=80.;}
             if (fakeLeps[0].absid()==11){
                 float bin = getEtaBin(fakeLeps[0].eta(), fakeLeps[0].absid());
-                fill2d("fake2dcr_efake",name,sample,lep1_pt,bin-0.5,fillWeight);}
+                fill2d("fake2dcr_efake",name,sample,lep1_pt,bin-0.5,fillWeight);
+                if(hct_pred!=-999){fill2d("fake2dcr_hct_efake",name,sample,lep1_pt,bin-0.5,fillWeight);}
+                if(hut_pred!=-999){fill2d("fake2dcr_hut_efake",name,sample,lep1_pt,bin-0.5,fillWeight);}
+            }
             if (fakeLeps[0].absid()==13){
                 float bin = getEtaBin(fakeLeps[0].eta(), fakeLeps[0].absid());
-                fill2d("fake2dcr_mfake",name,sample,lep1_pt,bin-0.5,fillWeight);}
+                fill2d("fake2dcr_mfake",name,sample,lep1_pt,bin-0.5,fillWeight);
+                if(hct_pred!=-999){fill2d("fake2dcr_hct_mfake",name,sample,lep1_pt,bin-0.5,fillWeight);}
+                if(hut_pred!=-999){fill2d("fake2dcr_hut_mfake",name,sample,lep1_pt,bin-0.5,fillWeight);}
+            }
         }else if (fakeLeps.size() == 2){
             float lep1_pt = fakeLeps[0].conecorrpt();
             if(lep1_pt>70){lep1_pt=80.;}
@@ -710,26 +730,38 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             if (fakeLeps[0].absid()==11 && fakeLeps[1].absid()==11){
                 bin = getDoubleFakeBin(lep1_pt,fakeLeps[0].eta(),fakeLeps[0].absid(),lep2_pt,fakeLeps[1].eta(),fakeLeps[1].absid());
                 fill2d("fake2dcr_eefake",name,sample,bin[0],bin[1],fillWeight);
+                if(hct_pred!=-999){fill2d("fake2dcr_hct_eefake",name,sample,bin[0],bin[1],fillWeight);}
+                if(hut_pred!=-999){fill2d("fake2dcr_hut_eefake",name,sample,bin[0],bin[1],fillWeight);}
             }else if (fakeLeps[0].absid()==11 && fakeLeps[1].absid()==13){
                 bin = getDoubleFakeBin(lep1_pt,fakeLeps[0].eta(),fakeLeps[0].absid(),lep2_pt,fakeLeps[1].eta(),fakeLeps[1].absid());
                 fill2d("fake2dcr_emfake",name,sample,bin[0],bin[1],fillWeight);
+                if(hct_pred!=-999){fill2d("fake2dcr_hct_emfake",name,sample,bin[0],bin[1],fillWeight);}
+                if(hut_pred!=-999){fill2d("fake2dcr_hut_emfake",name,sample,bin[0],bin[1],fillWeight);}
             }else if (fakeLeps[0].absid()==13 && fakeLeps[1].absid()==11){
                 bin = getDoubleFakeBin(lep2_pt,fakeLeps[1].eta(),fakeLeps[1].absid(),lep1_pt,fakeLeps[0].eta(),fakeLeps[0].absid());
                 fill2d("fake2dcr_emfake",name,sample,bin[0],bin[1],fillWeight);
+                if(hct_pred!=-999){fill2d("fake2dcr_hct_emfake",name,sample,bin[0],bin[1],fillWeight);}
+                if(hut_pred!=-999){fill2d("fake2dcr_hut_emfake",name,sample,bin[0],bin[1],fillWeight);}
             }else if (fakeLeps[0].absid()==13 && fakeLeps[1].absid()==13){
                 bin = getDoubleFakeBin(lep1_pt,fakeLeps[0].eta(),fakeLeps[0].absid(),lep2_pt,fakeLeps[1].eta(),fakeLeps[1].absid());
                 fill2d("fake2dcr_mmfake",name,sample,bin[0],bin[1],fillWeight);
+                if(hct_pred!=-999){fill2d("fake2dcr_hct_mmfake",name,sample,bin[0],bin[1],fillWeight);}
+                if(hut_pred!=-999){fill2d("fake2dcr_hut_mmfake",name,sample,bin[0],bin[1],fillWeight);}
             }
         }
         if (flipLeps.size()==1){
             float lep1_pt = flipLeps[0].pt();
             if(lep1_pt>200){lep1_pt=250.;}
             fill2d("flip2dcr",name,sample,lep1_pt,abs(flipLeps[0].eta()),fillWeight);
+            if(hct_pred!=-999){fill2d("flip2d_hct_cr",name,sample,lep1_pt,abs(flipLeps[0].eta()),fillWeight);}
+            if(hut_pred!=-999){fill2d("flip2d_hut_cr",name,sample,lep1_pt,abs(flipLeps[0].eta()),fillWeight);}
         }else if (flipLeps.size()==2){
             // cout << "in double flip loop " << nt.event() << endl;
             bin = getDoubleFlipBin(flipLeps[0].pt(),flipLeps[0].eta(),flipLeps[1].pt(),flipLeps[1].eta());
             // cout << bin[0] << "  " << bin[1] << endl;
             fill2d("flip2d2ecr",name,sample,bin[0],bin[1],fillWeight);
+            if(hct_pred!=999){fill2d("flip2d_hct_2ecr",name,sample,bin[0],bin[1],fillWeight);}
+            if(hut_pred!=999){fill2d("flip2d_hut_2ecr",name,sample,bin[0],bin[1],fillWeight);}
         }
         fill1d("lleta",name,sample,leps[0].eta(),fillWeight);
         fill1d("lteta",name,sample,leps[1].eta(),fillWeight);

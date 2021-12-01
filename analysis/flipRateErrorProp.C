@@ -74,7 +74,7 @@ TH2D* fillFlipRateHistos(TH2D* inputHisto, string year){
             // if (year == "2016" && flavor=="muon"){cout << bin[0] << " " << bin[1] << " " << fillingMap[bin][0] << endl;}
             inputHisto->SetBinContent(i,j,fillingMap[bin][0]);
             inputHisto->SetBinError(i,j,fillingMap[bin][1]);
-            inputHisto->SetBinError(i,j,0);
+            // inputHisto->SetBinError(i,j,0);
         }
     }
     return inputHisto;
@@ -149,7 +149,7 @@ std::vector<double> integral(TH2D* inputHisto){
 
 int rateMultiplication(std::string inputDir)
 {
-    std::string outputFileName = inputDir+"/flipProp_hists.root";
+    std::string outputFileName = inputDir+"/flipProp_hct_hists.root";
     TFile* outputFile = new TFile(outputFileName.c_str(),"recreate"); 
 
     std::vector<std::string> years = {"2016", "2017", "2018"};
@@ -163,8 +163,8 @@ int rateMultiplication(std::string inputDir)
 
         TFile* inputFile = new TFile(fileName.Data());
 
-        TH2D* os_e_in_temp  = (TH2D*) inputFile->Get("h_os_flip2dcr_data");
-        TH2D* os_ee_in_temp  = (TH2D*) inputFile->Get("h_os_flip2d2ecr_data");
+        TH2D* os_e_in_temp  = (TH2D*) inputFile->Get("h_os_flip2d_hct_cr_data");
+        TH2D* os_ee_in_temp  = (TH2D*) inputFile->Get("h_os_flip2d_hct_2ecr_data");
 
         TH2D* os_e_in = (TH2D*) os_e_in_temp->Clone(TString::Format("h_os_e_in_%s",years[y].c_str()).Data());
         TH2D* os_ee_in = (TH2D*) os_ee_in_temp->Clone(TString::Format("h_os_ee_in_%s",years[y].c_str()).Data());
@@ -192,17 +192,17 @@ int rateMultiplication(std::string inputDir)
         fillFlipRateHistos(e_flipRate_hist, years[y]);
         ee_flipRate_hist = fillDoubleFlipRateHistos(e_flipRate_hist, e_hist_ones, years[y]);
 
-        // for(int r = 0; r < 4; r++){
-        //     for(int c = 0; c < 7; c++){
-        //         os_e_in->SetBinError(c,r,0);
-        //     }
-        // }
+        for(int r = 0; r < 4; r++){
+            for(int c = 0; c < 7; c++){
+                os_e_in->SetBinError(c,r,0);
+            }
+        }
 
-        // for(int r = 0; r < 19; r++){
-        //     for(int c = 0; c < 19; c++){
-        //         os_ee_in->SetBinError(c,r,0);
-        //     }
-        // }
+        for(int r = 0; r < 19; r++){
+            for(int c = 0; c < 19; c++){
+                os_ee_in->SetBinError(c,r,0);
+            }
+        }
 
         // cout << "1e CR stats: ";
         // std::vector<double> vec_1eCR = integral(os_e_in);
