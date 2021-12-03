@@ -362,7 +362,7 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("mt_tl_met",sample,20,0,400);
     // addHist1d("mt_thirdl_met",sample,20,0,400);
     // addHist1d("cutflow",sample,7,0.5,7.5,"br");
-    // addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    addHist1d("sr",sample,21,0.5,21.5);//,"br");
     // addHist1d("sr_syst",sample,21,0.5,21.5);//,"br");
     // addHist1d("lj_syst_bscore",sample,20,0,1);
     // addHist1d("tj_syst_bscore",sample,20,0,1);
@@ -377,12 +377,12 @@ void HistContainer::loadHists(std::string sample) {
     // // addHist1d("bdtScoreOnZ_hut2017",sample,20,hut2017bins_);//,"br");
     // // addHist1d("bdtScoreOnZ_hct2018",sample,20,hct2018bins_);//,"br");
     // // addHist1d("bdtScoreOnZ_hut2018",sample,20,hut2018bins_);//,"br");
-    // addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
-    // addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
-    // addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
-    // addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
-    // addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
-    // addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
+    addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
+    addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
+    addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
+    addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
+    addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
+    addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
     // addHist1d("bdtScore_syst_hct2016",sample,20,hct2016bins_);//,"br");
     // addHist1d("bdtScore_syst_hut2016",sample,20,hut2016bins_);//,"br");
     // addHist1d("bdtScore_syst_hct2017",sample,20,hct2017bins_);//,"br");
@@ -409,10 +409,10 @@ void HistContainer::loadHists(std::string sample) {
     // addHist2d("fake2dcr_hut_mmfake",sample,21,0,21,21,0,21);
     // addHist2d("flip2dcr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
     // addHist2d("flip2d2ecr",sample,18,0,18,18,0,18);//,"br");
-    addHist2d("flip2d_hct_cr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
-    addHist2d("flip2d_hct_2ecr",sample,18,0,18,18,0,18);//,"br");
-    addHist2d("flip2d_hut_cr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
-    addHist2d("flip2d_hut_2ecr",sample,18,0,18,18,0,18);//,"br");
+    // addHist2d("flip2d_hct_cr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
+    // addHist2d("flip2d_hct_2ecr",sample,18,0,18,18,0,18);//,"br");
+    // addHist2d("flip2d_hut_cr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
+    // addHist2d("flip2d_hut_2ecr",sample,18,0,18,18,0,18);//,"br");
     // addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
     // // // addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
 

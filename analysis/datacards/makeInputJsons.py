@@ -8,13 +8,14 @@ import os
 import json
 
 inputCCHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
-inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/"
+# inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/"
+inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/"
 # inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields_jet25/"
 
 inputCCSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_ccSystematics/"
 inputBDTSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtSystematics/"
-inputBDTBTagSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtBTagSyst/"
-inputCCBTagSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_ccBTagSyst/"
+# inputBDTBTagSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtBTagSyst/"
+# inputCCBTagSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_ccBTagSyst/"
 
 inputCCJESUp = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_ccJESUp/"
 inputCCJESDown = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_ccJESDown/"
@@ -149,8 +150,8 @@ for y in years:
                     bdtMCsyst[str(y)][s][p][t][r]["down"] = downHist.GetBinContent(iterator)
                     iterator += 1
             # ##BTAGGING
-            # bdtMCsyst[str(y)][s][p] ={}
-            # bdtFileName = inputBDTBTagSyst + p + "_" + str(y) + "_hists.root"
+            # # bdtMCsyst[str(y)][s][p] ={}
+            # bdtFileName = inputBDTSyst + p + "_" + str(y) + "_hists.root"
             # centralHist = getObjFromFile(bdtFileName, "h_btag_central_bdtScore_syst_" + altSig + str(y) + "_" + p)
             # for b in btagsystSources:
             #     bdtMCsyst[str(y)][s][p][b] ={}
@@ -238,22 +239,22 @@ for y in years:
                 ccMCsyst[str(y)][p][s][r]["up"] = upHist.GetBinContent(iterator)
                 ccMCsyst[str(y)][p][s][r]["down"] = downHist.GetBinContent(iterator)
                 iterator += 1
-        ##BTagging
-        # ccMCsyst[str(y)][p]["bTag"] = {}
-        ccSystFileName = inputCCBTagSyst + p + "_" + str(y) + "_hists.root"
-        centralHist = getObjFromFile(ccSystFileName, "h_btag_central_sr_syst_"+p)        
-        for b in btagsystSources:
-            ccMCsyst[str(y)][p][b] ={}
-            upHist = getObjFromFile(ccSystFileName, "h_" + b + "_up_sr_syst_" + p)
-            downHist = getObjFromFile(ccSystFileName, "h_" + b + "_down_sr_syst_" + p)
-            upHist.Divide(centralHist)
-            downHist.Divide(centralHist)
-            iterator = 1
-            for r in ccSRs:
-                ccMCsyst[str(y)][p][b][r] = {}
-                ccMCsyst[str(y)][p][b][r]["up"] = upHist.GetBinContent(iterator)
-                ccMCsyst[str(y)][p][b][r]["down"] = downHist.GetBinContent(iterator)
-                iterator += 1
+        # ##BTagging
+        # # ccMCsyst[str(y)][p]["bTag"] = {}
+        # ccSystFileName = inputCCSyst + p + "_" + str(y) + "_hists.root"
+        # centralHist = getObjFromFile(ccSystFileName, "h_btag_central_sr_syst_"+p)        
+        # for b in btagsystSources:
+        #     ccMCsyst[str(y)][p][b] ={}
+        #     upHist = getObjFromFile(ccSystFileName, "h_" + b + "_up_sr_syst_" + p)
+        #     downHist = getObjFromFile(ccSystFileName, "h_" + b + "_down_sr_syst_" + p)
+        #     upHist.Divide(centralHist)
+        #     downHist.Divide(centralHist)
+        #     iterator = 1
+        #     for r in ccSRs:
+        #         ccMCsyst[str(y)][p][b][r] = {}
+        #         ccMCsyst[str(y)][p][b][r]["up"] = upHist.GetBinContent(iterator)
+        #         ccMCsyst[str(y)][p][b][r]["down"] = downHist.GetBinContent(iterator)
+        #         iterator += 1
         ##JES
         ccFileName = inputCCHistos + p + "_" + str(y) + "_hists.root"
         centralHist = getObjFromFile(ccFileName, "h_br_sr_" + p)

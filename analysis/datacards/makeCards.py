@@ -10,7 +10,8 @@ import json
 
 ## HARDCODED PATHS TO INPUT HISTOS ##
 inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
-inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/"
+# inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/"
+inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/"
 # inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
 # inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields_jet25/"
 
@@ -234,14 +235,18 @@ signals = ["tch","tuh"]
 procs   = ["signal","rares","fakes_mc","flips_mc"]
 mcProcs = ["signal","rares"]
 ddProcs = ["fakes_mc","flips_mc"]
-# corrSyst = ["rarTh","sigTh","pdfShp","rarScShp","sigScShp","PU","lf","hf","cferr1","cferr2"]
-# uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
+
 uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
 corrSyst = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU","lf","hf","cferr1","cferr2"]
-# uncorrSyst = ["Trigger","LepSF","bTag"]
+
 bdtSystCorr = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU","lf","hf","cferr1","cferr2"]
-# bdtSystUncorr = ["jes","lfstats1","lfstats2","hfstats1","hfstats2"]
 bdtSystUncorr = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
+
+# corrSyst = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU"]
+# uncorrSyst = ["jes","Trigger","LepSF","hfstats1","hfstats2"]
+
+# bdtSystCorr = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU"]
+# bdtSystUncorr = ["jes","Trigger","LepSF","hfstats1","hfstats2"]
 
 ## main loop
 for y in years:
