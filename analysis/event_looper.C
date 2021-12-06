@@ -1169,7 +1169,12 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if(evaluateBDT){
                 if( ((category==3) && (chainTitle=="rares") && (nt.event()%2!=0)) ||
                     ((chainTitle=="signal_tch") && (nt.event()%2!=0)) ||
-                    ((chainTitle=="signal_tuh") && (nt.event()%2!=0)) /*||
+                    ((chainTitle=="signal_tuh") && (nt.event()%2!=0)) ||
+                    ((chainTitle=="wz") && (nt.event()%2!=0)) ||
+                    ((chainTitle=="qqww") && (nt.event()%2!=0)) ||
+                    ((chainTitle=="ttw") && (nt.event()%2!=0)) ||
+                    ((chainTitle=="ttz") && (nt.event()%2!=0)) ||
+                    ((chainTitle=="nonleadingrares") && (nt.event()%2!=0)) /*||
                     ((category==3) && (chainTitle=="dy") && (nt.event()%2!=0)) ||
                     ((category==3) && (chainTitle=="ttz") && (nt.event()%2!=0)) ||
                     ((category==3) && (chainTitle=="wz") && (nt.event()%2!=0)) ||
@@ -1396,6 +1401,11 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 if( ((category==1) && (chainTitle=="fakes_mc")) ||
                     ((category==2) && (chainTitle=="flips_mc")) ||
                     ((category==3) && (chainTitle=="rares") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="wz") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="qqww") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="ttw") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="ttz") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="nonleadingrares") && (nt.event()%2!=0)) ||
                     /*((category==3) && (chainTitle=="dy") && (nt.event()%2!=0)) ||
                     ((category==3) && (chainTitle=="ttz") && (nt.event()%2!=0)) ||
                     ((category==3) && (chainTitle=="wz") && (nt.event()%2!=0)) ||*/
@@ -1590,8 +1600,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nFlips+=weight;}
             }else if (category == 3 && !(isSignal||isData)){
-                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
-                // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                // hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nRares+=weight;}
             }else if (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData)){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);

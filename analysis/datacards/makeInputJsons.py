@@ -26,6 +26,8 @@ with open('./ccPDFScale.json') as ccScale_json: ccScale = json.load(ccScale_json
 with open('./bdtPDFScale.json') as bdtScale_json: bdtScale = json.load(bdtScale_json)
 with open('./cc_fcnc_individual_uncs.json') as ccTh_json: ccThDict = json.load(ccTh_json)
 with open('./bdt_fcnc_individual_uncs.json') as bdtTh_json: bdtThDict = json.load(bdtTh_json)
+with open('./cc_rare_individual_uncs.json') as ccThRare_json: ccThRareDict = json.load(ccThRare_json)
+with open('./bdt_rare_individual_uncs.json') as bdtThRare_json: bdtThRareDict = json.load(bdtThRare_json)
 
 #function to get CC SR titles
 def getCCColumns(ccSRDict, numSRs):
@@ -52,14 +54,14 @@ def getObjFromFile(fname, hname):
 with open('./ccSRbins.json') as ccbins_json: ccSRDict = json.load(ccbins_json)
 
 years = [2016, 2017, 2018]
-# years = [2016]
+# years = [2016,2017]
 signals = ["tch", "tuh"]
 procs = ["signal","rares","fakes_mc","flips_mc"]
 mcProcs = ["signal_tch", "signal_tuh", "rares"]
 ddProcs = ["fakes_mc","flips_mc"]
 
 systSources = ["LepSF","PU","Trigger","cferr1","cferr2","hf","hfstats1","hfstats2","lf","lfstats1","lfstats2"]
-# systSources = ["LepSF","PU","Trigger"]
+#systSources = ["LepSF","PU","Trigger"]
 btagsystSources = ["cferr1","cferr2","hf","hfstats1","hfstats2","lf","lfstats1","lfstats2"]
 otherSyst = ["jes"]#,"pdfScale","renormScale"]
 
@@ -149,22 +151,22 @@ for y in years:
                     bdtMCsyst[str(y)][s][p][t][r]["up"] = upHist.GetBinContent(iterator)
                     bdtMCsyst[str(y)][s][p][t][r]["down"] = downHist.GetBinContent(iterator)
                     iterator += 1
-            # ##BTAGGING
-            # # bdtMCsyst[str(y)][s][p] ={}
-            # bdtFileName = inputBDTSyst + p + "_" + str(y) + "_hists.root"
-            # centralHist = getObjFromFile(bdtFileName, "h_btag_central_bdtScore_syst_" + altSig + str(y) + "_" + p)
-            # for b in btagsystSources:
-            #     bdtMCsyst[str(y)][s][p][b] ={}
-            #     upHist = getObjFromFile(bdtFileName, "h_" + b + "_up_bdtScore_syst_" + altSig + str(y) + "_" + p)
-            #     downHist = getObjFromFile(bdtFileName, "h_" + b + "_down_bdtScore_syst_" + altSig + str(y) + "_" + p)
-            #     upHist.Divide(centralHist)
-            #     downHist.Divide(centralHist)
-            #     iterator = 1
-            #     for r in bdtSRs:
-            #         bdtMCsyst[str(y)][s][p][b][r] = {}
-            #         bdtMCsyst[str(y)][s][p][b][r]["up"] = upHist.GetBinContent(iterator)
-            #         bdtMCsyst[str(y)][s][p][b][r]["down"] = downHist.GetBinContent(iterator)
-            #         iterator += 1
+            ###BTAGGING
+            ## bdtMCsyst[str(y)][s][p] ={}
+            #bdtFileName = inputBDTSyst + p + "_" + str(y) + "_hists.root"
+            #centralHist = getObjFromFile(bdtFileName, "h_btag_central_bdtScore_syst_" + altSig + str(y) + "_" + p)
+            #for b in btagsystSources:
+            #    bdtMCsyst[str(y)][s][p][b] ={}
+            #    upHist = getObjFromFile(bdtFileName, "h_" + b + "_up_bdtScore_syst_" + altSig + str(y) + "_" + p)
+            #    downHist = getObjFromFile(bdtFileName, "h_" + b + "_down_bdtScore_syst_" + altSig + str(y) + "_" + p)
+            #    upHist.Divide(centralHist)
+            #    downHist.Divide(centralHist)
+            #    iterator = 1
+            #    for r in bdtSRs:
+            #        bdtMCsyst[str(y)][s][p][b][r] = {}
+            #        bdtMCsyst[str(y)][s][p][b][r]["up"] = upHist.GetBinContent(iterator)
+            #        bdtMCsyst[str(y)][s][p][b][r]["down"] = downHist.GetBinContent(iterator)
+            #        iterator += 1
             ##JES
             bdtFileName = inputBDTHistos + p + "_" + str(y) + "_hists.root"
             centralHist = getObjFromFile(bdtFileName, "h_br_bdtScore_" + altSig + str(y) + "_" + p)
@@ -203,9 +205,9 @@ for y in years:
                 iterator += 1
             bdtMCsyst[str(y)][s][p][p[:3]+"Th"] = {}
             for r in bdtSRs:
-                if ("rare" in p): 
-                    fill_up = 1.25 
-                    fill_down = 0.75
+                if ("rare" in p):
+                    fill_up = bdtThRareDict[str(y)][s][r]["up"]
+                    fill_down = bdtThRareDict[str(y)][s][r]["down"]
                 else:
                     fill_up = bdtThDict[str(y)][s][r]["up"]
                     fill_down = bdtThDict[str(y)][s][r]["down"]
@@ -239,22 +241,22 @@ for y in years:
                 ccMCsyst[str(y)][p][s][r]["up"] = upHist.GetBinContent(iterator)
                 ccMCsyst[str(y)][p][s][r]["down"] = downHist.GetBinContent(iterator)
                 iterator += 1
-        # ##BTagging
-        # # ccMCsyst[str(y)][p]["bTag"] = {}
-        # ccSystFileName = inputCCSyst + p + "_" + str(y) + "_hists.root"
-        # centralHist = getObjFromFile(ccSystFileName, "h_btag_central_sr_syst_"+p)        
-        # for b in btagsystSources:
-        #     ccMCsyst[str(y)][p][b] ={}
-        #     upHist = getObjFromFile(ccSystFileName, "h_" + b + "_up_sr_syst_" + p)
-        #     downHist = getObjFromFile(ccSystFileName, "h_" + b + "_down_sr_syst_" + p)
-        #     upHist.Divide(centralHist)
-        #     downHist.Divide(centralHist)
-        #     iterator = 1
-        #     for r in ccSRs:
-        #         ccMCsyst[str(y)][p][b][r] = {}
-        #         ccMCsyst[str(y)][p][b][r]["up"] = upHist.GetBinContent(iterator)
-        #         ccMCsyst[str(y)][p][b][r]["down"] = downHist.GetBinContent(iterator)
-        #         iterator += 1
+        ##BTagging
+        # ccMCsyst[str(y)][p]["bTag"] = {}
+        ccSystFileName = inputCCSyst + p + "_" + str(y) + "_hists.root"
+        centralHist = getObjFromFile(ccSystFileName, "h_btag_central_sr_syst_"+p)        
+        for b in btagsystSources:
+           ccMCsyst[str(y)][p][b] ={}
+           upHist = getObjFromFile(ccSystFileName, "h_" + b + "_up_sr_syst_" + p)
+           downHist = getObjFromFile(ccSystFileName, "h_" + b + "_down_sr_syst_" + p)
+           upHist.Divide(centralHist)
+           downHist.Divide(centralHist)
+           iterator = 1
+           for r in ccSRs:
+               ccMCsyst[str(y)][p][b][r] = {}
+               ccMCsyst[str(y)][p][b][r]["up"] = upHist.GetBinContent(iterator)
+               ccMCsyst[str(y)][p][b][r]["down"] = downHist.GetBinContent(iterator)
+               iterator += 1
         ##JES
         ccFileName = inputCCHistos + p + "_" + str(y) + "_hists.root"
         centralHist = getObjFromFile(ccFileName, "h_br_sr_" + p)
@@ -296,13 +298,17 @@ for y in years:
         ccMCsyst[str(y)][p][p[:3]+"Th"] = {}
         for r in ccSRs:
             if ("rare" in p): 
-                fill_up = 1.25 
-                fill_down = 0.75
+                for s in signals:
+                    fill_up = ccThRareDict[str(y)][r]["up"]
+                    fill_down = ccThRareDict[str(y)][r]["down"]
+                    ccMCsyst[str(y)][p][p[:3]+"Th"][r] = {}
+                    ccMCsyst[str(y)][p][p[:3]+"Th"][r]["up"] = fill_up
+                    ccMCsyst[str(y)][p][p[:3]+"Th"][r]["down"] = fill_down
             else:
                 fill_up = ccThDict[str(y)][p[-3:]][r]["up"]
                 fill_down = ccThDict[str(y)][p[-3:]][r]["down"]
-            ccMCsyst[str(y)][p][p[:3]+"Th"][r] = {}
-            ccMCsyst[str(y)][p][p[:3]+"Th"][r]["up"] = fill_up
-            ccMCsyst[str(y)][p][p[:3]+"Th"][r]["down"] = fill_down
+                ccMCsyst[str(y)][p][p[:3]+"Th"][r] = {}
+                ccMCsyst[str(y)][p][p[:3]+"Th"][r]["up"] = fill_up
+                ccMCsyst[str(y)][p][p[:3]+"Th"][r]["down"] = fill_down
 with open("./ccMCsyst.json", "w") as f_out: json.dump(ccMCsyst, f_out, indent=4)
 
