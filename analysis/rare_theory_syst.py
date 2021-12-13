@@ -13,16 +13,19 @@ import json
 # qqww_unc = [1.10, 0.90]
 # ttw_unc = [1.15, 0.85]
 # ttz_unc = [1.15, 0.85]
-# wz_unc = [1.4, 0.6]
-# qqww_unc = [1.17, 0.83]
-# ttw_unc = [1.22, 0.78]
-# ttz_unc = [1.08, 0.92]
 # other_unc = [1.25, 0.75]
-wz_unc = [1.50, 0.5]
-qqww_unc = [1.50, 0.5]
-ttw_unc = [1.50, 0.5]
-ttz_unc = [1.50, 0.5]
+
+wz_unc = [1.05, 0.95]
+qqww_unc = [1.1, 0.9]
+ttw_unc = [1.12, 0.88]
+ttz_unc = [1.08, 0.92]
 other_unc = [1.25, 0.75]
+
+# wz_unc = [1.50, 0.5]
+# qqww_unc = [1.50, 0.5]
+# ttw_unc = [1.50, 0.5]
+# ttz_unc = [1.50, 0.5]
+# other_unc = [1.25, 0.75]
 
 #lists to loop through
 years = ["2016", "2017", "2018"]
@@ -37,8 +40,8 @@ ccbins = [  "l2_j2_b0","l2_j3_b0","l2_j4_b0",
             ]
 bdtbins = ["bin_"+str(x) for x in range(20)]
 
-doBDT = 1
-doCC = 0
+doBDT = 0
+doCC = 1
 
 if doBDT:
     srbins = bdtbins

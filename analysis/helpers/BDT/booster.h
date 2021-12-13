@@ -70,6 +70,9 @@ BDT::BDT(std::string path_to_xml, std::string path_to_csv="", bool debug=false) 
     booster->AddVariable("SubSubLeadLep_dz", &(parameter_map["SubSubLeadLep_dz"]));
     booster->AddVariable("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
     booster->AddVariable("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
+    // booster->AddVariable("LeadJet_CtagScore", &(parameter_map["LeadJet_CtagScore"]));
+    // booster->AddVariable("SubLeadJet_CtagScore", &(parameter_map["SubLeadJet_CtagScore"]));
+    // booster->AddVariable("SubSubLeadJet_CtagScore", &(parameter_map["SubSubLeadJet_CtagScore"]));
     booster->BookMVA("BDT", path_to_xml);
     // read the BDT binning from a CSV file
     ifstream fin;
@@ -130,6 +133,7 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
     Float_t LeadJet_pt=-999.0, SubLeadJet_pt=-999.0, SubSubLeadJet_pt=-999.0;
     Float_t LeadBtag_pt=-999.0, LeadBtag_score=-999.0;
     Float_t LeadJet_BtagScore=-999.0, SubLeadJet_BtagScore=-999.0, SubSubLeadJet_BtagScore=-999.0;
+    // Float_t LeadJet_CtagScore=-999.0, SubLeadJet_CtagScore=-999.0, SubSubLeadJet_CtagScore=-999.0;
     Float_t nElectron = 0;//ordered_leptons.size();
     //third lepton properties
     Float_t SubSubLeadLep_pt = -999.0, SubSubLeadLep_eta = -999.0, SubSubLeadLep_dxy = -999.0, SubSubLeadLep_dz = -999.0;
@@ -159,10 +163,19 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
         SubSubLeadJet_pt = good_jets[2].pt();
         SubSubLeadJet_BtagScore = good_jets[2].bdisc();
     }
-    if (nbjets > 0) { 
-        LeadBtag_pt = good_bjets[0].pt();
-        LeadBtag_score = good_bjets[0].bdisc();
-    }
+    // LeadJet_CtagScore = good_jets[0].cdisc();
+    // if (njets >= 2) {
+    //     SubLeadJet_pt = good_jets[1].pt();
+    //     SubLeadJet_CtagScore = good_jets[1].cdisc();
+    // }
+    // if (njets > 2) { //third jet properties
+    //     SubSubLeadJet_pt = good_jets[2].pt();
+    //     SubSubLeadJet_CtagScore = good_jets[2].cdisc();
+    // }
+    // if (nbjets > 0) { 
+    //     LeadBtag_pt = good_bjets[0].pt();
+    //     LeadBtag_score = good_bjets[0].bdisc();
+    // }
     Float_t Most_Forward_pt = -999.0, highest_abs_eta=-999.0;
     for(int i=0; i < njets; i++){
         if (abs(good_jets[i].eta()) >= highest_abs_eta) {
@@ -207,7 +220,10 @@ std::map<std::string, Float_t> BDT::calculate_features(Jets good_jets, Jets good
         {"SubSubLeadLep_dxy", SubSubLeadLep_dxy},
         {"SubSubLeadLep_dz", SubSubLeadLep_dz},
         {"MT_SubSubLeadLep_MET", MT_SubSubLeadLep_MET},
-        {"LeadBtag_score", LeadBtag_score}
+        {"LeadBtag_score", LeadBtag_score},
+        // {"LeadJet_CtagScore", LeadJet_CtagScore},
+        // {"SubLeadJet_CtagScore", SubLeadJet_CtagScore},
+        // {"SubSubLeadJet_CtagScore", SubSubLeadJet_CtagScore}
     };
     return params;
 }
@@ -244,7 +260,10 @@ void BDT::set_features(std::map<std::string, Float_t> BDT_params, bool debug=fal
         "SubSubLeadLep_dxy",
         "SubSubLeadLep_dz",
         "MT_SubSubLeadLep_MET",
-        "LeadBtag_score"
+        "LeadBtag_score",
+        // "LeadJet_CtagScore",
+        // "SubLeadJet_CtagScore",
+        // "SubSubLeadJet_CtagScore",
     };
     for (std::string feat : BDT_features){
         parameter_map[feat] = BDT_params[feat];

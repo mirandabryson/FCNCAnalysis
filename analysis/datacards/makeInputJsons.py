@@ -10,7 +10,7 @@ import json
 inputCCHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
 # inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/"
 inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/"
-# inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields_jet25/"
+# inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec8_ctagBDTYields/"
 
 inputCCSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_ccSystematics/"
 inputBDTSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtSystematics/"

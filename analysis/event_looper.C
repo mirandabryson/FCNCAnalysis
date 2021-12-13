@@ -79,6 +79,127 @@ void print_sample_yields (ofstream& outfile, TString sampleName, float nFlip, fl
     outfile << sampleName << " " << nFake << " " << nFlip << " " << nRare << endl;
 }
 
+std::map<std::string, Float_t> getfeatures(Jets good_jets, Jets good_bjets, Leptons ordered_leptons) {
+    Float_t MET_pt = -999.0;
+    Float_t MET_phi = -999.0;
+    if(nt.year()==2017){
+        MET_pt = nt.METFixEE2017_T1_pt();
+        MET_phi = nt.METFixEE2017_T1_phi();
+    }else{
+        MET_pt = nt.MET_T1_pt();
+        MET_phi = nt.MET_T1_phi();
+    }
+    Lepton LeadLep = ordered_leptons[0];
+    Lepton SubLeadLep = ordered_leptons[1];
+    Float_t LeadLep_pt = LeadLep.pt();
+    Float_t SubLeadLep_pt = SubLeadLep.pt();
+    Float_t LeadLep_eta = abs(LeadLep.eta());
+    Float_t SubLeadLep_eta = abs(SubLeadLep.eta());
+    Float_t LeadLep_dxy = abs(LeadLep.dxy());
+    Float_t SubLeadLep_dxy = abs(SubLeadLep.dxy());
+    Float_t LeadLep_dz = abs(LeadLep.dz());
+    Float_t SubLeadLep_dz = abs(SubLeadLep.dz());
+    Float_t LeadLep_SubLeadLep_Mass = (LeadLep.p4() + SubLeadLep.p4()).M();
+    Float_t njets = good_jets.size();
+    Float_t nbjets = good_bjets.size();
+    Float_t LeadJet_pt=-999.0, SubLeadJet_pt=-999.0, SubSubLeadJet_pt=-999.0;
+    Float_t LeadBtag_pt=-999.0, LeadBtag_score=-999.0;
+    Float_t LeadJet_BtagScore=-999.0, SubLeadJet_BtagScore=-999.0, SubSubLeadJet_BtagScore=-999.0;
+    Float_t LeadJet_CtagScore=-999.0, SubLeadJet_CtagScore=-999.0, SubSubLeadJet_CtagScore=-999.0;
+    Float_t nElectron = 0;//ordered_leptons.size();
+    //third lepton properties
+    Float_t SubSubLeadLep_pt = -999.0, SubSubLeadLep_eta = -999.0, SubSubLeadLep_dxy = -999.0, SubSubLeadLep_dz = -999.0;
+    Float_t MT_SubSubLeadLep_MET = -999.0;
+    if (ordered_leptons.size() > 2) {
+        Lepton SubSubLeadLep = ordered_leptons[2];
+        SubSubLeadLep_pt = SubSubLeadLep.pt();
+        SubSubLeadLep_eta = abs(SubSubLeadLep.eta());
+        SubSubLeadLep_dxy = abs(SubSubLeadLep.dxy());
+        SubSubLeadLep_dz = abs(SubSubLeadLep.dz());
+        MT_SubSubLeadLep_MET = TMath::Sqrt(2*ordered_leptons[2].pt()*MET_pt * (1 - TMath::Cos(ordered_leptons[2].phi()-MET_phi)));
+        }
+
+    for(auto lep: ordered_leptons){//count nElectrons
+        if (abs(lep.id())==11) {
+            nElectron++;
+            }
+        }
+    //std::cout << "njets: " << njets << std::endl;
+    LeadJet_pt = good_jets[0].pt();
+    LeadJet_BtagScore = good_jets[0].bdisc();
+    if (njets >= 2) {
+        SubLeadJet_pt = good_jets[1].pt();
+        SubLeadJet_BtagScore = good_jets[1].bdisc();
+    }
+    if (njets > 2) { //third jet properties
+        SubSubLeadJet_pt = good_jets[2].pt();
+        SubSubLeadJet_BtagScore = good_jets[2].bdisc();
+    }
+    LeadJet_CtagScore = good_jets[0].cdisc();
+    if (njets >= 2) {
+        SubLeadJet_pt = good_jets[1].pt();
+        SubLeadJet_CtagScore = good_jets[1].cdisc();
+    }
+    if (njets > 2) { //third jet properties
+        SubSubLeadJet_pt = good_jets[2].pt();
+        SubSubLeadJet_CtagScore = good_jets[2].cdisc();
+    }
+    if (nbjets > 0) { 
+        LeadBtag_pt = good_bjets[0].pt();
+        LeadBtag_score = good_bjets[0].bdisc();
+    }
+    Float_t Most_Forward_pt = -999.0, highest_abs_eta=-999.0;
+    for(int i=0; i < njets; i++){
+        if (abs(good_jets[i].eta()) >= highest_abs_eta) {
+            highest_abs_eta = abs(good_jets[i].eta());
+            Most_Forward_pt = good_jets[i].pt();
+        }
+    }
+    Float_t BDT_HT = 0.0;
+    for (Jet j : good_jets){
+        BDT_HT += j.pt();
+    }
+    Float_t MT_LeadLep_MET, MT_SubLeadLep_MET;
+    MT_LeadLep_MET = TMath::Sqrt(2*ordered_leptons[0].pt()*MET_pt * (1 - TMath::Cos(ordered_leptons[0].phi()-MET_phi)));
+    MT_SubLeadLep_MET = TMath::Sqrt(2*ordered_leptons[1].pt()*MET_pt * (1 - TMath::Cos(ordered_leptons[1].phi()-MET_phi)));
+    std::map<std::string, Float_t> params = {
+        {"nJets", njets},
+        {"nBtag", nbjets},
+        {"LeadJet_pt", LeadJet_pt},
+        {"SubLeadJet_pt", SubLeadJet_pt},
+        {"SubSubLeadJet_pt", SubSubLeadJet_pt},
+        {"LeadJet_BtagScore", LeadJet_BtagScore},
+        {"SubLeadJet_BtagScore", SubLeadJet_BtagScore},
+        {"SubSubLeadJet_BtagScore", SubSubLeadJet_BtagScore},
+        {"LeadBtag_pt", LeadBtag_pt},
+        {"MT_LeadLep_MET", MT_LeadLep_MET},
+        {"MT_SubLeadLep_MET", MT_SubLeadLep_MET},
+        {"HT", BDT_HT},
+        {"Most_Forward_pt", Most_Forward_pt},
+        {"MET_pt", MET_pt},
+        {"LeadLep_pt", LeadLep_pt},
+        {"SubLeadLep_pt", SubLeadLep_pt},
+        {"LeadLep_eta", LeadLep_eta},
+        {"SubLeadLep_eta", SubLeadLep_eta},
+        {"LeadLep_dxy", LeadLep_dxy},
+        {"SubLeadLep_dxy", SubLeadLep_dxy},
+        {"LeadLep_dz", LeadLep_dz},
+        {"SubLeadLep_dz", SubLeadLep_dz},
+        {"nElectron", nElectron},
+        {"LeadLep_SubLeadLep_Mass", LeadLep_SubLeadLep_Mass},
+        {"SubSubLeadLep_pt", SubSubLeadLep_pt},
+        {"SubSubLeadLep_eta", SubSubLeadLep_eta},
+        {"SubSubLeadLep_dxy", SubSubLeadLep_dxy},
+        {"SubSubLeadLep_dz", SubSubLeadLep_dz},
+        {"MT_SubSubLeadLep_MET", MT_SubSubLeadLep_MET},
+        {"LeadBtag_score", LeadBtag_score},
+        {"LeadJet_CtagScore", LeadJet_CtagScore},
+        {"SubLeadJet_CtagScore", SubLeadJet_CtagScore},
+        {"SubSubLeadJet_CtagScore", SubSubLeadJet_CtagScore}
+    };
+    return params;
+}
+
 void event_looper(TObjArray* list, TString title, TString options="", int nevts=-1, TString outputdir="outputs/"){
     bool debugPrints = 0;
     //*************************************************************************//
@@ -525,13 +646,13 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     tqdm bar;
     // bar.set_theme_braille();
     // //BDT constructor
-    BDT hct_booster("./helpers/BDT/BDT_HCT.xml", "./helpers/BDT/BDT_HCT_bins.csv");
-    BDT hut_booster("./helpers/BDT/BDT_HUT.xml", "./helpers/BDT/BDT_HUT_bins.csv");
+    // BDT hct_booster("./helpers/BDT/BDT_HCT.xml", "./helpers/BDT/BDT_HCT_bins.csv");
+    // BDT hut_booster("./helpers/BDT/BDT_HUT.xml", "./helpers/BDT/BDT_HUT_bins.csv");
     std::string tmp_yr_str = std::to_string(year);
     BDTBabyMaker bdt_fakes_baby;
     BDTBabyMaker bdt_flips_baby;
     BDTBabyMaker bdt_MC_baby;
-    std::string BDT_base_dir = "./helpers/BDT/fcncBabies_jet25/";
+    std::string BDT_base_dir = "./helpers/BDT/fcncBabies_ctag/";
     // std::string BDT_base_dir = "/hadoop/cms/store/user/ksalyer/fcncBabies";
     if (make_BDT_fakes_babies){
         bdt_fakes_baby.Initialize(Form("%s/%s/data_driven/%s_fakes.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
@@ -549,6 +670,10 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HUT/model.root");
     // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_jet25/HCT/model.root");
     // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_jet25/HUT/model.root");
+    // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ctag/HCT/model.root");
+    // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ctag/HUT/model.root");
+    // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ttHBabies/HCT/model.root");
+    // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ttHBabies/HUT/model.root");
 
 
     auto start = high_resolution_clock::now();
@@ -667,6 +792,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             Leptons leptons = getLeptons();
             Leptons tight_leptons = getTightLeptons();
             Leptons loose_leptons = getLooseLeptons();
+            // Leptons tight_leptons = getTightLeptons_ttHid();
+            // Leptons loose_leptons = getLooseLeptons_ttHid();
             unsigned int nleps_tight = tight_leptons.size();
             unsigned int nleps_loose = loose_leptons.size();
 
@@ -1174,15 +1301,32 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     ((chainTitle=="qqww") && (nt.event()%2!=0)) ||
                     ((chainTitle=="ttw") && (nt.event()%2!=0)) ||
                     ((chainTitle=="ttz") && (nt.event()%2!=0)) ||
-                    ((chainTitle=="nonleadingrares") && (nt.event()%2!=0)) /*||
-                    ((category==3) && (chainTitle=="dy") && (nt.event()%2!=0)) ||
-                    ((category==3) && (chainTitle=="ttz") && (nt.event()%2!=0)) ||
-                    ((category==3) && (chainTitle=="wz") && (nt.event()%2!=0)) ||
-                    (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData) && (nt.event()%2!=0))*/
+                    ((chainTitle=="nonleadingrares") && (nt.event()%2!=0))||
+                    ((chainTitle=="zz") && (nt.event()%2!=0))||
+                    ((chainTitle=="tzq") && (nt.event()%2!=0))||
+                    ((chainTitle=="multiboson") && (nt.event()%2!=0))||
+                    ((chainTitle=="ttx") && (nt.event()%2!=0))||
+                    ((chainTitle=="ttvv") && (nt.event()%2!=0))||
+                    ((chainTitle=="xg") && (nt.event()%2!=0))||
+                    ((chainTitle=="smallRares") && (nt.event()%2!=0))||
+                    (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData) && (nt.event()%2!=0))
                     ) {weight = weight*2;}
                 if( ((category==3) && (chainTitle=="rares") && (nt.event()%2==0)) ||
                     ((chainTitle=="signal_tch") && (nt.event()%2==0)) ||
-                    ((chainTitle=="signal_tuh") && (nt.event()%2==0))
+                    ((chainTitle=="signal_tuh") && (nt.event()%2==0)) ||
+                    ((chainTitle=="wz") && (nt.event()%2==0)) ||
+                    ((chainTitle=="qqww") && (nt.event()%2==0)) ||
+                    ((chainTitle=="ttw") && (nt.event()%2==0)) ||
+                    ((chainTitle=="ttz") && (nt.event()%2==0)) ||
+                    ((chainTitle=="nonleadingrares") && (nt.event()%2==0))||
+                    ((chainTitle=="zz") && (nt.event()%2==0))||
+                    ((chainTitle=="tzq") && (nt.event()%2==0))||
+                    ((chainTitle=="multiboson") && (nt.event()%2==0))||
+                    ((chainTitle=="ttx") && (nt.event()%2==0))||
+                    ((chainTitle=="ttvv") && (nt.event()%2==0))||
+                    ((chainTitle=="xg") && (nt.event()%2==0))||
+                    ((chainTitle=="smallRares") && (nt.event()%2==0))||
+                    (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData) && (nt.event()%2==0))
                     ) {weight = weight*2;}
             }
 
@@ -1363,7 +1507,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             bool fill_BDT_data_driven = (abs(crWeight) > 0.0);
             if (fill_BDT_MC) {
                 if (((best_hyp_type == 4) || (((best_hyp.size() > 2) && (best_hyp_type==2)))) && make_BDT_MC_babies) {
-                    std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
+                    // std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
+                    std::map<std::string, Float_t> BDT_params = getfeatures(good_jets, good_bjets, best_hyp);
                     //std::cout << variationalWeights["LepSF_up"] << std::endl;
                     bdt_MC_baby.set_features(BDT_params,weight, variationalWeights);
                     // cout << "filled baby" << endl;
@@ -1372,20 +1517,22 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             else if (fill_BDT_data_driven) {
                 if ((best_hyp_type == 5) && (make_BDT_flips_babies)){
                     Float_t BDT_crWeight = crWeight;
-                    std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
+                    // std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
+                    std::map<std::string, Float_t> BDT_params = getfeatures(good_jets, good_bjets, best_hyp);
                     bdt_flips_baby.set_features(BDT_params, BDT_crWeight, variationalWeights);
             
                 } else if (make_BDT_fakes_babies && ((best_hyp_type==3) || (best_hyp_type>=6))) { 
                     Float_t BDT_crWeight = crWeight;
-                    std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
+                    // std::map<std::string, Float_t> BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
+                    std::map<std::string, Float_t> BDT_params = getfeatures(good_jets, good_bjets, best_hyp);
                     bdt_fakes_baby.set_features(BDT_params, BDT_crWeight, variationalWeights);
                 }
             }
             
-            std::map<std::string, Float_t> HCT_BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
-            std::map<std::string, Float_t> HUT_BDT_params = hut_booster.calculate_features(good_jets, good_bjets, best_hyp);
-            hct_booster.set_features(HCT_BDT_params);
-            hut_booster.set_features(HUT_BDT_params);
+            // std::map<std::string, Float_t> HCT_BDT_params = hct_booster.calculate_features(good_jets, good_bjets, best_hyp);
+            // std::map<std::string, Float_t> HUT_BDT_params = hut_booster.calculate_features(good_jets, good_bjets, best_hyp);
+            // hct_booster.set_features(HCT_BDT_params);
+            // hut_booster.set_features(HUT_BDT_params);
             // float HCT_BDT_score = float(hct_booster.get_score());
             // float HUT_BDT_score = float(hut_booster.get_score());
             // if (true) {
@@ -1406,6 +1553,15 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     ((category==3) && (chainTitle=="ttw") && (nt.event()%2!=0)) ||
                     ((category==3) && (chainTitle=="ttz") && (nt.event()%2!=0)) ||
                     ((category==3) && (chainTitle=="nonleadingrares") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="zz") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="tzq") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="multiboson") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="ttx") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="ttvv") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="xg") && (nt.event()%2!=0)) ||
+                    ((category==3) && (chainTitle=="smallRares") && (nt.event()%2!=0)) ||
+                    // ((category==4) && (chainTitle=="dy") && (nt.event()%2!=0)) ||
+                    // ((category==4) && (chainTitle=="top") && (nt.event()%2!=0)) ||
                     /*((category==3) && (chainTitle=="dy") && (nt.event()%2!=0)) ||
                     ((category==3) && (chainTitle=="ttz") && (nt.event()%2!=0)) ||
                     ((category==3) && (chainTitle=="wz") && (nt.event()%2!=0)) ||*/
