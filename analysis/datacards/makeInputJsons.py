@@ -8,9 +8,11 @@ import os
 import json
 
 inputCCHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
+# inputCCHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec13_lep30_cc/"
 # inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/"
 inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/"
-# inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec8_ctagBDTYields/"
+# inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec13_tthYieldsBDT/"
+# inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec16_ctagBDTYields/"
 
 inputCCSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_ccSystematics/"
 inputBDTSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtSystematics/"

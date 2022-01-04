@@ -54,9 +54,9 @@ void BDTBabyMaker::Initialize(char* output_name) {
     BabyTree->Branch("SubSubLeadLep_dz", &(parameter_map["SubSubLeadLep_dz"]));
     BabyTree->Branch("MT_SubSubLeadLep_MET", &(parameter_map["MT_SubSubLeadLep_MET"]));
     BabyTree->Branch("LeadBtag_score", &(parameter_map["LeadBtag_score"]));
-    // BabyTree->Branch("LeadJet_CtagScore", &(parameter_map["LeadJet_CtagScore"]));
-    // BabyTree->Branch("SubLeadJet_CtagScore", &(parameter_map["SubLeadJet_CtagScore"]));
-    // BabyTree->Branch("SubSubLeadJet_CtagScore", &(parameter_map["SubSubLeadJet_CtagScore"]));
+    BabyTree->Branch("LeadJet_CtagScore", &(parameter_map["LeadJet_CtagScore"]));
+    BabyTree->Branch("SubLeadJet_CtagScore", &(parameter_map["SubLeadJet_CtagScore"]));
+    BabyTree->Branch("SubSubLeadJet_CtagScore", &(parameter_map["SubSubLeadJet_CtagScore"]));
     BabyTree->Branch("Weight", &weight);
     BabyTree->Branch("Event", &eventNum);
     BabyTree->Branch("Run", &runNum);
@@ -112,9 +112,9 @@ void BDTBabyMaker::set_features(std::map<std::string, Float_t> BDT_params, Float
     parameter_map["SubSubLeadLep_dz"] = BDT_params["SubSubLeadLep_dz"];
     parameter_map["MT_SubSubLeadLep_MET"] = BDT_params["MT_SubSubLeadLep_MET"];
     parameter_map["LeadBtag_score"] = BDT_params["LeadBtag_score"];
-    // parameter_map["LeadJet_CtagScore"] = BDT_params["LeadJet_CtagScore"];
-    // parameter_map["SubLeadJet_CtagScore"] = BDT_params["SubLeadJet_CtagScore"];
-    // parameter_map["SubSubLeadJet_CtagScore"] = BDT_params["SubSubLeadJet_CtagScore"];
+    parameter_map["LeadJet_CtagScore"] = BDT_params["LeadJet_CtagScore"];
+    parameter_map["SubLeadJet_CtagScore"] = BDT_params["SubLeadJet_CtagScore"];
+    parameter_map["SubSubLeadJet_CtagScore"] = BDT_params["SubSubLeadJet_CtagScore"];
     weight = event_weight;
     eventNum = nt.event();
     runNum = nt.run();

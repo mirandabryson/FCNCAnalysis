@@ -435,6 +435,10 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     //open trig eff SF file here so it's only opened once
     TFile* f_trigEff = new TFile("/home/users/ksalyer/FCNCAnalysis/misc/year_run2/triggeffcymapsRA5_Run2_ALL.root");
 
+    //open c SF files
+    TFile* csf2016 = new TFile("/home/users/ksalyer/FCNCAnalysis/misc/year_2016/DeepJet_ctagSF_MiniAOD94X_2016_pTincl_01Nov20.root");
+    TFile* csf2017 = new TFile("/home/users/ksalyer/FCNCAnalysis/misc/year_2017/DeepJet_ctagSF_MiniAOD94X_2017_pTincl_v3_2.root");
+    TFile* csf2018 = new TFile("/home/users/ksalyer/FCNCAnalysis/misc/year_2018/DeepJet_ctagSF_MiniAOD102X_2018_pTincl.root");
 
     // //open b SF files here so they are opened only once
     auto startBOpening = high_resolution_clock::now();
@@ -652,7 +656,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     BDTBabyMaker bdt_fakes_baby;
     BDTBabyMaker bdt_flips_baby;
     BDTBabyMaker bdt_MC_baby;
-    std::string BDT_base_dir = "./helpers/BDT/fcncBabies_ctag/";
+    std::string BDT_base_dir = "./helpers/BDT/fcncBabies_ctagBabies/";
+    // std::string BDT_base_dir = "./helpers/BDT/fcncBabies_ttHBabies/";
     // std::string BDT_base_dir = "/hadoop/cms/store/user/ksalyer/fcncBabies";
     if (make_BDT_fakes_babies){
         bdt_fakes_baby.Initialize(Form("%s/%s/data_driven/%s_fakes.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
@@ -666,12 +671,12 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
         bdt_MC_baby.Initialize(Form("%s/%s/MC/%s.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
         cout << Form("%s/%s/MC/%s.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh) << endl;
     }
-    TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HCT/model.root");
-    TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HUT/model.root");
+    // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HCT/model.root");
+    // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HUT/model.root");
     // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_jet25/HCT/model.root");
     // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_jet25/HUT/model.root");
-    // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ctag/HCT/model.root");
-    // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ctag/HUT/model.root");
+    TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ctag/HCT/model.root");
+    TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ctag/HUT/model.root");
     // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ttHBabies/HCT/model.root");
     // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ttHBabies/HUT/model.root");
 
@@ -1113,7 +1118,14 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     else if (nt.year() == 2017){weight = weight * getIterativeBSF(nt.year(),good_jets,good_bjets,deepjet_medium_reader_2017,"central");}
                     else if (nt.year() == 2018){weight = weight * getIterativeBSF(nt.year(),good_jets,good_bjets,deepjet_medium_reader_2018,"central");}
                 }
-                // cout << "after b tag SF: " << weight << endl;
+
+                //applying c-tag SFs
+                // cout << " applying iterative c sf " << endl;
+                // cout << " weight before applying c sf: " << weight << endl;
+                if (nt.year() == 2016){weight = weight * getIterativeCSF(nt.year(),good_jets,csf2016,"central");}
+                else if (nt.year() == 2017){weight = weight * getIterativeCSF(nt.year(),good_jets,csf2017,"central");}
+                else if (nt.year() == 2018){weight = weight * getIterativeCSF(nt.year(),good_jets,csf2018,"central");}
+                // cout << "after c tag SF: " << weight << endl;
 
                 //if is signal, apply central pdf sf
                 //for now, only apply to 2016
@@ -1581,7 +1593,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                                                     "nElectron","MET_pt","LeadBtag_pt",
                                                     "MT_LeadLep_MET","MT_SubLeadLep_MET","LeadLep_SubLeadLep_Mass",
                                                     "SubSubLeadLep_pt","SubSubLeadLep_eta","SubSubLeadLep_dxy",
-                                                    "SubSubLeadLep_dz","MT_SubSubLeadLep_MET","LeadBtag_score"};
+                                                    "SubSubLeadLep_dz","MT_SubSubLeadLep_MET","LeadBtag_score",
+                                                    "LeadJet_CtagScore","SubLeadJet_CtagScore","SubSubLeadJet_CtagScore"};
                     map<string, float> eventValues;
                     float Most_Forward_pt = -999.0, highest_abs_eta=-999.0;
                     for(int i=0; i < njets; i++){
@@ -1632,19 +1645,24 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     }
                     eventValues["LeadJet_pt"]              = good_jets[0].pt();
                     eventValues["LeadJet_BtagScore"]       = good_jets[0].bdisc();
+                    eventValues["LeadJet_CtagScore"]       = good_jets[0].cdisc();
                     if(good_jets.size()>1){
                         eventValues["SubLeadJet_pt"]           = good_jets[1].pt();
                         eventValues["SubLeadJet_BtagScore"]    = good_jets[1].bdisc();
+                        eventValues["SubLeadJet_CtagScore"]    = good_jets[1].cdisc();
                     }else{
                         eventValues["SubLeadJet_pt"]           = -999.0;
                         eventValues["SubLeadJet_BtagScore"]    = -999.0;
+                        eventValues["SubLeadJet_CtagScore"]    = -999.0;
                     }
                     if(good_jets.size()>2){
                         eventValues["SubSubLeadJet_pt"]        = good_jets[2].pt();
                         eventValues["SubSubLeadJet_BtagScore"] = good_jets[2].bdisc();
+                        eventValues["SubSubLeadJet_CtagScore"] = good_jets[2].cdisc();
                     }else{
                         eventValues["SubSubLeadJet_pt"]        = -999.0;
                         eventValues["SubSubLeadJet_BtagScore"] = -999.0;
+                        eventValues["SubSubLeadJet_CtagScore"] = -999.0;
                     }
                     if(good_bjets.size()>0){
                         eventValues["LeadBtag_pt"]             = good_bjets[0].pt();
@@ -1756,8 +1774,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nFlips+=weight;}
             }else if (category == 3 && !(isSignal||isData)){
-                // hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nRares+=weight;}
             }else if (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData)){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);

@@ -13,7 +13,8 @@ inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/
 # inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/"
 inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/"
 # inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
-# inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec8_ctagBDTYields/"
+# inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec16_ctagBDTYields/"
+# inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec13_tthYieldsBDT/"
 
 ##define functions
 #function to get multiplicities for a given cc bin
@@ -277,6 +278,7 @@ for y in years:
         bdtDFCols = [b+"_"+p[:3] for b in bdtSRs for p in procs]
 
         bdtRows = []
+        # bdtRows += getSRStatRows(procs, numBDTSRs)
         bdtRows += getSRStatRows(mcProcs, numBDTSRs)
         bdtRows += getBDTCRStatRows(y, ddProcs, bdtSRs, bdtCRDict, s)
         bdtRows += getSystRows(y, corrSyst, uncorrSyst)
@@ -292,6 +294,7 @@ for y in years:
 
 
         ## FILL MC ESTIMATES ##
+        # for p in procs:
         for p in mcProcs:
             if "signal" in p:
                 ccFileName = inFileCC + p + "_" + s + "_" + str(y) + "_hists.root"
@@ -317,7 +320,8 @@ for y in years:
                 rowTitle = p[:3] + "_stat_" + str(i-1)
                 while len(rowTitle)<17: rowTitle += " "
                 rowTitle += "lnN"
-                fill = 1+round(binDict["error"]/binDict["yield"], 6)
+                if binDict["yield"] == 0: fill = 2
+                else: fill = 1+round(binDict["error"]/binDict["yield"], 6)
                 fill = str(fill)
                 while len(fill) <20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
@@ -365,7 +369,8 @@ for y in years:
                 rowTitle = p[:3] + "_stat_" + str(i-1)
                 while len(rowTitle)<17: rowTitle += " "
                 rowTitle += "lnN"
-                fill = 1+round(err/yld, 6)
+                if yld == 0: fill = 2
+                else: fill = 1+round(err/yld, 6)
                 fill = str(fill)
                 while len(fill) <20: fill += " "
                 bdt_df[colTitle][rowTitle] = fill
