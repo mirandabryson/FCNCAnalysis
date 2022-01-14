@@ -60,11 +60,11 @@ float getIterativeCSF(int year, Jets &jets, Jets &btags, TFile* sfFile, string v
     // cout << "final weight: " << weight << endl;
     std::string sampCat = sampleCategory.Data();
 
-    if(sampCat.find("fakes")!=std::string::npos){weight *= 0.68;}
-    if(sampCat.find("flips")!=std::string::npos){weight *= 0.70;}
-    if(sampCat.find("rares")!=std::string::npos){weight *= 0.73;}
-    if(sampCat.find("signal_tch")!=std::string::npos){weight *= 0.61;}
-    if(sampCat.find("signal_tuh")!=std::string::npos){weight *= 0.69;}
+    if(sampCat.find("fakes")!=std::string::npos){weight *= 0.55;}
+    if(sampCat.find("flips")!=std::string::npos){weight *= 0.50;}
+    if(sampCat.find("rares")!=std::string::npos){weight *= 0.60;}
+    if(sampCat.find("signal_tch")!=std::string::npos){weight *= 0.54;}
+    if(sampCat.find("signal_tuh")!=std::string::npos){weight *= 0.55;}
 
     return weight;
 

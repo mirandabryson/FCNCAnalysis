@@ -310,7 +310,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     if(options.Contains("bdtbin18")){bdtbin=18;}
     if(options.Contains("bdtbin19")){bdtbin=19;}
     if(options.Contains("bdtbin20")){bdtbin=20;}
-    std::cout << "bdtbin: " << bdtbin << std::endl;
+    // std::cout << "bdtbin: " << bdtbin << std::endl;
 
     bool doVarArg = 0;
     if(options.Contains("variations")){doVarArg = 1;}
@@ -671,12 +671,12 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
         bdt_MC_baby.Initialize(Form("%s/%s/MC/%s.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh));
         cout << Form("%s/%s/MC/%s.root", BDT_base_dir.c_str(), tmp_yr_str.c_str(), chainTitleCh) << endl;
     }
-    // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HCT/model.root");
-    // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HUT/model.root");
+    TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HCT/model.root");
+    TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models/HUT/model.root");
     // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_jet25/HCT/model.root");
     // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_jet25/HUT/model.root");
-    TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ctag/HCT/model.root");
-    TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ctag/HUT/model.root");
+    // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ctag/HCT/model.root");
+    // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ctag/HUT/model.root");
     // TMVA::Experimental::RBDT hct_bdt("HCT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ttHBabies/HCT/model.root");
     // TMVA::Experimental::RBDT hut_bdt("HUT_BDT","/home/users/ksalyer/FCNCAnalysis/analysis/helpers/BDT/models_ttHBabies/HUT/model.root");
 
@@ -1108,7 +1108,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 // cout << triggerScaleFactor(f_trigEff, nt.year(), best_hyp[0].id(), best_hyp[1].id(), best_hyp[0].pt(), best_hyp[1].pt(), best_hyp[0].eta(), best_hyp[1].eta(), ht, 0) << endl;
                 // cout << "after trigger SF: " << weight << endl;
 
-                // //applying b-tag SFs
+                //applying b-tag SFs
                 if(!iterativeBTag){
                     if (nt.year() == 2016){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2016,deepjet_medium_reader_2016,"central");}
                     else if (nt.year() == 2017){weight = weight * getBSF(nt.year(),good_jets,good_bjets,eff2017,deepjet_medium_reader_2017,"central");}
@@ -1119,13 +1119,13 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     else if (nt.year() == 2018){weight = weight * getIterativeBSF(nt.year(),good_jets,good_bjets,deepjet_medium_reader_2018,"central");}
                 }
 
-                //applying c-tag SFs
-                // cout << " applying iterative c sf " << endl;
-                // cout << " weight before applying c sf: " << weight << endl;
-                if (nt.year() == 2016){weight = weight * getIterativeCSF(nt.year(),good_jets,csf2016,"central");}
-                else if (nt.year() == 2017){weight = weight * getIterativeCSF(nt.year(),good_jets,csf2017,"central");}
-                else if (nt.year() == 2018){weight = weight * getIterativeCSF(nt.year(),good_jets,csf2018,"central");}
-                // cout << "after c tag SF: " << weight << endl;
+                // //applying c-tag SFs
+                // // cout << " applying iterative c sf " << endl;
+                // // cout << " weight before applying c sf: " << weight << endl;
+                // if (nt.year() == 2016){weight = weight * getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",chainTitle);}
+                // else if (nt.year() == 2017){weight = weight * getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",chainTitle);}
+                // else if (nt.year() == 2018){weight = weight * getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",chainTitle);}
+                // // cout << "after c tag SF: " << weight << endl;
 
                 //if is signal, apply central pdf sf
                 //for now, only apply to 2016
@@ -1192,6 +1192,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             //NJETS CUT
             if (best_hyp.size()==2&&njets < 2) continue;
             if (best_hyp.size()>2&&njets < 1) continue;
+
+            
             // if (best_hyp.size()>2&&nbjets<2&&njets < 1) continue;
             // if (best_hyp.size()>2&&nbjets>=2&&njets < 2) continue;
             if ((category == 1 && chainTitle=="fakes_mc")||
@@ -1593,8 +1595,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                                                     "nElectron","MET_pt","LeadBtag_pt",
                                                     "MT_LeadLep_MET","MT_SubLeadLep_MET","LeadLep_SubLeadLep_Mass",
                                                     "SubSubLeadLep_pt","SubSubLeadLep_eta","SubSubLeadLep_dxy",
-                                                    "SubSubLeadLep_dz","MT_SubSubLeadLep_MET","LeadBtag_score",
-                                                    "LeadJet_CtagScore","SubLeadJet_CtagScore","SubSubLeadJet_CtagScore"};
+                                                    "SubSubLeadLep_dz","MT_SubSubLeadLep_MET","LeadBtag_score"/*,
+                                                    "LeadJet_CtagScore","SubLeadJet_CtagScore","SubSubLeadJet_CtagScore"*/};
                     map<string, float> eventValues;
                     float Most_Forward_pt = -999.0, highest_abs_eta=-999.0;
                     for(int i=0; i < njets; i++){
@@ -1645,24 +1647,24 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     }
                     eventValues["LeadJet_pt"]              = good_jets[0].pt();
                     eventValues["LeadJet_BtagScore"]       = good_jets[0].bdisc();
-                    eventValues["LeadJet_CtagScore"]       = good_jets[0].cdisc();
+                    // eventValues["LeadJet_CtagScore"]       = good_jets[0].cdisc();
                     if(good_jets.size()>1){
                         eventValues["SubLeadJet_pt"]           = good_jets[1].pt();
                         eventValues["SubLeadJet_BtagScore"]    = good_jets[1].bdisc();
-                        eventValues["SubLeadJet_CtagScore"]    = good_jets[1].cdisc();
+                        // eventValues["SubLeadJet_CtagScore"]    = good_jets[1].cdisc();
                     }else{
                         eventValues["SubLeadJet_pt"]           = -999.0;
                         eventValues["SubLeadJet_BtagScore"]    = -999.0;
-                        eventValues["SubLeadJet_CtagScore"]    = -999.0;
+                        // eventValues["SubLeadJet_CtagScore"]    = -999.0;
                     }
                     if(good_jets.size()>2){
                         eventValues["SubSubLeadJet_pt"]        = good_jets[2].pt();
                         eventValues["SubSubLeadJet_BtagScore"] = good_jets[2].bdisc();
-                        eventValues["SubSubLeadJet_CtagScore"] = good_jets[2].cdisc();
+                        // eventValues["SubSubLeadJet_CtagScore"] = good_jets[2].cdisc();
                     }else{
                         eventValues["SubSubLeadJet_pt"]        = -999.0;
                         eventValues["SubSubLeadJet_BtagScore"] = -999.0;
-                        eventValues["SubSubLeadJet_CtagScore"] = -999.0;
+                        // eventValues["SubSubLeadJet_CtagScore"] = -999.0;
                     }
                     if(good_bjets.size()>0){
                         eventValues["LeadBtag_pt"]             = good_bjets[0].pt();

@@ -183,11 +183,11 @@ float getIterativeBSF(int year, Jets &jets, Jets &bjets, BTagCalibrationReader &
     else {throw std::runtime_error("ControlTree::INIT: Error - invalid year");}
 }
 
-float getIterativeCSF(int year, Jets &jets, TFile* sfFile, string variationName){
+float getIterativeCSF(int year, Jets &jets, Jets &btags, TFile* sfFile, string variationName, TString categoryName){
     // cout << "in common_utils.h" << endl;
-    if (year == 2016) return y2016::getIterativeCSF(year, jets, sfFile, variationName);
-    else if (year == 2017) return y2016::getIterativeCSF(year, jets, sfFile, variationName);
-    else if (year == 2018) return y2016::getIterativeCSF(year, jets, sfFile, variationName);
+    if (year == 2016) return y2016::getIterativeCSF(year, jets, btags, sfFile, variationName, categoryName);
+    else if (year == 2017) return y2017::getIterativeCSF(year, jets, btags, sfFile, variationName, categoryName);
+    else if (year == 2018) return y2018::getIterativeCSF(year, jets, btags, sfFile, variationName, categoryName);
     else {throw std::runtime_error("ControlTree::INIT: Error - invalid year");}
 }
 
