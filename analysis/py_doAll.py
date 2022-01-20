@@ -386,6 +386,15 @@ if __name__ == "__main__":
                 basedirs[2016]+get_sample_path("wzz", 2016,args.tag) + ".root",
                 basedirs[2016]+get_sample_path("zzz", 2016,args.tag) + ".root",
                 ],options=options[2016]),
+            "ttxx": make_obj([
+                basedirs[2016]+get_sample_path("tttj", 2016,args.tag) + ".root",
+                basedirs[2016]+get_sample_path("tttw", 2016,args.tag) + ".root",
+                basedirs[2016]+get_sample_path("tttt", 2016,args.tag) + ".root",
+                basedirs[2016]+get_sample_path("ttzh", 2016,args.tag) + ".root",
+                basedirs[2016]+get_sample_path("ttwz", 2016,args.tag) + ".root",
+                basedirs[2016]+get_sample_path("ttzz", 2016,args.tag) + ".root",
+                basedirs[2016]+get_sample_path("tthh", 2016,args.tag) + ".root",
+                ],options=options[2016]),
             },
         2017: {
             "fakes": make_obj([

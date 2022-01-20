@@ -10,27 +10,45 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 }
 
 std::vector<std::string> HistContainer::getRegionNames() {
-    std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
-                                        "osest","mlsfest","sfest","mldfest","dfest",
-                                        "sfpp","dfpp","mlsfppp","mldfppp",
-                                        "sfppest","dfppest","mlsfpppest","mldfpppest"/*,
-                                        "vrcr","vrcrest","vrsr",
-                                        "vrcr_flip","vrcrest_flip","vrsr_flip"*/};
+    // std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
+    //                                     "osest","mlsfest","sfest","mldfest","dfest",
+    //                                     "sfpp","dfpp","mlsfppp","mldfppp",
+    //                                     "sfppest","dfppest","mlsfpppest","mldfpppest"/*,
+    //                                     "vrcr","vrcrest","vrsr",
+    //                                     "vrcr_flip","vrcrest_flip","vrsr_flip"*/};
 
-    // std::vector<std::string> rnames = { "PU_up","PU_down",
-    //                                     "LepSF_up","LepSF_down",
-    //                                     "Trigger_up","Trigger_down",
-    //                                     "lf_up","lf_down",
-    //                                     "hf_up","hf_down",
-    //                                     "hfstats1_up","hfstats1_down",
-    //                                     "hfstats2_up","hfstats2_down",
-    //                                     "lfstats1_up","lfstats1_down",
-    //                                     "lfstats2_up","lfstats2_down",
-    //                                     "cferr1_up","cferr1_down",
-    //                                     "cferr2_up","cferr2_down",
-    //                                     "btag_central",
-    //                                     "bTag_up","bTag_down",
-    //                                     /*"renorm_scale","pdf_scale"*/};
+    std::vector<std::string> rnames = { "PU_up","PU_down",
+                                        "LepSF_up","LepSF_down",
+                                        "Trigger_up","Trigger_down",
+                                        // "lf_up","lf_down",
+                                        // "hf_up","hf_down",
+                                        // "hfstats1_up","hfstats1_down",
+                                        // "hfstats2_up","hfstats2_down",
+                                        // "lfstats1_up","lfstats1_down",
+                                        // "lfstats2_up","lfstats2_down",
+                                        // "cferr1_up","cferr1_down",
+                                        // "cferr2_up","cferr2_down",
+                                        // "btag_central",
+                                        // "bTag_up","bTag_down",
+                                        "ctag_stat_up", "ctag_stat_down",
+                                        "ctag_EleIDSF_up", "ctag_EleIDSF_down",
+                                        "ctag_LHEScaleWeightmuF_up", "ctag_LHEScaleWeightmuF_down",
+                                        "ctag_LHEScaleWeightmuR_up", "ctag_LHEScaleWeightmuR_down",
+                                        "ctag_MuIDSF_up", "ctag_MuIDSF_down",
+                                        "ctag_PSWeightFSR_up", "ctag_PSWeightFSR_down",
+                                        "ctag_PSWeightISR_up", "ctag_PSWeightISR_down",
+                                        "ctag_PUWeight_up", "ctag_PUWeight_down",
+                                        "ctag_XSecDYJets_up", "ctag_XSecDYJets_down",
+                                        "ctag_XSecST_up", "ctag_XSecST_down",
+                                        "ctag_XSecWJets_up", "ctag_XSecWJets_down",
+                                        "ctag_XSecttbar_up", "ctag_XSecttbar_down",
+                                        "ctag_bFrag_up", "ctag_bFrag_down",
+                                        "ctag_jer_up", "ctag_jer_down",
+                                        "ctag_jesTotal_up", "ctag_jesTotal_down",
+                                        "ctag_ValuesSystOnly_up", "ctag_ValuesSystOnly_down",
+                                        "ctag_TotalUnc_up", "ctag_TotalUnc_down",
+                                        "ctag_withMaxUncs",
+                                        /*"renorm_scale","pdf_scale"*/};
     // std::vector<std::string> rnames;
     // for(int i = 0; i < 101; i++){
     //     std::string i_str = std::to_string(i);
@@ -317,9 +335,9 @@ void HistContainer::addHist4d(std::string quantity, std::string sample, int nbin
 }
 
 void HistContainer::loadHists(std::string sample) {
-    addHist1d("njets",sample,5,-0.5,4.5);
-    addHist1d("nbjets",sample,3,-0.5,2.5);
-    addHist1d("nleps",sample,5,-0.5,4.5);
+    // addHist1d("njets",sample,5,-0.5,4.5);
+    // addHist1d("nbjets",sample,3,-0.5,2.5);
+    // addHist1d("nleps",sample,5,-0.5,4.5);
     // // addHist1d("neles",sample,5,-0.5,4.5);
     // // addHist1d("nmus",sample,5,-0.5,4.5);
     // // // addHist1d("nvtxs",sample,100,0,100);

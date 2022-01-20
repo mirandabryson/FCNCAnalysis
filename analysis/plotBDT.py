@@ -11,7 +11,8 @@ from yahist import Hist1D, Hist2D
 
 # path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct27_bdtScore/'
 # path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/'
-path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec16_ctagBDTYields/'
+path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan18_ctagBDT_normedCTagging/'
+# path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan12_ogBDT/'
 # path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan03_ctagSFs/'
 # path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct28_BDTInputs/'
 # sigpath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug09_lead25_MET50_jet30_newTriggers_tt2or1l/'
