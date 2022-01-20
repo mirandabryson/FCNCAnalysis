@@ -380,7 +380,7 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("mt_tl_met",sample,20,0,400);
     // addHist1d("mt_thirdl_met",sample,20,0,400);
     // // addHist1d("cutflow",sample,7,0.5,7.5,"br");
-    addHist1d("sr",sample,21,0.5,21.5);//,"br");
+    // addHist1d("sr",sample,21,0.5,21.5);//,"br");
     // addHist1d("ljcscore",sample,20,0,1);
     // addHist1d("tjcscore",sample,20,0,1);
     // addHist1d("thirdjcscore",sample,20,0,1);
@@ -399,25 +399,25 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("bdtScoreOnZ_hut2017",sample,20,hut2017bins_);//,"br");
     // addHist1d("bdtScoreOnZ_hct2018",sample,20,hct2018bins_);//,"br");
     // addHist1d("bdtScoreOnZ_hut2018",sample,20,hut2018bins_);//,"br");
-    addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
-    addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
-    addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
-    addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
-    addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
-    addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
+    // addHist1d("bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
+    // addHist1d("bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
+    // addHist1d("bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
+    // addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
+    // addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
+    // addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
     // addHist1d("bdtScore_evenBins_hct",sample,20,0,1);//,"br");
     // addHist1d("bdtScore_evenBins_hut",sample,20,0,1);//,"br");
     // addHist2d("wvshct",sample,40,0,2,20,0,1);//,"br");
     // addHist2d("wvshut",sample,40,0,2,20,0,1);//,"br");
-    // addHist1d("bdtScore_syst_hct2016",sample,20,hct2016bins_);//,"br");
-    // addHist1d("bdtScore_syst_hut2016",sample,20,hut2016bins_);//,"br");
-    // addHist1d("bdtScore_syst_hct2017",sample,20,hct2017bins_);//,"br");
-    // addHist1d("bdtScore_syst_hut2017",sample,20,hut2017bins_);//,"br");
-    // addHist1d("bdtScore_syst_hct2018",sample,20,hct2018bins_);//,"br");
-    // addHist1d("bdtScore_syst_hut2018",sample,20,hut2018bins_);//,"br");
+    addHist1d("bdtScore_syst_hct2016",sample,20,hct2016bins_);//,"br");
+    addHist1d("bdtScore_syst_hut2016",sample,20,hut2016bins_);//,"br");
+    addHist1d("bdtScore_syst_hct2017",sample,20,hct2017bins_);//,"br");
+    addHist1d("bdtScore_syst_hut2017",sample,20,hut2017bins_);//,"br");
+    addHist1d("bdtScore_syst_hct2018",sample,20,hct2018bins_);//,"br");
+    addHist1d("bdtScore_syst_hut2018",sample,20,hut2018bins_);//,"br");
     // // // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
-    addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
+    // addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
     // addHist2d("fake2dcr_efake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
     // addHist2d("fake2dcr_mfake",sample,7,3,{10.,15.,20.,25.,35.,50.,70.,90.},{0,1,2,3});//,"br");
     // addHist2d("fake2dcr_eefake",sample,21,0,21,21,0,21);
@@ -439,7 +439,7 @@ void HistContainer::loadHists(std::string sample) {
     // addHist2d("flip2d_hct_2ecr",sample,18,0,18,18,0,18);//,"br");
     // addHist2d("flip2d_hut_cr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
     // addHist2d("flip2d_hut_2ecr",sample,18,0,18,18,0,18);//,"br");
-    addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
+    // addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
     // // // addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
 
     // addHist1d("valSR_flip",sample,21,0.5,21.5,"vrsr_flip");
@@ -507,8 +507,11 @@ void HistContainer::fill1d(std::string quantity, std::string region, std::string
         }
         if (region.find("vr")==std::string::npos && it1d->first.find("vr")!=std::string::npos) continue;
         if (quantity.find("Chan")==std::string::npos && it1d->first.find("Chan")!=std::string::npos) continue;
+        if (quantity=="ht" && it1d->first.find("Weight")!=std::string::npos) continue;
         it1d->second->Fill(value,weight);
         // cout << "filled " << it1d->first << " with weight " << weight << " for event " << nt.event() << " in bin " << value << endl;
+        // cout << quantity << " " << region << " " << sample << endl;
+
         /*if (region.find("vrcr")!=std::string::npos){
             std::cout << "Filling hist " << quantity << " with value " << value << " and weight " << weight << std::endl;
         }*/
@@ -686,6 +689,10 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
 
         //for filling systematic variations:
         if(doVariations && (best_hyp_type==2 || best_hyp_type==4) ){
+            // if(name=="ctag_stat_up"||name=="ctag_stat_down"){
+            //     cout << name << endl;
+            //     cout << variationMap[name] << endl;
+            // }
             int sr = getSR(best_hyp_type,njets,nbjets);
             fill1d("sr_syst",name,sample,sr,variationMap[name]);
             fill1d("lj_syst_bscore",name,sample,jets[0].bdisc(),variationMap[name]);

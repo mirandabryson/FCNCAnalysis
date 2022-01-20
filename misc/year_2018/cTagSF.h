@@ -1,5 +1,8 @@
 float getIterativeCSF(int year, Jets &jets, Jets &btags, TFile* sfFile, string variationName, TString sampleCategory){
     // cout << "in cTagSF.h" << endl;
+    // cout << "year: " << year << endl;
+    // cout << "variationName: " << variationName << endl;
+    // cout << "sampleCategory: " << sampleCategory << endl;
     TH2F *cWtHist;
     TH2F *bWtHist;
     TH2F *lWtHist;
