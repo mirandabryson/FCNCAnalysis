@@ -393,10 +393,45 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
     TString chainTitle = title;
     const char* chainTitleCh = chainTitle.Data();
     TString ctagChainTitle;
-    if(chainTitle=="xg"||chainTitle=="ttvv"||chainTitle=="ttx"||chainTitle=="multiboson"||chainTitle=="smallRares"||chainTitle=="tthh"||chainTitle=="ttw"){
+    if(chainTitle=="xg"||
+        chainTitle=="ttvv"||
+        chainTitle=="ttx"||
+        chainTitle=="multiboson"||
+        chainTitle=="smallRares"||
+        chainTitle=="tthh"||
+        chainTitle=="ttw"||
+        chainTitle=="ggh"||
+        chainTitle=="qqww"||
+        chainTitle=="tzq"||
+        chainTitle=="vh_nobb"||
+        chainTitle=="www"||
+        chainTitle=="wwz"||
+        chainTitle=="wz"||
+        chainTitle=="wzg"||
+        chainTitle=="wwg"||
+        chainTitle=="wzz"||
+        chainTitle=="zz"||
+        chainTitle=="zzz"||
+        chainTitle=="tttj"||
+        chainTitle=="tttw"||
+        chainTitle=="ttwh"||
+        chainTitle=="ttww"||
+        chainTitle=="tttt"||
+        chainTitle=="ttzh"||
+        chainTitle=="ttwz"||
+        chainTitle=="ttzz"||
+        chainTitle=="tth_nobb"||
+        chainTitle=="ttg_dilep"||
+        chainTitle=="tg"||
+        chainTitle=="ttw"||
+        chainTitle=="ttz"||
+        chainTitle=="zg"||
+        chainTitle=="wg"||
+        chainTitle=="tw_dilep"){
         ctagChainTitle = "rares";
     }else{
         ctagChainTitle = chainTitle;
+        cout << "chainTitle is " << chainTitle << ", so I'm setting ctagChainTitle to " << ctagChainTitle << endl;
     }
     if (print_debug_file) {
         debug_file.open(Form("debug/%s.log",chainTitleCh));
@@ -736,7 +771,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
             //get event weight based on sample!
             // cout << nt.event() << endl;
-            // if(nt.event()!=856383) continue;
+            // if(nt.event()!=22103||nt.event()!=865983||nt.event()!=393805) continue;
             double weight = 1.;
             if (!isData){
                 weight = getEventWeight( file->GetName(), chainTitle.Data(), nt.year());
@@ -763,11 +798,11 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
             //MET CUT
             // if(!(
-            //     (nt.event()==1363385)||
-            //     (nt.event()==1250396)||
-            //     (nt.event()==230322)||
+            //     (nt.event()==22103)||
+            //     (nt.event()==865983)||
+            //     (nt.event()==393805)/*||
             //     (nt.event()==432449)||
-            //     (nt.event()==1152243)
+            //     (nt.event()==1152243)*/
             //     )){continue;}
             // cout << "***************************************************************" << endl;
             // cout << nt.event() << endl;
@@ -1316,6 +1351,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             //doing it here, so that all weight-based calculations will get the same factor
             if(evaluateBDT){
                 if( ((category==3) && (chainTitle=="rares") && (nt.event()%2!=0)) ||
+                    ((category==3) && (ctagChainTitle=="rares") && (nt.event()%2!=0)) ||
                     ((chainTitle=="signal_tch") && (nt.event()%2!=0)) ||
                     ((chainTitle=="signal_tuh") && (nt.event()%2!=0)) ||
                     ((chainTitle=="wz") && (nt.event()%2!=0)) ||
@@ -1334,6 +1370,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                     (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData) && (nt.event()%2!=0))
                     ) {weight = weight*2;}
                 if( ((category==3) && (chainTitle=="rares") && (nt.event()%2==0)) ||
+                    ((category==3) && (ctagChainTitle=="rares") && (nt.event()%2==0)) ||
                     ((chainTitle=="signal_tch") && (nt.event()%2==0)) ||
                     ((chainTitle=="signal_tuh") && (nt.event()%2==0)) ||
                     ((chainTitle=="wz") && (nt.event()%2==0)) ||
@@ -1476,117 +1513,163 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 variationalWeights["Trigger_up"]=   weightTrigup;
                 variationalWeights["Trigger_down"]= weightTrigdown;
 
-                if (nt.year()==2016){
-                    variationalWeights["ctag_stat_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"StatUp",ctagChainTitle);
-                    variationalWeights["ctag_stat_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"StatDown",ctagChainTitle);
-                    variationalWeights["ctag_EleIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"EleIDSFUp",ctagChainTitle);
-                    variationalWeights["ctag_EleIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"EleIDSFDown",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"LHEScaleWeight_muFUp",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"LHEScaleWeight_muFDown",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"LHEScaleWeight_muRUp",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"LHEScaleWeight_muRDown",ctagChainTitle);
-                    variationalWeights["ctag_MuIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"MuIDSFUp",ctagChainTitle);
-                    variationalWeights["ctag_MuIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"MuIDSFDown",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightFSR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PSWeightFSRUp",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightFSR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PSWeightFSRDown",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightISR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PSWeightISRUp",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightISR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PSWeightISRDown",ctagChainTitle);
-                    variationalWeights["ctag_PUWeight_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PUWeightUp",ctagChainTitle);
-                    variationalWeights["ctag_PUWeight_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PUWeightDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecDYJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_DYJetsUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecDYJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_DYJetsDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecST_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_STUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecST_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_STDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecWJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_WJetsUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecWJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_WJetsDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecttbar_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_ttbarUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecttbar_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_ttbarDown",ctagChainTitle);
-                    variationalWeights["ctag_bFrag_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"bFragUp",ctagChainTitle);
-                    variationalWeights["ctag_bFrag_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"bFragDown",ctagChainTitle);
-                    variationalWeights["ctag_jer_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"jerUp",ctagChainTitle);
-                    variationalWeights["ctag_jer_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"jerDown",ctagChainTitle);
-                    variationalWeights["ctag_jesTotal_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"jesTotalUp",ctagChainTitle);
-                    variationalWeights["ctag_jesTotal_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"jesTotalDown",ctagChainTitle);
-                    variationalWeights["ctag_ValuesSystOnly_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"ValuesSystOnlyUp",ctagChainTitle);
-                    variationalWeights["ctag_ValuesSystOnly_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"ValuesSystOnlyDown",ctagChainTitle);
-                    variationalWeights["ctag_TotalUnc_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"TotalUncUp",ctagChainTitle);
-                    variationalWeights["ctag_TotalUnc_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"TotalUncDown",ctagChainTitle);
-                    variationalWeights["ctag_withMaxUncs"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"withMaxUncs",ctagChainTitle);
-                }else if (nt.year()==2017){
-                    variationalWeights["ctag_stat_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"StatUp",ctagChainTitle);
-                    variationalWeights["ctag_stat_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"StatDown",ctagChainTitle);
-                    variationalWeights["ctag_EleIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"EleIDSFUp",ctagChainTitle);
-                    variationalWeights["ctag_EleIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"EleIDSFDown",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"LHEScaleWeight_muFUp",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"LHEScaleWeight_muFDown",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"LHEScaleWeight_muRUp",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"LHEScaleWeight_muRDown",ctagChainTitle);
-                    variationalWeights["ctag_MuIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"MuIDSFUp",ctagChainTitle);
-                    variationalWeights["ctag_MuIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"MuIDSFDown",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightFSR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PSWeightFSRUp",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightFSR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PSWeightFSRDown",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightISR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PSWeightISRUp",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightISR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PSWeightISRDown",ctagChainTitle);
-                    variationalWeights["ctag_PUWeight_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PUWeightUp",ctagChainTitle);
-                    variationalWeights["ctag_PUWeight_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PUWeightDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecDYJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_DYJetsUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecDYJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_DYJetsDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecST_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_STUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecST_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_STDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecWJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_WJetsUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecWJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_WJetsDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecttbar_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_ttbarUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecttbar_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_ttbarDown",ctagChainTitle);
-                    variationalWeights["ctag_bFrag_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"bFragUp",ctagChainTitle);
-                    variationalWeights["ctag_bFrag_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"bFragDown",ctagChainTitle);
-                    variationalWeights["ctag_jer_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"jerUp",ctagChainTitle);
-                    variationalWeights["ctag_jer_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"jerDown",ctagChainTitle);
-                    variationalWeights["ctag_jesTotal_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"jesTotalUp",ctagChainTitle);
-                    variationalWeights["ctag_jesTotal_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"jesTotalDown",ctagChainTitle);
-                    variationalWeights["ctag_ValuesSystOnly_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"ValuesSystOnlyUp",ctagChainTitle);
-                    variationalWeights["ctag_ValuesSystOnly_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"ValuesSystOnlyDown",ctagChainTitle);
-                    variationalWeights["ctag_TotalUnc_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"TotalUncUp",ctagChainTitle);
-                    variationalWeights["ctag_TotalUnc_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"TotalUncDown",ctagChainTitle);
-                    variationalWeights["ctag_withMaxUncs"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"withMaxUncs",ctagChainTitle);
-                }else if (nt.year()==2018){
-                    variationalWeights["ctag_stat_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"StatUp",ctagChainTitle);
-                    variationalWeights["ctag_stat_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"StatDown",ctagChainTitle);
-                    variationalWeights["ctag_EleIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"EleIDSFUp",ctagChainTitle);
-                    variationalWeights["ctag_EleIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"EleIDSFDown",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"LHEScaleWeight_muFUp",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"LHEScaleWeight_muFDown",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"LHEScaleWeight_muRUp",ctagChainTitle);
-                    variationalWeights["ctag_LHEScaleWeightmuR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"LHEScaleWeight_muRDown",ctagChainTitle);
-                    variationalWeights["ctag_MuIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"MuIDSFUp",ctagChainTitle);
-                    variationalWeights["ctag_MuIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"MuIDSFDown",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightFSR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PSWeightFSRUp",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightFSR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PSWeightFSRDown",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightISR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PSWeightISRUp",ctagChainTitle);
-                    variationalWeights["ctag_PSWeightISR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PSWeightISRDown",ctagChainTitle);
-                    variationalWeights["ctag_PUWeight_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PUWeightUp",ctagChainTitle);
-                    variationalWeights["ctag_PUWeight_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PUWeightDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecDYJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_DYJetsUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecDYJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_DYJetsDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecST_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_STUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecST_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_STDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecWJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_WJetsUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecWJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_WJetsDown",ctagChainTitle);
-                    variationalWeights["ctag_XSecttbar_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_ttbarUp",ctagChainTitle);
-                    variationalWeights["ctag_XSecttbar_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_ttbarDown",ctagChainTitle);
+                // cout << "weight: " << weight;
+                // cout << "\n\tPU_up: " << variationalWeights["PU_up"] << "\tPU_down: " << variationalWeights["PU_down"];
+                // cout << "\n\tPU_up: " << (variationalWeights["PU_up"]>weight) << "\tPU_down: " << (variationalWeights["PU_down"]<weight);
+                // cout << "\n\tLepSF_up: " << variationalWeights["LepSF_up"] << "\tLepSF_down: " << variationalWeights["LepSF_down"];
+                // cout << "\n\tLepSF_up: " << (variationalWeights["LepSF_up"]>weight) << "\tLepSF_down: " << (variationalWeights["LepSF_down"]<weight) << endl;
+                
+                if (getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle)==0){
+                    variationalWeights["ctag_stat_up"] = 0;
+                    variationalWeights["ctag_stat_down"] = 0;
+                    variationalWeights["ctag_EleIDSF_up"] = 0;
+                    variationalWeights["ctag_EleIDSF_down"] = 0;
+                    variationalWeights["ctag_LHEScaleWeightmuF_up"] = 0;
+                    variationalWeights["ctag_LHEScaleWeightmuF_down"] = 0;
+                    variationalWeights["ctag_LHEScaleWeightmuR_up"] = 0;
+                    variationalWeights["ctag_LHEScaleWeightmuR_down"] = 0;
+                    variationalWeights["ctag_MuIDSF_up"] = 0;
+                    variationalWeights["ctag_MuIDSF_down"] = 0;
+                    variationalWeights["ctag_PSWeightFSR_up"] = 0;
+                    variationalWeights["ctag_PSWeightFSR_down"] = 0;
+                    variationalWeights["ctag_PSWeightISR_up"] = 0;
+                    variationalWeights["ctag_PSWeightISR_down"] = 0;
+                    variationalWeights["ctag_PUWeight_up"] = 0;
+                    variationalWeights["ctag_PUWeight_down"] = 0;
+                    variationalWeights["ctag_XSecDYJets_up"] = 0;
+                    variationalWeights["ctag_XSecDYJets_down"] = 0;
+                    variationalWeights["ctag_XSecST_up"] = 0;
+                    variationalWeights["ctag_XSecST_down"] = 0;
+                    variationalWeights["ctag_XSecWJets_up"] = 0;
+                    variationalWeights["ctag_XSecWJets_down"] = 0;
+                    variationalWeights["ctag_XSecttbar_up"] = 0;
+                    variationalWeights["ctag_XSecttbar_down"] = 0;
                     variationalWeights["ctag_bFrag_up"] = 0;
                     variationalWeights["ctag_bFrag_down"] = 0;
-                    //bFrag systematic histograms do not exist in the root file from the POG
-                    // variationalWeights["ctag_bFrag_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"bFragUp",ctagChainTitle);
-                    // variationalWeights["ctag_bFrag_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"bFragDown",ctagChainTitle);
-                    variationalWeights["ctag_jer_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"jerUp",ctagChainTitle);
-                    variationalWeights["ctag_jer_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"jerDown",ctagChainTitle);
-                    variationalWeights["ctag_jesTotal_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"jesTotalUp",ctagChainTitle);
-                    variationalWeights["ctag_jesTotal_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"jesTotalDown",ctagChainTitle);
-                    variationalWeights["ctag_ValuesSystOnly_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"ValuesSystOnlyUp",ctagChainTitle);
-                    variationalWeights["ctag_ValuesSystOnly_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"ValuesSystOnlyDown",ctagChainTitle);
-                    variationalWeights["ctag_TotalUnc_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"TotalUncUp",ctagChainTitle);
-                    variationalWeights["ctag_TotalUnc_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"TotalUncDown",ctagChainTitle);
-                    variationalWeights["ctag_withMaxUncs"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"withMaxUncs",ctagChainTitle);
+                    variationalWeights["ctag_jer_up"] = 0;
+                    variationalWeights["ctag_jer_down"] = 0;
+                    variationalWeights["ctag_jesTotal_up"] = 0;
+                    variationalWeights["ctag_jesTotal_down"] = 0;
+                    variationalWeights["ctag_ValuesSystOnly_up"] = 0;
+                    variationalWeights["ctag_ValuesSystOnly_down"] = 0;
+                    variationalWeights["ctag_TotalUnc_up"] = 0;
+                    variationalWeights["ctag_TotalUnc_down"] = 0;
+                    variationalWeights["ctag_withMaxUncs"] = 0;
+
+                }else{
+                    if (nt.year()==2016){
+                        variationalWeights["ctag_stat_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"StatUp",ctagChainTitle);
+                        variationalWeights["ctag_stat_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"StatDown",ctagChainTitle);
+                        variationalWeights["ctag_EleIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"EleIDSFUp",ctagChainTitle);
+                        variationalWeights["ctag_EleIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"EleIDSFDown",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"LHEScaleWeight_muFUp",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"LHEScaleWeight_muFDown",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"LHEScaleWeight_muRUp",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"LHEScaleWeight_muRDown",ctagChainTitle);
+                        variationalWeights["ctag_MuIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"MuIDSFUp",ctagChainTitle);
+                        variationalWeights["ctag_MuIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"MuIDSFDown",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightFSR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PSWeightFSRUp",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightFSR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PSWeightFSRDown",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightISR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PSWeightISRUp",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightISR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PSWeightISRDown",ctagChainTitle);
+                        variationalWeights["ctag_PUWeight_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PUWeightUp",ctagChainTitle);
+                        variationalWeights["ctag_PUWeight_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"PUWeightDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecDYJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_DYJetsUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecDYJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_DYJetsDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecST_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_STUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecST_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_STDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecWJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_WJetsUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecWJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_WJetsDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecttbar_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_ttbarUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecttbar_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"XSec_ttbarDown",ctagChainTitle);
+                        variationalWeights["ctag_bFrag_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"bFragUp",ctagChainTitle);
+                        variationalWeights["ctag_bFrag_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"bFragDown",ctagChainTitle);
+                        variationalWeights["ctag_jer_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"jerUp",ctagChainTitle);
+                        variationalWeights["ctag_jer_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"jerDown",ctagChainTitle);
+                        variationalWeights["ctag_jesTotal_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"jesTotalUp",ctagChainTitle);
+                        variationalWeights["ctag_jesTotal_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"jesTotalDown",ctagChainTitle);
+                        variationalWeights["ctag_ValuesSystOnly_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"ValuesSystOnlyUp",ctagChainTitle);
+                        variationalWeights["ctag_ValuesSystOnly_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"ValuesSystOnlyDown",ctagChainTitle);
+                        variationalWeights["ctag_TotalUnc_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"TotalUncUp",ctagChainTitle);
+                        variationalWeights["ctag_TotalUnc_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"TotalUncDown",ctagChainTitle);
+                        variationalWeights["ctag_withMaxUncs"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2016,"withMaxUncs",ctagChainTitle);
+
+                    }else if (nt.year()==2017){
+                        variationalWeights["ctag_stat_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"StatUp",ctagChainTitle);
+                        variationalWeights["ctag_stat_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"StatDown",ctagChainTitle);
+                        variationalWeights["ctag_EleIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"EleIDSFUp",ctagChainTitle);
+                        variationalWeights["ctag_EleIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"EleIDSFDown",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"LHEScaleWeight_muFUp",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"LHEScaleWeight_muFDown",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"LHEScaleWeight_muRUp",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"LHEScaleWeight_muRDown",ctagChainTitle);
+                        variationalWeights["ctag_MuIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"MuIDSFUp",ctagChainTitle);
+                        variationalWeights["ctag_MuIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"MuIDSFDown",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightFSR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PSWeightFSRUp",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightFSR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PSWeightFSRDown",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightISR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PSWeightISRUp",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightISR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PSWeightISRDown",ctagChainTitle);
+                        variationalWeights["ctag_PUWeight_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PUWeightUp",ctagChainTitle);
+                        variationalWeights["ctag_PUWeight_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"PUWeightDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecDYJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_DYJetsUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecDYJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_DYJetsDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecST_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_STUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecST_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_STDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecWJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_WJetsUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecWJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_WJetsDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecttbar_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_ttbarUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecttbar_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"XSec_ttbarDown",ctagChainTitle);
+                        variationalWeights["ctag_bFrag_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"bFragUp",ctagChainTitle);
+                        variationalWeights["ctag_bFrag_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"bFragDown",ctagChainTitle);
+                        variationalWeights["ctag_jer_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"jerUp",ctagChainTitle);
+                        variationalWeights["ctag_jer_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"jerDown",ctagChainTitle);
+                        variationalWeights["ctag_jesTotal_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"jesTotalUp",ctagChainTitle);
+                        variationalWeights["ctag_jesTotal_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"jesTotalDown",ctagChainTitle);
+                        variationalWeights["ctag_ValuesSystOnly_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"ValuesSystOnlyUp",ctagChainTitle);
+                        variationalWeights["ctag_ValuesSystOnly_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"ValuesSystOnlyDown",ctagChainTitle);
+                        variationalWeights["ctag_TotalUnc_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"TotalUncUp",ctagChainTitle);
+                        variationalWeights["ctag_TotalUnc_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"TotalUncDown",ctagChainTitle);
+                        variationalWeights["ctag_withMaxUncs"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2017,"withMaxUncs",ctagChainTitle);
+                    }else if (nt.year()==2018){
+                        variationalWeights["ctag_stat_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"StatUp",ctagChainTitle);
+                        variationalWeights["ctag_stat_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"StatDown",ctagChainTitle);
+                        variationalWeights["ctag_EleIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"EleIDSFUp",ctagChainTitle);
+                        variationalWeights["ctag_EleIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"EleIDSFDown",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"LHEScaleWeight_muFUp",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"LHEScaleWeight_muFDown",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"LHEScaleWeight_muRUp",ctagChainTitle);
+                        variationalWeights["ctag_LHEScaleWeightmuR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"LHEScaleWeight_muRDown",ctagChainTitle);
+                        variationalWeights["ctag_MuIDSF_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"MuIDSFUp",ctagChainTitle);
+                        variationalWeights["ctag_MuIDSF_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"MuIDSFDown",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightFSR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PSWeightFSRUp",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightFSR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PSWeightFSRDown",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightISR_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PSWeightISRUp",ctagChainTitle);
+                        variationalWeights["ctag_PSWeightISR_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PSWeightISRDown",ctagChainTitle);
+                        variationalWeights["ctag_PUWeight_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PUWeightUp",ctagChainTitle);
+                        variationalWeights["ctag_PUWeight_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"PUWeightDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecDYJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_DYJetsUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecDYJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_DYJetsDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecST_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_STUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecST_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_STDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecWJets_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_WJetsUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecWJets_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_WJetsDown",ctagChainTitle);
+                        variationalWeights["ctag_XSecttbar_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_ttbarUp",ctagChainTitle);
+                        variationalWeights["ctag_XSecttbar_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"XSec_ttbarDown",ctagChainTitle);
+                        variationalWeights["ctag_bFrag_up"] = 0;
+                        variationalWeights["ctag_bFrag_down"] = 0;
+                        //bFrag systematic histograms do not exist in the root file from the POG
+                        // variationalWeights["ctag_bFrag_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"bFragUp",ctagChainTitle);
+                        // variationalWeights["ctag_bFrag_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"bFragDown",ctagChainTitle);
+                        variationalWeights["ctag_jer_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"jerUp",ctagChainTitle);
+                        variationalWeights["ctag_jer_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"jerDown",ctagChainTitle);
+                        variationalWeights["ctag_jesTotal_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"jesTotalUp",ctagChainTitle);
+                        variationalWeights["ctag_jesTotal_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"jesTotalDown",ctagChainTitle);
+                        variationalWeights["ctag_ValuesSystOnly_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"ValuesSystOnlyUp",ctagChainTitle);
+                        variationalWeights["ctag_ValuesSystOnly_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"ValuesSystOnlyDown",ctagChainTitle);
+                        variationalWeights["ctag_TotalUnc_up"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"TotalUncUp",ctagChainTitle);
+                        variationalWeights["ctag_TotalUnc_down"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"TotalUncDown",ctagChainTitle);
+                        variationalWeights["ctag_withMaxUncs"] = (weight/getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"central",ctagChainTitle))*getIterativeCSF(nt.year(),good_jets,good_bjets,csf2018,"withMaxUncs",ctagChainTitle);
+                    }
                 }
                 // variationalWeights["btag_central"]= weight;
                 auto pdfWeights = nt.LHEPdfWeight();
@@ -1682,8 +1765,13 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             float hut_pred_value = -999;
             if (evaluateBDT){
                 if( ((category==1) && (chainTitle=="fakes_mc")) ||
+                    ((category==1) && (chainTitle=="top")) ||
+                    ((category==1) && (chainTitle=="wjets")) ||
+                    ((category==1) && (chainTitle=="dy")) ||
+                    ((category==1) && (chainTitle=="otherFakes")) ||
                     ((category==2) && (chainTitle=="flips_mc")) ||
                     ((category==3) && (chainTitle=="rares") && (nt.event()%2!=0)) ||
+                    ((category==3) && (ctagChainTitle=="rares") && (nt.event()%2!=0)) ||
                     ((category==3) && (chainTitle=="wz") && (nt.event()%2!=0)) ||
                     ((category==3) && (chainTitle=="qqww") && (nt.event()%2!=0)) ||
                     ((category==3) && (chainTitle=="ttw") && (nt.event()%2!=0)) ||

@@ -10,45 +10,45 @@ std::string HistContainer::getRegionName(int hyp_type, int njets, int  nbjets) {
 }
 
 std::vector<std::string> HistContainer::getRegionNames() {
-    // std::vector<std::string> rnames = { "br","mr","ml","mlsf","ss","os","sf","df","mldf",
-    //                                     "osest","mlsfest","sfest","mldfest","dfest",
-    //                                     "sfpp","dfpp","mlsfppp","mldfppp",
-    //                                     "sfppest","dfppest","mlsfpppest","mldfpppest"/*,
-    //                                     "vrcr","vrcrest","vrsr",
-    //                                     "vrcr_flip","vrcrest_flip","vrsr_flip"*/};
+    std::vector<std::string> rnames = { /*"br","mr","ml","mlsf","ss","os","sf","df","mldf",
+                                        "osest","mlsfest","sfest","mldfest","dfest",
+                                        "sfpp","dfpp","mlsfppp","mldfppp",
+                                        "sfppest","dfppest","mlsfpppest","mldfpppest",*/
+                                        "vrcr_fake","vrcrest_fake","vrsr_fake"/*,
+                                        "vrcr_flip","vrcrest_flip","vrsr_flip"*/};
 
-    std::vector<std::string> rnames = { "PU_up","PU_down",
-                                        "LepSF_up","LepSF_down",
-                                        "Trigger_up","Trigger_down",
-                                        // "lf_up","lf_down",
-                                        // "hf_up","hf_down",
-                                        // "hfstats1_up","hfstats1_down",
-                                        // "hfstats2_up","hfstats2_down",
-                                        // "lfstats1_up","lfstats1_down",
-                                        // "lfstats2_up","lfstats2_down",
-                                        // "cferr1_up","cferr1_down",
-                                        // "cferr2_up","cferr2_down",
-                                        // "btag_central",
-                                        // "bTag_up","bTag_down",
-                                        "ctag_stat_up", "ctag_stat_down",
-                                        "ctag_EleIDSF_up", "ctag_EleIDSF_down",
-                                        "ctag_LHEScaleWeightmuF_up", "ctag_LHEScaleWeightmuF_down",
-                                        "ctag_LHEScaleWeightmuR_up", "ctag_LHEScaleWeightmuR_down",
-                                        "ctag_MuIDSF_up", "ctag_MuIDSF_down",
-                                        "ctag_PSWeightFSR_up", "ctag_PSWeightFSR_down",
-                                        "ctag_PSWeightISR_up", "ctag_PSWeightISR_down",
-                                        "ctag_PUWeight_up", "ctag_PUWeight_down",
-                                        "ctag_XSecDYJets_up", "ctag_XSecDYJets_down",
-                                        "ctag_XSecST_up", "ctag_XSecST_down",
-                                        "ctag_XSecWJets_up", "ctag_XSecWJets_down",
-                                        "ctag_XSecttbar_up", "ctag_XSecttbar_down",
-                                        "ctag_bFrag_up", "ctag_bFrag_down",
-                                        "ctag_jer_up", "ctag_jer_down",
-                                        "ctag_jesTotal_up", "ctag_jesTotal_down",
-                                        "ctag_ValuesSystOnly_up", "ctag_ValuesSystOnly_down",
-                                        "ctag_TotalUnc_up", "ctag_TotalUnc_down",
-                                        "ctag_withMaxUncs",
-                                        /*"renorm_scale","pdf_scale"*/};
+    // std::vector<std::string> rnames = { "PU_up","PU_down",
+    //                                     "LepSF_up","LepSF_down",
+    //                                     "Trigger_up","Trigger_down",
+    //                                     // // "lf_up","lf_down",
+    //                                     // // "hf_up","hf_down",
+    //                                     // // "hfstats1_up","hfstats1_down",
+    //                                     // // "hfstats2_up","hfstats2_down",
+    //                                     // // "lfstats1_up","lfstats1_down",
+    //                                     // // "lfstats2_up","lfstats2_down",
+    //                                     // // "cferr1_up","cferr1_down",
+    //                                     // // "cferr2_up","cferr2_down",
+    //                                     // // "btag_central",
+    //                                     // // "bTag_up","bTag_down",
+    //                                     // "ctag_stat_up", "ctag_stat_down",
+    //                                     // "ctag_EleIDSF_up", "ctag_EleIDSF_down",
+    //                                     // "ctag_LHEScaleWeightmuF_up", "ctag_LHEScaleWeightmuF_down",
+    //                                     // "ctag_LHEScaleWeightmuR_up", "ctag_LHEScaleWeightmuR_down",
+    //                                     // "ctag_MuIDSF_up", "ctag_MuIDSF_down",
+    //                                     // "ctag_PSWeightFSR_up", "ctag_PSWeightFSR_down",
+    //                                     // "ctag_PSWeightISR_up", "ctag_PSWeightISR_down",
+    //                                     // "ctag_PUWeight_up", "ctag_PUWeight_down",
+    //                                     // "ctag_XSecDYJets_up", "ctag_XSecDYJets_down",
+    //                                     // "ctag_XSecST_up", "ctag_XSecST_down",
+    //                                     // "ctag_XSecWJets_up", "ctag_XSecWJets_down",
+    //                                     // "ctag_XSecttbar_up", "ctag_XSecttbar_down",
+    //                                     // "ctag_bFrag_up", "ctag_bFrag_down",
+    //                                     // "ctag_jer_up", "ctag_jer_down",
+    //                                     // "ctag_jesTotal_up", "ctag_jesTotal_down",
+    //                                     // "ctag_ValuesSystOnly_up", "ctag_ValuesSystOnly_down",
+    //                                     // "ctag_TotalUnc_up", "ctag_TotalUnc_down",
+    //                                     // "ctag_withMaxUncs",
+    //                                     /*"renorm_scale","pdf_scale"*/};
     // std::vector<std::string> rnames;
     // for(int i = 0; i < 101; i++){
     //     std::string i_str = std::to_string(i);
@@ -405,16 +405,28 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
     // addHist1d("bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
     // addHist1d("bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
+    addHist1d("fakeVal_bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
+    addHist1d("fakeVal_bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
+    addHist1d("fakeVal_bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
+    addHist1d("fakeVal_bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
+    addHist1d("fakeVal_bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
+    addHist1d("fakeVal_bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
+    // addHist1d("flipVal_bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
+    // addHist1d("flipVal_bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
+    // addHist1d("flipVal_bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
+    // addHist1d("flipVal_bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
+    // addHist1d("flipVal_bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
+    // addHist1d("flipVal_bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
     // addHist1d("bdtScore_evenBins_hct",sample,20,0,1);//,"br");
     // addHist1d("bdtScore_evenBins_hut",sample,20,0,1);//,"br");
     // addHist2d("wvshct",sample,40,0,2,20,0,1);//,"br");
     // addHist2d("wvshut",sample,40,0,2,20,0,1);//,"br");
-    addHist1d("bdtScore_syst_hct2016",sample,20,hct2016bins_);//,"br");
-    addHist1d("bdtScore_syst_hut2016",sample,20,hut2016bins_);//,"br");
-    addHist1d("bdtScore_syst_hct2017",sample,20,hct2017bins_);//,"br");
-    addHist1d("bdtScore_syst_hut2017",sample,20,hut2017bins_);//,"br");
-    addHist1d("bdtScore_syst_hct2018",sample,20,hct2018bins_);//,"br");
-    addHist1d("bdtScore_syst_hut2018",sample,20,hut2018bins_);//,"br");
+    // addHist1d("bdtScore_syst_hct2016",sample,20,hct2016bins_);//,"br");
+    // addHist1d("bdtScore_syst_hut2016",sample,20,hut2016bins_);//,"br");
+    // addHist1d("bdtScore_syst_hct2017",sample,20,hct2017bins_);//,"br");
+    // addHist1d("bdtScore_syst_hut2017",sample,20,hut2017bins_);//,"br");
+    // addHist1d("bdtScore_syst_hct2018",sample,20,hct2018bins_);//,"br");
+    // addHist1d("bdtScore_syst_hut2018",sample,20,hut2018bins_);//,"br");
     // // // // addHist1d("flipSFcr_inclMET",sample,18,0.5,18.5);//,"br");
     // // // // addHist1d("flipSFcr_l50MET",sample,18,0.5,18.5);//,"br");
     // addHist1d("fakecr",sample,21,0.5,21.5);//,"br");
@@ -452,21 +464,21 @@ void HistContainer::loadHists(std::string sample) {
     // // // addHist1d("valCR_flip_emChan",sample,21,0.5,21.5,"vrcr_flip");
     // // // addHist1d("valCRest_flip_emChan",sample,21,0.5,21.5,"vrcrest_flip");
 
-    // addHist1d("vrsr",sample,21,0.5,21.5,"vrsr");
-    // addHist1d("vrcr",sample,21,0.5,21.5,"vrcr");
-    // addHist1d("vrcrest",sample,21,0.5,21.5,"vrcrest");
-    // // addHist1d("vrsr_ee",sample,21,0.5,21.5,"vrsr");
-    // // addHist1d("vrcr_ee",sample,21,0.5,21.5,"vrcr");
-    // // addHist1d("vrcrest_ee",sample,21,0.5,21.5,"vrcrest");
-    // // addHist1d("vrsr_mm",sample,21,0.5,21.5,"vrsr");
-    // // addHist1d("vrcr_mm",sample,21,0.5,21.5,"vrcr");
-    // // addHist1d("vrcrest_mm",sample,21,0.5,21.5,"vrcrest");
-    // // addHist1d("vrsr_em",sample,21,0.5,21.5,"vrsr");
-    // // addHist1d("vrcr_em",sample,21,0.5,21.5,"vrcr");
-    // // addHist1d("vrcrest_em",sample,21,0.5,21.5,"vrcrest");
-    // // addHist1d("vrsr_me",sample,21,0.5,21.5,"vrsr");
-    // // addHist1d("vrcr_me",sample,21,0.5,21.5,"vrcr");
-    // // addHist1d("vrcrest_me",sample,21,0.5,21.5,"vrcrest");
+    // addHist1d("valSR_fake",sample,21,0.5,21.5,"valSR_fake");
+    // addHist1d("valCR_fake",sample,21,0.5,21.5,"valCR_fake");
+    // addHist1d("valCRest_fake",sample,21,0.5,21.5,"valCRest_fake");
+    // // addHist1d("valSR_fake_ee",sample,21,0.5,21.5,"valSR_fake");
+    // // addHist1d("valCR_fake_ee",sample,21,0.5,21.5,"valCR_fake");
+    // // addHist1d("valCRest_fake_ee",sample,21,0.5,21.5,"valCRest_fake");
+    // // addHist1d("valSR_fake_mm",sample,21,0.5,21.5,"valSR_fake");
+    // // addHist1d("valCR_fake_mm",sample,21,0.5,21.5,"valCR_fake");
+    // // addHist1d("valCRest_fake_mm",sample,21,0.5,21.5,"valCRest_fake");
+    // // addHist1d("valSR_fake_em",sample,21,0.5,21.5,"valSR_fake");
+    // // addHist1d("valCR_fake_em",sample,21,0.5,21.5,"valCR_fake");
+    // // addHist1d("valCRest_fake_em",sample,21,0.5,21.5,"valCRest_fake");
+    // // addHist1d("valSR_fake_me",sample,21,0.5,21.5,"valSR_fake");
+    // // addHist1d("valCR_fake_me",sample,21,0.5,21.5,"valCR_fake");
+    // // addHist1d("valCRest_fake_me",sample,21,0.5,21.5,"valCRest_fake");
     return;
 }
 
@@ -701,7 +713,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             if(hct_pred!=-999){fill1d("bdtScore_syst_hct",name,sample,hct_pred,variationMap[name]);}
             if(hut_pred!=-999){fill1d("bdtScore_syst_hut",name,sample,hut_pred,variationMap[name]);}
             // cout << "filled " << name << " with weight " << variationMap[name] << endl;
-            // if(isnan(variationMap[name])){cout << "nan weight: " << name << " event: " << nt.event() << endl;}
+            if(isnan(variationMap[name])){cout << "nan weight: " << name << " event: " << nt.event() << endl;}
         }
 
         if (name=="br") {
@@ -911,57 +923,84 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         }
         //fill the fake estimation plots
         if( fillFakeCR ){
+            // cout << "**********************************************in fillFakeCR check " << endl;
+            // cout << "hct score: " << hct_pred << endl;
+            // cout << "hut score: " << hut_pred << endl;
+            if(hct_pred!=-999){fill1d("bdtScore_hct",name,sample,hct_pred,fillWeight);}
+            if(hut_pred!=-999){fill1d("bdtScore_hut",name,sample,hut_pred,fillWeight);}
             fill1d("fakecr",name,sample,cr,fillWeight);
             //if (isVR_CR_fake){fill1d("vrcr","vrcr_"+name,sample,cr,fillWeight);}
-            if (isVR_CR_fake && fillWeight==weight){fill1d("vrcr","vrcr",sample,cr,fillWeight);}
+            if (isVR_CR_fake && fillWeight==weight){
+                if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrcr_fake",sample,hct_pred,fillWeight);}
+                if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrcr_fake",sample,hut_pred,fillWeight);}
+            }
+            if (isVR_CR_fake && fillWeight==weight){fill1d("valCR_fake","vrcr_fake",sample,cr,fillWeight);}
             if (isVR_CR_fake && fillWeight==crWeight){
                 if (name=="dfest"||name=="mldfest"){
                     fillWeight = -1*fillWeight;
-                    fill1d("vrcrest","vrcrest",sample,cr,fillWeight);
-                }else{fill1d("vrcrest","vrcrest",sample,cr,fillWeight);}
+                    if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrcrest_fake",sample,hct_pred,fillWeight);}
+                    if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrcrest_fake",sample,hut_pred,fillWeight);}
+                    fill1d("valCRest_fake","vrcrest_fake",sample,cr,fillWeight);
+                }else{
+                    if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrcrest_fake",sample,hct_pred,fillWeight);}
+                    if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrcrest_fake",sample,hut_pred,fillWeight);}
+                    fill1d("valCRest_fake","vrcrest_fake",sample,cr,fillWeight);
+                }
             }
-            if ((isEE||isEFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_ee","vrcr",sample,cr,fillWeight);}
+            if ((isEE||isEFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_ee","vrcr_fake",sample,cr,fillWeight);}
             if ((isEE||isEFake) && isVR_CR_fake && fillWeight==crWeight){
                 if (name=="dfest"||name=="mldfest"){
                     fillWeight = -1*fillWeight;
-                    fill1d("vrcrest_ee","vrcrest",sample,cr,fillWeight);
-                }else{fill1d("vrcrest_ee","vrcrest",sample,cr,fillWeight);}
+                    fill1d("vrcrest_ee","vrcrest_fake",sample,cr,fillWeight);
+                }else{fill1d("vrcrest_ee","vrcrest_fake",sample,cr,fillWeight);}
             }
-            if ((isEM||isMFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_em","vrcr",sample,cr,fillWeight);}
+            if ((isEM||isMFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_em","vrcr_fake",sample,cr,fillWeight);}
             if ((isEM||isMFake) && isVR_CR_fake && fillWeight==crWeight){
                 if (name=="dfest"||name=="mldfest"){
                     fillWeight = -1*fillWeight;
-                    fill1d("vrcrest_em","vrcrest",sample,cr,fillWeight);
-                }else{fill1d("vrcrest_em","vrcrest",sample,cr,fillWeight);}
+                    fill1d("vrcrest_em","vrcrest_fake",sample,cr,fillWeight);
+                }else{fill1d("vrcrest_em","vrcrest_fake",sample,cr,fillWeight);}
             }
-            if ((isME||isEFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_me","vrcr",sample,cr,fillWeight);}
+            if ((isME||isEFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_me","vrcr_fake",sample,cr,fillWeight);}
             if ((isME||isEFake) && isVR_CR_fake && fillWeight==crWeight){
                 if (name=="dfest"||name=="mldfest"){
                     fillWeight = -1*fillWeight;
-                    fill1d("vrcrest_me","vrcrest",sample,cr,fillWeight);
-                }else{fill1d("vrcrest_me","vrcrest",sample,cr,fillWeight);}
+                    fill1d("vrcrest_me","vrcrest_fake",sample,cr,fillWeight);
+                }else{fill1d("vrcrest_me","vrcrest_fake",sample,cr,fillWeight);}
             }
-            if ((isMM||isMFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_mm","vrcr",sample,cr,fillWeight);}
+            if ((isMM||isMFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_mm","vrcr_fake",sample,cr,fillWeight);}
             if ((isMM||isMFake) && isVR_CR_fake && fillWeight==crWeight){
                 if (name=="dfest"||name=="mldfest"){
                     fillWeight = -1*fillWeight;
-                    fill1d("vrcrest_mm","vrcrest",sample,cr,fillWeight);
-                }else{fill1d("vrcrest_mm","vrcrest",sample,cr,fillWeight);}
+                    fill1d("vrcrest_mm","vrcrest_fake",sample,cr,fillWeight);
+                }else{fill1d("vrcrest_mm","vrcrest_fake",sample,cr,fillWeight);}
             }
         }
         //if (isVR_SR_fake){fill1d("vrsr","vrsr_"+name,sample,cr,fillWeight);} 
         if(name == "ss" || name == "ml"){
-            if (isVR_SR_fake){fill1d("vrsr","vrsr",sample,cr,fillWeight);}
-            if (isVR_SR_fake && (isEE||(nleps==3&&isEFake))){fill1d("vrsr_ee","vrsr",sample,cr,fillWeight);}
-            if (isVR_SR_fake && (isEM||(nleps==3&&isMFake))){fill1d("vrsr_em","vrsr",sample,cr,fillWeight);}
-            if (isVR_SR_fake && (isME||(nleps==3&&isEFake))){fill1d("vrsr_me","vrsr",sample,cr,fillWeight);}
-            if (isVR_SR_fake && (isMM||(nleps==3&&isMFake))){fill1d("vrsr_mm","vrsr",sample,cr,fillWeight);}
+            if (isVR_SR_fake){
+                if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrsr_fake",sample,hct_pred,fillWeight);}
+                if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrsr_fake",sample,hut_pred,fillWeight);}
+                fill1d("valSR_fake","vrsr_fake",sample,cr,fillWeight);
+            }
+            if (isVR_SR_fake && (isEE||(nleps==3&&isEFake))){fill1d("vrsr_ee","vrsr_fake",sample,cr,fillWeight);}
+            if (isVR_SR_fake && (isEM||(nleps==3&&isMFake))){fill1d("vrsr_em","vrsr_fake",sample,cr,fillWeight);}
+            if (isVR_SR_fake && (isME||(nleps==3&&isEFake))){fill1d("vrsr_me","vrsr_fake",sample,cr,fillWeight);}
+            if (isVR_SR_fake && (isMM||(nleps==3&&isMFake))){fill1d("vrsr_mm","vrsr_fake",sample,cr,fillWeight);}
         }
         //fill flip estimation plots
         if( name=="os"||name=="osest" ){
             fill1d("flipcr",name,sample,cr,fillWeight);
-            if (isVR_CR_flip && fillWeight==weight){fill1d("valCR_flip","vrcr_flip",sample,cr,fillWeight);}
-            if (isVR_CR_flip && fillWeight==crWeight){fill1d("valCRest_flip","vrcrest_flip",sample,cr,fillWeight);}
+            if (isVR_CR_flip && fillWeight==weight){
+                fill1d("valCR_flip","vrcr_flip",sample,cr,fillWeight);
+                if(hct_pred!=999){fill1d("flipVal_bdtScore_hct","vrcr_flip",sample,hct_pred,fillWeight);}
+                if(hut_pred!=999){fill1d("flipVal_bdtScore_hut","vrcr_flip",sample,hut_pred,fillWeight);}
+            }
+            if (isVR_CR_flip && fillWeight==crWeight){
+                fill1d("valCRest_flip","vrcrest_flip",sample,cr,fillWeight);
+                if(hct_pred!=999){fill1d("flipVal_bdtScore_hct","vrcrest_flip",sample,hct_pred,fillWeight);}
+                if(hut_pred!=999){fill1d("flipVal_bdtScore_hut","vrcrest_flip",sample,hut_pred,fillWeight);}
+            }
             if (isVR_CR_flip && isEE_flip && fillWeight==weight){fill1d("valCR_flip_eeChan","vrcr_flip",sample,cr,fillWeight);}
             if (isVR_CR_flip && isEE_flip && fillWeight==crWeight){fill1d("valCRest_flip_eeChan","vrcrest_flip",sample,cr,fillWeight);}
             if (isVR_CR_flip && isEM_flip && fillWeight==weight){fill1d("valCR_flip_emChan","vrcr_flip",sample,cr,fillWeight);}
@@ -969,7 +1008,11 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         }
         //if (isVR_SR_flip){fill1d("vrsr","vrsr_"+name,sample,cr,fillWeight);} 
         if(name == "ss" || name == "ml"){
-            if (isVR_SR_flip){fill1d("valSR_flip","vrsr_flip",sample,cr,fillWeight);}
+            if (isVR_SR_flip){
+                fill1d("valSR_flip","vrsr_flip",sample,cr,fillWeight);
+                if(hct_pred!=999){fill1d("flipVal_bdtScore_hct","vrsr_flip",sample,hct_pred,fillWeight);}
+                if(hut_pred!=999){fill1d("flipVal_bdtScore_hut","vrsr_flip",sample,hut_pred,fillWeight);}
+            }
             if (isVR_SR_flip && isEE_flip){fill1d("valSR_flip_eeChan","vrsr_flip",sample,cr,fillWeight);}
             if (isVR_SR_flip && isEM_flip){fill1d("valSR_flip_emChan","vrsr_flip",sample,cr,fillWeight);}
         }

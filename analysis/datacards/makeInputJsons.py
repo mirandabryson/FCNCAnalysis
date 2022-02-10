@@ -10,19 +10,25 @@ import json
 inputCCHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
 # inputCCHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec13_lep30_cc/"
 # inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/"
-inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/"
+# inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/"
 # inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec13_tthYieldsBDT/"
 # inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec16_ctagBDTYields/"
 
 inputCCSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_ccSystematics/"
-inputBDTSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtSystematics/"
+# inputBDTSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtSystematics/"
 # inputBDTBTagSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtBTagSyst/"
 # inputCCBTagSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_ccBTagSyst/"
 
 inputCCJESUp = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_ccJESUp/"
 inputCCJESDown = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_ccJESDown/"
-inputBDTJESUp = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtJESUp/"
-inputBDTJESDown = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtJESDown/"
+# inputBDTJESUp = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtJESUp/"
+# inputBDTJESDown = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov23_bdtJESDown/"
+inputBDTJESUp = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan25_ctag_jesUp/"
+inputBDTJESDown = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan25_ctag_jesDown/"
+
+inputBDTHistos = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan18_ctagBDT_normedCTagging/"
+inputBDTSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan19_ctag_syst/"
+inputBDTCtagSyst = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan19_ctag_syst/"
 
 with open('./ccPDFScale.json') as ccScale_json: ccScale = json.load(ccScale_json)
 with open('./bdtPDFScale.json') as bdtScale_json: bdtScale = json.load(bdtScale_json)
@@ -56,15 +62,20 @@ def getObjFromFile(fname, hname):
 with open('./ccSRbins.json') as ccbins_json: ccSRDict = json.load(ccbins_json)
 
 years = [2016, 2017, 2018]
-# years = [2016,2017]
+# years = [2016]
 signals = ["tch", "tuh"]
 procs = ["signal","rares","fakes_mc","flips_mc"]
 mcProcs = ["signal_tch", "signal_tuh", "rares"]
 ddProcs = ["fakes_mc","flips_mc"]
 
-systSources = ["LepSF","PU","Trigger","cferr1","cferr2","hf","hfstats1","hfstats2","lf","lfstats1","lfstats2"]
-#systSources = ["LepSF","PU","Trigger"]
-btagsystSources = ["cferr1","cferr2","hf","hfstats1","hfstats2","lf","lfstats1","lfstats2"]
+# systSources = ["LepSF","PU","Trigger","cferr1","cferr2","hf","hfstats1","hfstats2","lf","lfstats1","lfstats2"]
+systSources = ["LepSF","PU","Trigger"]
+# btagsystSources = ["cferr1","cferr2","hf","hfstats1","hfstats2","lf","lfstats1","lfstats2"]
+ctagsystSources = [ "ctag_stat","ctag_EleIDSF","ctag_LHEScaleWeightmuF","ctag_LHEScaleWeightmuR",
+                    "ctag_MuIDSF","ctag_PSWeightFSR","ctag_PSWeightISR","ctag_PUWeight",
+                    "ctag_XSecDYJets","ctag_XSecST","ctag_XSecWJets","ctag_XSecttbar",
+                    "ctag_bFrag","ctag_jer","ctag_jesTotal","ctag_ValuesSystOnly",
+                    "ctag_TotalUnc"]#,"ctag_withMaxUncs"]
 otherSyst = ["jes"]#,"pdfScale","renormScale"]
 
 bdtSRs = ["bin_"+str(x) for x in range(20)]
@@ -139,10 +150,25 @@ for y in years:
             bdtMCsyst[str(y)][s][p] = {}
             bdtFileName = inputBDTHistos + p + "_" + str(y) + "_hists.root"
             centralHist = getObjFromFile(bdtFileName, "h_br_bdtScore_" + altSig + str(y) + "_" + p)
+            # print(bdtFileName,"h_br_bdtScore_" + altSig + str(y) + "_" + p)
             ##Trigger,Lepton,PU,BTagging
             for t in systSources:
                 bdtMCsyst[str(y)][s][p][t] = {}
                 bdtSystFileName = inputBDTSyst + p + "_" + str(y) + "_hists.root"
+                upHist = getObjFromFile(bdtSystFileName, "h_"+t+"_up_bdtScore_syst_"+ altSig + str(y) + "_" +p)
+                downHist = getObjFromFile(bdtSystFileName, "h_"+t+"_down_bdtScore_syst_"+ altSig + str(y) + "_" +p)
+                upHist.Divide(centralHist)
+                downHist.Divide(centralHist)
+                iterator = 1
+                for r in bdtSRs:
+                    bdtMCsyst[str(y)][s][p][t][r] = {}
+                    bdtMCsyst[str(y)][s][p][t][r]["up"] = upHist.GetBinContent(iterator)
+                    bdtMCsyst[str(y)][s][p][t][r]["down"] = downHist.GetBinContent(iterator)
+                    iterator += 1
+            ##CTagging
+            for t in ctagsystSources:
+                bdtMCsyst[str(y)][s][p][t] = {}
+                bdtSystFileName = inputBDTCtagSyst + p + "_" + str(y) + "_hists.root"
                 upHist = getObjFromFile(bdtSystFileName, "h_"+t+"_up_bdtScore_syst_"+ altSig + str(y) + "_" +p)
                 downHist = getObjFromFile(bdtSystFileName, "h_"+t+"_down_bdtScore_syst_"+ altSig + str(y) + "_" +p)
                 upHist.Divide(centralHist)
@@ -199,11 +225,12 @@ for y in years:
             for r in bdtSRs:
                 if (("signal" in p) and (s not in p)): continue 
                 bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r] = {}
-                bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["up"] = bdtScale[s][p]["bin_"+str(iterator-1)]["scale"]
                 if(bdtScale[s][p]["bin_"+str(iterator-1)]["scale"] > 1):
+                    bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["up"] = bdtScale[s][p]["bin_"+str(iterator-1)]["scale"]
                     bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["down"] = 2-bdtScale[s][p]["bin_"+str(iterator-1)]["scale"]
                 else:
-                    bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["down"] = 1+(1-bdtScale[s][p]["bin_"+str(iterator-1)]["scale"])
+                    bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["down"] = bdtScale[s][p]["bin_"+str(iterator-1)]["scale"]
+                    bdtMCsyst[str(y)][s][p][p[:3]+"ScShp"][r]["up"] = 2-bdtScale[s][p]["bin_"+str(iterator-1)]["scale"]
                 iterator += 1
             bdtMCsyst[str(y)][s][p][p[:3]+"Th"] = {}
             for r in bdtSRs:
@@ -243,22 +270,22 @@ for y in years:
                 ccMCsyst[str(y)][p][s][r]["up"] = upHist.GetBinContent(iterator)
                 ccMCsyst[str(y)][p][s][r]["down"] = downHist.GetBinContent(iterator)
                 iterator += 1
-        ##BTagging
-        # ccMCsyst[str(y)][p]["bTag"] = {}
-        ccSystFileName = inputCCSyst + p + "_" + str(y) + "_hists.root"
-        centralHist = getObjFromFile(ccSystFileName, "h_btag_central_sr_syst_"+p)        
-        for b in btagsystSources:
-           ccMCsyst[str(y)][p][b] ={}
-           upHist = getObjFromFile(ccSystFileName, "h_" + b + "_up_sr_syst_" + p)
-           downHist = getObjFromFile(ccSystFileName, "h_" + b + "_down_sr_syst_" + p)
-           upHist.Divide(centralHist)
-           downHist.Divide(centralHist)
-           iterator = 1
-           for r in ccSRs:
-               ccMCsyst[str(y)][p][b][r] = {}
-               ccMCsyst[str(y)][p][b][r]["up"] = upHist.GetBinContent(iterator)
-               ccMCsyst[str(y)][p][b][r]["down"] = downHist.GetBinContent(iterator)
-               iterator += 1
+        # ##BTagging
+        # # ccMCsyst[str(y)][p]["bTag"] = {}
+        # ccSystFileName = inputCCSyst + p + "_" + str(y) + "_hists.root"
+        # centralHist = getObjFromFile(ccSystFileName, "h_btag_central_sr_syst_"+p)        
+        # for b in btagsystSources:
+        #    ccMCsyst[str(y)][p][b] ={}
+        #    upHist = getObjFromFile(ccSystFileName, "h_" + b + "_up_sr_syst_" + p)
+        #    downHist = getObjFromFile(ccSystFileName, "h_" + b + "_down_sr_syst_" + p)
+        #    upHist.Divide(centralHist)
+        #    downHist.Divide(centralHist)
+        #    iterator = 1
+        #    for r in ccSRs:
+        #        ccMCsyst[str(y)][p][b][r] = {}
+        #        ccMCsyst[str(y)][p][b][r]["up"] = upHist.GetBinContent(iterator)
+        #        ccMCsyst[str(y)][p][b][r]["down"] = downHist.GetBinContent(iterator)
+        #        iterator += 1
         ##JES
         ccFileName = inputCCHistos + p + "_" + str(y) + "_hists.root"
         centralHist = getObjFromFile(ccFileName, "h_br_sr_" + p)

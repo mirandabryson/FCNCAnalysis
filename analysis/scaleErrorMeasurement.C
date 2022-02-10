@@ -405,11 +405,14 @@ int scaleError(std::string inputDir, bool isBDT=0)
                     float biggestUnc = 0.;
                     float uncertainty = 0.;
                     for (int j = 0; j < rares_vecs.size()/2; j++){
+                        cout << "vector: " << i << " element: " << j << " value: " << rares_vecs[j][i] << endl;
+                        cout << "\t distance from 1: " << fabs(rares_vecs[j][i]-1.) << endl;
                         if (fabs(rares_vecs[j][i]-1.)>biggestUnc){
                             biggestUnc = fabs(rares_vecs[j][i]-1.);
                             uncertainty = rares_vecs[j][i];
                         }
                     }
+                    cout << "\t largest uncertainty: " << uncertainty << endl;
                     outputTxtFile << "\t" << uncertainty;
                 }
                 outputTxtFile << endl;

@@ -52,6 +52,8 @@ float getIterativeCSF(int year, Jets &jets, Jets &btags, TFile* sfFile, string v
         weight *= wtHist->GetBinContent(xbin,ybin);
 
         // cout << "xbin: " << xbin << " ybin: " << ybin << " sf: " << wtHist->GetBinContent(xbin,ybin) << endl;
+        if(isnan(weight)){cout << "nan weight: " << weight << " event: " << nt.event() << endl;}
+
     }
 
     for ( auto bjet : btags ){
@@ -87,6 +89,7 @@ float getIterativeCSF(int year, Jets &jets, Jets &btags, TFile* sfFile, string v
         weight *= wtHist->GetBinContent(xbin,ybin);
 
         // cout << "xbin: " << xbin << " ybin: " << ybin << " sf: " << wtHist->GetBinContent(xbin,ybin) << endl;
+        if(isnan(weight)){cout << "nan weight: " << weight << " event: " << nt.event() << endl;}
     }
     // cout << "final weight: " << weight << endl;
     std::string sampCat = sampleCategory.Data();

@@ -11,7 +11,8 @@ import json
 ## HARDCODED PATHS TO INPUT HISTOS ##
 inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
 # inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov18_bdtYields/"
-inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/"
+# inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/"
+inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan18_ctagBDT_normedCTagging/"
 # inFileCC    = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/nov16_ccYields/"
 # inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec16_ctagBDTYields/"
 # inFileBDT   = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec13_tthYieldsBDT/"
@@ -105,11 +106,17 @@ def getSystRows(year, correlated, uncorrelated):
     titles = []
     for c in correlated:
         rowTitle = c
+        if "ctag_" in c: rowTitle = c[5:]
+        if "LHEScaleWeight" in c: rowTitle = rowTitle[8:]
+        if "ValuesSystOnly" in c: rowTitle = rowTitle[6:]
         while len(rowTitle)<17: rowTitle+=" "
         rowTitle += "lnN"
         titles.append(rowTitle)
     for u in uncorrelated:
         rowTitle = u
+        if "ctag_" in u: rowTitle = u[5:]
+        if "LHEScaleWeight" in u: rowTitle = rowTitle[8:]
+        if "ValuesSystOnly" in u: rowTitle = rowTitle[6:]
         rowTitle += "_" + str(year)[-2:]
         while len(rowTitle)<17: rowTitle+=" "
         rowTitle += "lnN"
@@ -230,7 +237,7 @@ with open('./bdtMCsyst.json') as bdtSyst_json: bdtSystDict = json.load(bdtSyst_j
 numCCSRs = 21
 numBDTSRs = 20
 years = [2016,2017,2018]
-# years = [2016,2017]
+# years = [2016]
 signalNorm = 0.01
 signals = ["tch","tuh"]
 procs   = ["signal","rares","fakes_mc","flips_mc"]
@@ -240,8 +247,31 @@ ddProcs = ["fakes_mc","flips_mc"]
 uncorrSyst = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
 corrSyst = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU","lf","hf","cferr1","cferr2"]
 
-bdtSystCorr = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU","lf","hf","cferr1","cferr2"]
-bdtSystUncorr = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
+# bdtSystCorr = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU","lf","hf","cferr1","cferr2"]
+# bdtSystUncorr = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
+
+bdtSystCorr = [ "rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU",
+                "ctag_LHEScaleWeightmuF",
+                "ctag_LHEScaleWeightmuR",
+                "ctag_PSWeightFSR",
+                "ctag_PSWeightISR",
+                "ctag_PUWeight",
+                "ctag_XSecDYJets",
+                "ctag_XSecST",
+                "ctag_XSecWJets",
+                "ctag_XSecttbar",
+                "ctag_bFrag",
+                ]
+bdtSystUncorr = [   "jes",
+                    "Trigger",
+                    "LepSF",
+                    "ctag_stat",
+                    "ctag_EleIDSF",
+                    "ctag_MuIDSF",
+                    "ctag_jer",
+                    "ctag_jesTotal",
+                    #"ctag_ValuesSystOnly"
+                    ]
 
 # corrSyst = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU"]
 # uncorrSyst = ["jes","Trigger","LepSF","hfstats1","hfstats2"]
@@ -281,8 +311,9 @@ for y in years:
         # bdtRows += getSRStatRows(procs, numBDTSRs)
         bdtRows += getSRStatRows(mcProcs, numBDTSRs)
         bdtRows += getBDTCRStatRows(y, ddProcs, bdtSRs, bdtCRDict, s)
-        bdtRows += getSystRows(y, corrSyst, uncorrSyst)
-        bdtRows += getNormRows(y, procs)
+        # bdtRows += getSystRows(y, corrSyst, uncorrSyst)
+        bdtRows += getSystRows(y, bdtSystCorr, bdtSystUncorr)
+        bdtRows += getNormRows(y, ddProcs)
 
         bdt_df = pd.DataFrame(columns = bdtDFCols, index = bdtRows)
         bdtObs = {x:0 for x in bdtSRs}
@@ -326,36 +357,36 @@ for y in years:
                 while len(fill) <20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
 
-                if "signal" in p: pname = p + "_" + s
-                else: pname = p
-                for c in corrSyst:
-                    if (("ScShp" in c) and p[:3] not in c): continue
-                    if (("Th" in c) and p[:3] not in c): continue
-                    rowTitle = c
-                    while len(rowTitle)<17: rowTitle += " "
-                    rowTitle += "lnN"
-                    fill = str(round(ccSystDict[str(y)][pname][c][colTitle[:-4]]["down"],6))
-                    fill += "/"
-                    fill += str(round(ccSystDict[str(y)][pname][c][colTitle[:-4]]["up"],6))
-                    while len(fill)<20: fill += " "
-                    cc_df[colTitle][rowTitle] = fill
-                for u in uncorrSyst:
-                    rowTitle = u
-                    rowTitle += "_" + str(y)[-2:]
-                    while len(rowTitle)<17: rowTitle += " "
-                    rowTitle += "lnN"
-                    fill = str(round(ccSystDict[str(y)][pname][u][colTitle[:-4]]["down"],6))
-                    fill += "/"
-                    fill += str(round(ccSystDict[str(y)][pname][u][colTitle[:-4]]["up"],6))
-                    while len(fill)<20: fill += " "
-                    cc_df[colTitle][rowTitle] = fill
-                # rowTitle = p[:3] + "_norm" + str(y)[-2:]
-                # while len(rowTitle)<17: rowTitle+=" "
-                # rowTitle += "lnN"
-                # if "signal" in p: fill = "0.8/1.2"
-                # else: fill = "0.7/1.3"
-                # while len(fill)<20: fill += " "
-                # cc_df[colTitle][rowTitle] = fill
+                # if "signal" in p: pname = p + "_" + s
+                # else: pname = p
+                # for c in corrSyst:
+                #     if (("ScShp" in c) and p[:3] not in c): continue
+                #     if (("Th" in c) and p[:3] not in c): continue
+                #     rowTitle = c
+                #     while len(rowTitle)<17: rowTitle += " "
+                #     rowTitle += "lnN"
+                #     fill = str(round(ccSystDict[str(y)][pname][c][colTitle[:-4]]["down"],6))
+                #     fill += "/"
+                #     fill += str(round(ccSystDict[str(y)][pname][c][colTitle[:-4]]["up"],6))
+                #     while len(fill)<20: fill += " "
+                #     cc_df[colTitle][rowTitle] = fill
+                # for u in uncorrSyst:
+                #     rowTitle = u
+                #     rowTitle += "_" + str(y)[-2:]
+                #     while len(rowTitle)<17: rowTitle += " "
+                #     rowTitle += "lnN"
+                #     fill = str(round(ccSystDict[str(y)][pname][u][colTitle[:-4]]["down"],6))
+                #     fill += "/"
+                #     fill += str(round(ccSystDict[str(y)][pname][u][colTitle[:-4]]["up"],6))
+                #     while len(fill)<20: fill += " "
+                #     cc_df[colTitle][rowTitle] = fill
+                rowTitle = p[:3] + "_norm" + str(y)[-2:]
+                while len(rowTitle)<17: rowTitle+=" "
+                rowTitle += "lnN"
+                if "signal" in p: fill = "0.8/1.2"
+                else: fill = "0.7/1.3"
+                while len(fill)<20: fill += " "
+                cc_df[colTitle][rowTitle] = fill
 
             ##LOOP TO FILL BDT##
             for i in range(1, numBDTSRs+1):
@@ -379,32 +410,43 @@ for y in years:
                 # rowTitle += "lnN"
                 # if "signal" in p: fill = "0.8/1.2"
                 # else: fill = "0.7/1.3"
+                # # elif "rares" in p: fill = "0.7/1.3"
+                # # else: fill = "-"
                 # while len(fill)<20: fill += " "
                 # bdt_df[colTitle][rowTitle] = fill
 
                 if "signal" in p: pname = p + "_" + s
                 else: pname = p
-                for c in bdtSystCorr:
-                    if (("ScShp" in c) and p[:3] not in c): continue
-                    if (("Th" in c) and p[:3] not in c): continue
-                    rowTitle = c
-                    while len(rowTitle)<17: rowTitle += " "
-                    rowTitle += "lnN"
-                    fill = str(round(bdtSystDict[str(y)][s][pname][c][colTitle[:-4]]["down"],6))
-                    fill += "/"
-                    fill += str(round(bdtSystDict[str(y)][s][pname][c][colTitle[:-4]]["up"],6))
-                    while len(fill)<20: fill += " "
-                    bdt_df[colTitle][rowTitle] = fill
-                for u in bdtSystUncorr:
-                    rowTitle = u
-                    rowTitle += "_" + str(y)[-2:]
-                    while len(rowTitle)<17: rowTitle += " "
-                    rowTitle += "lnN"
-                    fill = str(round(bdtSystDict[str(y)][s][pname][u][colTitle[:-4]]["down"],6))
-                    fill += "/"
-                    fill += str(round(bdtSystDict[str(y)][s][pname][u][colTitle[:-4]]["up"],6))
-                    while len(fill)<20: fill += " "
-                    bdt_df[colTitle][rowTitle] = fill
+                if ("signal" in pname) or ("rare" in pname):
+                    for c in bdtSystCorr:
+                        if (("ScShp" in c) and p[:3] not in c): continue
+                        if (("Th" in c) and p[:3] not in c): continue
+                        rowTitle = c
+                        if "ctag_" in c: rowTitle = c[5:]
+                        if "LHEScaleWeight" in c: rowTitle = rowTitle[8:]
+                        if "ValuesSystOnly" in c: rowTitle = rowTitle[6:]
+                        while len(rowTitle)<17: rowTitle += " "
+                        rowTitle += "lnN"
+                        fill = str(round(bdtSystDict[str(y)][s][pname][c][colTitle[:-4]]["down"],6))
+                        fill += "/"
+                        fill += str(round(bdtSystDict[str(y)][s][pname][c][colTitle[:-4]]["up"],6))
+                        if (("bFrag" in c) and (y==2018)): fill = "-"
+                        while len(fill)<20: fill += " "
+                        bdt_df[colTitle][rowTitle] = fill
+                    for u in bdtSystUncorr:
+                        rowTitle = u
+                        if "ctag_" in u: rowTitle = u[5:]
+                        if "LHEScaleWeight" in u: rowTitle = rowTitle[8:]
+                        if "ValuesSystOnly" in u: rowTitle = rowTitle[6:]
+                        rowTitle += "_" + str(y)[-2:]
+                        while len(rowTitle)<17: rowTitle += " "
+                        rowTitle += "lnN"
+                        fill = str(round(bdtSystDict[str(y)][s][pname][u][colTitle[:-4]]["down"],6))
+                        fill += "/"
+                        fill += str(round(bdtSystDict[str(y)][s][pname][u][colTitle[:-4]]["up"],6))
+                        if (("bFrag" in u) and (y==2018)): fill = "-"
+                        while len(fill)<20: fill += " "
+                        bdt_df[colTitle][rowTitle] = fill
 
 
         ## FILL DATA DRIVEN ESTIMATES ##
@@ -508,7 +550,7 @@ for y in years:
                 rowTitle = p[:3] + "_norm" + str(y)[-2:]
                 while len(rowTitle)<17: rowTitle+=" "
                 rowTitle += "lnN"
-                if "fakes" in p: fill = "0.6/1.4"
+                if "fakes" in p: fill = "0.85/1.15"
                 else: fill = "0.7/1.3"
                 while len(fill)<20: fill += " "
                 bdt_df[colTitle][rowTitle] = fill

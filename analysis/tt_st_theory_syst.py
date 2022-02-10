@@ -24,7 +24,7 @@ ccbins = [  "l2_j2_b0","l2_j3_b0","l2_j4_b0",
             ]
 srbins = ["bin_"+str(x) for x in range(20)]
 
-isBDT = 0
+isBDT = 1
 isCC = 0
 
 def calculate_total_unc_asymmetric(yield_tt, yield_st, verbose=False):
@@ -67,8 +67,11 @@ for y in years:
         if("tch" in c): altSig = "hct"
         else: altSig = "hut"
         
-        tt_file = "./outputs/nov30_bdtTTonly/signal_{0}_{1}_hists.root".format(c,y)
-        st_file = "./outputs/nov30_bdtSTonly/signal_{0}_{1}_hists.root".format(c,y)
+        tt_file = "./outputs/jan25_ctag_signalByProcess/ttbar/signal_{0}_{1}_hists.root".format(c,y)
+        st_file = "./outputs/jan25_ctag_signalByProcess/st/signal_{0}_{1}_hists.root".format(c,y)
+        
+        # tt_file = "./outputs/nov30_bdtTTonly/signal_{0}_{1}_hists.root".format(c,y)
+        # st_file = "./outputs/nov30_bdtSTonly/signal_{0}_{1}_hists.root".format(c,y)
 
         # tt_hist = getObjFromFile(tt_file, "h_br_sr_signal_{0}".format(c))
         # st_hist = getObjFromFile(st_file, "h_br_sr_signal_{0}".format(c))

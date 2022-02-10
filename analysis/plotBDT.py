@@ -11,7 +11,8 @@ from yahist import Hist1D, Hist2D
 
 # path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct27_bdtScore/'
 # path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/'
-path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan18_ctagBDT_normedCTagging/'
+path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan26_btagBDT_backgroundEstimate/'
+# path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan18_ctagBDT_normedCTagging/'
 # path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan12_ogBDT/'
 # path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan03_ctagSFs/'
 # path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct28_BDTInputs/'
@@ -171,13 +172,13 @@ for y in years:
                 }
             elif r =='br':
                 hists = {
-                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
-                    'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
-                    # 'sf': uproot3.open(path+'data_'+y+'_hists.root')['h_sfest_'+v+'_data'],
-                    # 'mlsf': uproot3.open(path+'data_'+y+'_hists.root')['h_mlsfest_'+v+'_data'],
-                    # 'df': uproot3.open(path+'data_'+y+'_hists.root')['h_dfest_'+v+'_data'],
-                    # 'mldf': uproot3.open(path+'data_'+y+'_hists.root')['h_mldfest_'+v+'_data'],
-                    # 'flips': uproot3.open(path+'data_'+y+'_hists.root')['h_osest_'+v+'_data'],
+                    # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    'sf': uproot3.open(path+'data_'+y+'_hists.root')['h_sfest_'+v+'_data'],
+                    'mlsf': uproot3.open(path+'data_'+y+'_hists.root')['h_mlsfest_'+v+'_data'],
+                    'df': uproot3.open(path+'data_'+y+'_hists.root')['h_dfest_'+v+'_data'],
+                    'mldf': uproot3.open(path+'data_'+y+'_hists.root')['h_mldfest_'+v+'_data'],
+                    'flips': uproot3.open(path+'data_'+y+'_hists.root')['h_osest_'+v+'_data'],
                     'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
                     #'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
                     'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
@@ -214,8 +215,8 @@ for y in years:
             # print(flipDataSF)
             # my_histos['data_est'] *= flipDataSF
             # my_histos['dy'] *= flipDataSF
-            # if r == 'br':
-            #     my_histos['fakes'] = my_histos['sf']+my_histos['mlsf']-my_histos['df']-my_histos['df']-my_histos['mldf']-my_histos['mldf']
+            if r == 'br':
+                my_histos['fakes'] = my_histos['sf']+my_histos['mlsf']-my_histos['df']-my_histos['df']-my_histos['mldf']-my_histos['mldf']
 
 
             if r == 'os':
@@ -317,12 +318,13 @@ for y in years:
 
             # f, ax = plt.subplots()
 
-            fig, (ax, rax) = plt.subplots(2,1,figsize=(10,10), gridspec_kw={"height_ratios": (3, 1), "hspace": 0.05}, sharex=True)
-            # fig, ax = plt.subplots(1,1,figsize=(10,10))
+            # fig, (ax, rax) = plt.subplots(2,1,figsize=(10,10), gridspec_kw={"height_ratios": (3, 1), "hspace": 0.05}, sharex=True)
+            fig, ax = plt.subplots(1,1,figsize=(10,10))
 
             if y == "2016": luminosity = 35.9
             if y == "2017": luminosity = 41.5
             if y == "2018": luminosity = 59.71
+            if y == "run2": luminosity = 137
             hep.cms.label(
                 "Preliminary",
                 data=True,
@@ -372,7 +374,8 @@ for y in years:
                 histtype="step",
                 stack=False,
                 label=[r'$B(t\to Hc)=0.01$', r'$B(t\to Hu)=0.01$'],
-                color=['#525B76','#6A4C93'],
+                # color=['#525B76','#6A4C93'],
+                color=['#525B76','#BC412B'],
                 ax=ax)
 
             if not (blind and (r == 'ss' """or r == 'ml'""" or r == 'br')):
@@ -411,20 +414,20 @@ for y in years:
             #         ax=rax)
 
 
-            rax.set_ylim(0,1.99)
+            # rax.set_ylim(0,1.99)
             # #rax.set_xlabel(r'$p_T\ (lead.\ lep.)\ (GeV)$')
-            rax.set_xlabel(vname)
+            # rax.set_xlabel(vname)
             # if not (blind and (r == 'ss' or r == 'ml' or r == 'br')): rax.set_ylabel(r'Data/Sim.')
-            if not (blind and (r == 'ss' """or r == 'ml'""" or r == 'br') or r == 'os'): rax.set_ylabel(r'Obs./Pred.')
-            else: rax.set_ylabel(r'Sig./Back.')
+            # if not (blind and (r == 'ss' """or r == 'ml'""" or r == 'br') or r == 'os'): rax.set_ylabel(r'Obs./Pred.')
+            # else: rax.set_ylabel(r'Sig./Back.')
             ax.set_ylabel(r'Events')
             ax.set_yscale('log')
-            ax.set_ylim(0.1,1e7)
-            # ax.set_xlabel(vname)
+            ax.set_ylim(1,1e7)
+            ax.set_xlabel(vname)
             # ax.set_yscale('linear')
             # ax.set_ylim(0.1, 10000)
 
-            add_uncertainty(total_mc, rax, ratio=True)
+            # add_uncertainty(total_mc, rax, ratio=True)
             add_uncertainty(total_mc, ax, offset1= 0.0)
 
             ax.legend(ncol=2)

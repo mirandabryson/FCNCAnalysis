@@ -29,7 +29,7 @@ other_unc = [1.25, 0.75]
 
 #lists to loop through
 years = ["2016", "2017", "2018"]
-# years = ["2016","2017"]
+# years = ["2016"]
 couplings = ["tch","tuh"]
 ccbins = [  "l2_j2_b0","l2_j3_b0","l2_j4_b0",
             "l2_j2_b1","l2_j3_b1","l2_j4_b1",
@@ -40,12 +40,13 @@ ccbins = [  "l2_j2_b0","l2_j3_b0","l2_j4_b0",
             ]
 bdtbins = ["bin_"+str(x) for x in range(20)]
 
-doBDT = 0
-doCC = 1
+doBDT = 1
+doCC = 0
 
 if doBDT:
     srbins = bdtbins
-    inputdir = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec3_raresByProcess/"
+    inputdir = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan24_ctag_raresByProcess/"
+    # inputdir = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec3_raresByProcess/"
 if doCC:
     srbins = ccbins
     inputdir = "/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec3_CC_raresByProcess/"
