@@ -201,7 +201,7 @@ std::map<std::string, Float_t> getfeatures(Jets good_jets, Jets good_bjets, Lept
 }
 
 void event_looper(TObjArray* list, TString title, TString options="", int nevts=-1, TString outputdir="outputs/"){
-    bool debugPrints = 1;
+    bool debugPrints = 0;
     //*************************************************************************//
     //*************************** begin set options ***************************//
     bool quiet = options.Contains("quiet");
