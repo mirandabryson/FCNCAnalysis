@@ -42,14 +42,14 @@ options = {
     "bf" : {
         "xlabel" :  "BF (t #rightarrow Hu) (%)",
         "ylabel" :  "BF (t #rightarrow Hc) (%)",
-        "ymax" : 0.2,
-        "xmax" : 0.2,
+        "ymax" : 0.15,
+        "xmax" : 0.15,
     },
     "coupling" : {
         "xlabel" : "#kappa_{Hut}",
         "ylabel" : "#kappa_{Hct}",
-        "ymax" : 0.2,
-        "xmax" : 0.2,
+        "ymax" : 0.15,
+        "xmax" : 0.15,
     }
 } 
 

@@ -12,7 +12,11 @@ from yahist import Hist1D, Hist2D
 # path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct27_bdtScore/'
 # path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/dec2_bdtYields/'
 # path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan26_btagBDT_backgroundEstimate/'
-path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan18_ctagBDT_normedCTagging/'
+# path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan18_ctagBDT_normedCTagging/'
+# path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/mar2_ctag_all/'
+# path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/mar3_ctag_mlonz/'
+# path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/mar3_ctag_fakeVal/'
+path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/mar3_ctag_rarebackgrounds/'
 # path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan12_ogBDT/'
 # path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan03_ctagSFs/'
 # path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct28_BDTInputs/'
@@ -20,14 +24,15 @@ path = '/home/users/ksalyer/FCNCAnalysis/analysis/outputs/jan18_ctagBDT_normedCT
 
 regions =   [ #"mr",
              # "os",
-             "sf",
+             # "sf",
              # "df",
              # "mlsf",
              # "mldf",
              # "ss",
              # "ml",
              # "mlonz"
-             # "br",
+             "br",
+             # "vrcr_fake",
              #"vrsr_ss",
              #"vrsr_ml",
              #"vrcr_sf",
@@ -41,6 +46,8 @@ variables = [   ["bdtScore_hct", 1, r'$HCT\ BDT\ score$'],
                 ["bdtScore_hut", 1, r'$HUT\ BDT\ score$'],
                 # ["bdtScoreOnZ_hct", 1, r'$HCT\ BDT\ score$'],
                 # ["bdtScoreOnZ_hut", 1, r'$HUT\ BDT\ score$'],
+                # ["fakeVal_bdtScore_hct", 1, r'$HCT\ BDT\ score$'],
+                # ["fakeVal_bdtScore_hut", 1, r'$HUT\ BDT\ score$'],
                 # ["bdtScore_evenBins_hct", 1, r'$HCT\ BDT\ score$'],
                 # ["bdtScore_evenBins_hut", 1, r'$HUT\ BDT\ score$'],
 
@@ -98,6 +105,7 @@ variables = [   ["bdtScore_hct", 1, r'$HCT\ BDT\ score$'],
             ]
 
 years = ["2016","2017","2018"]
+# years = ["2016","2017","2018","run2"]
 # years = ["2016"]
 blind = True
 
@@ -155,7 +163,7 @@ for y in years:
     for r in regions:
         for var in variables:
             v = var[0]
-            if "bdtScore_h" in v: v+=y
+            # if "bdtScore_h" in v: v+=y
             rebinVal = var[1]
             vname = var[2]
             histName = 'h_'+r+'_'+v+'_'+y
@@ -172,30 +180,43 @@ for y in years:
                 }
             elif r =='br':
                 hists = {
-                    # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
-                    # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
-                    'sf': uproot3.open(path+'data_'+y+'_hists.root')['h_sfest_'+v+'_data'],
-                    'mlsf': uproot3.open(path+'data_'+y+'_hists.root')['h_mlsfest_'+v+'_data'],
-                    'df': uproot3.open(path+'data_'+y+'_hists.root')['h_dfest_'+v+'_data'],
-                    'mldf': uproot3.open(path+'data_'+y+'_hists.root')['h_mldfest_'+v+'_data'],
-                    'flips': uproot3.open(path+'data_'+y+'_hists.root')['h_osest_'+v+'_data'],
-                    'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
-                    #'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
-                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
-                    'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
+                    # # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    # # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    # 'sf': uproot3.open(path+'data_'+y+'_hists.root')['h_sfest_'+v+'_data'],
+                    # 'mlsf': uproot3.open(path+'data_'+y+'_hists.root')['h_mlsfest_'+v+'_data'],
+                    # 'df': uproot3.open(path+'data_'+y+'_hists.root')['h_dfest_'+v+'_data'],
+                    # 'mldf': uproot3.open(path+'data_'+y+'_hists.root')['h_mldfest_'+v+'_data'],
+                    # 'flips': uproot3.open(path+'data_'+y+'_hists.root')['h_osest_'+v+'_data'],
+                    # 'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
+                    # #'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
+                    # 'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    # 'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
+
+                    'multiboson': uproot3.open(path+'multiboson_'+y+'_hists.root')['h_'+r+'_'+v+'_multiboson'],
+                    'ttw': uproot3.open(path+'ttw_'+y+'_hists.root')['h_'+r+'_'+v+'_ttw'],
+                    'ttx': uproot3.open(path+'ttx_'+y+'_hists.root')['h_'+r+'_'+v+'_ttx'],
+                    'ttvv': uproot3.open(path+'ttvv_'+y+'_hists.root')['h_'+r+'_'+v+'_ttvv'],
+                    'xg': uproot3.open(path+'xg_'+y+'_hists.root')['h_'+r+'_'+v+'_xg'],
+                    'smallRares': uproot3.open(path+'smallRares_'+y+'_hists.root')['h_'+r+'_'+v+'_smallRares']
+                }
+            elif r == 'vrcr_fake':
+                hists = {
+                    'estimate': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_vrcrest_fake_'+v+'_fakes_mc'],
+                    'signal': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_vrsr_fake_'+v+'_fakes_mc'],
                 }
             else:
                 hists = {
                     'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
-                    'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
                     # 'fakes': uproot3.open(path+'data_'+y+'_hists.root')['h_mlsfest_'+v+'_data'],
                     # 'flips': uproot3.open(path+'data_'+y+'_hists.root')['h_osest_'+v+'_data'],
-                    'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
-                    # 'ttw': uproot3.open(path+'ttw_'+y+'_hists.root')['h_'+r+'_'+v+'_ttw'],
-                    # 'ttz': uproot3.open(path+'ttz_'+y+'_hists.root')['h_'+r+'_'+v+'_ttz'],
-                    # 'tzq': uproot3.open(path+'tzq_'+y+'_hists.root')['h_'+r+'_'+v+'_tzq'],
-                    # 'wz': uproot3.open(path+'wz_'+y+'_hists.root')['h_'+r+'_'+v+'_wz'],
-                    # 'zz': uproot3.open(path+'zz_'+y+'_hists.root')['h_'+r+'_'+v+'_zz'],
+                    # 'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
+                    'rares': uproot3.open(path+'nonleadingrares_'+y+'_hists.root')['h_'+r+'_'+v+'_nonleadingrares'],
+                    'ttw': uproot3.open(path+'ttw_'+y+'_hists.root')['h_'+r+'_'+v+'_ttw'],
+                    'ttz': uproot3.open(path+'ttz_'+y+'_hists.root')['h_'+r+'_'+v+'_ttz'],
+                    'tzq': uproot3.open(path+'tzq_'+y+'_hists.root')['h_'+r+'_'+v+'_tzq'],
+                    'wz': uproot3.open(path+'wz_'+y+'_hists.root')['h_'+r+'_'+v+'_wz'],
+                    'zz': uproot3.open(path+'zz_'+y+'_hists.root')['h_'+r+'_'+v+'_zz'],
                     'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
                     'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
                     'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
@@ -214,8 +235,8 @@ for y in years:
             # print(flipDataSF)
             # my_histos['data_est'] *= flipDataSF
             # my_histos['dy'] *= flipDataSF
-            if r == 'br':
-                my_histos['fakes'] = my_histos['sf']+my_histos['mlsf']-my_histos['df']-my_histos['df']-my_histos['mldf']-my_histos['mldf']
+            # if r == 'br':
+            #     my_histos['fakes'] = my_histos['sf']+my_histos['mlsf']-my_histos['df']-my_histos['df']-my_histos['mldf']-my_histos['mldf']
 
 
             if r == 'os':
@@ -237,16 +258,22 @@ for y in years:
                 keys = ['rares', 'fakes', 'dy', 'top']
                 # keys = ['rares', 'dy', 'fakes']
 
+            elif r == 'vrcr_fake':
+                my_histos['estimate'].label = "Nonprompt Estimate"
+                my_histos['estimate'].color = '#FF595E'
+
+                keys = ['estimate']
+
             else: 
 
-                my_histos['fakes'].label = 'Nonprompt'
-                my_histos['fakes'].color = '#FF595E'
+                # my_histos['fakes'].label = 'Nonprompt'
+                # my_histos['fakes'].color = '#FF595E'
 
-                my_histos['flips'].label = 'Charge flip'
-                my_histos['flips'].color = '#FFCA3A'
+                # my_histos['flips'].label = 'Charge flip'
+                # my_histos['flips'].color = '#FFCA3A'
 
-                my_histos['rares'].label = 'Other'
-                my_histos['rares'].color = '#8AC926'
+                # my_histos['rares'].label = 'Other'
+                # my_histos['rares'].color = '#8AC926'
 
                 # my_histos['ttz'].label = 'ttZ'
                 # my_histos['ttz'].color = '#8AC926'
@@ -275,58 +302,61 @@ for y in years:
                 # my_histos['wboson'].label = 'wjets/wg'
                 # my_histos['wboson'].color = '#8AC926'
 
-                # my_histos['Higgs'].label = 'Higgs'
-                # my_histos['Higgs'].color = '#FF99C9'
+                my_histos['smallRares'].label = 'Higgs'
+                my_histos['smallRares'].color = '#FF99C9'
 
-                # my_histos['xg'].label = r'$X +\gamma$'
-                # my_histos['xg'].color = '#6987C9'
+                my_histos['xg'].label = r'$X +\gamma$'
+                my_histos['xg'].color = '#6987C9'
 
-                # my_histos['ttxx'].label = 'ttXX'
-                # my_histos['ttxx'].color = '#8AC926'
+                my_histos['ttvv'].label = 'ttXX'
+                my_histos['ttvv'].color = '#8AC926'
 
                 # # my_histos['triboson'].label = 'VVV'
                 # # my_histos['triboson'].color = '#FF99C9'
 
-                # my_histos['ttx'].label = 'ttX'
-                # my_histos['ttx'].color = '#FFCA3A'
+                my_histos['ttx'].label = 'ttX'
+                my_histos['ttx'].color = '#FFCA3A'
 
-                # my_histos['ttw'].label = 'ttW'
-                # my_histos['ttw'].color = '#08BDBD'
+                my_histos['ttw'].label = 'ttW'
+                my_histos['ttw'].color = '#08BDBD'
 
-                # my_histos['multiboson'].label = 'VV/VVV'
-                # my_histos['multiboson'].color = '#FF595E'
+                my_histos['multiboson'].label = 'VV/VVV'
+                my_histos['multiboson'].color = '#FF595E'
 
-                keys = ['flips', 'rares', 'fakes']
+                # keys = ['flips', 'rares', 'fakes']
                 # keys = [ 'ttw','tzq','ttz','fakes','rares', 'zz','wz']
-                # keys = ['Higgs','xg', 'ttxx','ttx', 'ttw','multiboson']
+                keys = ['smallRares','xg', 'ttvv','ttx', 'ttw','multiboson']
                 # keys = ['wboson','dy','top']
                 # keys = ['dy', 'xg', 'wboson','top']
 
-            signals = ['tch', 'tuh']
-
-            total_mc = get_total(my_histos, keys)
-
-            mcDataSF = (sum(my_histos['data'].counts))/(sum(total_mc.counts))
-            # print(mcDataSF)
-            my_histos['fakes'] *= mcDataSF
-            my_histos['flips'] *= mcDataSF
-            my_histos['rares'] *= mcDataSF
-            total_mc = get_total(my_histos, keys)
-
-
-            if not (blind and (r == 'ss' """or r == 'ml'""" or r == 'br')): 
-                ratio = my_histos['data'].divide(total_mc, )
-            #     # ratio_est = my_histos['data_est'].divide(total_mc, )
-            #     # ratio_data = my_histos['data'].divide(my_histos['data_est'], )
+            if r == 'vrcr_fake':
+                signals = ['signal']
             else:
-                ratio_tch = my_histos['tch'].divide(total_mc, )
-                ratio_tuh = my_histos['tuh'].divide(total_mc, )
+                signals = ['tch', 'tuh']
 
+            total_mc = get_total(my_histos, keys)
+
+            # mcDataSF = (sum(my_histos['data'].counts))/(sum(total_mc.counts))
+
+            # for k in keys:
+            #     my_histos[k] *= mcDataSF
+            # total_mc = get_total(my_histos, keys)
+
+
+            # if not (blind and (r == 'ss' """or r == 'ml'""" or r == 'br')): 
+            #     ratio = my_histos['data'].divide(total_mc, )
+            # #     # ratio_est = my_histos['data_est'].divide(total_mc, )
+            # #     # ratio_data = my_histos['data'].divide(my_histos['data_est'], )
+            # else:
+            #     ratio_tch = my_histos['tch'].divide(total_mc, )
+            #     ratio_tuh = my_histos['tuh'].divide(total_mc, )
+
+            # ratio = my_histos['estimate'].divide(my_histos['signal'])
 
             # f, ax = plt.subplots()
 
-            fig, (ax, rax) = plt.subplots(2,1,figsize=(10,10), gridspec_kw={"height_ratios": (3, 1), "hspace": 0.05}, sharex=True)
-            # fig, ax = plt.subplots(1,1,figsize=(10,10))
+            # fig, (ax, rax) = plt.subplots(2,1,figsize=(10,10), gridspec_kw={"height_ratios": (3, 1), "hspace": 0.05}, sharex=True)
+            fig, ax = plt.subplots(1,1,figsize=(10,10))
 
             if y == "2016": luminosity = 35.9
             if y == "2017": luminosity = 41.5
@@ -343,7 +373,9 @@ for y in years:
 
             hep.histplot(
                 [ my_histos[x].counts for x in keys ],
-                my_histos['fakes'].edges,
+                # my_histos['fakes'].edges,
+                my_histos['multiboson'].edges,
+                # my_histos['estimate'].edges,
                 w2=[ my_histos[x].errors for x in keys ],
                 histtype="fill",
                 stack=True,
@@ -352,17 +384,17 @@ for y in years:
                 color=[ my_histos[x].color for x in keys ],
                 ax=ax)
 
-            if not (blind and (r == 'ss' """or r == 'ml'""" or r == 'br')):
-                hep.histplot(
-                    my_histos['data'].counts,
-                    my_histos['data'].edges,
-                    yerr=my_histos['data'].errors,
-                    histtype="errorbar",
-                    stack=False,
-                    # label='%s (%.0f)'%('Observation', sum(my_histos['data'].counts)),
-                    label='%s'%('Observation'),
-                    color='black',
-                    ax=ax)
+            # if not (blind and (r == 'ss' """or r == 'ml'""" or r == 'br')):
+            #     hep.histplot(
+            #         my_histos['data'].counts,
+            #         my_histos['data'].edges,
+            #         yerr=my_histos['data'].errors,
+            #         histtype="errorbar",
+            #         stack=False,
+            #         # label='%s (%.0f)'%('Observation', sum(my_histos['data'].counts)),
+            #         label='%s'%('Observation'),
+            #         color='black',
+            #         ax=ax)
 
                 # hep.histplot(
                 #     my_histos['data_est'].counts,
@@ -374,27 +406,46 @@ for y in years:
                 #     color='grey',
                 #     ax=ax)
 
-            hep.histplot(
-                [my_histos['tch'].counts/100, my_histos['tuh'].counts/100],
-                my_histos['tch'].edges,
-                w2=[my_histos['tch'].errors/100, my_histos['tuh'].errors/100],
-                histtype="step",
-                stack=False,
-                label=[r'$B(t\to Hc)=0.01$', r'$B(t\to Hu)=0.01$'],
-                # color=['#525B76','#6A4C93'],
-                color=['#525B76','#BC412B'],
-                ax=ax)
+            # hep.histplot(
+            #     [my_histos['tch'].counts/100, my_histos['tuh'].counts/100],
+            #     my_histos['tch'].edges,
+            #     w2=[my_histos['tch'].errors/100, my_histos['tuh'].errors/100],
+            #     histtype="step",
+            #     stack=False,
+            #     label=[r'$B(t\to Hc)=0.01$', r'$B(t\to Hu)=0.01$'],
+            #     # color=['#525B76','#6A4C93'],
+            #     color=['#525B76','#BC412B'],
+            #     ax=ax)
 
-            if not (blind and (r == 'ss' """or r == 'ml'""" or r == 'br')):
-                # print("making data plot")
-                # print(ratio.counts)
-                hep.histplot(
-                    ratio.counts,
-                    ratio.edges,
-                    yerr=my_histos['data'].errors/total_mc.counts,
-                    histtype="errorbar",
-                    color='black',
-                    ax=rax)
+            # hep.histplot(
+            #     [my_histos['signal'].counts],
+            #     my_histos['signal'].edges,
+            #     w2=[my_histos['signal'].errors],
+            #     histtype="step",
+            #     stack=False,
+            #     label=[r'$Validation SR$'],
+            #     # color=['#525B76','#6A4C93'],
+            #     color=['#525B76'],
+            #     ax=ax)
+
+            # hep.histplot(
+            #     ratio.counts,
+            #     ratio.edges,
+            #     yerr=my_histos['estimate'].errors/my_histos['signal'].errors,
+            #     histtype="errorbar",
+            #     color='black',
+            #     ax=rax)
+
+            # if not (blind and (r == 'ss' """or r == 'ml'""" or r == 'br')):
+            #     # print("making data plot")
+            #     # print(ratio.counts)
+            #     hep.histplot(
+            #         ratio.counts,
+            #         ratio.edges,
+            #         yerr=my_histos['data'].errors/total_mc.counts,
+            #         histtype="errorbar",
+            #         color='black',
+            #         ax=rax)
 
             #     # hep.histplot(
             #     #     ratio_est.counts,
@@ -421,20 +472,21 @@ for y in years:
             #         ax=rax)
 
 
-            rax.set_ylim(0,1.99)
+            # rax.set_ylim(0,1.99)
             #rax.set_xlabel(r'$p_T\ (lead.\ lep.)\ (GeV)$')
-            rax.set_xlabel(vname)
+            # rax.set_xlabel(vname)
             # if not (blind and (r == 'ss' or r == 'ml' or r == 'br')): rax.set_ylabel(r'Data/Sim.')
             # if not (blind and (r == 'ss' """or r == 'ml'""" or r == 'br') or r == 'os'): rax.set_ylabel(r'Obs./Pred.')
             # else: rax.set_ylabel(r'Sig./Back.')
             ax.set_ylabel(r'Events')
             ax.set_yscale('log')
-            ax.set_ylim(1,1e7)
-            # ax.set_xlabel(vname)
+            # ax.set_ylim(1,1e10)
+            ax.set_ylim(1,1e4)
+            ax.set_xlabel(vname)
             # ax.set_yscale('linear')
             # ax.set_ylim(0.1, 10000)
 
-            add_uncertainty(total_mc, rax, ratio=True)
+            # add_uncertainty(total_mc, rax, ratio=True, offset1=0.3)
             add_uncertainty(total_mc, ax)
 
             ax.legend(ncol=2)

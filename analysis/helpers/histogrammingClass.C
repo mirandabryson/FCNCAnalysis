@@ -335,15 +335,15 @@ void HistContainer::addHist4d(std::string quantity, std::string sample, int nbin
 }
 
 void HistContainer::loadHists(std::string sample) {
-    addHist1d("njets",sample,5,-0.5,4.5);
-    addHist1d("nbjets",sample,3,-0.5,2.5);
+    // addHist1d("njets",sample,5,-0.5,4.5);
+    // addHist1d("nbjets",sample,3,-0.5,2.5);
     // addHist1d("nleps",sample,5,-0.5,4.5);
-    addHist1d("neles",sample,5,-0.5,4.5);
+    // addHist1d("neles",sample,5,-0.5,4.5);
     // // addHist1d("nmus",sample,5,-0.5,4.5);
     // // // addHist1d("nvtxs",sample,100,0,100);
     // // // addHist1d("elpt_emu",sample,100,0,200);
-    addHist1d("llpt",sample,100,0,200);
-    addHist1d("ltpt",sample,100,0,200);
+    // addHist1d("llpt",sample,100,0,200);
+    // addHist1d("ltpt",sample,100,0,200);
     // addHist1d("thirdlpt",sample,100,0,200);
     // addHist1d("lleta",sample,100,-5.,-5.);
     // addHist1d("lteta",sample,100,-5.,-5.);
@@ -369,13 +369,13 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("tjpt",sample,50,0,500);
     // addHist1d("thirdjpt",sample,50,0,500);
     // addHist1d("fwjpt",sample,50,0,500);
-    addHist1d("ljbscore",sample,20,0,1);
-    addHist1d("tjbscore",sample,20,0,1);
+    // addHist1d("ljbscore",sample,20,0,1);
+    // addHist1d("tjbscore",sample,20,0,1);
     // addHist1d("thirdjbscore",sample,20,0,1);
     // addHist1d("lbpt",sample,50,0,500);    
     // addHist1d("lbscore",sample,20,0,1);    
     // addHist1d("ht",sample,50,0,1000);
-    addHist1d("met",sample,20,0,400);
+    // addHist1d("met",sample,20,0,400);
     // addHist1d("mt_ll_met",sample,20,0,400);
     // addHist1d("mt_tl_met",sample,20,0,400);
     // addHist1d("mt_thirdl_met",sample,20,0,400);
@@ -393,16 +393,12 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("nbjOnZ",sample,3,-0.5,2.5);
     // addHist1d("mOnZ",sample,20,0,400);
     // addHist1d("zll",sample,20,70,110);
-    addHist1d("bdtScoreOnZ_hct",sample,20,hctbins_);//,"br");
-    addHist1d("bdtScoreOnZ_hut",sample,20,hutbins_);//,"br");
+    // addHist1d("bdtScoreOnZ_hct",sample,20,hctbins_);//,"br");
+    // addHist1d("bdtScoreOnZ_hut",sample,20,hutbins_);//,"br");
     addHist1d("bdtScore_hct",sample,20,hctbins_);//,"br");
     addHist1d("bdtScore_hut",sample,20,hutbins_);//,"br");
-    // addHist1d("fakeVal_bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
-    // addHist1d("fakeVal_bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
-    // addHist1d("fakeVal_bdtScore_hct2017",sample,20,hct2017bins_);//,"br");
-    // addHist1d("fakeVal_bdtScore_hut2017",sample,20,hut2017bins_);//,"br");
-    // addHist1d("fakeVal_bdtScore_hct2018",sample,20,hct2018bins_);//,"br");
-    // addHist1d("fakeVal_bdtScore_hut2018",sample,20,hut2018bins_);//,"br");
+    // addHist1d("fakeVal_bdtScore_hct",sample,20,hctbins_);//,"br");
+    // addHist1d("fakeVal_bdtScore_hut",sample,20,hutbins_);//,"br");
     // addHist1d("flipVal_bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
     // addHist1d("flipVal_bdtScore_hut2016",sample,20,hut2016bins_);//,"br");
     // addHist1d("flipVal_bdtScore_hct2017",sample,20,hct2017bins_);//,"br");

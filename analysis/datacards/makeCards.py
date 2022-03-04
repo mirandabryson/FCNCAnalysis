@@ -250,21 +250,44 @@ corrSyst = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU","lf","hf","cferr
 # bdtSystCorr = ["rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU","lf","hf","cferr1","cferr2"]
 # bdtSystUncorr = ["jes","Trigger","LepSF","lfstats1","lfstats2","hfstats1","hfstats2"]
 
+# bdtSystCorr = [ "rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU",
+#                 "ctag_LHEScaleWeightmuF",
+#                 "ctag_LHEScaleWeightmuR",
+#                 "ctag_PSWeightFSR",
+#                 "ctag_PSWeightISR",
+#                 "ctag_PUWeight",
+#                 "ctag_XSecDYJets",
+#                 "ctag_XSecST",
+#                 "ctag_XSecWJets",
+#                 "ctag_XSecttbar",
+#                 "ctag_bFrag",
+#                 ]
+# bdtSystUncorr = [   "jes",
+#                     "Trigger",
+#                     "LepSF",
+#                     "ctag_stat",
+#                     "ctag_EleIDSF",
+#                     "ctag_MuIDSF",
+#                     "ctag_jer",
+#                     "ctag_jesTotal",
+#                     #"ctag_ValuesSystOnly"
+#                     ]
+                    
 bdtSystCorr = [ "rarTh","sigTh","rarScShp","sigScShp","pdfShp","PU",
-                "ctag_LHEScaleWeightmuF",
-                "ctag_LHEScaleWeightmuR",
-                "ctag_PSWeightFSR",
-                "ctag_PSWeightISR",
-                "ctag_PUWeight",
-                "ctag_XSecDYJets",
-                "ctag_XSecST",
-                "ctag_XSecWJets",
-                "ctag_XSecttbar",
-                "ctag_bFrag",
                 ]
 bdtSystUncorr = [   "jes",
                     "Trigger",
                     "LepSF",
+                    "ctag_LHEScaleWeightmuF",
+                    "ctag_LHEScaleWeightmuR",
+                    "ctag_PSWeightFSR",
+                    "ctag_PSWeightISR",
+                    "ctag_PUWeight",
+                    "ctag_XSecDYJets",
+                    "ctag_XSecST",
+                    "ctag_XSecWJets",
+                    "ctag_XSecttbar",
+                    "ctag_bFrag",
                     "ctag_stat",
                     "ctag_EleIDSF",
                     "ctag_MuIDSF",
@@ -517,7 +540,7 @@ for y in years:
                 rowTitle = p[:3] + "_norm" + str(y)[-2:]
                 while len(rowTitle)<17: rowTitle+=" "
                 rowTitle += "lnN"
-                if "fakes" in p: fill = "0.6/1.4"
+                if "fakes" in p: fill = "0.7/1.3"
                 else: fill = "0.7/1.3"
                 while len(fill)<20: fill += " "
                 cc_df[colTitle][rowTitle] = fill
@@ -550,7 +573,8 @@ for y in years:
                 rowTitle = p[:3] + "_norm" + str(y)[-2:]
                 while len(rowTitle)<17: rowTitle+=" "
                 rowTitle += "lnN"
-                if "fakes" in p: fill = "0.85/1.15"
+                # if "fakes" in p: fill = "0.60/1.40"
+                if "fakes" in p: fill = "0.7/1.3"
                 else: fill = "0.7/1.3"
                 while len(fill)<20: fill += " "
                 bdt_df[colTitle][rowTitle] = fill

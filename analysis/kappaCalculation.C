@@ -130,6 +130,18 @@ int findKappa()
         {"tuhRun2_bdt",0.1411}
     };
 
+    map<string,vector<float>> bdt_limits = {
+        {"tch2016_bdt",{0.0760,0.1035,0.1509,0.2249,0.3281}},
+        {"tch2017_bdt",{0.0518,0.0703,0.1021,0.1513,0.2202}},
+        {"tch2018_bdt",{0.0466,0.0632,0.0918,0.1368,0.1985}},
+        {"tuh2016_bdt",{0.0698,0.0933,0.1313,0.1874,0.2594}},
+        {"tuh2017_bdt",{0.0485,0.0649,0.0913,0.1310,0.1808}},
+        {"tuh2018_bdt",{0.0497,0.0667,0.0942,0.1341,0.1847}},
+        {"tchRun2_bdt",{0.0325,0.0439,0.0630,0.0916,0.1295}},
+        {"tuhRun2_bdt",{0.0329,0.0443,0.0620,0.0882,0.1215}}
+
+    };
+
     float gamma_t = 1.32158;
     float gamma_hqt = 0.1904;
 
@@ -146,6 +158,14 @@ int findKappa()
     cout << endl << "minus1sigma kappas: " << endl;
     for (const auto& [key, minus1sigma]:minus1sigma){
         cout << key << "\t" << sqrt((minus1sigma/100.)*(gamma_t/gamma_hqt)) << endl;
+    }
+
+    cout << endl << "bdt kappas: " << endl;
+    for (const auto& [key, bdt_limits]:bdt_limits){
+        for (uint i=0; i<bdt_limits.size(); i++){
+            cout << key << "\t" << bdt_limits[i] << "\t" << sqrt((bdt_limits[i]/100.)*(gamma_t/gamma_hqt)) << endl;
+        }
+        cout << "********" << endl;
     }
 
     // vector<string> years = {"2016","2017","2018","Run2"};

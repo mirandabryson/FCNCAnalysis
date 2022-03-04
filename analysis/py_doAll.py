@@ -147,7 +147,7 @@ if __name__ == "__main__":
                 basedirs[2016] + get_sample_path("ttg_1lep", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("wg", 2016,args.tag) + ".root",
 
-                # basedirs[2016] + get_sample_path("dyjets_m10-50", 2016,args.tag) + ".root",
+                basedirs[2016] + get_sample_path("dyjets_m10-50", 2016,args.tag) + ".root",
                 basedirs[2016] + get_sample_path("dyjets_m50", 2016,args.tag) + ".root",
 
                 ], options=options[2016] + " doTruthFake doStitch "),
@@ -357,6 +357,7 @@ if __name__ == "__main__":
             "smallRares": make_obj([
                 basedirs[2016]+get_sample_path("ggh",2016,args.tag)+".root",
                 basedirs[2016]+get_sample_path("vh_nobb",2016,args.tag)+".root",
+                basedirs[2016]+get_sample_path("tthh",2016,args.tag)+".root",
                 ],options=options[2016]),
             "ggh": make_obj([basedirs[2016]+get_sample_path("ggh", 2016,args.tag) + ".root",], options=options[2016]),
             "qqww": make_obj([basedirs[2016]+get_sample_path("qqww", 2016,args.tag) + ".root",], options=options[2016]),
@@ -446,7 +447,7 @@ if __name__ == "__main__":
                 basedirs[2017] + get_sample_path("ttg_1lep", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("wg", 2017,args.tag) + ".root",
 
-                # basedirs[2017] + get_sample_path("dyjets_m10-50", 2017,args.tag) + ".root",
+                basedirs[2017] + get_sample_path("dyjets_m10-50", 2017,args.tag) + ".root",
                 basedirs[2017] + get_sample_path("dyjets_m50", 2017,args.tag) + ".root",
 
                 ], options=options[2017] + " doTruthFake doStitch "),
@@ -650,8 +651,9 @@ if __name__ == "__main__":
 
             ], options=options[2017]),
             "smallRares": make_obj([
-                basedirs[2017]+get_sample_path("vh_nobb",2017,args.tag)+".root",
                 basedirs[2017]+get_sample_path("ggh",2017,args.tag)+".root",
+                basedirs[2017]+get_sample_path("vh_nobb",2017,args.tag)+".root",
+                basedirs[2017]+get_sample_path("tthh",2017,args.tag)+".root",
                 ],options=options[2017]),
             "ggh": make_obj([basedirs[2017]+get_sample_path("ggh", 2017,args.tag) + ".root",], options=options[2017]),
             "qqww": make_obj([basedirs[2017]+get_sample_path("qqww", 2017,args.tag) + ".root",], options=options[2017]),
@@ -741,8 +743,8 @@ if __name__ == "__main__":
                 basedirs[2018] + get_sample_path("ttg_1lep", 2018,args.tag) + ".root",
                 basedirs[2018] + get_sample_path("wg", 2018,args.tag) + ".root",
                 
-                # basedirs[2018] + get_sample_path("dyjets_m10-50", 2018,args.tag) + ".root",
-                # basedirs[2018] + get_sample_path("dyjets_m50", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("dyjets_m10-50", 2018,args.tag) + ".root",
+                basedirs[2018] + get_sample_path("dyjets_m50", 2018,args.tag) + ".root",
 
 
                 # basedirs[2018] + get_sample_path("ttg_1lep", 2018,args.tag) + ".root",
@@ -1091,8 +1093,9 @@ if __name__ == "__main__":
 
             ], options=options[2018]),
             "smallRares": make_obj([
-                basedirs[2018]+get_sample_path("vh_nobb",2018,args.tag)+".root",
                 basedirs[2018]+get_sample_path("ggh",2018,args.tag)+".root",
+                basedirs[2018]+get_sample_path("vh_nobb",2018,args.tag)+".root",
+                basedirs[2018]+get_sample_path("tthh",2018,args.tag)+".root",
                 ],options=options[2018]),
             "ggh": make_obj(basedirs[2018] + get_sample_path("ggh", 2018,args.tag) + ".root", options=options[2018]),
             "qqww": make_obj(basedirs[2018] + get_sample_path("qqww", 2018,args.tag) + ".root", options=options[2018]),

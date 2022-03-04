@@ -427,8 +427,15 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
         chainTitle=="ttz"||
         chainTitle=="zg"||
         chainTitle=="wg"||
-        chainTitle=="tw_dilep"){
+        chainTitle=="tw_dilep"||
+        chainTitle=="os_rares"||
+        chainTitle=="nonleadingrares"){
         ctagChainTitle = "rares";
+    }else if(chainTitle=="top"){
+        ctagChainTitle = "flips";
+        cout << "make sure this is what you want!!! top ctagchaintitle is flips" << endl;
+    }else if(chainTitle=="dy"){
+        ctagChainTitle = "flips";
     }else{
         ctagChainTitle = chainTitle;
         cout << "chainTitle is " << chainTitle << ", so I'm setting ctagChainTitle to " << ctagChainTitle << endl;
@@ -1987,8 +1994,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nFlips+=weight;}
             }else if (category == 3 && !(isSignal||isData)){
-                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
-                // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                // hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nRares+=weight;}
             }else if (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData)){
                 hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
