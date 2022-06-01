@@ -1,8 +1,15 @@
 # FCNCAnalysis
+## build CMSSW environment
+cmsrel CMSSW_12_1_0_pre4 <br>
+cd CMSSW_12_1_0_pre4/src <br>
+cmsenv <br>
+cd <br>
+
+## checkout code
 mkdir fcnc <br>
 cd fcnc <br>
 git clone https://github.com/ksalyer/FCNCAnalysis.git ana <br>
-cd FCNCAnalysis <br>
+cd ana <br>
 git checkout franksFork <br>
 cd .. <br>
 git clone https://github.com/ksalyer/NanoTools.git <br>
