@@ -47,7 +47,7 @@ std::vector<std::string> HistContainer::getRegionNames() {
     //                                     // "ctag_jesTotal_up", "ctag_jesTotal_down",
     //                                     // "ctag_ValuesSystOnly_up", "ctag_ValuesSystOnly_down",
     //                                     // "ctag_TotalUnc_up", "ctag_TotalUnc_down",
-    //                                     // "ctag_withMaxUncs",
+    //                                     // "ctag_withfUncs",
     //                                     /*"renorm_scale","pdf_scale"*/};
     // std::vector<std::string> rnames;
     // for(int i = 0; i < 101; i++){
@@ -66,23 +66,42 @@ int HistContainer::getSR(int hyp_type, int njets, int nbjets) {
     // if(hyp_type==2 && njets>3 && nbjets >1){cout << "njets: " << njets << "  nbjets: " << nbjets << "  hyptype: " << hyp_type << endl;}
     if ( !(hyp_type==2 || hyp_type==4) ) return -1;
     int ret=0;
-    int joffset = 3;
-    if (hyp_type==2){joffset = 4;};
-    int offset=(std::min(njets,4)-1)+joffset*std::min(nbjets,2);
-    int loffset=0;
-    if (hyp_type==2) loffset=10;
-    return loffset+offset;
+    int offset=15;
+    if (hyp_type==4){
+        if (nbjets == 2){
+            if(njets<=5){offset =0;}
+            if(njets==6){offset =1;}
+            if(njets==7){offset =2;}
+            if(njets>=8){offset =3;}
+        }
+        if (nbjets == 3){
+            if(njets==5){offset =4;}
+            if(njets==6){offset =5;}
+            if(njets==7){offset =6;}
+            if(njets>=8){offset =7;}
+        }
+        if (nbjets >=4){offset =8;}
+    }
+    if (hyp_type==2){
+        if(nbjets == 2){
+            if(njets==5){offset =9;}
+            if(njets==6){offset =10;}
+            if(njets>=7){offset =11;}
+        }
+        if (nbjets >= 3){
+            if(njets==4){offset =12;}
+            if(njets==5){offset =13;}
+            if(njets>=6){offset =14;}
+        }
+    }
+    return offset;
 }
 
-int HistContainer::getCRbin(int nleps, int njets, int nbjets) {
+int HistContainer::getCRbin(int hyp_type, int njets, int nbjets) {
     //if ( !(hyp_type==2 || hyp_type==4) ) return -1;
-    int ret=0;
-    int joffset = 3;
-    if (nleps==3){joffset = 4;};
-    int offset=(std::min(njets,4)-1)+joffset*std::min(nbjets,2);
-    int loffset=0;
-    if (nleps==3) loffset=10;
-    return loffset+offset;
+    int offset = 0;
+    if (hyp_type==1){offset = 1;}
+    return offset;
 }
 
 int HistContainer::getEtaBin(float lep_eta, int lep_id) {
@@ -335,15 +354,31 @@ void HistContainer::addHist4d(std::string quantity, std::string sample, int nbin
 }
 
 void HistContainer::loadHists(std::string sample) {
-    // addHist1d("njets",sample,5,-0.5,4.5);
-    // addHist1d("nbjets",sample,3,-0.5,2.5);
-    // addHist1d("nleps",sample,5,-0.5,4.5);
+    addHist1d("njets",sample,5,-0.5,4.5);
+    addHist1d("nbjets",sample,3,-0.5,2.5);
+    addHist1d("nleps",sample,5,-0.5,4.5);
+    addHist1d("llpt",sample,100,0,200);
+    addHist1d("ltpt",sample,100,0,200);
+    addHist1d("ljpt",sample,50,0,500);
+    addHist1d("thirdjpt",sample,50,0,500);
+    addHist1d("htb",sample,50,0,1000);
+    addHist1d("met",sample,20,0,400);
+    //addHist1d("nlooseb",sample,3,-0.5,2.5);
+    //addHist1d("ntightb",sample,3,-0.5,2.5);
+    addHist1d("mlj",sample,100,0,200);
+    addHist1d("j7pt",sample,50,0,500);
+    addHist1d("llltdphi",sample,35,0,3.15);
+    addHist1d("j6pt",sample,50,0,500);
+    addHist1d("maxmjoverpt",sample,50,0,0.5);
+    addHist1d("llltdeta",sample,50,0,5);
+    addHist1d("j8pt",sample,50,0,500);
+    addHist1d("sr",sample,19,-0.5,18.5);//,"br");
+    addHist1d("crbins",sample,2,-0.5,1.5);//,"br");
+    //addHist1d("q1",sample,2,-1,1);
     // addHist1d("neles",sample,5,-0.5,4.5);
-    // // addHist1d("nmus",sample,5,-0.5,4.5);
-    // // // addHist1d("nvtxs",sample,100,0,100);
-    // // // addHist1d("elpt_emu",sample,100,0,200);
-    // addHist1d("llpt",sample,100,0,200);
-    // addHist1d("ltpt",sample,100,0,200);
+    // addHist1d("nmus",sample,5,-0.5,4.5);
+    // addHist1d("nvtxs",sample,100,0,100);
+    // addHist1d("elpt_emu",sample,100,0,200);
     // addHist1d("thirdlpt",sample,100,0,200);
     // addHist1d("lleta",sample,100,-5.,-5.);
     // addHist1d("lteta",sample,100,-5.,-5.);
@@ -358,16 +393,14 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("ltminiiso",sample,16,0.,0.4);
     // addHist1d("mll",sample,100,0,200);
     // addHist1d("mbl",sample,100,0,200);
-    // // // // // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
-    // // // // // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
-    // // // // addHist1d("flipSF_l50MET_mee",sample,35,55,125);
-    // // // // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
-    // // // // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
-    // // // // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
-    // // // // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
-    // addHist1d("ljpt",sample,50,0,500);
+    // addHist1d("flipSF_inclMET_mee",sample,20,70,110);
+    // addHist1d("flipSF_l50MET_mee",sample,20,70,110);
+    // addHist1d("flipSF_l50MET_mee",sample,35,55,125);
+    // addHist1d("flipSF_inclMET_njets",sample,7,-0.5,6.5);
+    // addHist1d("flipSF_inclMET_nbjets",sample,5,-0.5,4.5);
+    // addHist1d("flipSF_l50MET_njets",sample,7,-0.5,6.5);
+    // addHist1d("flipSF_l50MET_nbjets",sample,5,-0.5,4.5);
     // addHist1d("tjpt",sample,50,0,500);
-    // addHist1d("thirdjpt",sample,50,0,500);
     // addHist1d("fwjpt",sample,50,0,500);
     // addHist1d("ljbscore",sample,20,0,1);
     // addHist1d("tjbscore",sample,20,0,1);
@@ -375,12 +408,10 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("lbpt",sample,50,0,500);    
     // addHist1d("lbscore",sample,20,0,1);    
     // addHist1d("ht",sample,50,0,1000);
-    // addHist1d("met",sample,20,0,400);
     // addHist1d("mt_ll_met",sample,20,0,400);
     // addHist1d("mt_tl_met",sample,20,0,400);
     // addHist1d("mt_thirdl_met",sample,20,0,400);
     // // addHist1d("cutflow",sample,7,0.5,7.5,"br");
-    // addHist1d("sr",sample,21,0.5,21.5);//,"br");
     // addHist1d("ljcscore",sample,20,0,1);
     // addHist1d("tjcscore",sample,20,0,1);
     // addHist1d("thirdjcscore",sample,20,0,1);
@@ -395,8 +426,8 @@ void HistContainer::loadHists(std::string sample) {
     // addHist1d("zll",sample,20,70,110);
     // addHist1d("bdtScoreOnZ_hct",sample,20,hctbins_);//,"br");
     // addHist1d("bdtScoreOnZ_hut",sample,20,hutbins_);//,"br");
-    addHist1d("bdtScore_hct",sample,20,hctbins_);//,"br");
-    addHist1d("bdtScore_hut",sample,20,hutbins_);//,"br");
+    //addHist1d("bdtScore_hct",sample,20,hctbins_);//,"br");
+    //addHist1d("bdtScore_hut",sample,20,hutbins_);//,"br");
     // addHist1d("fakeVal_bdtScore_hct",sample,20,hctbins_);//,"br");
     // addHist1d("fakeVal_bdtScore_hut",sample,20,hutbins_);//,"br");
     // addHist1d("flipVal_bdtScore_hct2016",sample,20,hct2016bins_);//,"br");
@@ -492,11 +523,12 @@ void HistContainer::write() {
 
 void HistContainer::fill1d(std::string quantity, std::string region, std::string sample, float value, float weight) {
     std::map<std::string,TH1D*>::iterator it1d;
-    // cout << quantity << " " << region << " " << sample << endl;
+    //cout << quantity << " " << region << " " << sample << endl;
     for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {
-        //cout << it1d->first << endl;
         if (it1d->first.find(sample)==std::string::npos)  continue;
+        //cout << "passed find sample    "<< sample << endl;
         if (it1d->first.find(quantity)==std::string::npos) continue;
+        //cout << "passed find quantity   "<< quantity <<endl;
         if (it1d->first.find(region)==std::string::npos) continue;
         if (region.find("pp")==std::string::npos && it1d->first.find("pp")!=std::string::npos) continue;
         if (region.find("est")==std::string::npos && it1d->first.find("est")!=std::string::npos) continue;
@@ -509,7 +541,7 @@ void HistContainer::fill1d(std::string quantity, std::string region, std::string
         if (quantity.find("Chan")==std::string::npos && it1d->first.find("Chan")!=std::string::npos) continue;
         if (quantity=="ht" && it1d->first.find("Weight")!=std::string::npos) continue;
         it1d->second->Fill(value,weight);
-        // cout << "filled " << it1d->first << " with weight " << weight << " for event " << nt.event() << " in bin " << value << endl;
+        //cout << "filled " << it1d->first << " with weight " << weight << " for event " << nt.event() << " in bin " << value << endl;
         // cout << quantity << " " << region << " " << sample << endl;
 
         /*if (region.find("vrcr")!=std::string::npos){
@@ -568,6 +600,7 @@ float get_sum_pt(Jets  &jets) {
     }
     return ret;
 }
+
 
 void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, 
                         float met, float metphi, bool isVR_SR_fake, bool isVR_CR_fake, bool isVR_SR_flip, bool isVR_CR_flip, 
@@ -671,6 +704,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         }
     }
 
+
     if ( rname=="sf" && nPrompt==2 ){
         rnames.push_back("sfpp");
         rnames.push_back("sfppest");}
@@ -685,7 +719,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         rnames.push_back("mldfpppest");}
 
     for (auto name : rnames) {
-        if(onZPeak && diEl && isSS){continue;}
+        if(onZPeak && isSS){continue;} //took out && diEl
 
         //for filling systematic variations:
         if(doVariations && (best_hyp_type==2 || best_hyp_type==4) ){
@@ -831,6 +865,15 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             fill1d("thirdjbscore",name,sample,jets[2].bdisc(),fillWeight);
             fill1d("thirdjcscore",name,sample,jets[2].cdisc(),fillWeight);
         }
+        if(njets>=6){
+             fill1d("j6pt",name,sample,jets[5].pt(),fillWeight);
+        }
+        if(njets>=7){
+             fill1d("j7pt",name,sample,jets[6].pt(),fillWeight);
+        }
+        if(njets>=8){
+             fill1d("j8pt",name,sample,jets[7].pt(),fillWeight);
+        }
         fill1d("met",name,sample,met,fillWeight);
         if (nbjets>0){
             fill1d("lbpt",name,sample,bjets[0].pt(),fillWeight);
@@ -839,11 +882,27 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             fill1d("mbl",name,sample,mbl,fillWeight);
         }
         float ht = get_sum_pt(jets);
+        float htb = get_sum_pt(bjets);
         fill1d("ht",name,sample,ht,fillWeight);
+        fill1d("htb",name,sample,ht,fillWeight);
         fill1d("mt_ll_met",name,sample,mt_LeadLep_MET,fillWeight);
         fill1d("mt_tl_met",name,sample,mt_SubLeadLep_MET,fillWeight);
         if(leps.size()>2){fill1d("mt_thirdl_met",name,sample,mt_SubSubLeadLep_MET,fillWeight);}
         fill1d("mll",name,sample,(leps[0].p4()+leps[1].p4()).M(),fillWeight);
+        fill1d("mlj",name,sample,(leps[0].p4()+jets[0].p4()).M(),fillWeight);
+        float dphil1l2 = abs(leps[0].phi() - leps[1].phi());
+        float detal1l2 = abs(leps[0].eta() - leps[1].eta());
+        fill1d("llltdphi",name,sample,dphil1l2,fillWeight);
+        fill1d("llltdeta",name,sample, detal1l2,fillWeight);
+
+
+        // figure out maxmjoverpt, nlooseb, ntightb
+
+        float mjoverpt = 0.;
+        for(unsigned int ijet; ijet < jets.size(); ijet++){
+            mjoverpt = max(mjoverpt, jets[ijet].p4().M()/jets[ijet].pt());
+        }
+        fill1d("maxmjoverpt",name,sample, mjoverpt,fillWeight);
         // if (fillWeight == weight && name != "br"){
         //     //fill weight requirement prevents filling with the estimate weight (i.e. fake or flip weight)
         //     //name requirement prevents double-filling for ss or ml events
@@ -873,11 +932,9 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         //     fill1d("mll",name,sample,mass,fillWeight);
         // }
         if (name == "br") {
-
             int sr = getSR(best_hyp_type,njets,nbjets);
             // if(!(diEl&&onZPeak&&isSS)){fill1d("cutflow","br",sample,11,fillWeight);}
-            if (sr>=0 && !(diEl && onZPeak && isSS)){
-
+            if (sr>=0 && !( onZPeak && isSS)){ // took out && diEl 
                 fill1d("cutflow","br",sample,7,fillWeight);
                 // if (nt.MET_pt()>=50){fill1d("cutflow","br",sample,13,fillWeight);}
                 // if (nbjets>0){fill1d("cutflow","br",sample,14,fillWeight);}
@@ -888,122 +945,128 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             //int cutflow_counter=4;
             //fill1d("cutflow",name,sample,cutflow_counter,fillWeight);
         } 
-        int cr = getCRbin(nleps, njets, nbjets);
-        if ((name == "ss"||name == "os"||name == "osest") && onZPeak && diEl){
-            //mass = (leps[0].p4()+leps[1].p4()).M();
-            fill1d("flipSFcr_inclMET",name,sample,cr,fillWeight);
-            if(nbjets==0){
-                fill1d("flipSF_inclMET_mee",name,sample,mass,fillWeight);
-                fill1d("flipSF_inclMET_njets",name,sample,njets,fillWeight);
-                fill1d("flipSF_inclMET_nbjets",name,sample,nbjets,fillWeight);
-            }
-            float met_ = 0.;
-            if(nt.year()==2017){met_=nt.METFixEE2017_T1_pt();}
-            else{met_=nt.MET_pt();}
-            if(met<50.){
-                fill1d("flipSFcr_l50MET",name,sample,cr,fillWeight);
-                if(nbjets==0){
-                    fill1d("flipSF_l50MET_mee",name,sample,mass,fillWeight);
-                    fill1d("flipSF_l50MET_njets",name,sample,njets,fillWeight);
-                    fill1d("flipSF_l50MET_nbjets",name,sample,nbjets,fillWeight);
-                }
+        if (name == "mr"){
+            int cr = getCRbin(best_hyp_type,njets,nbjets);
+            if(cr >= 0 && ntight >= 3){
+                fill1d("crbins",name,sample,cr,fillWeight);
             }
         }
+        // int cr = getCRbin(nleps, njets, nbjets);
+        // if ((name == "ss"||name == "os"||name == "osest") && onZPeak ){ //took out 
+        //     //mass = (leps[0].p4()+leps[1].p4()).M();
+        //     fill1d("flipSFcr_inclMET",name,sample,cr,fillWeight);
+        //     if(nbjets==0){
+        //         fill1d("flipSF_inclMET_mee",name,sample,mass,fillWeight);
+        //         fill1d("flipSF_inclMET_njets",name,sample,njets,fillWeight);
+        //         fill1d("flipSF_inclMET_nbjets",name,sample,nbjets,fillWeight);
+        //     }
+        //     float met_ = 0.;
+        //     if(nt.year()==2017){met_=nt.METFixEE2017_T1_pt();}
+        //     else{met_=nt.MET_pt();}
+        //     if(met<50.){
+        //         fill1d("flipSFcr_l50MET",name,sample,cr,fillWeight);
+        //         if(nbjets==0){
+        //             fill1d("flipSF_l50MET_mee",name,sample,mass,fillWeight);
+        //             fill1d("flipSF_l50MET_njets",name,sample,njets,fillWeight);
+        //             fill1d("flipSF_l50MET_nbjets",name,sample,nbjets,fillWeight);
+        //         }
+        //     }
+        // }
         //fill the fake estimation plots
-        if( fillFakeCR ){
-            // cout << "**********************************************in fillFakeCR check " << endl;
-            // cout << "hct score: " << hct_pred << endl;
-            // cout << "hut score: " << hut_pred << endl;
-            if(hct_pred!=-999){fill1d("bdtScore_hct",name,sample,hct_pred,fillWeight);}
-            if(hut_pred!=-999){fill1d("bdtScore_hut",name,sample,hut_pred,fillWeight);}
-            fill1d("fakecr",name,sample,cr,fillWeight);
-            //if (isVR_CR_fake){fill1d("vrcr","vrcr_"+name,sample,cr,fillWeight);}
-            if (isVR_CR_fake && fillWeight==weight){
-                if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrcr_fake",sample,hct_pred,fillWeight);}
-                if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrcr_fake",sample,hut_pred,fillWeight);}
-            }
-            if (isVR_CR_fake && fillWeight==weight){fill1d("valCR_fake","vrcr_fake",sample,cr,fillWeight);}
-            if (isVR_CR_fake && fillWeight==crWeight){
-                if (name=="dfest"||name=="mldfest"){
-                    fillWeight = -1*fillWeight;
-                    if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrcrest_fake",sample,hct_pred,fillWeight);}
-                    if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrcrest_fake",sample,hut_pred,fillWeight);}
-                    fill1d("valCRest_fake","vrcrest_fake",sample,cr,fillWeight);
-                }else{
-                    if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrcrest_fake",sample,hct_pred,fillWeight);}
-                    if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrcrest_fake",sample,hut_pred,fillWeight);}
-                    fill1d("valCRest_fake","vrcrest_fake",sample,cr,fillWeight);
-                }
-            }
-            if ((isEE||isEFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_ee","vrcr_fake",sample,cr,fillWeight);}
-            if ((isEE||isEFake) && isVR_CR_fake && fillWeight==crWeight){
-                if (name=="dfest"||name=="mldfest"){
-                    fillWeight = -1*fillWeight;
-                    fill1d("vrcrest_ee","vrcrest_fake",sample,cr,fillWeight);
-                }else{fill1d("vrcrest_ee","vrcrest_fake",sample,cr,fillWeight);}
-            }
-            if ((isEM||isMFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_em","vrcr_fake",sample,cr,fillWeight);}
-            if ((isEM||isMFake) && isVR_CR_fake && fillWeight==crWeight){
-                if (name=="dfest"||name=="mldfest"){
-                    fillWeight = -1*fillWeight;
-                    fill1d("vrcrest_em","vrcrest_fake",sample,cr,fillWeight);
-                }else{fill1d("vrcrest_em","vrcrest_fake",sample,cr,fillWeight);}
-            }
-            if ((isME||isEFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_me","vrcr_fake",sample,cr,fillWeight);}
-            if ((isME||isEFake) && isVR_CR_fake && fillWeight==crWeight){
-                if (name=="dfest"||name=="mldfest"){
-                    fillWeight = -1*fillWeight;
-                    fill1d("vrcrest_me","vrcrest_fake",sample,cr,fillWeight);
-                }else{fill1d("vrcrest_me","vrcrest_fake",sample,cr,fillWeight);}
-            }
-            if ((isMM||isMFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_mm","vrcr_fake",sample,cr,fillWeight);}
-            if ((isMM||isMFake) && isVR_CR_fake && fillWeight==crWeight){
-                if (name=="dfest"||name=="mldfest"){
-                    fillWeight = -1*fillWeight;
-                    fill1d("vrcrest_mm","vrcrest_fake",sample,cr,fillWeight);
-                }else{fill1d("vrcrest_mm","vrcrest_fake",sample,cr,fillWeight);}
-            }
-        }
-        //if (isVR_SR_fake){fill1d("vrsr","vrsr_"+name,sample,cr,fillWeight);} 
-        if(name == "ss" || name == "ml"){
-            if (isVR_SR_fake){
-                if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrsr_fake",sample,hct_pred,fillWeight);}
-                if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrsr_fake",sample,hut_pred,fillWeight);}
-                fill1d("valSR_fake","vrsr_fake",sample,cr,fillWeight);
-            }
-            if (isVR_SR_fake && (isEE||(nleps==3&&isEFake))){fill1d("vrsr_ee","vrsr_fake",sample,cr,fillWeight);}
-            if (isVR_SR_fake && (isEM||(nleps==3&&isMFake))){fill1d("vrsr_em","vrsr_fake",sample,cr,fillWeight);}
-            if (isVR_SR_fake && (isME||(nleps==3&&isEFake))){fill1d("vrsr_me","vrsr_fake",sample,cr,fillWeight);}
-            if (isVR_SR_fake && (isMM||(nleps==3&&isMFake))){fill1d("vrsr_mm","vrsr_fake",sample,cr,fillWeight);}
-        }
-        //fill flip estimation plots
-        if( name=="os"||name=="osest" ){
-            fill1d("flipcr",name,sample,cr,fillWeight);
-            if (isVR_CR_flip && fillWeight==weight){
-                fill1d("valCR_flip","vrcr_flip",sample,cr,fillWeight);
-                if(hct_pred!=999){fill1d("flipVal_bdtScore_hct","vrcr_flip",sample,hct_pred,fillWeight);}
-                if(hut_pred!=999){fill1d("flipVal_bdtScore_hut","vrcr_flip",sample,hut_pred,fillWeight);}
-            }
-            if (isVR_CR_flip && fillWeight==crWeight){
-                fill1d("valCRest_flip","vrcrest_flip",sample,cr,fillWeight);
-                if(hct_pred!=999){fill1d("flipVal_bdtScore_hct","vrcrest_flip",sample,hct_pred,fillWeight);}
-                if(hut_pred!=999){fill1d("flipVal_bdtScore_hut","vrcrest_flip",sample,hut_pred,fillWeight);}
-            }
-            if (isVR_CR_flip && isEE_flip && fillWeight==weight){fill1d("valCR_flip_eeChan","vrcr_flip",sample,cr,fillWeight);}
-            if (isVR_CR_flip && isEE_flip && fillWeight==crWeight){fill1d("valCRest_flip_eeChan","vrcrest_flip",sample,cr,fillWeight);}
-            if (isVR_CR_flip && isEM_flip && fillWeight==weight){fill1d("valCR_flip_emChan","vrcr_flip",sample,cr,fillWeight);}
-            if (isVR_CR_flip && isEM_flip && fillWeight==crWeight){fill1d("valCRest_flip_emChan","vrcrest_flip",sample,cr,fillWeight);}
-        }
-        //if (isVR_SR_flip){fill1d("vrsr","vrsr_"+name,sample,cr,fillWeight);} 
-        if(name == "ss" || name == "ml"){
-            if (isVR_SR_flip){
-                fill1d("valSR_flip","vrsr_flip",sample,cr,fillWeight);
-                if(hct_pred!=999){fill1d("flipVal_bdtScore_hct","vrsr_flip",sample,hct_pred,fillWeight);}
-                if(hut_pred!=999){fill1d("flipVal_bdtScore_hut","vrsr_flip",sample,hut_pred,fillWeight);}
-            }
-            if (isVR_SR_flip && isEE_flip){fill1d("valSR_flip_eeChan","vrsr_flip",sample,cr,fillWeight);}
-            if (isVR_SR_flip && isEM_flip){fill1d("valSR_flip_emChan","vrsr_flip",sample,cr,fillWeight);}
-        }
+        // if( fillFakeCR ){
+        //     // cout << "**********************************************in fillFakeCR check " << endl;
+        //     // cout << "hct score: " << hct_pred << endl;
+        //     // cout << "hut score: " << hut_pred << endl;
+        //     if(hct_pred!=-999){fill1d("bdtScore_hct",name,sample,hct_pred,fillWeight);}
+        //     if(hut_pred!=-999){fill1d("bdtScore_hut",name,sample,hut_pred,fillWeight);}
+        //     fill1d("fakecr",name,sample,cr,fillWeight);
+        //     //if (isVR_CR_fake){fill1d("vrcr","vrcr_"+name,sample,cr,fillWeight);}
+        //     if (isVR_CR_fake && fillWeight==weight){
+        //         if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrcr_fake",sample,hct_pred,fillWeight);}
+        //         if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrcr_fake",sample,hut_pred,fillWeight);}
+        //     }
+        //     if (isVR_CR_fake && fillWeight==weight){fill1d("valCR_fake","vrcr_fake",sample,cr,fillWeight);}
+        //     if (isVR_CR_fake && fillWeight==crWeight){
+        //         if (name=="dfest"||name=="mldfest"){
+        //             fillWeight = -1*fillWeight;
+        //             if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrcrest_fake",sample,hct_pred,fillWeight);}
+        //             if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrcrest_fake",sample,hut_pred,fillWeight);}
+        //             fill1d("valCRest_fake","vrcrest_fake",sample,cr,fillWeight);
+        //         }else{
+        //             if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrcrest_fake",sample,hct_pred,fillWeight);}
+        //             if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrcrest_fake",sample,hut_pred,fillWeight);}
+        //             fill1d("valCRest_fake","vrcrest_fake",sample,cr,fillWeight);
+        //         }
+        //     }
+        //     if ((isEE||isEFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_ee","vrcr_fake",sample,cr,fillWeight);}
+        //     if ((isEE||isEFake) && isVR_CR_fake && fillWeight==crWeight){
+        //         if (name=="dfest"||name=="mldfest"){
+        //             fillWeight = -1*fillWeight;
+        //             fill1d("vrcrest_ee","vrcrest_fake",sample,cr,fillWeight);
+        //         }else{fill1d("vrcrest_ee","vrcrest_fake",sample,cr,fillWeight);}
+        //     }
+        //     if ((isEM||isMFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_em","vrcr_fake",sample,cr,fillWeight);}
+        //     if ((isEM||isMFake) && isVR_CR_fake && fillWeight==crWeight){
+        //         if (name=="dfest"||name=="mldfest"){
+        //             fillWeight = -1*fillWeight;
+        //             fill1d("vrcrest_em","vrcrest_fake",sample,cr,fillWeight);
+        //         }else{fill1d("vrcrest_em","vrcrest_fake",sample,cr,fillWeight);}
+        //     }
+        //     if ((isME||isEFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_me","vrcr_fake",sample,cr,fillWeight);}
+        //     if ((isME||isEFake) && isVR_CR_fake && fillWeight==crWeight){
+        //         if (name=="dfest"||name=="mldfest"){
+        //             fillWeight = -1*fillWeight;
+        //             fill1d("vrcrest_me","vrcrest_fake",sample,cr,fillWeight);
+        //         }else{fill1d("vrcrest_me","vrcrest_fake",sample,cr,fillWeight);}
+        //     }
+        //     if ((isMM||isMFake) && isVR_CR_fake && fillWeight==weight){fill1d("vrcr_mm","vrcr_fake",sample,cr,fillWeight);}
+        //     if ((isMM||isMFake) && isVR_CR_fake && fillWeight==crWeight){
+        //         if (name=="dfest"||name=="mldfest"){
+        //             fillWeight = -1*fillWeight;
+        //             fill1d("vrcrest_mm","vrcrest_fake",sample,cr,fillWeight);
+        //         }else{fill1d("vrcrest_mm","vrcrest_fake",sample,cr,fillWeight);}
+        //     }
+        // }
+        // //if (isVR_SR_fake){fill1d("vrsr","vrsr_"+name,sample,cr,fillWeight);} 
+        // if(name == "ss" || name == "ml"){
+        //     if (isVR_SR_fake){
+        //         if(hct_pred!=-999){fill1d("fakeVal_bdtScore_hct","vrsr_fake",sample,hct_pred,fillWeight);}
+        //         if(hut_pred!=-999){fill1d("fakeVal_bdtScore_hut","vrsr_fake",sample,hut_pred,fillWeight);}
+        //         fill1d("valSR_fake","vrsr_fake",sample,cr,fillWeight);
+        //     }
+        //     if (isVR_SR_fake && (isEE||(nleps==3&&isEFake))){fill1d("vrsr_ee","vrsr_fake",sample,cr,fillWeight);}
+        //     if (isVR_SR_fake && (isEM||(nleps==3&&isMFake))){fill1d("vrsr_em","vrsr_fake",sample,cr,fillWeight);}
+        //     if (isVR_SR_fake && (isME||(nleps==3&&isEFake))){fill1d("vrsr_me","vrsr_fake",sample,cr,fillWeight);}
+        //     if (isVR_SR_fake && (isMM||(nleps==3&&isMFake))){fill1d("vrsr_mm","vrsr_fake",sample,cr,fillWeight);}
+        // }
+        // //fill flip estimation plots
+        // if( name=="os"||name=="osest" ){
+        //     fill1d("flipcr",name,sample,cr,fillWeight);
+        //     if (isVR_CR_flip && fillWeight==weight){
+        //         fill1d("valCR_flip","vrcr_flip",sample,cr,fillWeight);
+        //         if(hct_pred!=999){fill1d("flipVal_bdtScore_hct","vrcr_flip",sample,hct_pred,fillWeight);}
+        //         if(hut_pred!=999){fill1d("flipVal_bdtScore_hut","vrcr_flip",sample,hut_pred,fillWeight);}
+        //     }
+        //     if (isVR_CR_flip && fillWeight==crWeight){
+        //         fill1d("valCRest_flip","vrcrest_flip",sample,cr,fillWeight);
+        //         if(hct_pred!=999){fill1d("flipVal_bdtScore_hct","vrcrest_flip",sample,hct_pred,fillWeight);}
+        //         if(hut_pred!=999){fill1d("flipVal_bdtScore_hut","vrcrest_flip",sample,hut_pred,fillWeight);}
+        //     }
+        //     if (isVR_CR_flip && isEE_flip && fillWeight==weight){fill1d("valCR_flip_eeChan","vrcr_flip",sample,cr,fillWeight);}
+        //     if (isVR_CR_flip && isEE_flip && fillWeight==crWeight){fill1d("valCRest_flip_eeChan","vrcrest_flip",sample,cr,fillWeight);}
+        //     if (isVR_CR_flip && isEM_flip && fillWeight==weight){fill1d("valCR_flip_emChan","vrcr_flip",sample,cr,fillWeight);}
+        //     if (isVR_CR_flip && isEM_flip && fillWeight==crWeight){fill1d("valCRest_flip_emChan","vrcrest_flip",sample,cr,fillWeight);}
+        // }
+        // //if (isVR_SR_flip){fill1d("vrsr","vrsr_"+name,sample,cr,fillWeight);} 
+        // if(name == "ss" || name == "ml"){
+        //     if (isVR_SR_flip){
+        //         fill1d("valSR_flip","vrsr_flip",sample,cr,fillWeight);
+        //         if(hct_pred!=999){fill1d("flipVal_bdtScore_hct","vrsr_flip",sample,hct_pred,fillWeight);}
+        //         if(hut_pred!=999){fill1d("flipVal_bdtScore_hut","vrsr_flip",sample,hut_pred,fillWeight);}
+        //     }
+        //     if (isVR_SR_flip && isEE_flip){fill1d("valSR_flip_eeChan","vrsr_flip",sample,cr,fillWeight);}
+        //     if (isVR_SR_flip && isEM_flip){fill1d("valSR_flip_emChan","vrsr_flip",sample,cr,fillWeight);}
+        // }
 
     } // end loop over regions
 
