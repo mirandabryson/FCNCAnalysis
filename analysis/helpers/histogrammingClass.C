@@ -354,24 +354,24 @@ void HistContainer::addHist4d(std::string quantity, std::string sample, int nbin
 }
 
 void HistContainer::loadHists(std::string sample) {
-    addHist1d("njets",sample,5,-0.5,4.5);
-    addHist1d("nbjets",sample,3,-0.5,2.5);
-    addHist1d("nleps",sample,5,-0.5,4.5);
-    addHist1d("llpt",sample,100,0,200);
-    addHist1d("ltpt",sample,100,0,200);
-    addHist1d("ljpt",sample,50,0,500);
-    addHist1d("thirdjpt",sample,50,0,500);
-    addHist1d("htb",sample,50,0,1000);
-    addHist1d("met",sample,20,0,400);
+    // addHist1d("njets",sample,5,-0.5,4.5);
+    // addHist1d("nbjets",sample,3,-0.5,2.5);
+    // addHist1d("nleps",sample,5,-0.5,4.5);
+    // addHist1d("llpt",sample,100,0,200);
+    // addHist1d("ltpt",sample,100,0,200);
+    // addHist1d("ljpt",sample,50,0,500);
+    // addHist1d("thirdjpt",sample,50,0,500);
+    // addHist1d("htb",sample,50,0,1000);
+    // addHist1d("met",sample,20,0,400);
     //addHist1d("nlooseb",sample,3,-0.5,2.5);
     //addHist1d("ntightb",sample,3,-0.5,2.5);
-    addHist1d("mlj",sample,100,0,200);
-    addHist1d("j7pt",sample,50,0,500);
-    addHist1d("llltdphi",sample,35,0,3.15);
-    addHist1d("j6pt",sample,50,0,500);
-    addHist1d("maxmjoverpt",sample,50,0,0.5);
-    addHist1d("llltdeta",sample,50,0,5);
-    addHist1d("j8pt",sample,50,0,500);
+    // addHist1d("mlj",sample,100,0,200);
+    // addHist1d("j7pt",sample,50,0,500);
+    // addHist1d("llltdphi",sample,35,0,3.15);
+    // addHist1d("j6pt",sample,50,0,500);
+    // addHist1d("maxmjoverpt",sample,50,0,0.5);
+    // addHist1d("llltdeta",sample,50,0,5);
+    // addHist1d("j8pt",sample,50,0,500);
     addHist1d("sr",sample,19,-0.5,18.5);//,"br");
     addHist1d("crbins",sample,2,-0.5,1.5);//,"br");
     //addHist1d("q1",sample,2,-1,1);
