@@ -7,20 +7,18 @@ plt.style.use(hep.style.CMS)
 
 from yahist import Hist1D, Hist2D
 
-f_in = uproot3.open('/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/v6BabyPlots/fakes_mc_2018_hists.root')
-
-path = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/oct13_os/'
+path = '/home/users/mbryson/fcnc/ana/analysis/outputs/june21test2/'
 # sigpath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug09_lead25_MET50_jet30_newTriggers_tt2or1l/'
 
 regions =   [#"mr",
-             "os",
+             #"os",
              # "sf",
              # "df",
              # "mlsf",
              # "mldf",
              # "ss",
              # "ml",
-             # "br",
+             "br",
              #"vrsr_ss",
              #"vrsr_ml",
              #"vrcr_sf",
@@ -30,39 +28,85 @@ regions =   [#"mr",
              #"vrcr_flip",
              #"vrsr_flip"
             ]
-variables = [   #["njets", 1, r'$N_{jets}$'],
-                # ["nbjets", 1, r'$N_{b-jets}$'],
-                # ["nleps", 1, r'$N_{leptons}$'],
+variables = [   ["cutflow", 1, r'cutflow'],
+                ["sr", 1, r'$SR\ bin$'],
+                #["crbins", 1, r'CR\ bins$'],
+                ["njets", 1, r'$N_{jets}$'],
+                ["nbjets", 1, r'$N_{b-jets}$'],
+                ["nleps", 1, r'$N_{leptons}$'],
+                ["llpt", 5, r'$p_T\ (lead.\ lep.)\ (GeV)$'],
+                ["lleta", 1, r'$\eta \ (lead.\ lep.)\ (GeV)$'],
+                ["llphi", 1, r'$\phi \ (lead.\ lep.)\ (GeV)$'],
+                ["ltpt", 5, r'$p_T\ (sublead.\ lep.)\ (GeV)$'],
+                ["lteta", 1, r'$\eta \ (sublead.\ lep.)\ (GeV)$'],
+                ["ltphi", 1, r'$\phi \ (sublead.\ lep.)\ (GeV)$'],
+                ["thirdlpt", 5, r'$p_T\ (sublead.\ lep.)\ (GeV)$'],
+                ["thirdleta", 1, r'$\eta \ (third\ lep.)\ (GeV)$'],
+                ["thirdlphi", 1, r'$\phi \ (third\ lep.)\ (GeV)$'],
+                ["ljpt", 5, r'$p_T\ (lead.\ jet)\ (GeV)$'],
+                ["ljeta", 1, r'$\eta \ (lead.\ jet)\ (GeV)$'],
+                ["ljphi", 1, r'$\phi \ (lead.\ jet)\ (GeV)$'],
+                ["tjpt", 5, r'$p_T\ (sublead.\ jet)\ (GeV)$'],
+                ["tjeta", 1, r'$\eta \ (sublead.\ jet)\ (GeV)$'],
+                ["tjphi", 1, r'$\phi \ (sublead.\ jet)\ (GeV)$'],
+                ["thirdjpt", 5, r'$p_T\ (sublead.\ jet)\ (GeV)$'],
+                ["thirdjeta", 1, r'$\eta \ (third\ jet)\ (GeV)$'],
+                ["thirdjphi", 1, r'$\phi \ (third\ jet)\ (GeV)$'],
+                ["lbpt", 5, r'$p_T\ (lead.\ b-jet)\ (GeV)$'],
+                ["lbeta", 1, r'$\eta \ (lead.\ b-jet)\ (GeV)$'],
+                ["lbphi", 1, r'$\phi \ (lead.\ b-jet)\ (GeV)$'],
+                ["met", 1, r'$MET\ (GeV)$'],
+                ["ht", 2, r'$H_T\ (GeV)$'],
+                ["htb", 2, r'$H_T^{b-jets}\ (GeV)$'],
+                ["nlooseb", 1, r'$N_{loose b-tags}$'],
+                ["ntightb", 1, r'$N_{tight b-tags}$'],
+                ["mlj", 4, r'$m_{l1,j1}\ (GeV)$'],
+                ["mll", 4, r'$m_{l1,l2}\ (GeV)$'],
+                ["mjj", 4, r'$m_{j1,j2}\ (GeV)$'],
+                ["llltdphi", 1, r'$\Delta \phi (l1,l2)$'],
+                ["ljtjdphi", 1, r'$\Delta \phi (j1,j2)$'],
+                ["llljdphi", 1, r'$\Delta \phi (l1,j1)$'],
+                ["llltdeta", 1, r'$\Delta \eta (l1,l2)$'],
+                ["maxmjoverpt", 1, r'$max(m(j)/p_T)$'],
+                ["j4pt", 5, r'$p_T\ (fourth\ jet)\ (GeV)$'],
+                ["j4eta", 1, r'$\eta \ (fourth\ jet)\ (GeV)$'],
+                ["j4phi", 1, r'$\phi \ (fourth\ jet)\ (GeV)$'],
+                ["j5pt", 5, r'$p_T\ (fifth\ jet)\ (GeV)$'],
+                ["j5eta", 1, r'$\eta \ (fifth\ jet)\ (GeV)$'],
+                ["j5phi", 1, r'$\phi \ (fifth\ jet)\ (GeV)$'],
+                ["j6pt", 5, r'$p_T\ (sixth\ jet)\ (GeV)$'],
+                ["j6eta", 1, r'$\eta \ (sixth\ jet)\ (GeV)$'],
+                ["j6phi", 1, r'$\phi \ (sixth\ jet)\ (GeV)$'],
+                ["j7pt", 5, r'$p_T\ (seventh\ jet)\ (GeV)$'],
+                ["j7eta", 1, r'$\eta \ (seventh\ jet)\ (GeV)$'],
+                ["j7phi", 1, r'$\phi \ (seventh\ jet)\ (GeV)$'],
+                ["j8pt", 5, r'$p_T\ (eighth\ jet)\ (GeV)$'],
+                ["j8eta", 1, r'$\eta \ (eighth\ jet)\ (GeV)$'],
+                ["j8phi", 1, r'$\phi \ (eighth\ jet)\ (GeV)$'],
+                ["mt_ll_met", 1, r'$m_T(l1, MET)$'],
+                ["mt_tl_met", 1, r'$m_T(l2, MET)$'],
+                ["mt_thirdl_met", 1,r'$m_T(l3, MET)$'],
                 # ["neles", 1, r'$N_{electrons}$'],
                 # ["nmus", 1, r'$N_{muons}$'],
-                # ["ljpt", 5, r'$p_T\ (lead.\ jet)\ (GeV)$'],
-                # ["tjpt", 5, r'$p_T\ (sublead.\ jet)\ (GeV)$'],
-                ["ljbscore", 1, r'$lead.\ jet\ b-score$'],
-                ["tjbscore", 1, r'$sublead.\ jet\ b-score$'],
-                # ["llpt", 5, r'$p_T\ (lead.\ lep.)\ (GeV)$'],
-                # ["ltpt", 5, r'$p_T\ (sublead.\ lep.)\ (GeV)$'],
-                # ["mll", 4, r'$m_{ll}\ (GeV)$'],
-                # # ['flipSF_inclMET_mee', 1, r'$m_{ee}\ (GeV)$'],
-                # # ['flipSF_l50MET_mee', 1, r'$m_{ee}\ (GeV)$'],
-                # # ['flipSF_inclMET_njets', 1, r'$N_{jets}$'],
-                # # ['flipSF_l50MET_njets', 1, r'$N_{jets}$'],
-                # # ['flipSF_inclMET_nbjets', 1, r'$N_{b-jets}$'],
-                # # ['flipSF_l50MET_nbjets', 1, r'$N_{b-jets}$'],
-                # ["lleta", 4, r'$\eta\ (lead.\ lep.)\ (GeV)$'],
-                # ["lteta", 4, r'$\eta\ (sublead.\ lep.)\ (GeV)$'],
-                # # ["llminiiso", 1, r'$miniIso\ (lead.\ lep.)\ (GeV)$'],
-                # # ["ltminiiso", 1, r'$miniIso\ (sublead.\ lep.)\ (GeV)$'],
-                # ['met', 1, r'$MET\ (GeV)$'],
+                #["ljbscore", 1, r'$lead.\ jet\ b-score$'],
+                #["tjbscore", 1, r'$sublead.\ jet\ b-score$'],
+                # ['flipSF_inclMET_mee', 1, r'$m_{ee}\ (GeV)$'],
+                # ['flipSF_l50MET_mee', 1, r'$m_{ee}\ (GeV)$'],
+                # ['flipSF_inclMET_njets', 1, r'$N_{jets}$'],
+                # ['flipSF_l50MET_njets', 1, r'$N_{jets}$'],
+                # ['flipSF_inclMET_nbjets', 1, r'$N_{b-jets}$'],
+                # ['flipSF_l50MET_nbjets', 1, r'$N_{b-jets}$'],
+                # ["llminiiso", 1, r'$miniIso\ (lead.\ lep.)\ (GeV)$'],
+                # ["ltminiiso", 1, r'$miniIso\ (sublead.\ lep.)\ (GeV)$'],
                 # ['flavorChannel', 1, r'$Flavor\ Channel$'],
-                # ['sr', 1, r'$SR\ bin$'],
                 # ['flipSFcr_inclMET', 1, r'$sr bin$'],
                 # ['flipSFcr_l50MET', 1, r'$sr bin$'],
                 # #['vrsr', 1, r'$VRSR$'],
                 # #['vrcr', 1, r'$VRCR$']
                 # #['vrcr', 1, r'$VRCR$']
             ]
-years = ["2016","2017","2018"]
-# years = ["2016"]
+#years = ["2016","2017","2018"]
+years = ["2018"]
 blind = True
 
 
@@ -127,24 +171,24 @@ for y in years:
                 hists = {
                     # 'top': uproot3.open(path+'top_'+y+'_hists.root')['h_'+r+'_'+v+'_top'],
                     # 'dy': uproot3.open(path+'dy_'+y+'_hists.root')['h_'+r+'_'+v+'_dy'],
-                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
-                    'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
                     'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
-                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
-                    'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
+                    # 'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    # 'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
                 }
             elif r == 'os':
                 hists = {
-                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
                     #'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
-                    'top': uproot3.open(path+'top_'+y+'_hists.root')['h_'+r+'_'+v+'_top'],
+                    # 'top': uproot3.open(path+'top_'+y+'_hists.root')['h_'+r+'_'+v+'_top'],
                     # 'tw': uproot3.open(path+'tw_'+y+'_hists.root')['h_'+r+'_'+v+'_tw'],
                     # 'top': uproot3.open(path+'tw_'+y+'_hists.root')['h_'+r+'_'+v+'_tw'],
-                    'dy': uproot3.open(path+'dy_'+y+'_hists.root')['h_'+r+'_'+v+'_dy'],
+                    # 'dy': uproot3.open(path+'dy_'+y+'_hists.root')['h_'+r+'_'+v+'_dy'],
                     'rares': uproot3.open(path+'os_rares_'+y+'_hists.root')['h_'+r+'_'+v+'_os_rares'],
-                    'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
-                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
-                    'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
+                    # 'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
+                    # 'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    # 'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
                 }
             else:
                 hists = {
@@ -159,21 +203,22 @@ for y in years:
                     # 'wboson': uproot3.open(path+'wboson_'+y+'_hists.root')['h_'+r+'_'+v+'_wboson'],
                     # 'dy': uproot3.open(path+'dy_'+y+'_hists.root')['h_'+r+'_'+v+'_dy'],
 
-                    'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
-                    'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
+                    # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
                     'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
-                    'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
+                    # 'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
                     # # 'data_est': uproot3.open(path+'data_'+y+'_hists.root')['h_osest_'+v+'_data'],
-                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
-                    'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
+                    # 'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    # 'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
                 }
 
             if v == 'njets':
-                my_histos = { x:get_yahist(hists[x], rebin=rebinVal, overflow=True, newEdges=[float('-inf'),-0.5,0.5,1.5,2.5,3.5,4.5,float('inf')]) for x in hists.keys() }
+                my_histos = { x:get_yahist(hists[x], rebin=rebinVal, overflow=True, newEdges=[float('-inf'),-0.5,0.5,1.5,2.5,3.5,4.5,5.5,6.5,7.5,8.5,9.5,float('inf')]) for x in hists.keys() }
             elif v == 'nbjets':
-                my_histos = { x:get_yahist(hists[x], rebin=rebinVal, overflow=True, newEdges=[float('-inf'),-0.5,0.5,1.5,2.5,float('inf')]) for x in hists.keys() }
+                my_histos = { x:get_yahist(hists[x], rebin=rebinVal, overflow=True, newEdges=[float('-inf'),-0.5,0.5,1.5,2.5,3.5,4.5,5.5,6.5,float('inf')]) for x in hists.keys() }
             else:
                 my_histos = { x:get_yahist(hists[x], rebin=rebinVal, overflow=True) for x in hists.keys() }
+
 
             # flipDataSF = (sum(my_histos['data'].counts)-sum(my_histos['top'].counts))/(sum(my_histos['data_est'].counts))
             # print(flipDataSF)
@@ -194,7 +239,7 @@ for y in years:
                 my_histos['dy'].label = 'Drell Yan'
                 my_histos['dy'].color = '#08BDBD'
 
-                my_histos['rares'].label = 'Other'
+                my_histos['rares'].label = 'Rares'
                 my_histos['rares'].color = '#8AC926'
 
                 keys = ['rares', 'fakes', 'dy', 'top']
@@ -202,13 +247,13 @@ for y in years:
 
             else: 
 
-                my_histos['fakes'].label = 'Nonprompt'
-                my_histos['fakes'].color = '#FF595E'
+                # my_histos['fakes'].label = 'Nonprompt'
+                # my_histos['fakes'].color = '#FF595E'
 
-                my_histos['flips'].label = 'Charge flip'
-                my_histos['flips'].color = '#FFCA3A'
+                # my_histos['flips'].label = 'Charge flip'
+                # my_histos['flips'].color = '#FFCA3A'
 
-                my_histos['rares'].label = 'Other'
+                my_histos['rares'].label = 'Rares'
                 my_histos['rares'].color = '#8AC926'
 
                 # my_histos['top'].label = 'tt/tw/ttg'
@@ -241,17 +286,17 @@ for y in years:
                 # my_histos['multiboson'].label = 'VV/VVV'
                 # my_histos['multiboson'].color = '#FF595E'
 
-                keys = ['flips', 'rares', 'fakes']
+                keys = ['rares']
                 # keys = ['Higgs','xg', 'ttxx','ttx', 'ttw','multiboson']
                 # keys = ['wboson','dy','top']
                 # keys = ['dy', 'xg', 'wboson','top']
 
-            signals = ['tch', 'tuh']
+            signals = ['tttt']
 
             total_mc = get_total(my_histos, keys)
 
-            if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')): 
-                ratio = my_histos['data'].divide(total_mc, )
+            # if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')): 
+            #     ratio = my_histos['data'].divide(total_mc, )
             #     # ratio_est = my_histos['data_est'].divide(total_mc, )
             #     # ratio_data = my_histos['data'].divide(my_histos['data_est'], )
             # else:
@@ -278,7 +323,7 @@ for y in years:
 
             hep.histplot(
                 [ my_histos[x].counts for x in keys ],
-                my_histos['fakes'].edges,
+                my_histos['rares'].edges,
                 w2=[ my_histos[x].errors for x in keys ],
                 histtype="fill",
                 stack=True,
@@ -287,17 +332,17 @@ for y in years:
                 color=[ my_histos[x].color for x in keys ],
                 ax=ax)
 
-            if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')):
-                hep.histplot(
-                    my_histos['data'].counts,
-                    my_histos['data'].edges,
-                    yerr=my_histos['data'].errors,
-                    histtype="errorbar",
-                    stack=False,
-                    # label='%s (%.0f)'%('Observation', sum(my_histos['data'].counts)),
-                    label='%s'%('Observation'),
-                    color='black',
-                    ax=ax)
+            # if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')):
+            #     hep.histplot(
+            #         my_histos['data'].counts,
+            #         my_histos['data'].edges,
+            #         yerr=my_histos['data'].errors,
+            #         histtype="errorbar",
+            #         stack=False,
+            #         # label='%s (%.0f)'%('Observation', sum(my_histos['data'].counts)),
+            #         label='%s'%('Observation'),
+            #         color='black',
+            #         ax=ax)
 
                 # hep.histplot(
                 #     my_histos['data_est'].counts,
@@ -309,24 +354,24 @@ for y in years:
                 #     color='grey',
                 #     ax=ax)
 
-            hep.histplot(
-                [my_histos['tch'].counts/100, my_histos['tuh'].counts/100],
-                my_histos['tch'].edges,
-                w2=[my_histos['tch'].errors/100, my_histos['tuh'].errors/100],
-                histtype="step",
-                stack=False,
-                label=[r'$B(t\to Hc)=0.01$', r'$B(t\to Hu)=0.01$'],
-                color=['#525B76','#6A4C93'],
-                ax=ax)
+            # hep.histplot(
+            #     [my_histos['tch'].counts/100, my_histos['tuh'].counts/100],
+            #     my_histos['tch'].edges,
+            #     w2=[my_histos['tch'].errors/100, my_histos['tuh'].errors/100],
+            #     histtype="step",
+            #     stack=False,
+            #     label=[r'$B(t\to Hc)=0.01$', r'$B(t\to Hu)=0.01$'],
+            #     color=['#525B76','#6A4C93'],
+            #     ax=ax)
 
-            if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')):
-                hep.histplot(
-                    ratio.counts,
-                    ratio.edges,
-                    yerr=my_histos['data'].errors/total_mc.counts,
-                    histtype="errorbar",
-                    color='black',
-                    ax=rax)
+            # if not (blind and (r == 'ss' or r == 'ml' or r == 'mr')):
+            #     hep.histplot(
+            #         ratio.counts,
+            #         ratio.edges,
+            #         yerr=my_histos['data'].errors/total_mc.counts,
+            #         histtype="errorbar",
+            #         color='black',
+            #         ax=rax)
 
             #     # hep.histplot(
             #     #     ratio_est.counts,
@@ -361,7 +406,7 @@ for y in years:
             # else: rax.set_ylabel(r'Sig./Back.')
             ax.set_ylabel(r'Events')
             ax.set_yscale('log')
-            ax.set_ylim(0.1,1e7)
+            ax.set_ylim(0.1,1e4)
             # ax.set_xlabel(vname)
             # ax.set_yscale('linear')
             # ax.set_ylim(0,200000)
@@ -373,6 +418,6 @@ for y in years:
 
             #plt.show()
 
-            fig.savefig('/home/users/ksalyer/public_html/dump/FCNC_plots/'+histName+'.png')
-            fig.savefig('/home/users/ksalyer/public_html/dump/FCNC_plots/'+histName+'.pdf')
+            fig.savefig('/home/users/mbryson/public_html/tttt/june21dump1/'+histName+'.png')
+            fig.savefig('/home/users/mbryson/public_html/tttt/june21dump1/'+histName+'.pdf')
             #plt.close()

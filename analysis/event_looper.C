@@ -732,7 +732,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             // cutflow counter
             int cutflow_counter=1;
             hists.fill1d("cutflow","br",chainTitleCh,1,weight);
-            cutflow_counter++;
+            
 
 
             //////////////////////////
@@ -759,6 +759,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if(met < 50.){continue;}
   
             hists.fill1d("cutflow","br",chainTitleCh,2,weight);
+            cutflow_counter++;
+
             if (debugPrints){std::cout << "passed MET cut for event " << nt.event() << ": " << met << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
@@ -809,7 +811,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             }
 
             if (best_hyp_type < 0) continue;
-            // hists.fill1d("cutflow","br",chainTitleCh,5,weight);}
+            
+            // hists.fill1d("cutflow","br",chainTitleCh,cutflow_counter,weight);
+            // cutflow_counter++;
             
             if(!quiet) {std::cout << "best_hyp_type: " << best_hyp_type << std::endl;}
             Leptons best_hyp = best_hyp_info.second;
@@ -1011,6 +1015,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
             if (ht < 300.){continue;}
 
+            hists.fill1d("cutflow","br",chainTitleCh,3,weight);
+            cutflow_counter++;
+
 
             if (debugPrints){std::cout << "loaded jets for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
@@ -1059,7 +1066,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData))||
                 // (category == 3 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData))||
                 (isSignal||isData)){
-                    hists.fill1d("cutflow","br",chainTitleCh,3,weight);
+                    //hists.fill1d("cutflow","br",chainTitleCh,3,weight);
             }
 
             if (!quiet) {
@@ -1068,8 +1075,13 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             }
 
             //NJETS CUT
-            if (njets < 2) continue;            
+            if (njets < 2) continue;     
+            hists.fill1d("cutflow","br",chainTitleCh,4,weight);
+            cutflow_counter++;
+
             if (nbjets<2) continue;
+            hists.fill1d("cutflow","br",chainTitleCh,5,weight);
+            cutflow_counter++;
 
             
             if ((category == 1 && chainTitle=="fakes_mc")||
@@ -1077,7 +1089,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 (category == 3 && chainTitle=="rares")||
                 (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData))||
                 (isSignal||isData)){
-                hists.fill1d("cutflow","br",chainTitleCh,4,weight);
+                //hists.fill1d("cutflow","br",chainTitleCh,4,weight);
             }
 
             if (!quiet) {
@@ -1114,7 +1126,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 (category == 3 && chainTitle=="rares")||
                 (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData))||
                 (isSignal||isData)){
-                hists.fill1d("cutflow","br",chainTitleCh,5,weight);
+                //hists.fill1d("cutflow","br",chainTitleCh,5,weight);
             }
             if (debugPrints){std::cout << "passed triggers for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
@@ -1150,7 +1162,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 (category == 3 && chainTitle=="rares")||
                 (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData))||
                 (isSignal||isData)){
-                hists.fill1d("cutflow","br",chainTitleCh,6,weight);
+                //hists.fill1d("cutflow","br",chainTitleCh,6,weight);
             }
             if (debugPrints){std::cout << "passed filters for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
