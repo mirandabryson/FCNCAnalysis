@@ -7,7 +7,7 @@ plt.style.use(hep.style.CMS)
 
 from yahist import Hist1D, Hist2D
 
-path = '/home/users/mbryson/fcnc/ana/analysis/outputs/june21test2/'
+path = '/home/users/mbryson/fcnc/ana/analysis/outputs/june22test1/'
 # sigpath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug09_lead25_MET50_jet30_newTriggers_tt2or1l/'
 
 regions =   [#"mr",
@@ -418,6 +418,6 @@ for y in years:
 
             #plt.show()
 
-            fig.savefig('/home/users/mbryson/public_html/tttt/june21dump1/'+histName+'.png')
-            fig.savefig('/home/users/mbryson/public_html/tttt/june21dump1/'+histName+'.pdf')
+            fig.savefig('/home/users/mbryson/public_html/tttt/june22dump1/'+histName+'.png')
+            fig.savefig('/home/users/mbryson/public_html/tttt/june22dump1/'+histName+'.pdf')
             #plt.close()

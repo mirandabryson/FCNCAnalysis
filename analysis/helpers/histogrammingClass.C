@@ -360,7 +360,7 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("njets",sample,10,-0.5,9.5);
     addHist1d("nbjets",sample,10,-0.5,9.5);
     addHist1d("nleps",sample,6,-0.5,5.5);
-    addHist1d("llpt",sample,100,0,300);
+    addHist1d("llpt",sample,100,0,400);
     addHist1d("lleta",sample,100,-5.,5.);    
     addHist1d("llphi",sample,42,-3.15,3.15);
     addHist1d("ltpt",sample,100,0,300);
@@ -378,40 +378,40 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("thirdjpt",sample,100,0,1000);
     addHist1d("thirdjeta",sample,100,-5.,5.);    
     addHist1d("thirdjphi",sample,42,-3.15,3.15);
-    addHist1d("lbpt",sample,50,0,500);  
+    addHist1d("lbpt",sample,60,0,600);  
     addHist1d("lbphi",sample,42,-3.15,3.15);
     addHist1d("lbeta",sample,100,-5.,5.); 
     addHist1d("ht",sample,80,0,1600); 
     addHist1d("htb",sample,80,0,1600);
     addHist1d("met",sample,20,0,600);
-    addHist1d("nlooseb",sample,6,-0.5,5.5);
-    addHist1d("ntightb",sample,7,-0.5,6.5);
-    addHist1d("mlj",sample,200,0,400);
-    addHist1d("mll",sample,200,0,400);
-    addHist1d("mjj",sample,200,0,400);
+    addHist1d("nloosebjet",sample,6,-0.5,5.5);
+    addHist1d("ntightbjet",sample,9,-0.5,8.5);
+    addHist1d("mlj",sample,80,0,800);
+    addHist1d("mll",sample,80,0,800);
+    addHist1d("mjj",sample,80,0,800);
     addHist1d("llltdphi",sample,21,0,6.3);
     addHist1d("ljtjdphi",sample,21,0,6.3);
     addHist1d("llljdphi",sample,21,0,6.3);
     addHist1d("maxmjoverpt",sample,50,0,0.5);
     addHist1d("llltdeta",sample,50,0,5);
-    addHist1d("j4pt",sample,100,0,1000);
+    addHist1d("j4pt",sample,40,0,400);
     addHist1d("j4eta",sample,100,-5.,5.);
     addHist1d("j4phi",sample,42,-3.15,3.15);    
-    addHist1d("j5pt",sample,100,0,1000);
+    addHist1d("j5pt",sample,40,0,400);
     addHist1d("j5eta",sample,100,-5.,5.);
     addHist1d("j5phi",sample,42,-3.15,3.15);
-    addHist1d("j6pt",sample,100,0,1000);
+    addHist1d("j6pt",sample,40,0,400);
     addHist1d("j6eta",sample,100,-5.,5.);
     addHist1d("j6phi",sample,42,-3.15,3.15);    
-    addHist1d("j7pt",sample,100,0,1000);
+    addHist1d("j7pt",sample,40,0,400);
     addHist1d("j7eta",sample,100,-5.,5.);
     addHist1d("j7phi",sample,42,-3.15,3.15);
-    addHist1d("j8pt",sample,100,0,1000);
+    addHist1d("j8pt",sample,40,0,400);
     addHist1d("j8eta",sample,100,-5.,5.);
     addHist1d("j8phi",sample,42,-3.15,3.15);
-    addHist1d("mt_ll_met",sample,20,0,400);
-    addHist1d("mt_tl_met",sample,20,0,400);
-    addHist1d("mt_thirdl_met",sample,20,0,400);
+    addHist1d("mt_ll_met",sample,30,0,600);
+    addHist1d("mt_tl_met",sample,30,0,600);
+    addHist1d("mt_thirdl_met",sample,30,0,600);
     // addHist1d("q1",sample,2,-1,1);
     // addHist1d("neles",sample,5,-0.5,4.5);
     // addHist1d("nmus",sample,5,-0.5,4.5);
@@ -658,6 +658,8 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
     int flavChannelVal = 0;
     int ntight = 0;
     int nloose = 0;
+    int ntightbjet = 0;
+    int nloosebjet = 0;
     bool onZPeak = 0;
     bool diEl = 0;
     bool isSS = 0;
@@ -686,12 +688,23 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
 
     float mostForwardJet = 0;
     float mostForwardPt = 0;
+    float mjoverpt = 0;
     for (auto j: jets){
+        //cout << "pussy pussy pussy marijuana-juana" << endl;
+        if(j.isloosebtag()){nloosebjet++;} //!(j.istightb()) && 
+        if(j.istightbtag()){ntightbjet++;}
         if(abs(j.eta())>mostForwardJet){
             mostForwardJet = abs(j.eta());
             mostForwardPt = j.pt();
         }
+        cout << "jet pt" << j.pt << endl;
+        cout << "jet mass" << j.p4().M() << endl;
+        if((j.p4().M()/j.pt())>mjoverpt){
+            mjoverpt = j.p4().M()/j.pt();
+        }
     }
+
+    
 
     float mt_LeadLep_MET, mt_SubLeadLep_MET, mt_SubSubLeadLep_MET;
     mt_LeadLep_MET = TMath::Sqrt(2*leps[0].pt()*met * (1 - TMath::Cos(leps[0].phi()-metphi)));
@@ -772,11 +785,14 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         if(sample=="data" && name.find("est")==std::string::npos && !(fillWeight==1 || fillWeight==0)) {cout << "data weighted! " << weight << " " << crWeight << " " << fillWeight << endl;}
 
         //std::cout << "Filling histograms for region " << name << std::endl;
+        fill1d("maxmjoverpt",name,sample, mjoverpt,fillWeight);
         fill1d("njets",name,sample,njets,fillWeight);
         if(nbjets==1){fill1d("nj1b",name,sample,njets,fillWeight);}
         if(nbjets>1){fill1d("nj2b",name,sample,njets,fillWeight);}
         fill1d("flavorChannel",name,sample,flavChannelVal,fillWeight);
         fill1d("nbjets",name,sample,nbjets,fillWeight);
+        fill1d("nloosebjet",name,sample,nloosebjet,fillWeight);
+        fill1d("ntightbjet",name,sample,ntightbjet,fillWeight);
         fill1d("nleps",name,sample,nleps,fillWeight);
         fill1d("neles",name,sample,neles,fillWeight);
         fill1d("nmus",name,sample,nmus,fillWeight);
@@ -868,9 +884,6 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             if(hct_pred!=999){fill2d("flip2d_hct_2ecr",name,sample,bin[0],bin[1],fillWeight);}
             if(hut_pred!=999){fill2d("flip2d_hut_2ecr",name,sample,bin[0],bin[1],fillWeight);}
         }
-        fill1d("lleta",name,sample,leps[0].eta(),fillWeight);
-        fill1d("lteta",name,sample,leps[1].eta(),fillWeight);
-        fill1d("thirdleta",name,sample,leps[2].eta(),fillWeight);
         fill1d("lldxy",name,sample,leps[0].dxy(),fillWeight);
         fill1d("ltdxy",name,sample,leps[1].dxy(),fillWeight);
         fill1d("thirdldxy",name,sample,leps[2].dxy(),fillWeight);
@@ -957,11 +970,7 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
 
         // figure out maxmjoverpt, nlooseb, ntightb
 
-        float mjoverpt = 0.;
-        for(unsigned int ijet; ijet < jets.size(); ijet++){
-            mjoverpt = max(mjoverpt, jets[ijet].p4().M()/jets[ijet].pt());
-        }
-        fill1d("maxmjoverpt",name,sample, mjoverpt,fillWeight);
+
         // if (fillWeight == weight && name != "br"){
         //     //fill weight requirement prevents filling with the estimate weight (i.e. fake or flip weight)
         //     //name requirement prevents double-filling for ss or ml events

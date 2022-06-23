@@ -88,15 +88,28 @@ if __name__ == "__main__":
             ]
 
     # for _ in range(10): print "SKIMTEST"
+    # basedirs = {
+    #         2016: "/nfs-7/userdata/ksalyer/fcnc/{}/2016/".format(args.tag),
+    #         2017: "/nfs-7/userdata/ksalyer/fcnc/{}/2017/".format(args.tag),
+    #         2018: "/nfs-7/userdata/ksalyer/fcnc/{}/2018/".format(args.tag),
+    #         }
+    # datadirs = {
+    #         2016: "/nfs-7/userdata/ksalyer/fcnc/{}/2016/".format(args.datatag),
+    #         2017: "/nfs-7/userdata/ksalyer/fcnc/{}/2017/".format(args.datatag),
+    #         2018: "/nfs-7/userdata/ksalyer/fcnc/{}/2018/".format(args.datatag),
+    #         }
+
+    #WHEN NFS-7 IS DOWN
+
     basedirs = {
-            2016: "/nfs-7/userdata/ksalyer/fcnc/{}/2016/".format(args.tag),
-            2017: "/nfs-7/userdata/ksalyer/fcnc/{}/2017/".format(args.tag),
-            2018: "/nfs-7/userdata/ksalyer/fcnc/{}/2018/".format(args.tag),
+            2016: "/ceph/cms/store/user/ksalyer/nfs-7/{}/2016/".format(args.tag),
+            2017: "/ceph/cms/store/user/ksalyer/nfs-7/{}/2017/".format(args.tag),
+            2018: "/ceph/cms/store/user/ksalyer/nfs-7/{}/2018/".format(args.tag),
             }
     datadirs = {
-            2016: "/nfs-7/userdata/ksalyer/fcnc/{}/2016/".format(args.datatag),
-            2017: "/nfs-7/userdata/ksalyer/fcnc/{}/2017/".format(args.datatag),
-            2018: "/nfs-7/userdata/ksalyer/fcnc/{}/2018/".format(args.datatag),
+            2016: "/ceph/cms/store/user/ksalyer/nfs-7/{}/2016/".format(args.datatag),
+            2017: "/ceph/cms/store/user/ksalyer/nfs-7/{}/2017/".format(args.datatag),
+            2018: "/ceph/cms/store/user/ksalyer/nfs-7/{}/2018/".format(args.datatag),
             }
 
     outputdir = args.out

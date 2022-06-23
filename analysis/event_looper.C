@@ -1001,15 +1001,31 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,40.,25.,0);
 
             Jets good_jets = good_jets_and_bjets.first;
+
+
+
+
+
+
             Jets good_bjets = good_jets_and_bjets.second;
             int njets = good_jets.size();
             int nbjets = good_bjets.size();
             sort(good_jets.begin(),good_jets.end(),jetptsort);
             sort(good_bjets.begin(),good_bjets.end(),jetptsort);
             float ht = 0.;
+            int ntightbjet = 0;
+            int nloosebjet = 0;
             for (auto jet : good_jets){
                 ht = ht + jet.pt();
+                if(jet.isloosebtag()){nloosebjet++;} 
+                if(jet.istightbtag()){ntightbjet++;}
             }
+
+            cout << "loose b jets" << nloosebjet << endl;
+            cout << "tight b jets" << ntightbjet << endl;
+
+            hists.fill1d("nloosebjet", "br", chainTitleCh, nloosebjet, weight);
+            hists.fill1d("ntightbjet", "br", chainTitleCh, ntightbjet, weight);
             
             //HT CUT
 
