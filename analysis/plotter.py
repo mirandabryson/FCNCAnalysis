@@ -7,7 +7,7 @@ plt.style.use(hep.style.CMS)
 
 from yahist import Hist1D, Hist2D
 
-path = '/home/users/mbryson/fcnc/ana/analysis/outputs/june22test1/'
+path = '/home/users/mbryson/fcnc/ana/analysis/outputs/june24signalplots/'
 # sigpath = '/home/users/ksalyer/FranksFCNC/ana/analysis/outputs/aug09_lead25_MET50_jet30_newTriggers_tt2or1l/'
 
 regions =   [#"mr",
@@ -58,8 +58,8 @@ variables = [   ["cutflow", 1, r'cutflow'],
                 ["met", 1, r'$MET\ (GeV)$'],
                 ["ht", 2, r'$H_T\ (GeV)$'],
                 ["htb", 2, r'$H_T^{b-jets}\ (GeV)$'],
-                ["nlooseb", 1, r'$N_{loose b-tags}$'],
-                ["ntightb", 1, r'$N_{tight b-tags}$'],
+                ["nloosebjet", 1, r'$N_{loose b-tags}$'],
+                ["ntightbjet", 1, r'$N_{tight b-tags}$'],
                 ["mlj", 4, r'$m_{l1,j1}\ (GeV)$'],
                 ["mll", 4, r'$m_{l1,l2}\ (GeV)$'],
                 ["mjj", 4, r'$m_{j1,j2}\ (GeV)$'],
@@ -173,21 +173,21 @@ for y in years:
                     # 'dy': uproot3.open(path+'dy_'+y+'_hists.root')['h_'+r+'_'+v+'_dy'],
                     # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
                     # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
-                    'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
-                    # 'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    # 'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
+                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
                     # 'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
                 }
             elif r == 'os':
                 hists = {
                     # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
-                    #'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
+                    # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
                     # 'top': uproot3.open(path+'top_'+y+'_hists.root')['h_'+r+'_'+v+'_top'],
                     # 'tw': uproot3.open(path+'tw_'+y+'_hists.root')['h_'+r+'_'+v+'_tw'],
                     # 'top': uproot3.open(path+'tw_'+y+'_hists.root')['h_'+r+'_'+v+'_tw'],
                     # 'dy': uproot3.open(path+'dy_'+y+'_hists.root')['h_'+r+'_'+v+'_dy'],
-                    'rares': uproot3.open(path+'os_rares_'+y+'_hists.root')['h_'+r+'_'+v+'_os_rares'],
+                    # 'rares': uproot3.open(path+'os_rares_'+y+'_hists.root')['h_'+r+'_'+v+'_os_rares'],
                     # 'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
-                    # 'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
                     # 'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
                 }
             else:
@@ -205,10 +205,10 @@ for y in years:
 
                     # 'fakes': uproot3.open(path+'fakes_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_fakes_mc'],
                     # 'flips': uproot3.open(path+'flips_mc_'+y+'_hists.root')['h_'+r+'_'+v+'_flips_mc'],
-                    'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
+                    # 'rares': uproot3.open(path+'rares_'+y+'_hists.root')['h_'+r+'_'+v+'_rares'],
                     # 'data': uproot3.open(path+'data_'+y+'_hists.root')['h_'+r+'_'+v+'_data'],
                     # # 'data_est': uproot3.open(path+'data_'+y+'_hists.root')['h_osest_'+v+'_data'],
-                    # 'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
+                    'tch': uproot3.open(path+'signal_tch_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tch'],
                     # 'tuh': uproot3.open(path+'signal_tuh_'+y+'_hists.root')['h_'+r+'_'+v+'_signal_tuh'],
                 }
 
@@ -253,8 +253,8 @@ for y in years:
                 # my_histos['flips'].label = 'Charge flip'
                 # my_histos['flips'].color = '#FFCA3A'
 
-                my_histos['rares'].label = 'Rares'
-                my_histos['rares'].color = '#8AC926'
+                # my_histos['rares'].label = 'Rares'
+                # my_histos['rares'].color = '#8AC926'
 
                 # my_histos['top'].label = 'tt/tw/ttg'
                 # my_histos['top'].color = '#FF595E'
@@ -277,8 +277,8 @@ for y in years:
                 # # my_histos['triboson'].label = 'VVV'
                 # # my_histos['triboson'].color = '#FF99C9'
 
-                # my_histos['ttx'].label = 'ttX'
-                # my_histos['ttx'].color = '#FFCA3A'
+                my_histos['tch'].label = 'tttt'
+                my_histos['tch'].color = '#FFCA3A'
 
                 # my_histos['ttw'].label = 'ttW'
                 # my_histos['ttw'].color = '#08BDBD'
@@ -286,12 +286,13 @@ for y in years:
                 # my_histos['multiboson'].label = 'VV/VVV'
                 # my_histos['multiboson'].color = '#FF595E'
 
-                keys = ['rares']
+                keys = ['tch']
+                # keys = ['fakes','flips','rares']
                 # keys = ['Higgs','xg', 'ttxx','ttx', 'ttw','multiboson']
                 # keys = ['wboson','dy','top']
                 # keys = ['dy', 'xg', 'wboson','top']
 
-            signals = ['tttt']
+            signals = ['tch']
 
             total_mc = get_total(my_histos, keys)
 
@@ -323,7 +324,7 @@ for y in years:
 
             hep.histplot(
                 [ my_histos[x].counts for x in keys ],
-                my_histos['rares'].edges,
+                my_histos['tch'].edges,
                 w2=[ my_histos[x].errors for x in keys ],
                 histtype="fill",
                 stack=True,
@@ -418,6 +419,6 @@ for y in years:
 
             #plt.show()
 
-            fig.savefig('/home/users/mbryson/public_html/tttt/june22dump1/'+histName+'.png')
-            fig.savefig('/home/users/mbryson/public_html/tttt/june22dump1/'+histName+'.pdf')
+            fig.savefig('/home/users/mbryson/public_html/tttt/june24signal/'+histName+'.png')
+            fig.savefig('/home/users/mbryson/public_html/tttt/june24signal/'+histName+'.pdf')
             #plt.close()

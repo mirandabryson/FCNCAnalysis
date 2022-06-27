@@ -196,7 +196,7 @@ class HistContainer {
         void fill1d(std::string quantity, std::string region, std::string sample, float value, float weight=1.);
         void fill2d(std::string quantity, std::string region, std::string sample, float xvalue, float yvalue, float weight=1.);
         void fill4d(std::string quantity, std::string region, std::string sample, float xvalue, float yvalue, float zvalue, float tvalue, float weight=1.);
-        void fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, 
+        void fill(std::string sample, int best_hyp_type, Leptons &leps, Jets &jets, Jets &bjets, Jets &loosejets,
                 float met, float metphi, bool isVR_SR_fake, bool isVR_CR_fake, bool isVR_SR_flip, bool isVR_CR_flip, 
                 bool isEE, bool isEM, bool isME, bool isMM, bool isEFake, bool isMFake, bool isEE_flip, 
                 bool isEM_flip, float hct_pred=-999, float hut_pred=-999, float weight=1., float crWeight=1.,

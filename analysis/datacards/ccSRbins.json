@@ -1,107 +1,77 @@
 {
     "1":{
         "nleps":2,
-        "njets":2,
-        "nbtags":0
+        "njets":5,
+        "nbtags":3
     },
     "2":{
         "nleps":2,
-        "njets":3,
-        "nbtags":0
+        "njets":6,
+        "nbtags":2
     },
     "3":{
         "nleps":2,
-        "njets":4,
-        "nbtags":0
+        "njets":7,
+        "nbtags":2
     },
     "4":{
         "nleps":2,
-        "njets":2,
-        "nbtags":1
+        "njets":8,
+        "nbtags":2
     },
     "5":{
         "nleps":2,
-        "njets":3,
-        "nbtags":1
+        "njets":5,
+        "nbtags":3
     },
     "6":{
         "nleps":2,
-        "njets":4,
-        "nbtags":1
+        "njets":6,
+        "nbtags":3
     },
     "7":{
         "nleps":2,
-        "njets":2,
-        "nbtags":2
+        "njets":7,
+        "nbtags":3
     },
     "8":{
         "nleps":2,
-        "njets":3,
-        "nbtags":2
+        "njets":8,
+        "nbtags":3
     },
     "9":{
         "nleps":2,
-        "njets":4,
-        "nbtags":2
+        "njets":5,
+        "nbtags":4
     },
     "10":{
         "nleps":3,
-        "njets":1,
-        "nbtags":0
+        "njets":5,
+        "nbtags":2
     },
     "11":{
         "nleps":3,
-        "njets":2,
-        "nbtags":0
+        "njets":6,
+        "nbtags":2
     },
     "12":{
         "nleps":3,
-        "njets":3,
-        "nbtags":0
+        "njets":7,
+        "nbtags":2
     },
     "13":{
         "nleps":3,
         "njets":4,
-        "nbtags":0
+        "nbtags":3
     },
     "14":{
         "nleps":3,
-        "njets":1,
-        "nbtags":1
+        "njets":5,
+        "nbtags":3
     },
     "15":{
         "nleps":3,
-        "njets":2,
-        "nbtags":1
-    },
-    "16":{
-        "nleps":3,
-        "njets":3,
-        "nbtags":1
-    },
-    "17":{
-        "nleps":3,
-        "njets":4,
-        "nbtags":1
-    },
-    "18":{
-        "nleps":3,
-        "njets":1,
-        "nbtags":2
-    },
-    "19":{
-        "nleps":3,
-        "njets":2,
-        "nbtags":2
-    },
-    "20":{
-        "nleps":3,
-        "njets":3,
-        "nbtags":2
-    },
-    "21":{
-        "nleps":3,
-        "njets":4,
-        "nbtags":2
+        "njets":6,
+        "nbtags":3
     }
 }

@@ -997,14 +997,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             //////////////////////////
 
 
-
-            std:pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,40.,25.,0);
+            std::pair<Jets, Jets> good_jets_and_bjets = getJets(best_hyp,40.,25.,0);
 
             Jets good_jets = good_jets_and_bjets.first;
-
-
-
-
 
 
             Jets good_bjets = good_jets_and_bjets.second;
@@ -1013,23 +1008,16 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             sort(good_jets.begin(),good_jets.end(),jetptsort);
             sort(good_bjets.begin(),good_bjets.end(),jetptsort);
             float ht = 0.;
-            int ntightbjet = 0;
-            int nloosebjet = 0;
             for (auto jet : good_jets){
                 ht = ht + jet.pt();
-                if(jet.isloosebtag()){nloosebjet++;} 
-                if(jet.istightbtag()){ntightbjet++;}
             }
 
-            cout << "loose b jets" << nloosebjet << endl;
-            cout << "tight b jets" << ntightbjet << endl;
+            std::pair<Jets, Jets> loose_jets_and_bjets = getJets(best_hyp,25.,25.,0); 
+            Jets loose_jets = loose_jets_and_bjets.first;
 
-            hists.fill1d("nloosebjet", "br", chainTitleCh, nloosebjet, weight);
-            hists.fill1d("ntightbjet", "br", chainTitleCh, ntightbjet, weight);
-            
             //HT CUT
 
-            if (ht < 300.){continue;}
+            
 
             hists.fill1d("cutflow","br",chainTitleCh,3,weight);
             cutflow_counter++;
@@ -1038,6 +1026,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "loaded jets for event " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
+
+            if (ht < 300.){continue;}
 
 
             //apply SFs to MC events
@@ -1834,21 +1824,21 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             float hut_pred_value = 1;
 
             if (category == 1 && !(isSignal||isData)){
-                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                hists.fill("fakes_mc",best_hyp_type,best_hyp,good_jets,good_bjets,loose_jets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
                 // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nFakes+=weight;}
             }else if (category == 2 && !(isSignal||isData)){
-                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                hists.fill("flips_mc",best_hyp_type,best_hyp,good_jets,good_bjets,loose_jets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
                 // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nFlips+=weight;}
             }else if (category == 3 && !(isSignal||isData)){
-                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
-                //hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                hists.fill("rares",best_hyp_type,best_hyp,good_jets,good_bjets, loose_jets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                // hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,loose_jets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
                 if(print_sample_file){nRares+=weight;}
             }else if (category == 4 && chainTitle!="fakes_mc" && chainTitle!="flips_mc" && chainTitle!="rares" && !(isSignal||isData)){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,loose_jets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
             }else if (isSignal||isData){
-                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
+                hists.fill(chainTitleCh,best_hyp_type,best_hyp,good_jets,good_bjets,loose_jets,met,metphi,isVR_SR_fake,isVR_CR_fake,isVR_SR_flip,isVR_CR_flip,isEE,isEM,isME,isMM,isEFake,isMFake,isEE_flip,isEM_flip,hct_pred_value,hut_pred_value,weight,crWeight,doVariations,variationalWeights);
             }
             //cout << "**********" << endl;
         }//loop over events
