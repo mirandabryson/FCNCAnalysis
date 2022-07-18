@@ -5,7 +5,7 @@
 
 using namespace std;
 
-double getEventWeight (string fileName, string sampleName, int year, bool verbose=false){
+double getEventWeight (string fileName, string sampleName, int year, double sum_wgts, bool verbose=false){
     if (verbose) std::cout << "sampleName: " << fileName << std::endl;
     
     double eventWeight;
@@ -29,8 +29,8 @@ double getEventWeight (string fileName, string sampleName, int year, bool verbos
         fname = short_to_long(sName_short.Data(), year)+'_'+tag+fileEnding;
         if (verbose) std::cout << "fname: " << fname << std::endl;
     }
-    else if (TString(fileName).Contains("nfs")) {
-        sName_short = ((TObjString*)tokens->At(nentries-1))->GetString();
+    else if (TString(fileName).Contains("ceph")) {
+        sName_short = ((TObjString*)tokens->At(nentries-2))->GetString();
         TObjArray *tmp_string = sName_short.Tokenize(".");
         sName_short = ((TObjString*)(tmp_string->At(0)))->GetString();
         delete tmp_string;
@@ -51,7 +51,7 @@ double getEventWeight (string fileName, string sampleName, int year, bool verbos
         if (verbose) cout << "line " << i << ": "<< numEvents << endl;
     }
     //delete &sName_short;
-    double nEvents = stod(numEvents);
+    // double nEvents = stod(numEvents);
     //cout << "num effective events: " << nEvents << endl;
 
 
@@ -66,10 +66,13 @@ double getEventWeight (string fileName, string sampleName, int year, bool verbos
     double xsecWeight = 1000 * getXSec(sName_short.Data());
     if (verbose) cout << "xsecWeight: " << xsecWeight << std::endl;
     
+    // cout << xsecWeight << endl;
     //calculate weight
-    eventWeight = xsecWeight/nEvents;
+    //REMOVED DIVISION IN NEXT LINE TO ACCOMODATE FOR TOTAL SUM_WGTS APPLIED AFTER FILE LOOP IN EVENTLOOPER
+    eventWeight = xsecWeight;
     if (verbose) cout << "scale1fb: " << eventWeight << std::endl;
     inFile.close();
     delete tokens; //potential memory leak
     return eventWeight;
+    if (verbose) cout << "end of geteventweight" << std::endl;
 }//close function

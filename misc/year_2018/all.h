@@ -15,7 +15,7 @@ namespace allpt {
 #include "isr_weights.h"
 #include "fastsim_lepton_sf.h"
 #include "bTagSF.h"
-#include "cTagSF.h"
+// #include "cTagSF.h"
 float getLumi() { return 59.71; } // v3.28
 }
 

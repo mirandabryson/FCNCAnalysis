@@ -3,7 +3,7 @@ from samples_2017 import samples_2017
 from samples_2018 import samples_2018
 
 def get_sample_path(sample,year,tag,is_nfs=True):
-    if is_nfs: return sample
+    if is_nfs: return '{}/'.format(sample)
     year=int(year)
     if year==2016: 
         if sample in samples_2016: return '{}_{}'.format(samples_2016[sample],tag)

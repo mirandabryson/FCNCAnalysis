@@ -44,7 +44,7 @@ std::vector<std::string> HistContainer::getRegionNames() {
     //                                     // "ctag_XSecttbar_up", "ctag_XSecttbar_down",
     //                                     // "ctag_bFrag_up", "ctag_bFrag_down",
     //                                     // "ctag_jer_up", "ctag_jer_down",
-    //                                     // "ctag_jesTotal_up", "ctag_jesTotal_down",
+    //                                     // "ctag_sTotal_up", "ctag_jesTotal_down",
     //                                     // "ctag_ValuesSystOnly_up", "ctag_ValuesSystOnly_down",
     //                                     // "ctag_TotalUnc_up", "ctag_TotalUnc_down",
     //                                     // "ctag_withfUncs",
@@ -80,7 +80,9 @@ int HistContainer::getSR(int hyp_type, int njets, int nbjets) {
             if(njets==7){offset =6;}
             if(njets>=8){offset =7;}
         }
-        if (nbjets >=4){offset =8;}
+        if (nbjets >=4){
+            if(njets>=5){offset =8;}
+        }
     }
     if (hyp_type==2){
         if(nbjets == 2){
@@ -355,7 +357,7 @@ void HistContainer::addHist4d(std::string quantity, std::string sample, int nbin
 
 void HistContainer::loadHists(std::string sample) {
     addHist1d("cutflow",sample,7,0.5,7.5,"br");
-    addHist1d("sr",sample,19,-0.5,18.5,"br");
+    addHist1d("sr",sample,19,-0.5,18.5);
     addHist1d("crbins",sample,2,-0.5,1.5,"mr");
     addHist1d("njets",sample,10,-0.5,9.5);
     addHist1d("nbjets",sample,10,-0.5,9.5);
@@ -412,6 +414,7 @@ void HistContainer::loadHists(std::string sample) {
     addHist1d("mt_ll_met",sample,30,0,600);
     addHist1d("mt_tl_met",sample,30,0,600);
     addHist1d("mt_thirdl_met",sample,30,0,600);
+    addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
     // addHist1d("q1",sample,2,-1,1);
     // addHist1d("neles",sample,5,-0.5,4.5);
     // addHist1d("nmus",sample,5,-0.5,4.5);
@@ -497,7 +500,6 @@ void HistContainer::loadHists(std::string sample) {
     // addHist2d("flip2d_hut_cr",sample,6,3,{15., 40., 60., 80., 100., 200., 300.},{0., 0.8, 1.479, 2.5});//,"br");
     // addHist2d("flip2d_hut_2ecr",sample,18,0,18,18,0,18);//,"br");
     // addHist1d("flipcr",sample,21,0.5,21.5);//,"br");
-    // addHist1d("flavorChannel",sample,4,0.5,4.5);//,"br");
     // addHist1d("valSR_flip",sample,21,0.5,21.5,"vrsr_flip");
     // addHist1d("valCR_flip",sample,21,0.5,21.5,"vrcr_flip");
     // addHist1d("valCRest_flip",sample,21,0.5,21.5,"vrcrest_flip");
@@ -545,27 +547,25 @@ void HistContainer::write() {
     return;
 }
 
+void HistContainer::scaleHisto(float scale){
+    std::map<std::string,TH1D*>::iterator it1d;
+    std::map<std::string,TH2D*>::iterator it2d;
+    std::map<std::string,THnF*>::iterator it4d;
+    for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {it1d->second->Scale(1/scale);}
+    // for (it2d=hists2d_.begin();it2d!=hists2d_.end();it2d++) {it2d->second->Scale(1/scale);}
+    // for (it4d=hists4d_.begin();it4d!=hists4d_.end();it4d++) {it4d->second->Scale(1/scale);}
+    return;
+}
+
 void HistContainer::fill1d(std::string quantity, std::string region, std::string sample, float value, float weight) {
     std::map<std::string,TH1D*>::iterator it1d;
     // cout << quantity << " " << region << " " << sample << endl;
     for (it1d=hists1d_.begin();it1d!=hists1d_.end();it1d++) {
         if (it1d->first.find(sample)==std::string::npos)  continue;
-        // cout << "passed find sample    "<< sample << endl;
         if (it1d->first.find(quantity)==std::string::npos) continue;
-        // cout << "passed find quantity   "<< quantity <<endl;
         if (it1d->first.find(region)==std::string::npos) continue;
-        // cout << "passed find region   "<< region <<endl;
         if (region.find("pp")==std::string::npos && it1d->first.find("pp")!=std::string::npos) continue;
         if (region.find("est")==std::string::npos && it1d->first.find("est")!=std::string::npos) continue;
-        // if (region.find("crw")!=std::string::npos){
-        //     cout << quantity << " " << region << " " << sample <<  " " << value << " " << weight << endl; 
-        // }
-        // if (quantity.find("ntightbjet")!=std::string::npos && region.find("br")!=std::string::npos){ 
-        //     cout << quantity << " " << region << " " << sample <<  " " << value << " " << weight << endl;
-        // }
-        // if (quantity.find("nloosebjet")!=std::string::npos && region.find("br")!=std::string::npos){ 
-        //     cout << quantity << " " << region << " " << sample <<  " " << value << " " << weight << endl;
-        // }
         if (quantity.find("mll")!=std::string::npos){
             if (region.find("ml")==std::string::npos && (it1d->first.find("mlsf")!=std::string::npos||it1d->first.find("mldf")!=std::string::npos)) continue;
         }else{
@@ -575,12 +575,6 @@ void HistContainer::fill1d(std::string quantity, std::string region, std::string
         if (quantity.find("Chan")==std::string::npos && it1d->first.find("Chan")!=std::string::npos) continue;
         if (quantity=="ht" && it1d->first.find("Weight")!=std::string::npos) continue;
         it1d->second->Fill(value,weight);
-        //cout << "filled " << it1d->first << " with weight " << weight << " for event " << nt.event() << " in bin " << value << endl;
-        // cout << quantity << " " << region << " " << sample << endl;
-
-        /*if (region.find("vrcr")!=std::string::npos){
-            std::cout << "Filling hist " << quantity << " with value " << value << " and weight " << weight << std::endl;
-        }*/
     }
 }
 
@@ -923,17 +917,17 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
         fill1d("thirdjphi",name,sample,jets[2].phi(),fillWeight);
         fill1d("thirdjeta",name,sample,jets[2].eta(),fillWeight);
         fill1d("ljbscore",name,sample,jets[0].bdisc(),fillWeight);
-        fill1d("ljcscore",name,sample,jets[0].cdisc(),fillWeight);
+        // fill1d("ljcscore",name,sample,jets[0].cdisc(),fillWeight);
         fill1d("weight",name,sample,fillWeight,1);
         // fill1d("tjbscore",name,sample,jets[1].bdisc(),fillWeight);
         if(njets>=2){
             fill1d("tjbscore",name,sample,jets[1].bdisc(),fillWeight);
-            fill1d("tjcscore",name,sample,jets[1].cdisc(),fillWeight);
+            // fill1d("tjcscore",name,sample,jets[1].cdisc(),fillWeight);
         }
         // else if(nbjets>0){fill1d("tjbscore",name,sample,bjets[0].bdisc(),fillWeight);}
         if(njets>=3){
             fill1d("thirdjbscore",name,sample,jets[2].bdisc(),fillWeight);
-            fill1d("thirdjcscore",name,sample,jets[2].cdisc(),fillWeight);
+            // fill1d("thirdjcscore",name,sample,jets[2].cdisc(),fillWeight);
         }
         if(njets>=4){
             fill1d("j4pt",name,sample,jets[3].pt(),fillWeight);
@@ -1034,6 +1028,12 @@ void HistContainer::fill(std::string sample, int best_hyp_type, Leptons &leps, J
             //int cutflow_counter=4;
             //fill1d("cutflow",name,sample,cutflow_counter,fillWeight);
         } 
+        if (name == "crw"){
+            int sr = getSR(best_hyp_type,njets,nbjets);
+            if (sr>=0 && !( onZPeak && isSS)){ // took out && diEl 
+                fill1d("sr",name,sample,sr,fillWeight);
+            }
+        }
         if (name == "mr"){
             int cr = getCRbin(best_hyp_type,njets,nbjets);
             if(cr >= 0 && ntight >= 3){

@@ -193,6 +193,7 @@ class HistContainer {
         void loadHists(std::string sample);
         void sumw2();
         void write();
+        void scaleHisto(float scale);
         void fill1d(std::string quantity, std::string region, std::string sample, float value, float weight=1.);
         void fill2d(std::string quantity, std::string region, std::string sample, float xvalue, float yvalue, float weight=1.);
         void fill4d(std::string quantity, std::string region, std::string sample, float xvalue, float yvalue, float zvalue, float tvalue, float weight=1.);

@@ -198,7 +198,7 @@ double getXSec( string sampleName ){
     xsecs["ttg_1lep"] = 0.77;
     xsecs["tthh"] = 0.000757;
     xsecs["tttj"] = 0.000474;
-    xsecs["tttt"] = 0.01197;
+    xsecs["TTTT"] = 0.01197;
     xsecs["tttw"] = 0.000788;
     xsecs["ttwh"] = 0.001582;
     xsecs["ttw"] = 0.2043;
