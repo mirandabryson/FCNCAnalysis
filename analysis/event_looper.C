@@ -826,7 +826,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
                 debug_file << "," << loose_leptons.size() << "," << tight_leptons.size();
                 debug_file << std::endl;
                 for (auto lepton: loose_leptons) {debug_file << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << std::endl;}
-                debug_file << std::endl;
+                // debug_file << std::endl;
                 continue;
             }
 
