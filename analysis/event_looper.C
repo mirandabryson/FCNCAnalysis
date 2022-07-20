@@ -62,6 +62,41 @@ void print_comparison(ofstream& outfile, float hctpred, float hutpred, vector<fl
     outfile << endl;
 }
 
+std::string getRegion(int hyp_type, int njets, int nbjets) {
+    std::string region = "N/A";
+    if (hyp_type == 1){ region = "Z";}
+    if (hyp_type==4){
+        if (nbjets == 2){
+            if(njets<=5){region = "W";}
+            if(njets==6){region = "1";}
+            if(njets==7){region = "2";}
+            if(njets>=8){region = "3";}
+        }
+        if (nbjets == 3){
+            if(njets==5){region = "4";}
+            if(njets==6){region = "5";}
+            if(njets==7){region = "6";}
+            if(njets>=8){region = "7";}
+        }
+        if (nbjets >=4){
+            if(njets>=5){region = "8";}
+        }
+    }
+    if (hyp_type==2){
+        if(nbjets == 2){
+            if(njets==5){region = "9";}
+            if(njets==6){region = "10";}
+            if(njets>=7){region = "11";}
+        }
+        if (nbjets >= 3){
+            if(njets==4){region = "12";}
+            if(njets==5){region = "13";}
+            if(njets>=6){region = "14";}
+        }
+    }
+    return region;
+}
+
 void print_sample_yields (ofstream& outfile, TString sampleName, float nFlip, float nFake, float nRare) {
     outfile << sampleName << " " << nFake << " " << nFlip << " " << nRare << endl;
 }
@@ -738,6 +773,8 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
+
+
             // cutflow counter
             int cutflow_counter=1;
             hists.fill1d("cutflow","br",chainTitleCh,1,weight);
@@ -766,15 +803,15 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             met = nt.MET_pt();
             metphi = nt.MET_phi();
 
-            if(!evaluateBDT&&!make_BDT_fakes_babies&&!make_BDT_flips_babies&&!make_BDT_MC_babies&&met < 50.){continue;}
+            // if(!evaluateBDT&&!make_BDT_fakes_babies&&!make_BDT_flips_babies&&!make_BDT_MC_babies&&met < 50.){continue;}
 
             // cout << "met: " << met << endl;
 
 
-            if(met < 50.){continue;}
+            // if(met < 50.){continue;}
   
-            hists.fill1d("cutflow","br",chainTitleCh,2,weight);
-            cutflow_counter++;
+            // hists.fill1d("cutflow","br",chainTitleCh,2,weight);
+            // cutflow_counter++;
 
             if (debugPrints){std::cout << "passed MET cut for event " << nt.event() << ": " << met << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
@@ -812,30 +849,28 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
 
 
-            if (print_debug_file) {
-                debug_file  << nt.event() << "," << counter << endl; // << nt.run() << "," << nt.luminosityBlock() << ","
-            }
+            // if (print_debug_file) {
+            //     debug_file  << nt.event() << "," << counter << endl; // << nt.run() << "," << nt.luminosityBlock() << ","
+            // }
 
 
             // let's first figure out what kind of lepton hypothesis we have, by priority: 3L, TTL, TT, OS, TL, LL
             std::pair<int,Leptons> best_hyp_info = getBestHypFCNC(leptons,!quiet);
             int best_hyp_type = best_hyp_info.first;
 
-            if (best_hyp_type < 0 && print_debug_file) {
-                debug_file  << nt.event() << "," << counter; // << nt.run() << "," << nt.luminosityBlock() << ","
-                debug_file << "," << loose_leptons.size() << "," << tight_leptons.size();
-                debug_file << std::endl;
-                for (auto lepton: loose_leptons) {debug_file << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << std::endl;}
-                // debug_file << std::endl;
-                continue;
-            }
 
             if (best_hyp_type < 0) continue;
+
+            // if (print_debug_file) {
+				
+            //     // for (auto lepton: loose_leptons) {debug_file << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << std::endl;}
+            // }            
             
             
             if(!quiet) {std::cout << "best_hyp_type: " << best_hyp_type << std::endl;}
             Leptons best_hyp = best_hyp_info.second;
             if (!quiet) std::cout << "best hyp type: " << best_hyp_type << std::endl;
+
 
             sort(best_hyp.begin(),best_hyp.end(),lepsort); // sort hyp leptons by pt (may already be done in getBestHyp)
             Lepton leading_lep = best_hyp[0];
@@ -1020,6 +1055,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             Jets loose_bjets = loose_jets_and_bjets.second;
             int nloosebjets = loose_bjets.size();
 
+            //print to debug: 
 
             // std::cout << "Event has " << nloosejets << " loose jets and " << nloosebjets << " loose bjets." << std::endl;
             // for (auto jet: loose_jets) {std::cout << "loose jet " << "pt: " << jet.pt() << ", eta: " << jet.eta() << std::endl;}
@@ -1034,14 +1070,33 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             sort(good_jets.begin(),good_jets.end(),jetptsort);
             sort(good_bjets.begin(),good_bjets.end(),jetptsort);
 
+            
+
             // std::cout << "Event has " << njets << " good jets and " << nbjets << " good bjets." << std::endl;
             // for (auto jet: good_jets) {std::cout << "good jet " << "pt: " << jet.pt() << ", eta: " << jet.eta() << std::endl;}
-            // for (auto bjet: good_bjets) {std::cout << "good bjet "<< "pt: " << bjet.pt() << ", eta: " << bjet.eta() << std::endl;}   
+            // for (auto bjet: good_bjets) {std::cout << "good bjet "<< "pt: " << bjet.pt() << ", eta: " << bjet.eta() << std::endl;}
+
+
             
             float ht = 0.;
             for (auto jet : good_jets){
                 ht = ht + jet.pt();
             }
+
+
+
+            if (print_debug_file) {
+            	debug_file  << nt.event() << "," << counter << ","; // << nt.run() << "," << nt.luminosityBlock() << ","
+            	debug_file  << met << ","; // << nt.run() << "," << nt.luminosityBlock() << ","
+                debug_file << loose_leptons.size() << "," << tight_leptons.size() << ",";
+                if ((best_hyp_type == 2) || (best_hyp_type == 4)) debug_file << "SS" << ",";
+                else debug_file << "!SS" << ",";
+                debug_file << ht << "," << njets << "," << nbjets << ",";
+                debug_file << getRegion(best_hyp_type, njets, nbjets);
+                debug_file << endl;
+                // for (auto lepton: loose_leptons) {debug_file << "\tL " << lepton.id() << "," << lepton.pt() << ", " << lepton.eta() << "," << lepton.is_loose() << ", " << lepton.is_tight() << std::endl;}
+            }
+
 
 
 
@@ -1053,11 +1108,11 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
             //HT CUT
 
-            if (ht < 300.){continue;}
+            // if (ht < 300.){continue;}
 
 
-            hists.fill1d("cutflow","br",chainTitleCh,3,weight);
-            cutflow_counter++;
+            // hists.fill1d("cutflow","br",chainTitleCh,3,weight);
+            // cutflow_counter++;
 
             if (debugPrints){std::cout << "passed HT cut " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
@@ -1100,7 +1155,7 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             // if (debugPrints){std::cout << "elapsed time since b SF start: " << duration_cast<seconds>(high_resolution_clock::now() - startBOpening).count() << endl;}
             
             // if there isn't a good lepton hypothesis
-            if (best_hyp_type<0) continue;
+            // if (best_hyp_type<0) continue;
 
             if ((category == 1 && chainTitle=="fakes_mc")||
                 (category == 2 && chainTitle=="flips_mc")||
@@ -1117,9 +1172,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
             }
 
             //NJETS CUT
-            if (njets < 2) continue;     
-            hists.fill1d("cutflow","br",chainTitleCh,4,weight);
-            cutflow_counter++;
+            // if (njets < 2) continue;     
+            // hists.fill1d("cutflow","br",chainTitleCh,4,weight);
+            // cutflow_counter++;
 
             if (debugPrints){std::cout << "passed njets cut " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}
@@ -1127,9 +1182,9 @@ void event_looper(TObjArray* list, TString title, TString options="", int nevts=
 
             //NBJETS CUT
 
-            if (nbjets<2) continue;
-            hists.fill1d("cutflow","br",chainTitleCh,5,weight);
-            cutflow_counter++;
+            // if (nbjets<2) continue;
+            // hists.fill1d("cutflow","br",chainTitleCh,5,weight);
+            // cutflow_counter++;
 
             if (debugPrints){std::cout << "passed nbjets cut " << nt.event() << endl;}
             if (debugPrints){std::cout << "elapsed time since start: " << duration_cast<seconds>(high_resolution_clock::now() - start).count() << endl;}

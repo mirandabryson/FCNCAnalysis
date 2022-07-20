@@ -1,3 +1,5 @@
+# getsumweight.py extracts the quantity sumweight from the 
+####CHANGE 2016 TO NON APV OPTION
 #!/usr/bin/env python
 import json
 import ROOT
